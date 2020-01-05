@@ -8,8 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,32 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+ 
+  //-------- VARIABLE DECLARATIONS --------\\
 
-  /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
-   */
+  //-------- INITS --------\\
+
+  //This function is called when the robot is first booted up.
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-  }
-
-  /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
+   
   }
 
   /**
@@ -57,19 +38,42 @@ public class Robot extends TimedRobot {
    * <p>You can add additional auto modes by adding additional comparisons to
    * the switch structure below with additional strings. If using the
    * SendableChooser make sure to add them to the chooser code above as well.
-   */
+  */
+
+  //TL;DR: This function is used to select different autonomous modes.
   @Override
   public void autonomousInit() {
+    /*
+    This is an example of reading the Dashboard for which auton mode is selected.
+
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    */
   }
 
+  //-------- EXECUTE --------\\
+
   /**
-   * This function is called periodically during autonomous.
+   * This function is called every robot packet, no matter the mode. Use
+   * this for items like diagnostics that you want ran during disabled,
+   * autonomous, teleoperated and test.
+   *
+   * <p>This runs after the mode specific periodic functions, but before
+   * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
+  public void robotPeriodic() {
+
+  }
+
+
+  //This function is called periodically during autonomous.
+  @Override
   public void autonomousPeriodic() {
+    /*
+    This is example code for running different autonomous modes, using a switch case block
+
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
@@ -79,18 +83,15 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
+    */
   }
 
-  /**
-   * This function is called periodically during operator control.
-   */
+  //This function is called periodically during operator control.
   @Override
   public void teleopPeriodic() {
   }
 
-  /**
-   * This function is called periodically during test mode.
-   */
+  //This function is called periodically during test mode.
   @Override
   public void testPeriodic() {
   }
