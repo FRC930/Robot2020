@@ -28,22 +28,20 @@ public class Drive {
     //Please write your intializations/instantiations in here
     private Drive() {
         
-    }
+    }   //end of constructor Drive() 
 
     public static Drive getInstance() {    //NOTE: Keep this method named "getInstance" 
         if (lastInstance == null) {
             lastInstance = new Drive();
         }
         return lastInstance;
-    }
+    } 
 
     //-------- METHODS --------\\
 
-    public void init() {
+    public void run(double stickX, double stickY) {
+        //TODO: Arcade drive 
 
-    }
+    } // end of method run()
 
-    public void run() {
-
-    }
-}
+}   // end of class Drive 
