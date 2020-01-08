@@ -11,5 +11,11 @@
     "**/.project": true,
     "**/.settings": true,
     "**/.factorypath": true
+  },
+  "java.test.defaultConfig": "withLibs",
+  "java.test.config": {
+    "env": {
+      "path": "${workspaceFolder}\\build\\tmp\\jniExtractDir"
+    }
   }
 }
