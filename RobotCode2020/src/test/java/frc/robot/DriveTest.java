@@ -17,6 +17,7 @@ import java.lang.management.ManagementFactory;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,24 +36,34 @@ public class DriveTest {
 
     //-------- DECLARATIONS --------\\
     private Drive drive;
-    private CANSparkMax right1;
-    private CANSparkMax right2;
-    private CANSparkMax right3;
-    private CANSparkMax left1;
-    private CANSparkMax left2;
-    private CANSparkMax left3;
+    //private CANSparkMax right1;
+    //private CANSparkMax right2;
+    //private CANSparkMax right3;
+    //private CANSparkMax left1;
+    //private CANSparkMax left2;
+    //private CANSparkMax left3;
+
+    private WPI_TalonFX tright1;
+    private WPI_TalonFX tright2;
+    private WPI_TalonFX tleft1;
+    private WPI_TalonFX tleft2;
 
     /**
      * This method sets the hardware to new mocks
      */
     public void setHardware() {
         // Mocking Spark Max motor controllers
-        right1 = mock(CANSparkMax.class);
-        right2 = mock(CANSparkMax.class);
-        right3 = mock(CANSparkMax.class);
-        left1 = mock(CANSparkMax.class);
-        left2 = mock(CANSparkMax.class);
-        left3 = mock(CANSparkMax.class);
+        //right1 = mock(CANSparkMax.class);
+        //right2 = mock(CANSparkMax.class);
+        //right3 = mock(CANSparkMax.class);
+        //left1 = mock(CANSparkMax.class);
+        //left2 = mock(CANSparkMax.class);
+        //left3 = mock(CANSparkMax.class);
+
+        tright1 = mock(WPI_TalonFX.class);
+        tright2 = mock(WPI_TalonFX.class);
+        tleft1 = mock(WPI_TalonFX.class);
+        tleft2 = mock(WPI_TalonFX.class);
     }
 
     /**
@@ -63,7 +74,8 @@ public class DriveTest {
     public void setup() {
         drive = Drive.getInstance();
         setHardware();
-        drive.setMotorControllers(left1, left2, left3, right1, right2, right3);
+        //drive.setMotorControllers(left1, left2, left3, right1, right2, right3);
+        drive.setMotorControllers(tleft1, tleft2, tright1, tright2);
     }
 
     //-------- TESTS --------\\
@@ -82,8 +94,8 @@ public class DriveTest {
         drive.run(0, -0.000123);
 
         // Verify that there are three (3) zero values
-        verify(left1, times(3)).set(doubleThat(new CustomDouble(0)));
-        verify(right1, times(3)).set(doubleThat(new CustomDouble(0)));
+        verify(tleft1, times(3)).set(doubleThat(new CustomDouble(0)));
+        verify(tright1, times(3)).set(doubleThat(new CustomDouble(0)));
 
         // Run at the deadband
         // The robot should set the motor controllers to a non-zero value
@@ -91,8 +103,8 @@ public class DriveTest {
         drive.run(0, -0.000124);
 
         // Verify that there are no (0) nonzero values
-        verify(left1, times(0)).set(doubleThat(new NonZeroDouble()));
-        verify(right1, times(0)).set(doubleThat(new NonZeroDouble()));
+        verify(tleft1, times(0)).set(doubleThat(new NonZeroDouble()));
+        verify(tright1, times(0)).set(doubleThat(new NonZeroDouble()));
 
         // Run at a value above the deadband
         // Returns nonzero
@@ -100,12 +112,12 @@ public class DriveTest {
         drive.run(0, -0.001);
 
         // Verify that there are five (5) zero values 
-        verify(left1, times(5)).set(doubleThat(new CustomDouble(0)));
-        verify(right1, times(5)).set(doubleThat(new CustomDouble(0)));
+        verify(tleft1, times(5)).set(doubleThat(new CustomDouble(0)));
+        verify(tright1, times(5)).set(doubleThat(new CustomDouble(0)));
 
         // Verify that there are two (2) nonzero values
-        verify(left1, times(2)).set(doubleThat(new NonZeroDouble()));
-        verify(right1, times(2)).set(doubleThat(new NonZeroDouble()));
+        verify(tleft1, times(2)).set(doubleThat(new NonZeroDouble()));
+        verify(tright1, times(2)).set(doubleThat(new NonZeroDouble()));
     }
 
     /**
@@ -122,8 +134,8 @@ public class DriveTest {
         drive.run(-0.000123, 0);
 
         // Verify that there are three (3) zero values
-        verify(left1, times(3)).set(doubleThat(new CustomDouble(0)));
-        verify(right1, times(3)).set(doubleThat(new CustomDouble(0)));
+        verify(tleft1, times(3)).set(doubleThat(new CustomDouble(0)));
+        verify(tright1, times(3)).set(doubleThat(new CustomDouble(0)));
 
         // Run at the deadband
         // The robot should set the motor controllers to a non-zero value
@@ -131,20 +143,20 @@ public class DriveTest {
         drive.run(-0.000124, 0);
 
         // Verify that there are no (0) nonzero values
-        verify(left1, times(0)).set(doubleThat(new NonZeroDouble()));
-        verify(right1, times(0)).set(doubleThat(new NonZeroDouble()));
+        verify(tleft1, times(0)).set(doubleThat(new NonZeroDouble()));
+        verify(tright1, times(0)).set(doubleThat(new NonZeroDouble()));
 
         // Verify that there are five (5) zero values
-        verify(left1, times(5)).set(doubleThat(new CustomDouble(0)));
-        verify(right1, times(5)).set(doubleThat(new CustomDouble(0)));
+        verify(tleft1, times(5)).set(doubleThat(new CustomDouble(0)));
+        verify(tright1, times(5)).set(doubleThat(new CustomDouble(0)));
 
         // Run at a value above the deadband
         drive.run(0.001, 0);
         drive.run(-0.001, 0);
 
         // Verify that there are two (2) nonzero values     
-        verify(left1, times(2)).set(doubleThat(new NonZeroDouble()));
-        verify(right1, times(2)).set(doubleThat(new NonZeroDouble()));
+        verify(tleft1, times(2)).set(doubleThat(new NonZeroDouble()));
+        verify(tright1, times(2)).set(doubleThat(new NonZeroDouble()));
     }
 
     /**
@@ -162,8 +174,8 @@ public class DriveTest {
         drive.run(-0.00001, -0.00001);
 
         // Verify that there are four (4) zero values
-        verify(left1, times(4)).set(doubleThat(new CustomDouble(0)));
-        verify(right1, times(4)).set(doubleThat(new CustomDouble(0)));
+        verify(tleft1, times(4)).set(doubleThat(new CustomDouble(0)));
+        verify(tright1, times(4)).set(doubleThat(new CustomDouble(0)));
 
         // Run at the deadband
         // The robot should set the motor controllers to a non-zero value
@@ -171,20 +183,20 @@ public class DriveTest {
         drive.run(-0.000124, 0.000124);
 
         // Verify that there are four (4) zero values
-        verify(left1, times(0)).set(doubleThat(new NonZeroDouble()));
-        verify(right1, times(0)).set(doubleThat(new NonZeroDouble()));
+        verify(tleft1, times(0)).set(doubleThat(new NonZeroDouble()));
+        verify(tright1, times(0)).set(doubleThat(new NonZeroDouble()));
 
         // Run at a value above the deadband
         drive.run(0.001, 0.001);
         drive.run(-0.001, -0.001);
 
         // Verify that there are two (2) nonzero values
-        verify(left1, times(2)).set(doubleThat(new NonZeroDouble()));
-        verify(right1, times(2)).set(doubleThat(new NonZeroDouble()));
+        verify(tleft1, times(2)).set(doubleThat(new NonZeroDouble()));
+        verify(tright1, times(2)).set(doubleThat(new NonZeroDouble()));
 
         // Verify that there are six (6) zero values
-        verify(left1, times(6)).set(doubleThat(new CustomDouble(0)));
-        verify(right1, times(6)).set(doubleThat(new CustomDouble(0)));
+        verify(tleft1, times(6)).set(doubleThat(new CustomDouble(0)));
+        verify(tright1, times(6)).set(doubleThat(new CustomDouble(0)));
     } //    end of test testBothJoysticks()
 
     /**
@@ -196,50 +208,50 @@ public class DriveTest {
         // Test with the left joystick at zero
         // Right joystick in the left position
         drive.run(0, -0.5);
-        verify(left1).set(doubleThat(new CustomDouble(-0.125)));
-        verify(right1).set(doubleThat(new CustomDouble(0.125)));
+        verify(tleft1).set(doubleThat(new CustomDouble(-0.125)));
+        verify(tright1).set(doubleThat(new CustomDouble(0.125)));
 
         // Right joystick at zero
         drive.run(0, 0);
-        verify(left1).set(doubleThat(new CustomDouble(0)));
-        verify(right1).set(doubleThat(new CustomDouble(0)));
+        verify(tleft1).set(doubleThat(new CustomDouble(0)));
+        verify(tright1).set(doubleThat(new CustomDouble(0)));
 
         // Right joystick in the right position
         drive.run(0, 0.5);
-        verify(left1).set(doubleThat(new CustomDouble(0.125)));
-        verify(right1).set(doubleThat(new CustomDouble(-0.125)));
+        verify(tleft1).set(doubleThat(new CustomDouble(0.125)));
+        verify(tright1).set(doubleThat(new CustomDouble(-0.125)));
 
         // Test with the left joystick up
         // Right joystick at a negative value
         drive.run(0.5, -0.5);
-        verify(left1).set(doubleThat(new CustomDouble(-0.21625)));
-        verify(right1).set(doubleThat(new CustomDouble(0.03375)));
+        verify(tleft1).set(doubleThat(new CustomDouble(-0.21625)));
+        verify(tright1).set(doubleThat(new CustomDouble(0.03375)));
 
         // Right joystick at zero
         drive.run(0.5, 0);
-        verify(left1).set(doubleThat(new CustomDouble(-0.09125)));
-        verify(right1).set(doubleThat(new CustomDouble(-0.09125)));
+        verify(tleft1).set(doubleThat(new CustomDouble(-0.09125)));
+        verify(tright1).set(doubleThat(new CustomDouble(-0.09125)));
 
         // Right joystick in the right position
         drive.run(0.5, 0.5);
-        verify(left1).set(doubleThat(new CustomDouble(0.03375)));
-        verify(right1).set(doubleThat(new CustomDouble(-0.21625)));
+        verify(tleft1).set(doubleThat(new CustomDouble(0.03375)));
+        verify(tright1).set(doubleThat(new CustomDouble(-0.21625)));
 
         // Test with the left joystick down
         // Right joystick in the left position
         drive.run(-0.5, -0.5);
-        verify(left1).set(doubleThat(new CustomDouble(-0.03375)));
-        verify(right1).set(doubleThat(new CustomDouble(0.21625)));
+        verify(tleft1).set(doubleThat(new CustomDouble(-0.03375)));
+        verify(tright1).set(doubleThat(new CustomDouble(0.21625)));
 
         // Right joystick at zero
         drive.run(-0.5, 0);
-        verify(left1).set(doubleThat(new CustomDouble(0.09125)));
-        verify(right1).set(doubleThat(new CustomDouble(0.09125)));
+        verify(tleft1).set(doubleThat(new CustomDouble(0.09125)));
+        verify(tright1).set(doubleThat(new CustomDouble(0.09125)));
 
         // Right joystick in the right position
         drive.run(-0.5, 0.5);
-        verify(left1).set(doubleThat(new CustomDouble(0.21625)));
-        verify(right1).set(doubleThat(new CustomDouble(-0.03375)));
+        verify(tleft1).set(doubleThat(new CustomDouble(0.21625)));
+        verify(tright1).set(doubleThat(new CustomDouble(-0.03375)));
     } //    end of test testMovement()
 } //    end of DriveTest() class
 
