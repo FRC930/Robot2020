@@ -6,10 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-import com.revrobotics.*;
-//import com.revrobotics.*;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 /**
@@ -18,31 +14,31 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 public class Drive {
 
     //-------- CONSTANTS --------\\
+    private final double DEADBAND = 0.001;
+    private final double MOTOR_LIMITER = 0.73;
+    private final int LEFT_ONE_PORT_NUM = 1;
+    private final int LEFT_TWO_PORT_NUM = 2;
+    private final int RIGHT_ONE_PORT_NUM = 3;
+    private final int RIGHT_TWO_PORT_NUM = 4;
 
     //-------- DECLARATIONS --------\\  
-    //private CANSparkMax left1;
-    //private CANSparkMax left2;
-    //private CANSparkMax left3;
+    // TalonFX left motor controllers
+    private WPI_TalonFX left1;
+    private WPI_TalonFX left2;
 
-    //private CANSparkMax right1;
-    //private CANSparkMax right2;
-    //private CANSparkMax right3;
-    
-    private WPI_TalonFX tleft1;
-    private WPI_TalonFX tleft2;
+    // TalonFX left motor controllers
+    private WPI_TalonFX right1;
+    private WPI_TalonFX right2;
 
-    private WPI_TalonFX tright1;
-    private WPI_TalonFX tright2;
-
-    //Drive instance
+    // Drive instance
     private static Drive lastInstance = null;
 
     //-------- CONSTRUCTOR --------\\
-
-    //Please write your intializations/instantiations in here
+    
+    // Please write your intializations/instantiations in here
     private Drive() {
         
-    }   //end of constructor Drive() 
+    }   // End of Drive() constructor 
 
     public static Drive getInstance() {    //NOTE: Keep this method named "getInstance" 
         if (lastInstance == null) {
@@ -51,90 +47,65 @@ public class Drive {
         return lastInstance;
     } 
 
+    // Sets default port numbers to default ports for TalonFX's
     public void setMotorControllers() {
-        /*setMotorControllers(new CANSparkMax(1, MotorType.kBrushless),
-                new CANSparkMax(2, MotorType.kBrushless),
-                new CANSparkMax(3, MotorType.kBrushless),
-                new CANSparkMax(4, MotorType.kBrushless),
-                new CANSparkMax(5, MotorType.kBrushless),
-                new CANSparkMax(6, MotorType.kBrushless));*/
-
-        setMotorControllers(new WPI_TalonFX(1),
-                new WPI_TalonFX(2),
-                new WPI_TalonFX(3),
-                new WPI_TalonFX(4));
+        setMotorControllers(new WPI_TalonFX(LEFT_ONE_PORT_NUM),
+                new WPI_TalonFX(LEFT_TWO_PORT_NUM),
+                new WPI_TalonFX(RIGHT_ONE_PORT_NUM),
+                new WPI_TalonFX(RIGHT_TWO_PORT_NUM));
     }
 
-    //public void setMotorControllers(CANSparkMax Left1, CANSparkMax Left2, CANSparkMax Left3, CANSparkMax Right1,
-            //CANSparkMax Right2, CANSparkMax Right3) {
-    public void setMotorControllers(WPI_TalonFX Tleft1, WPI_TalonFX Tleft2, WPI_TalonFX Tright1, WPI_TalonFX Tright2){
-        // Gives each Spark Max their proper values
-        //left1 = Left1;
-        //left2 = Left2;
-        //left3 = Left3;
+    // Allows user to input their own TalonFX port numbers
+    public void setMotorControllers(WPI_TalonFX Left1, WPI_TalonFX Left2, WPI_TalonFX Right1, WPI_TalonFX Right2){
+        // Gives each TalonFX their proper values
+        left1 = Left1;
+        left2 = Left2;
 
-        //right1 = Right1;
-        //right2 = Right2;
-        //right3 = Right3;
-
-        tleft1 = Tleft1;
-        tleft2 = Tleft2;
-
-        tright1 = Tright1;
-        tright2 = Tright2;
+        right1 = Right1;
+        right2 = Right2;
         
         // Mirror primary motor controllers on each side
-        //left2.follow(left1);
-        //left3.follow(left1);
-
-        //right2.follow(right1);
-        //right3.follow(right1);
-
-        tleft2.follow(tleft1);
+        left2.follow(left1);
         
-        tright2.follow(tright1);
+        right2.follow(right1);
     }
 
     //-------- METHODS --------\\
 
     public void run(double stickX, double stickY) {
-        //TODO: Arcade drive 
         // Joystick deadband
-        if (Math.abs(stickX) < 0.001) {
+        if (Math.abs(stickX) < DEADBAND) {
             stickX = 0;
         }
-        if (Math.abs(stickY) < 0.001) {
+        if (Math.abs(stickY) < DEADBAND) {
             stickY = 0;
         }
+        
         // Cubing values to create smoother function
         stickX = -Math.pow(stickX, 3);
         stickY = Math.pow(stickY, 3);
-        stickX *= 0.73;
+
+        // Limits the motor's power to 73%
+        stickX *= MOTOR_LIMITER;
+
         // Sets for use in motor controllers as Arcade values
         runAt((stickY + stickX), -(stickY - stickX));
-    }
+    } // End of run method
 
     // Given Arcade value arguments and sends to motor controllers
     public void runAt(double leftSpeed, double rightSpeed) {
-        //left1.set(leftSpeed);
-        //right1.set(rightSpeed);
-
-        tleft1.set(leftSpeed);
-        tright1.set(rightSpeed);
+        left1.set(leftSpeed);
+        right1.set(rightSpeed);
     }
 
     // Returns left speed
-    public double getLeftSpeed() {
-        //return left1.get();
-        return tleft1.get();
+    public double getleftSpeed() {
+        return left1.get();
     }
 
     // Returns right speed
-    public double getRightSpeed() {
-        //return right1.get();
-        return tright1.get();
+    public double getrightSpeed() {
+        return right1.get();
     }
 
-} // end of method run()
-
-   /// end of class Drive 
+} // End of Drive class
