@@ -121,8 +121,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public static enum ShotType {
         NONE(0), INNER(1), OUTER(2);
 
-        private ShotType(int type) {
+        private int type;
 
+        private ShotType(int type) {
+            this.type = type;
         }
     }
 }
