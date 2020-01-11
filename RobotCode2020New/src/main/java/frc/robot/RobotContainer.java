@@ -47,9 +47,12 @@ public class RobotContainer {
   //-------- SUBSYSTEMS --------\\
 
     //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //private final DriveSubsystem driveSubsystem;
+  private final JoystickSubsystem joystickSubsystem;
 
   //-------- COMMANDS --------\\
 
+  //private final DriveCommand driveCommand;
     //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   //-------- CONSTRUCTOR ---------\\
@@ -59,6 +62,7 @@ public class RobotContainer {
     driver = new Joystick(DRIVER_CONTROLLER_ID);
     coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
 
+    joystickSubsystem = new JoystickSubsystem(driver);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -67,7 +71,7 @@ public class RobotContainer {
 
   //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
   private void configureButtonBindings() {
-    
+
   }
 
 

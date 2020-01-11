@@ -7,28 +7,28 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveSubsystem extends SubsystemBase {
+public class JoystickSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
     //-------- DECLARATIONS --------\\
 
+    private Joystick driver;
+
     //-------- CONSTRUCTOR --------\\
 
-    public DriveSubsystem() {
-
-    }
-
-    public void driveAt() {
-        
+    public JoystickSubsystem(Joystick driverJoystick) {
+        driver = driverJoystick;
     }
 
     //-------- METHODS --------\\
     
     @Override
     public void periodic() {
+        System.out.println(driver.getRawAxis(1));
     // This method will be called once per scheduler run
     }
 }
