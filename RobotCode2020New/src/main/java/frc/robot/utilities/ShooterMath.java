@@ -13,7 +13,7 @@ public class ShooterMath {
     private final double GOAL_HEIGHT_INNER_MIDDLE = 2.49555;
     private final double GOAL_HEIGHT_INNER_TOP = 2.66065;
     private final double INNER_GOAL_FROM_WALL = 0.74295;
-    private final double START_HEIGHT = 0; //Change for robot
+    private final double START_HEIGHT = 0; // Change for robot
     private final double GRAVITY = 9.8;
 
     // Distance is only assigned to, but is kept just in case we want to
@@ -36,9 +36,10 @@ public class ShooterMath {
      * The methods {@link #calculateVelocity} and {@link #calculateTrajectory} are
      * called in this method also
      * 
-     * @param angle    is the current angle of the shooter, angles inputed as degrees, converted to radians
+     * @param angle    is the current angle of the shooter, angles inputed as
+     *                 degrees, converted to radians
      * @param distance is the distance away from the wall, in meters
-     */    
+     */
     public void setPosition(double angle, double distance) {
         this.angle = Math.toRadians(angle);
         this.distance = distance;
@@ -54,7 +55,7 @@ public class ShooterMath {
     public double getVelocity() {
         return this.velocity;
     }
-    
+
     /**
      * Returns whether the inner shot is possible
      * 
@@ -72,8 +73,9 @@ public class ShooterMath {
      * @param distance is the distance away from the wall
      */
     private void calculateVelocity(double angle, double distance) {
-        this.velocity = (Math.sqrt(9.8 / (2 * Math.tan(angle) * distance - GOAL_HEIGHT_INNER_MIDDLE)) * distance)
-                / Math.cos(angle);
+        this.velocity = (Math.sqrt(9.8 / (2
+                * (Math.tan(angle) * (distance + INNER_GOAL_FROM_WALL) - (GOAL_HEIGHT_INNER_MIDDLE - START_HEIGHT))))
+                * (distance + INNER_GOAL_FROM_WALL)) / Math.cos(angle);
     }
 
     /**
@@ -94,7 +96,8 @@ public class ShooterMath {
         double yAtInnerWallHit = calculateY(yVelocity, tAtInnerWallHit);
         if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS) {
             shotType = ShotType.OUTER;
-            if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
+            if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS
+                    && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
                 shotType = ShotType.INNER;
             }
         } else {
