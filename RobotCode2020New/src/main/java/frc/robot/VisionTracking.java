@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
