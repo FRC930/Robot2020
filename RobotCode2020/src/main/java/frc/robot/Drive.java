@@ -9,6 +9,11 @@ package frc.robot;
 import com.revrobotics.*;
 //import com.revrobotics.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.Encoder;
+
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -26,6 +31,11 @@ public class Drive {
     private CANSparkMax right1;
     private CANSparkMax right2;
     private CANSparkMax right3;
+    private TalonSRX gyroTalon = new TalonSRX(1);
+    private PigeonIMU gyro = new PigeonIMU(gyroTalon);
+    private double values[] = new double[3]; 
+    private Encoder left = new Encoder(0,1);
+    private Encoder right = new Encoder(2,3);
     
 
     //Drive instance
@@ -77,6 +87,9 @@ public class Drive {
     public void run(double stickX, double stickY) {
         //TODO: Arcade drive 
         // Joystick deadband
+        gyro.getYawPitchRoll(values);
+
+
         if (Math.abs(stickX) < 0.001) {
             stickX = 0;
         }
