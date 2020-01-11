@@ -15,17 +15,21 @@ public class ShooterSubsystem extends SubsystemBase {
     private final double GOAL_HEIGHT_INNER_MIDDLE = 2.49555;
     private final double GOAL_HEIGHT_INNER_TOP = 2.66065;
     private final double INNER_GOAL_FROM_WALL = 0.74295;
-    private final double START_HEIGHT = 0;
+    private final double START_HEIGHT = 0; //Change for robot
     private final double GRAVITY = 9.8;
 
-    private double velocity;
-    // Angle and distace are only assigned to, but are kept just in case we want to
+    // Distance is only assigned to, but is kept just in case we want to
     // add more functionality later
     private double angle;
     private double distance;
-    private boolean willMakeInner;
+    private double velocity;
+    private ShotType shotType;
 
     public ShooterSubsystem() {
+        velocity = 0.0;
+        angle = 0.0;
+        distance = 0.0;
+        shotType = ShotType.NONE;
     }
 
     /**
@@ -34,23 +38,32 @@ public class ShooterSubsystem extends SubsystemBase {
      * The methods {@link #calculateVelocity} and {@link #calculateTrajectory} are
      * called in this method also
      * 
-     * @param angle    is the current angle of the shooter
-     * @param distance is the distance away from the wall
-     */
+     * @param angle    is the current angle of the shooter, angles inputed as degrees, converted to radians
+     * @param distance is the distance away from the wall, in meters
+     */    
     public void setPosition(double angle, double distance) {
         this.angle = Math.toRadians(angle);
         this.distance = distance;
-        this.calculateVelocity(angle, distance);
-        this.calculateTrajectory(angle, distance);
+        this.calculateVelocity(this.angle, distance);
+        this.calculateTrajectory(this.angle, distance);
     }
 
     /**
-     * Returns whether the shot is possible
+     * Returns the velocity required to make the shot
+     * 
+     * @return {@link #velocity} set in {@link #calculateVelocity}
+     */
+    public double getVelocity() {
+        return this.velocity;
+    }
+    
+    /**
+     * Returns whether the inner shot is possible
      * 
      * @return {@link #willMakeInner} set in {@link #calculateTrajectory}
      */
-    public boolean isPossibleShot() {
-        return this.willMakeInner;
+    public ShotType getPossibleShot() {
+        return this.shotType;
     }
 
     /**
@@ -82,12 +95,12 @@ public class ShooterSubsystem extends SubsystemBase {
         double tAtInnerWallHit = (INNER_GOAL_FROM_WALL + distance) / xVelocity;
         double yAtInnerWallHit = calculateY(yVelocity, tAtInnerWallHit);
         if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS) {
-            if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS
-                    && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
-                this.willMakeInner = true;
-            } else {
-                this.willMakeInner = false;
+            shotType = ShotType.OUTER;
+            if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
+                shotType = ShotType.INNER;
             }
+        } else {
+            shotType = ShotType.NONE;
         }
     }
 
@@ -103,5 +116,13 @@ public class ShooterSubsystem extends SubsystemBase {
          * g * t^2 y * t - --------- + h 2
          */
         return START_HEIGHT + yVelocity * time - 0.5 * GRAVITY * time * time;
+    }
+
+    public static enum ShotType {
+        NONE(0), INNER(1), OUTER(2);
+
+        private ShotType(int type) {
+
+        }
     }
 }
