@@ -1,11 +1,9 @@
-package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+package frc.robot.utilities;
 
 /**
  * ShooterSubsystem
  */
-public class ShooterSubsystem extends SubsystemBase {
+public class ShooterMath {
 
     // All measurements are in meters
     private final double BALL_RADIUS = 0.0889;
@@ -25,7 +23,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private double velocity;
     private ShotType shotType;
 
-    public ShooterSubsystem() {
+    public ShooterMath() {
         velocity = 0.0;
         angle = 0.0;
         distance = 0.0;
