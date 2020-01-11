@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -47,6 +48,8 @@ public class RobotContainer {
   //-------- SUBSYSTEMS --------\\
 
     //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+
 
   //-------- COMMANDS --------\\
 
