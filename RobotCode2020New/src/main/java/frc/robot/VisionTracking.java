@@ -26,9 +26,6 @@ public class VisionTracking {
 
    //--Ports
 
-   //--Deadbands
-   private final double TRIGGER_PRESSED_THRESHOLD = 0.4;
-
   //-------- DECLARATIONS --------\\
 
 
