@@ -17,18 +17,30 @@ public class JoystickSubsystem extends SubsystemBase {
     //-------- DECLARATIONS --------\\
 
     private Joystick driver;
+    private Joystick coDriver;
 
     //-------- CONSTRUCTOR --------\\
 
-    public JoystickSubsystem(Joystick driverJoystick) {
+    public JoystickSubsystem(Joystick driverJoystick, Joystick coDriverJoystick) {
         driver = driverJoystick;
+        coDriver = coDriverJoystick;
+
     }
 
     //-------- METHODS --------\\
-    
+
+    //--Driver
+    public double getDriverAxis(int axis) {
+        return driver.getRawAxis(axis);
+    }
+
+    //--CoDriver
+    public double getCoDriverAxis(int axis) {
+        return coDriver.getRawAxis(axis);
+    }
+
     @Override
     public void periodic() {
-        System.out.println(driver.getRawAxis(1));
     // This method will be called once per scheduler run
     }
 }

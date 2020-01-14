@@ -15,15 +15,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class DriveCommand extends CommandBase {
 
-  private final DriveSubsystem m_subsystem;
+  private final DriveSubsystem driveSubsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveCommand(DriveSubsystem subsystem, double stickX, double stickY) {
-    m_subsystem = subsystem;
+  public DriveCommand(DriveSubsystem subsystem) {
+    driveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }

@@ -62,7 +62,7 @@ public class RobotContainer {
     driver = new Joystick(DRIVER_CONTROLLER_ID);
     coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
 
-    joystickSubsystem = new JoystickSubsystem(driver);
+    joystickSubsystem = new JoystickSubsystem(driver, coDriver);
     // Configure the button bindings
     configureButtonBindings();
   }
