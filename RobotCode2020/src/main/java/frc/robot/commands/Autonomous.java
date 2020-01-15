@@ -65,7 +65,7 @@ public class Autonomous extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(2, -2, new Rotation2d(270)),
+        new Pose2d(1, -1, new Rotation2d(270)),
         // Pass config
         config);
     RamseteCommand ramseteCommand1 = new RamseteCommand(
@@ -90,7 +90,7 @@ public class Autonomous extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(-2, 2, new Rotation2d(270)),
+        new Pose2d(2, 1, new Rotation2d(270)),
         // Pass config
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
