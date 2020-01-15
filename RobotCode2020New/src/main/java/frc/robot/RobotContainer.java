@@ -13,6 +13,8 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -24,51 +26,51 @@ public class RobotContainer {
 
   //-------- CONSTANTS --------\\
 
-   //--Button Mapping        //Refer to http://team358.org/files/programming/ControlSystem2009-/XBoxControlMapping.jpg
-   private final int AXIS_LEFT_X = 0;
-   private final int AXIS_LEFT_Y = 1;
-   private final int AXIS_RIGHT_X = 4;
-   private final int AXIS_RIGHT_Y = 5;
-   private final int AXIS_LT = 2;
-   private final int AXIS_RT = 3;
-
-   //--Ports
-   private final int CODRIVER_CONTROLLER_ID = 1;
-   private final int DRIVER_CONTROLLER_ID = 0;
-
-   //--Deadbands
-   private final double TRIGGER_PRESSED_THRESHOLD = 0.4;
-
   //-------- DECLARATIONS --------\\
 
-  private Joystick driver;
-  private Joystick coDriver;
+  private Joystick driverJoystick;
+  private Joystick coDriverJoystick;
 
   //-------- SUBSYSTEMS --------\\
 
-    //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   //private final DriveSubsystem driveSubsystem;
-  private final JoystickSubsystem joystickSubsystem;
+  private final DriveSubsystem driveSubsystem;
 
   //-------- COMMANDS --------\\
 
+  private final DriveCommand driveCommand;
+
   //private final DriveCommand driveCommand;
-    //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   //-------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
 
-    driver = new Joystick(DRIVER_CONTROLLER_ID);
-    coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
+    driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
+    coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
 
-    joystickSubsystem = new JoystickSubsystem(driver, coDriver);
+    driveSubsystem = new DriveSubsystem();
+
+
+    driveCommand = new DriveCommand(driveSubsystem);
     // Configure the button bindings
+
+    beginRunCommands();
     configureButtonBindings();
   }
 
   //-------- METHODS --------\\
 
+  private void beginRunCommands() {
+      
+    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, new RunCommand(() -> {
+      driveSubsystem.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
+    }
+    , driveSubsystem));
+
+  }
   //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
   private void configureButtonBindings() {
 
