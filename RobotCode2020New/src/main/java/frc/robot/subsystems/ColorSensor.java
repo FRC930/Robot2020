@@ -8,14 +8,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.ColorSensorV3;
 
-/**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
- */
+
 public class ColorSensor extends SubsystemBase {
+ private ColorSensorV3 ColorSensorData;
 
   //-------- CONSTANTS --------\\
 
@@ -24,12 +21,15 @@ public class ColorSensor extends SubsystemBase {
   //-------- DECLARATIONS --------\\
 
   public ColorSensor() {
-
+  
+  ColorSensorData = new ColorSensorV3(3);
   }
   //-------- METHODS --------\\
- 
+   
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    ColorSensorData.
     }
   }
