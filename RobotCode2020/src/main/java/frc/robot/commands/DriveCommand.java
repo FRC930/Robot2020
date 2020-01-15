@@ -22,6 +22,8 @@ public class DriveCommand extends CommandBase {
 
   private final Drive driveSubsystem;
   private final Joystick m_driveStick;
+  private double prevX;
+  private double prevY;
   //-------- CONSTRUCTOR --------\\
 
   public DriveCommand(Drive dSubsystem,Joystick driverStick) {
@@ -35,6 +37,8 @@ public class DriveCommand extends CommandBase {
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
+    prevX = 0.0;
+    prevY = 0.0;
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
@@ -48,22 +52,27 @@ public class DriveCommand extends CommandBase {
   public void end(boolean interrupted) {
   }
   //We comment out isFinished so we always have control of the drive and it gives contorl up easier
-  /*
+  
   @Override   // Returns true when the command should end.
   public boolean isFinished() {
     return false;
   }
-  */
+  
   
 
   //-------- METHODS --------\\
+  private double inter(double v1,double v2, double t){
+    return(1-t) * v1 + t * v2;
+  }
   private void run(double stickX, double stickY) {
     System.out.println("RUN");
     // Cubing values to create smoother function
-    stickX = -Math.pow(stickX, 3);
-    stickY = Math.pow(stickY, 3);
+    //stickX = -Math.pow(stickX, 3);
+    //stickY = Math.pow(stickY, 3);
+    
+    stickX = inter(prevX, stickX, 0.1);
+    stickY = inter(prevY, stickY, 0.1);
     stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
-
     // Joystick deadband
     if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
       System.out.println("Dead band");
@@ -76,6 +85,8 @@ public class DriveCommand extends CommandBase {
 
     // Arcade drive
     driveSubsystem.runAt((stickY + stickX), -(stickY - stickX));
+    prevX = stickX;
+    prevY = stickY;
 
   } //End of method run()
 
