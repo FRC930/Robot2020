@@ -5,14 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Joystick;
-
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -20,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class VisionTracking {
+public class ColorSensor extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
@@ -28,28 +23,13 @@ public class VisionTracking {
 
   //-------- DECLARATIONS --------\\
 
-
-  //-------- SUBSYSTEMS --------\\
-
-    //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  //-------- COMMANDS --------\\
-
-    //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  //-------- CONSTRUCTOR ---------\\
-
-  public VisionTracking() {
+  public ColorSensor() {
 
   }
   //-------- METHODS --------\\
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;//m_autoCommand;
+ 
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    }
   }
-}
