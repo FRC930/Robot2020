@@ -6,28 +6,17 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj.Joystick;
+
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.Drive;
 import frc.robot.commands.AutonomousCommand;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
+
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Drive;
+
 import java.util.List;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import frc.robot.commands.Autonomous;
 
 
@@ -41,10 +30,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive m_drive;
-  private final DriveCommand runat;
+  private final DriveCommand driveCommand;
   private final Autonomous autoCommand;
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private Joystick driver;
+  private Joystick driverJoystick;
+  private Joystick coDriverJoystick;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -52,9 +41,10 @@ public class RobotContainer {
     // Configure the button bindings
     m_drive = new Drive();
     autoCommand = new Autonomous(m_drive);
-    runat = new DriveCommand(m_drive);
-    driver = new Joystick(0);
-
+    driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
+    coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
+    driveCommand = new DriveCommand(m_drive,driverJoystick);
+    // Configure the button bindings
     configureButtonBindings();
   }
 
@@ -65,9 +55,16 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    beginRunCommands();
   }
-
+  private void beginRunCommands() {
+      
+    //CommandScheduler.getInstance().setDefaultCommand(m_drive, new RunCommand(() -> {
+    //   m_drive.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
+    //}
+    // , m_drive));
+    CommandScheduler.getInstance().setDefaultCommand(m_drive,driveCommand);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

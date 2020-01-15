@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    
+    //[--------------------AUTO--------------------------]
     public static final double ksVolts = 0.22;
     public static final double kvVoltSecondsPerMeter = 0.289;
     public static final double kaVoltSecondsSquaredPerMeter = 0.06;
@@ -27,4 +29,38 @@ public final class Constants {
     public static final double kTrackwidthMeters = 0.69;
     public static final double kPDriveVel = 1;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+    //[-------------------AUTO--------------------------]
+
+    // JOYSTICK Controller Values-----------------------------[
+        public static final int DRIVER_CONTROLLER_ID = 0;
+        public static final int CODRIVER_CONTROLLER_ID = 1;
+    
+        public static final int BUTTON_A = 1;
+        public static final int BUTTON_B = 2;
+        public static final int BUTTON_X = 3;
+        public static final int BUTTON_Y = 4;
+        public static final int BUTTON_LB = 5;
+        public static final int BUTTON_RB = 6;
+        public static final int BUTTON_BACK = 7;
+        public static final int BUTTON_START = 8;
+        public static final int BUTTON_LEFT_STICK = 9;
+        public static final int BUTTON_RIGHT_STICK = 10;
+    
+        public static final int AXIS_LEFT_X = 0;
+        public static final int AXIS_LEFT_Y = 1;
+        public static final int AXIS_RIGHT_X = 4;
+        public static final int AXIS_RIGHT_Y = 5;
+        
+        public static final int AXIS_LT = 2;
+        public static final int AXIS_RT = 3;
+        
+        public static final double TRIGGER_PRESSED_THRESHOLD = 0.4;
+        // JOYSTICK Controller Values-----------------------------]
+        
+        // DRIVETRAIN Constants --------------------------------]
+    
+        public static final double DRIVE_DEADBAND_JOYSTICK = 0.000124;
+        public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
+        
+        // DRIVETRAIN Constants --------------------------------]
 }

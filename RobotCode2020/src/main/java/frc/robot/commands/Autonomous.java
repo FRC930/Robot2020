@@ -7,26 +7,29 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.Drive;
-import frc.robot.commands.AutonomousCommand;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import java.util.List;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import frc.robot.Constants;
+
+import edu.wpi.first.wpilibj2.command.*;
+
 import frc.robot.subsystems.Drive;
+import frc.robot.commands.AutonomousCommand;
+import frc.robot.Constants;
+
+import java.util.List;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
