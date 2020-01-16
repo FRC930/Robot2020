@@ -82,6 +82,10 @@ public class Drive extends SubsystemBase {
         left3.follow(left1);
         right2.follow(right1);
         right3.follow(right1);
+
+        left1.setOpenLoopRampRate(0.5);
+        right1.setOpenLoopRampRate(0.5);
+
         m_drive = new DifferentialDrive(right1, left1);
     }
 

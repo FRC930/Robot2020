@@ -43,7 +43,8 @@ public class RobotContainer {
     autoCommand = new Autonomous(m_drive);
     driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
     coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
-    driveCommand = new DriveCommand(m_drive,driverJoystick);
+    
+    driveCommand = new DriveCommand(m_drive, driverJoystick);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -63,7 +64,7 @@ public class RobotContainer {
     //   m_drive.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
     //}
     // , m_drive));
-    CommandScheduler.getInstance().setDefaultCommand(m_drive,driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(m_drive, driveCommand);
   }
 
   /**
