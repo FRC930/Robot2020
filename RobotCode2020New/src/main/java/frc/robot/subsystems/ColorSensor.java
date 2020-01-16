@@ -7,12 +7,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.ColorSensorV3;
 
-
 public class ColorSensor extends SubsystemBase {
- private ColorSensorV3 ColorSensorData;
 
   //-------- CONSTANTS --------\\
 
@@ -20,16 +20,31 @@ public class ColorSensor extends SubsystemBase {
 
   //-------- DECLARATIONS --------\\
 
-  public ColorSensor() {
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
   
-  ColorSensorData = new ColorSensorV3(3);
-  }
+  private ColorSensorV3 Sensor = new ColorSensorV3(i2cPort);
+
+  private Color color;
+
+  private double redValue;
+  private double greenValue;
+  private double blueValue;
+
   //-------- METHODS --------\\
    
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    ColorSensorData.
+    
+      color = Sensor.getColor();
+
+      redValue = color.red;
+      greenValue = color.green;
+      blueValue = color.blue;
+
+      System.out.println("Red: " + redValue);
+      System.out.println("Green: " + greenValue);
+      System.out.println("Blue: " + blueValue);
     }
   }
