@@ -33,18 +33,6 @@ public class ShooterSubsystem extends SubsystemBase {
     // solenoid dedicated to moving the turret up and down to have a close and far range
     private final Solenoid solenoid1;
 
-    // button one for the turning on and off of the shooter
-    private  int buttonA; // remove when inserted into the robot
-    private boolean shooterStatus;
-    // button two for the switch between position angle 1 (low score slot) and 2 (high score slot)
-    private  int buttonB; // remove when inserted into the robot
-    private boolean solenoidStatus;
-
-    private  Joystick tempDriver; // remove when inserted into the robot
-    private  int DRIVER_CONTROL_ID; // remove when inserted into the robot
-
-    private double speed;
-
     public ShooterSubsystem() {
         motorLead = new VictorSPX(3);
         motor2 = new VictorSPX(12);
@@ -57,9 +45,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
         solenoid1 = new Solenoid(0);
 
-        shooterStatus = false;
-        solenoidStatus = false;
-
     }
 
     public void setSpeed(double speed) {
@@ -68,38 +53,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public void stop() {
         setSpeed(0.0);
     }
-
-    public void run() {
-    
-        // if button a is pressed and the shooterStatus is false, set the status to true and turn on the shooter's motors.
-        if (tempDriver.getRawButton(buttonA) && shooterStatus == false) {
-            shooterStatus = true;
-            motorLead.set(ControlMode.PercentOutput, 1.0);
-
-        }
-        // if button a is pressed and the shooterStatus is true, set the status to true and turn off the shooter's motors
-        if (tempDriver.getRawButton(buttonA) && shooterStatus == true) {
-            shooterStatus = false;
-            motorLead.set(ControlMode.PercentOutput, 1.0);
-    
-        }
-        
-        // if button b is pressed and solenoidStatus is false, set the status to true and extend the solenoid.
-        if (tempDriver.getRawButton(buttonB) && solenoidStatus == false) {
-            solenoidStatus = true;
-            solenoid1.set(true);
-
-        }
-        // if button b is pressed and solenoidStatus is true, set the status to false and retract the solenoid.
-        if (tempDriver.getRawButton(buttonB) && solenoidStatus == true) {
-            solenoidStatus = false;
-            solenoid1.set(false);
-    
-        }
-        /*       
-        speed = tempDriver.getRawAxis(1);
-        motorLead.set(ControlMode.PercentOutput, speed);
-        */
+    public void angleChange(boolean solenoidStatus){
+        solenoid1.set(true);
     }
 
     @Override

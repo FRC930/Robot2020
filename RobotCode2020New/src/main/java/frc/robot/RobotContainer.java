@@ -8,12 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.ShooterSubsystem;
-
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+//-------- SUBSYSTEM IMPORT --------\\
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -42,14 +44,14 @@ public class RobotContainer {
 
   //-------- DECLARATIONS --------\\
 
-  private Joystick driver;
-  private Joystick coDriver;
+    private Joystick driver;
+    private Joystick coDriver;
 
   //-------- SUBSYSTEMS --------\\
 
     //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    
     private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
-
 
   //-------- COMMANDS --------\\
 
@@ -64,6 +66,7 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
   }
 
   //-------- METHODS --------\\
@@ -71,6 +74,29 @@ public class RobotContainer {
   //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
   private void configureButtonBindings() {
     
+    // driver buttons and assignments
+    final JoystickButton a_buttonDriver = new JoystickButton(driver, 1);
+    final JoystickButton b_buttonDriver = new JoystickButton(driver, 2);
+    final JoystickButton x_buttonDriver = new JoystickButton(driver, 3);
+    final JoystickButton y_buttonDriver = new JoystickButton(driver, 4);
+    final JoystickButton lb_buttonDriver = new JoystickButton(driver, 5);
+    final JoystickButton rb_buttonDriver = new JoystickButton(driver, 6);
+    final JoystickButton back_buttonDriver = new JoystickButton(driver, 7);
+    final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
+
+    a_buttonDriver.toggleWhenPressed(new RunShooter(m_ShooterSubsystem, 1.0));
+
+    // codriver buttons and assignments
+    final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
+    final JoystickButton b_buttonCoDriver = new JoystickButton(driver, 2);
+    final JoystickButton x_buttonCoDriver = new JoystickButton(driver, 3);
+    final JoystickButton y_buttonCoDriver = new JoystickButton(driver, 4);
+    final JoystickButton lb_buttonCoDriver = new JoystickButton(driver, 5);
+    final JoystickButton rb_buttonCoDriver = new JoystickButton(driver, 6);
+    final JoystickButton back_buttonCoDriver = new JoystickButton(driver, 7);
+    final JoystickButton start_buttonCoDriver = new JoystickButton(driver, 8);
+    
+
   }
 
 
