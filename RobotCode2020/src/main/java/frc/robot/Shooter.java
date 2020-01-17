@@ -110,5 +110,4 @@ public class Shooter {
         speed = tempDriver.getRawAxis(1);
         motor1.set(ControlMode.PercentOutput, speed);
     }
-
 }
