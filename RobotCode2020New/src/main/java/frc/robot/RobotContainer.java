@@ -7,11 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+//-------- SUBSYSTEM IMPORT --------\\
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -22,35 +26,88 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
 
-    // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //-------- CONSTANTS --------\\
 
-    private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+   //--Button Mapping        //Refer to http://team358.org/files/programming/ControlSystem2009-/XBoxControlMapping.jpg
+   private final int AXIS_LEFT_X = 0;
+   private final int AXIS_LEFT_Y = 1;
+   private final int AXIS_RIGHT_X = 4;
+   private final int AXIS_RIGHT_Y = 5;
+   private final int AXIS_LT = 2;
+   private final int AXIS_RT = 3;
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    public RobotContainer() {
-        // Configure the button bindings
-        configureButtonBindings();
-    }
+   //--Ports
+   private final int CODRIVER_CONTROLLER_ID = 1;
+   private final int DRIVER_CONTROLLER_ID = 0;
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by instantiating a {@link GenericHID} or one of its subclasses
-     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
-    }
+   //--Deadbands
+   private final double TRIGGER_PRESSED_THRESHOLD = 0.4;
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return m_autoCommand;
-    }
+  //-------- DECLARATIONS --------\\
+
+    private Joystick driver;
+    private Joystick coDriver;
+
+  //-------- SUBSYSTEMS --------\\
+
+    //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    
+    private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+
+  //-------- COMMANDS --------\\
+
+    //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+  //-------- CONSTRUCTOR ---------\\
+
+  public RobotContainer() {
+
+    driver = new Joystick(DRIVER_CONTROLLER_ID);
+    coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
+
+    // Configure the button bindings
+    configureButtonBindings();
+
+  }
+
+  //-------- METHODS --------\\
+
+  //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
+  private void configureButtonBindings() {
+    
+    // driver buttons and assignments
+    final JoystickButton a_buttonDriver = new JoystickButton(driver, 1);
+    final JoystickButton b_buttonDriver = new JoystickButton(driver, 2);
+    final JoystickButton x_buttonDriver = new JoystickButton(driver, 3);
+    final JoystickButton y_buttonDriver = new JoystickButton(driver, 4);
+    final JoystickButton lb_buttonDriver = new JoystickButton(driver, 5);
+    final JoystickButton rb_buttonDriver = new JoystickButton(driver, 6);
+    final JoystickButton back_buttonDriver = new JoystickButton(driver, 7);
+    final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
+
+    a_buttonDriver.toggleWhenPressed(new RunShooter(m_ShooterSubsystem, 1.0));
+
+    // codriver buttons and assignments
+    final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
+    final JoystickButton b_buttonCoDriver = new JoystickButton(driver, 2);
+    final JoystickButton x_buttonCoDriver = new JoystickButton(driver, 3);
+    final JoystickButton y_buttonCoDriver = new JoystickButton(driver, 4);
+    final JoystickButton lb_buttonCoDriver = new JoystickButton(driver, 5);
+    final JoystickButton rb_buttonCoDriver = new JoystickButton(driver, 6);
+    final JoystickButton back_buttonCoDriver = new JoystickButton(driver, 7);
+    final JoystickButton start_buttonCoDriver = new JoystickButton(driver, 8);
+    
+
+  }
+
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return null;//m_autoCommand;
+  }
 }

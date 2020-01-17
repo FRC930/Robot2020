@@ -1,91 +1,113 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Solenoid;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.*;
+
+
 /*
- * Shooter
- */
+
+4 775 Motors on the shooter.
+1 775 Motor on the turret.
+
+1 - 2 Solenoids
+ > 1 close range angle and 1 far range angle. Determined by the limelight.
+
+*/
+
 public class Shooter {
-    // All measurements are in meters
-    private static final double BALL_RADIUS = 0.0889;
-    private static final double GOAL_HEIGHT_OUTER_LOW = 2.11455;
-    private static final double GOAL_HEIGHT_OUTER_TOP = 2.87655;
-    private static final double GOAL_HEIGHT_INNER_LOW = 2.33045;
-    private static final double GOAL_HEIGHT_INNER_MIDDLE = 2.49555;
-    private static final double GOAL_HEIGHT_INNER_TOP = 2.66065;
-    private static final double INNER_GOAL_FROM_WALL = 0.74295;
-    private static final double START_HEIGHT = 0;
-    private static final double GRAVITY = 9.8;
 
-    private double velocity;
-    // Angle and distace are only assigned to, but are kept just in case we want to add more functionality later
-    private double angle;
-    private double distance;
-    private boolean willMakeInner;
-    public Shooter() {
+    // static flag variable
+    private static Shooter instance = null;
+
+    // motor controllers for the 775 motors on the shooter
+    private VictorSPX motor1;
+    private  VictorSPX motor2;
+    private  VictorSPX motor3;
+    private  VictorSPX motor4;
+
+    // solenoid dedicated to moving the turret up and down to have a close and far range
+    private  Solenoid solenoid1;
+
+    // button one for the turning on and off of the shooter
+    private  int buttonA; // remove when inserted into the robot
+    private boolean shooterStatus;
+    // button two for the switch between position angle 1 (low score slot) and 2 (high score slot)
+    private  int buttonB; // remove when inserted into the robot
+    private boolean solenoidStatus;
+
+    private  Joystick tempDriver; // remove when inserted into the robot
+    private  int DRIVER_CONTROL_ID; // remove when inserted into the robot
+
+    private double speed;
+
+    private Shooter() {
+        motor1 = new VictorSPX(3);
+        motor2 = new VictorSPX(12);
+        motor3 = new VictorSPX(14);
+        motor4 = new VictorSPX(15);
+
+        solenoid1 = new Solenoid(0);
+
+        buttonA = 1; // remove when inserted into the robot
+        shooterStatus = false;
+        buttonB = 2; // remove when inserted into the robot
+        solenoidStatus = false;
+
+        DRIVER_CONTROL_ID = 0; // remove when inserted into the robot
+        tempDriver = new Joystick(this.DRIVER_CONTROL_ID); // remove when inserted into the robot
     }
 
-    /**
-     * Use this to set the position of the robot
-     * <p>The methods {@link #calculateVelocity} and {@link #calculateTrajectory} are called in this method also
-     * @param angle is the current angle of the shooter
-     * @param distance is the distance away from the wall
-     */
-    public void setPosition(double angle, double distance) {
-        this.angle = Math.toRadians(angle);
-        this.distance = distance;
-        this.calculateVelocity(angle, distance);
-        this.calculateTrajectory(angle, distance);
-    }
-
-    /**
-     * Returns whether the shot is possible
-     * @return {@link #willMakeInner} set in {@link #calculateTrajectory}
-     */
-    public boolean isPossibleShot() {
-        return this.willMakeInner;
-    }
-
-    /**
-     * Calculate the velocity that the ball will need to shot at in order to make the inner goal
-     * @param angle is the current angle of the shooter
-     * @param distance is the distance away from the wall
-     */
-    private void calculateVelocity(double angle, double distance) {
-        this.velocity = (Math.sqrt(9.8 / (2 * Math.tan(angle) * distance - GOAL_HEIGHT_INNER_MIDDLE)) * distance)
-                / Math.cos(angle);
-    }
-
-    /**
-     * Calculate the trajectory of the ball based on the velocity calculated in {@link #calculateVelocity}, the angle of the shot, and the distance away
-     * <p>This method will then see if the ball makes the outer and inner goals
-     * @param angle is the current angle of the shooter
-     * @param distance is the distance away from the wall
-     */
-    private void calculateTrajectory(double angle, double distance) {
-        double xVelocity = velocity * Math.cos(angle);
-        double yVelocity = velocity * Math.sin(angle);
-        double tAtWallHit = distance / xVelocity;
-        double yAtWallHit = calculateY(yVelocity, tAtWallHit);
-        double tAtInnerWallHit = (INNER_GOAL_FROM_WALL + distance) / xVelocity;
-        double yAtInnerWallHit = calculateY(yVelocity, tAtInnerWallHit);
-        if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS) {
-            if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS
-                    && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
-                this.willMakeInner = true;
-            } else {
-                this.willMakeInner = false;
-            }
+    //constructor THIS NEEDS TO BE FIXED, CAUSE APPARENTLY IT IS WRONG - MATT THE MENTOR
+    public static Shooter getInstance() {
+        if (instance == null) {
+            instance = new Shooter();
+            return instance;
+        } else {
+            return instance;
         }
+
     }
 
-    /**
-     * CalculateY is a helper method to calculate the current y position based on the y velocity and the time
-     * @param yVelocity is the initial y velocity
-     * @param time is the time on the parabola
-     */
-    private double calculateY(double yVelocity, double time) {
-        /**
-         * g * t^2 y * t - --------- + h 2
-         */
-        return START_HEIGHT + yVelocity * time - 0.5 * GRAVITY * time * time;
+    public void init() {
+        motor2.follow(motor1);
+        motor3.follow(motor1);
+        motor4.follow(motor1);
+
+    }
+
+    public void run() {
+/*
+        // if button a is pressed and the shooterStatus is false, set the status to true and turn on the shooter's motors.
+        if (tempDriver.getRawButton(buttonA) && shooterStatus == false) {
+            shooterStatus = true;
+            motor1.set(ControlMode.PercentOutput, 1.0);
+
+        }
+        // if button a is pressed and the shooterStatus is true, set the status to true and turn off the shooter's motors
+        if (tempDriver.getRawButton(buttonA) && shooterStatus == true) {
+            shooterStatus = false;
+            motor1.set(ControlMode.PercentOutput, 1.0);
+
+        }
+
+        // if button b is pressed and solenoidStatus is false, set the status to true and extend the solenoid.
+        if (tempDriver.getRawButton(buttonB) && solenoidStatus == false) {
+            solenoidStatus = true;
+            solenoid1.set(true);
+
+        }
+        // if button b is pressed and solenoidStatus is true, set the status to false and retract the solenoid.
+        if (tempDriver.getRawButton(buttonB) && solenoidStatus == true) {
+            solenoidStatus = false;
+            solenoid1.set(false);
+
+        }
+*/       
+        speed = tempDriver.getRawAxis(1);
+        motor1.set(ControlMode.PercentOutput, speed);
     }
 }
