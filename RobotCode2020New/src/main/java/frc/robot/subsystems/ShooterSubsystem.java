@@ -2,23 +2,18 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-
-/*
-
-4 775 Motors on the shooter.
-1 775 Motor on the turret.
-
-1 - 2 Solenoids
- > 1 close range angle and 1 far range angle. Determined by the limelight.
-
-*/
-
+/**
+ * <h3>ShooterSubsystem</h3>
+ * <p>
+ * The shooter subsystem controls the hardware for the shooter
+ * </p><p>
+ * There are two constructors: one with hardware arguments used for mocking, and
+ * one that does not receive hardware and sets the motor controllers to a default value
+ * </p>
+ */
 public class ShooterSubsystem extends SubsystemBase {
     // motor controllers for the 775 motors on the shooter
     private final CANSparkMax motorLead;
@@ -26,7 +21,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax motor3;
     private final CANSparkMax motor4;
 
-    // solenoid dedicated to moving the turret up and down to have a close and far range
+    // solenoid dedicated to moving the turret up and down to have a close and far
+    // range
     private final Solenoid solenoid;
 
     public ShooterSubsystem() {
@@ -51,7 +47,7 @@ public class ShooterSubsystem extends SubsystemBase {
         setSpeed(0.0);
     }
 
-    public void angleChange(boolean solenoidStatus){
+    public void angleChange(boolean solenoidStatus) {
         solenoid.set(true);
     }
 
@@ -60,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
 
     }
 } // End ShooterSubsystem

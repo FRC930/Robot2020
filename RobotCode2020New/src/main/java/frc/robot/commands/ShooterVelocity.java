@@ -7,8 +7,10 @@ import frc.robot.utilities.ShooterMath;
 
 /**
  * <h3>ShooterVelocity</h3>
- * <p>The {@link #ShooterVelocity} command will set the speed of the shooter based on the calculations returned from the math {@link #
- * ShooterMath class}
+ * <p>
+ * The shooter velocity command will set the speed of the shooter based on the
+ * calculations returned from the math class
+ * </p>
  */
 public class ShooterVelocity extends CommandBase {
 
@@ -31,7 +33,8 @@ public class ShooterVelocity extends CommandBase {
         // ShooterSubsystem get angle
         // Limelight get distance
         // TODO: Get the distance and angle
-        this.math.setPosition(/* ShooterSubsystem angle */ m_ShooterSubsystem.getAngle() ? 45 : 60, /* Limelight distance */ 0);
+        this.math.setPosition(/* ShooterSubsystem angle */ m_ShooterSubsystem.getAngle() ? 45 : 60,
+                /* Limelight distance */ 0);
         CommandScheduler.getInstance().schedule(new RunShooter(m_ShooterSubsystem, this.math.getVelocity()));
     }
 
