@@ -26,12 +26,12 @@ public class DriveSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
 
     //-------- DECLARATIONS --------\\
-    private final Encoder m_rightEncoder = new Encoder(0,1);
-    private final Encoder m_leftEncoder = new Encoder(2,3);
-    private final TalonSRX gyroTalon = new TalonSRX(1);
-    private final PigeonIMU m_gyro = new PigeonIMU(gyroTalon);
-    private double values[] = new double[3];
-    private final DifferentialDriveOdometry m_odometry;
+    private Encoder m_rightEncoder;
+    private Encoder m_leftEncoder;
+    private TalonSRX gyroTalon;
+    private PigeonIMU m_gyro;
+    private double values[] = new double[3]; //put to other declerations
+    private DifferentialDriveOdometry m_odometry;
     
     private CANSparkMax left1;
     private CANSparkMax left2;
@@ -44,30 +44,37 @@ public class DriveSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public DriveSubsystem() {
+      setTalon(new TalonSRX(1));
+      setMotorsAndSensors();
       m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
       m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
-      m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
       m_rightEncoder.reset();
       m_leftEncoder.reset();
       m_rightEncoder.setReverseDirection(false);
       m_leftEncoder.setReverseDirection(false);
-      setMotorControllers();
+      
         
     }
 
     //-------- METHODS --------\\
-
-    public void setMotorControllers() {
-        setMotorControllers(new CANSparkMax(1, MotorType.kBrushless),
+    public void setTalon(TalonSRX GyroTalon){
+      gyroTalon = GyroTalon;
+    }
+    
+    public void setMotorsAndSensors() {
+      setMotorsAndSensors(new CANSparkMax(1, MotorType.kBrushless),
             new CANSparkMax(2, MotorType.kBrushless),
             new CANSparkMax(3, MotorType.kBrushless),
             new CANSparkMax(4, MotorType.kBrushless),
             new CANSparkMax(5, MotorType.kBrushless),
-            new CANSparkMax(6, MotorType.kBrushless));
+            new CANSparkMax(6, MotorType.kBrushless), 
+            new Encoder(0,1), 
+            new Encoder(2,3), 
+            new PigeonIMU(gyroTalon), 
+            new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())));
     }
-
-    public void setMotorControllers(CANSparkMax Left1, CANSparkMax Left2, CANSparkMax Left3, CANSparkMax Right1,
-            CANSparkMax Right2, CANSparkMax Right3) {
+    public void setMotorsAndSensors(CANSparkMax Left1, CANSparkMax Left2, CANSparkMax Left3, CANSparkMax Right1,
+            CANSparkMax Right2, CANSparkMax Right3, Encoder m_RightEncoder, Encoder m_LeftEncoder, PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry ) {
         // Gives each Spark Max their proper values
         left1 = Left1;
         left2 = Left2;
@@ -76,6 +83,11 @@ public class DriveSubsystem extends SubsystemBase {
         right1 = Right1;
         right2 = Right2;
         right3 = Right3;
+        m_rightEncoder = m_RightEncoder;
+        m_leftEncoder = m_LeftEncoder;
+        m_gyro = m_Gyro;
+        m_odometry = m_Odometry;
+
 
         // Mirror primary motor controllers on each side
         left2.follow(left1);
@@ -94,26 +106,6 @@ public class DriveSubsystem extends SubsystemBase {
         left1.set(leftSpeed);
         right1.set(rightSpeed);
     }
-
-    public void run(double stickX, double stickY) {
-
-        // Cubing values to create smoother function
-        stickX = -Math.pow(stickX, 3);
-        stickY = Math.pow(stickY, 3);
-        stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
-        // Joystick deadband
-        if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-            stickX = 0;
-        }
-        if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-            stickY = 0;
-        }
-
-        // Arcade drive
-        runAt((stickY + stickX), -(stickY - stickX));
-
-      } //End of method run()
-
     // Returns left speed
     public double getLeftSpeed() {
         return left1.get();

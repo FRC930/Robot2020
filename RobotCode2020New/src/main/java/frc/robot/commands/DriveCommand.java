@@ -22,9 +22,6 @@ public class DriveCommand extends CommandBase {
 
   private final DriveSubsystem driveSubsystem;
   private final Joystick m_driveStick;
-  private double prevX;
-  private double prevY;
-
   //-------- CONSTRUCTOR --------\\
 
   public DriveCommand(DriveSubsystem dSubsystem,Joystick driverStick) {
@@ -38,8 +35,6 @@ public class DriveCommand extends CommandBase {
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-    prevX = 0.0;
-    prevY = 0.0;
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
@@ -61,10 +56,6 @@ public class DriveCommand extends CommandBase {
   
 
   //-------- METHODS --------\\
-  private double lerp(double v0,double v1, double t){
-    return (1 - t) * v0 + t * v1;
-  }
-
   private void run(double stickX, double stickY) {
 
     //-----------------------------------------------------------------CUBING
