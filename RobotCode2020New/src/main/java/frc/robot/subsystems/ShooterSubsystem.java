@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 //import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.*;
 
 
 /*
@@ -20,49 +20,49 @@ import edu.wpi.first.wpilibj.*;
 */
 
 public class ShooterSubsystem extends SubsystemBase {
-
-    // static flag variable
-    private static ShooterSubsystem instance = null;
-
     // motor controllers for the 775 motors on the shooter
-    private final VictorSPX motorLead;
-    private final VictorSPX motor2;
-    private final VictorSPX motor3;
-    private final VictorSPX motor4;
+    private final CANSparkMax motorLead;
+    private final CANSparkMax motor2;
+    private final CANSparkMax motor3;
+    private final CANSparkMax motor4;
 
     // solenoid dedicated to moving the turret up and down to have a close and far range
-    private final Solenoid solenoid1;
+    private final Solenoid solenoid;
 
     public ShooterSubsystem() {
-        motorLead = new VictorSPX(3);
-        motor2 = new VictorSPX(12);
-        motor3 = new VictorSPX(14);
-        motor4 = new VictorSPX(15);
+        motorLead = new CANSparkMax(3, MotorType.kBrushless);
+        motor2 = new CANSparkMax(12, MotorType.kBrushless);
+        motor3 = new CANSparkMax(14, MotorType.kBrushless);
+        motor4 = new CANSparkMax(15, MotorType.kBrushless);
 
         motor2.follow(motorLead);
         motor3.follow(motorLead);
         motor4.follow(motorLead);
 
-        solenoid1 = new Solenoid(0);
+        solenoid = new Solenoid(0);
 
     }
 
     public void setSpeed(double speed) {
-        motorLead.set(ControlMode.PercentOutput, speed);
+        motorLead.set(speed);
     }
+
     public void stop() {
         setSpeed(0.0);
     }
+
     public void angleChange(boolean solenoidStatus){
-        solenoid1.set(true);
+        solenoid.set(true);
+    }
+
+    public boolean getAngle() {
+        return solenoid.get();
     }
 
     @Override
     public void periodic(){
 
     }
-    
-
-}
+} // End ShooterSubsystem
 
 // written by ya bois josh and ed
