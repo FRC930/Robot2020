@@ -6,9 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.util.ColorShim;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
+//import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
@@ -24,11 +26,24 @@ public class ColorSensor extends SubsystemBase {
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   // Color values
-  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color k930RedTarget = ColorMatch.makeColor(0.450, 0.232, 0.114);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private final ColorShim kBlueTarget = new ColorShim(0.143, 0.427, 0.429);
+  private final ColorShim kGreenTarget = new ColorShim(0.197, 0.561, 0.240);
+  private final ColorShim kRedTarget = new ColorShim(0.561, 0.232, 0.114);
+  private final ColorShim k930RedTarget = new ColorShim(0.450, 0.232, 0.114);
+  private final ColorShim kYellowTarget = new ColorShim(0.361, 0.524, 0.113);
+
+  //private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  //private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  //private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  //private final Color k930RedTarget = ColorMatch.makeColor(0.450, 0.232, 0.114);
+  //private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+
+  //private final Color kBlueTarget = new Color(0.143, 0.427, 0.429);
+  //private final Color kGreenTarget = new Color(new Color8Bit((int) 0.197 * 255, (int) 0.561 * 255, (int) 0.240 * 255));
+  //private final Color kRedTarget = new Color(new Color8Bit((int) 0.561 * 255, (int) 0.232 * 255, (int) 0.114 * 255));
+  //private final Color k930RedTarget = new Color(new Color8Bit((int) 0.450 * 255, (int) 0.232 * 255, (int) 0.114 * 255));
+  //private final Color kYellowTarget = new Color(new Color8Bit((int) 0.361 * 255, (int) 0.524 * 255, (int) 0.113 * 255));
+
   // ColorMatch object
   private final ColorMatch colorMatch = new ColorMatch();
   
@@ -36,9 +51,9 @@ public class ColorSensor extends SubsystemBase {
 
   private Color color;
 
-  private double redValue;
-  private double greenValue;
-  private double blueValue;
+  //private double redValue;
+  //private double greenValue;
+  //private double blueValue;
 
   //-------- CONSTRUCTOR --------\\
   public ColorSensor(){
