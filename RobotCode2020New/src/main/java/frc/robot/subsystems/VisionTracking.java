@@ -23,7 +23,7 @@ public class VisionTracking extends SubsystemBase {
   //-------- DECLARATIONS --------\\
   
  // tv  Whether the limelight has any valid targets (0 or 1)
- private double tv;
+ /*private double tv;
  // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
  private double tx;
  // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
@@ -33,7 +33,7 @@ public class VisionTracking extends SubsystemBase {
  // ts  Skew or rotation (-90 degrees to 0 degrees)
  private double ts;
  // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
- private double tl;
+ private double tl;*/
  
   
 
@@ -42,7 +42,7 @@ public class VisionTracking extends SubsystemBase {
   }
   //-------- METHODS --------\\
  // Whether the limelight has any valid targets (0 or 1) 
- NetworkTableEntry tv = double.getEntry("tv");
+ /*NetworkTableEntry tv = double.getEntry("tv");
  // Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees) 
  NetworkTableEntry tx = double.getEntry("tx");
  // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees) 
@@ -52,7 +52,7 @@ public class VisionTracking extends SubsystemBase {
  // Skew or rotation (-90 degrees to 0 degrees) 
  NetworkTableEntry ts = double.getEntry("ts");
  // The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency. 
- NetworkTableEntry tl = double.getEntry("tl");
+ NetworkTableEntry tl = double.getEntry("tl");*/
 
   @Override
   public void periodic() {
