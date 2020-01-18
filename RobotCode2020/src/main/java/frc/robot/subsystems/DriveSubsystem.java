@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class Drive extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
@@ -43,7 +43,7 @@ public class Drive extends SubsystemBase {
 
     //-------- CONSTRUCTOR --------\\
 
-    public Drive() {
+    public DriveSubsystem() {
       m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
       m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
       m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));

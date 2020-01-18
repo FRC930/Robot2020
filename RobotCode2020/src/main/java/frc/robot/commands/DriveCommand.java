@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -20,14 +20,14 @@ public class DriveCommand extends CommandBase {
 
   //-------- DECLARATIONS --------\\
 
-  private final Drive driveSubsystem;
+  private final DriveSubsystem driveSubsystem;
   private final Joystick m_driveStick;
   private double prevX;
   private double prevY;
 
   //-------- CONSTRUCTOR --------\\
 
-  public DriveCommand(Drive dSubsystem,Joystick driverStick) {
+  public DriveCommand(DriveSubsystem dSubsystem,Joystick driverStick) {
     driveSubsystem = dSubsystem;
     m_driveStick = driverStick;
     addRequirements(dSubsystem);  // Use addRequirements() here to declare subsystem dependencies.

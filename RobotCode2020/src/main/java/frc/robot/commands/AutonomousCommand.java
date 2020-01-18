@@ -6,45 +6,42 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import frc.robot.Constants;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+
+
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.subsystems.Drive;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import java.util.List;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
-public class AutonomousCommand extends CommandBase {
+import edu.wpi.first.wpilibj2.command.*;
+
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.Constants;
+
+import java.util.List;
+
+
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class AutonomousCommand extends SequentialCommandGroup {
   /**
-   * Creates a new AutonomousCommand.
+   * Creates a new Autonomous.
    */
-  Trajectory exampleTrajectory;
-  Drive m_drive;
-  public AutonomousCommand(Drive subsystem) {
+  DriveSubsystem m_drive;
+  public AutonomousCommand(DriveSubsystem subsystem) {
     m_drive = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-
+    // Add your commands in the super() call, e.g.
+    // super(new FooCommand(), new BarCommand());
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.ksVolts,
@@ -60,32 +57,56 @@ public class AutonomousCommand extends CommandBase {
       // Apply the voltage constraint
       .addConstraint(autoVoltageConstraint);
 
-     exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+  Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(),
         //new Translation2d(1, 2)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(2, -2, new Rotation2d(270)),
+        new Pose2d(1, -1, new Rotation2d(270)),
         // Pass config
         config);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-        
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    RamseteCommand ramseteCommand1 = new RamseteCommand(
+        trajectory1,
+        m_drive::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.ksVolts,
+                                   Constants.kvVoltSecondsPerMeter,
+                                   Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics,
+        m_drive::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_drive::tankDriveVolts,
+        m_drive
+    );
+    Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing the +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(),
+        //new Translation2d(1, 2)),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(2, 1, new Rotation2d(270)),
+        // Pass config
+        config);
+     RamseteCommand ramseteCommand2 = new RamseteCommand(
+        trajectory2,
+        m_drive::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.ksVolts,
+                                   Constants.kvVoltSecondsPerMeter,
+                                   Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics,
+        m_drive::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_drive::tankDriveVolts,
+        m_drive
+    );
+    addCommands(ramseteCommand1,new WaitCommand(5), ramseteCommand2);
   }
 }
