@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -20,13 +20,14 @@ public class DriveCommand extends CommandBase {
 
   //-------- DECLARATIONS --------\\
 
-  private final Drive driveSubsystem;
+  private final DriveSubsystem driveSubsystem;
   private final Joystick m_driveStick;
   private double prevX;
   private double prevY;
+
   //-------- CONSTRUCTOR --------\\
 
-  public DriveCommand(Drive dSubsystem,Joystick driverStick) {
+  public DriveCommand(DriveSubsystem dSubsystem,Joystick driverStick) {
     driveSubsystem = dSubsystem;
     m_driveStick = driverStick;
     addRequirements(dSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
@@ -43,7 +44,6 @@ public class DriveCommand extends CommandBase {
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {  
-
     run(m_driveStick.getRawAxis(Constants.AXIS_RIGHT_X), m_driveStick.getRawAxis(Constants.AXIS_LEFT_Y));
   }
 
@@ -61,32 +61,74 @@ public class DriveCommand extends CommandBase {
   
 
   //-------- METHODS --------\\
-  private double inter(double v1,double v2, double t){
-    return(1-t) * v1 + t * v2;
+  private double lerp(double v0,double v1, double t){
+    return (1 - t) * v0 + t * v1;
   }
+
   private void run(double stickX, double stickY) {
-    System.out.println("RUN");
-    // Cubing values to create smoother function
-    //stickX = -Math.pow(stickX, 3);
-    //stickY = Math.pow(stickY, 3);
+
+    //-----------------------------------------------------------------CUBING
     
-    stickX = inter(prevX, stickX, 0.1);
-    stickY = inter(prevY, stickY, 0.1);
+
+    // Cubing values to create smoother function
+  
+    stickX = -Math.pow(stickX, 3);
+    stickY = Math.pow(stickY, 3);
     stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
-    // Joystick deadband
+
     if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-      System.out.println("Dead band");
       stickX = 0;
     }
+
     if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-      System.out.println("Dead band");
       stickY = 0;
     }
 
     // Arcade drive
     driveSubsystem.runAt((stickY + stickX), -(stickY - stickX));
+    
+    //-----------------------------------------------------------------CUBING
+
+    /*
+    // Joystick deadband
+    if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
+      //System.out.println("Dead band");
+      stickX = 0;
+    }
+
+    if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
+     // System.out.println("Dead band");
+      stickY = 0;
+    }
+    
+    //stickX = -lerp(prevX, stickX, 1);
+    stickX = -Math.pow(stickX, 3);
+    stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
+
+    stickY = lerp(prevY, stickY, 0.07);
+
     prevX = stickX;
     prevY = stickY;
+
+    driveSubsystem.runAt((stickY + stickX), -(stickY - stickX));
+
+    */
+    
+    //stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
+    
+    /*
+    if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
+      //System.out.println("Dead band");
+      stickX = 0;
+    }
+    if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
+     // System.out.println("Dead band");
+      stickY = 0;
+    }
+    */
+     
+    
+
 
   } //End of method run()
 

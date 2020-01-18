@@ -1,0 +1,9 @@
+[
+  {
+    "artifact": "frcJava (in project CommandTest)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "CommandTest",
+    "language": "java"
+  }
+]

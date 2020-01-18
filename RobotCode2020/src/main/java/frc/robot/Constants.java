@@ -59,7 +59,8 @@ public final class Constants {
         
         // DRIVETRAIN Constants --------------------------------]
     
-        public static final double DRIVE_DEADBAND_JOYSTICK = 0.000124;
+        //public static final double DRIVE_DEADBAND_JOYSTICK = 0.1;
+        public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
         public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
         
         // DRIVETRAIN Constants --------------------------------]

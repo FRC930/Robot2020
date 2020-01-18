@@ -14,10 +14,9 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutonomousCommand;
 
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.DriveSubsystem;
 
 import java.util.List;
-import frc.robot.commands.Autonomous;
 
 
 /**
@@ -29,9 +28,9 @@ import frc.robot.commands.Autonomous;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drive m_drive;
+  private final DriveSubsystem m_drive;
   private final DriveCommand driveCommand;
-  private final Autonomous autoCommand;
+  private final AutonomousCommand autoCommand;
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
   /**
@@ -39,11 +38,12 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    m_drive = new Drive();
-    autoCommand = new Autonomous(m_drive);
+    m_drive = new DriveSubsystem();
+    autoCommand = new AutonomousCommand(m_drive);
     driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
     coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
-    driveCommand = new DriveCommand(m_drive,driverJoystick);
+    
+    driveCommand = new DriveCommand(m_drive, driverJoystick);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -63,7 +63,7 @@ public class RobotContainer {
     //   m_drive.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
     //}
     // , m_drive));
-    CommandScheduler.getInstance().setDefaultCommand(m_drive,driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(m_drive, driveCommand);
   }
 
   /**
