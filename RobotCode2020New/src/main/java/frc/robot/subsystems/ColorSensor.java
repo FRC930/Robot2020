@@ -89,9 +89,6 @@ public class ColorSensor extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-<<<<<<< HEAD
-    ColorSensorData.getColor();
-=======
     
       // Returns the color values from the sensors
       color = Sensor.getColor();
@@ -114,6 +111,5 @@ public class ColorSensor extends SubsystemBase {
 
       // Outputs the color returned from the sensor
       System.out.println("matching color:" + colorResult(color));
->>>>>>> e43719afa7d3b8bfc548e4d75f65c56f2d505e17
     }
   }
