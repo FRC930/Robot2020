@@ -6,13 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Joystick;
 
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.AutonomousCommand;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+
+import java.util.List;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -21,55 +26,45 @@ import edu.wpi.first.wpilibj2.command.Command;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-  //-------- CONSTANTS --------\\
-
-   //--Button Mapping        //Refer to http://team358.org/files/programming/ControlSystem2009-/XBoxControlMapping.jpg
-   private final int AXIS_LEFT_X = 0;
-   private final int AXIS_LEFT_Y = 1;
-   private final int AXIS_RIGHT_X = 4;
-   private final int AXIS_RIGHT_Y = 5;
-   private final int AXIS_LT = 2;
-   private final int AXIS_RT = 3;
-
-   //--Ports
-   private final int CODRIVER_CONTROLLER_ID = 1;
-   private final int DRIVER_CONTROLLER_ID = 0;
-
-   //--Deadbands
-   private final double TRIGGER_PRESSED_THRESHOLD = 0.4;
-
-  //-------- DECLARATIONS --------\\
-
-  private Joystick driver;
-  private Joystick coDriver;
-
-  //-------- SUBSYSTEMS --------\\
-
-    //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  //-------- COMMANDS --------\\
-
-    //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  //-------- CONSTRUCTOR ---------\\
-
+  // The robot's subsystems and commands are defined here...
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final DriveSubsystem m_drive;
+  private final DriveCommand driveCommand;
+  private final AutonomousCommand autoCommand;
+  private Joystick driverJoystick;
+  private Joystick coDriverJoystick;
+  /**
+   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
-
-    driver = new Joystick(DRIVER_CONTROLLER_ID);
-    coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
-
+    // Configure the button bindings
+    m_drive = new DriveSubsystem();
+    autoCommand = new AutonomousCommand(m_drive);
+    driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
+    coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
+    
+    driveCommand = new DriveCommand(m_drive, driverJoystick);
     // Configure the button bindings
     configureButtonBindings();
   }
 
-  //-------- METHODS --------\\
-
-  //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
+  /**
+   * Use this method to define your button->command mappings.  Buttons can be created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
   private void configureButtonBindings() {
-    
+    beginRunCommands();
   }
-
+  private void beginRunCommands() {
+      
+    //CommandScheduler.getInstance().setDefaultCommand(m_drive, new RunCommand(() -> {
+    //   m_drive.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
+    //}
+    // , m_drive));
+    CommandScheduler.getInstance().setDefaultCommand(m_drive, driveCommand);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -77,7 +72,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;//m_autoCommand;
+    System.out.println("Command");
+    return autoCommand;
+    
+    //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+    // Run path following command, then stop at the end.
   }
 }
