@@ -51,17 +51,27 @@ public class DriveSubsystem extends SubsystemBase {
       m_rightEncoder.reset();
       m_leftEncoder.reset();
       m_rightEncoder.setReverseDirection(false);
-      m_leftEncoder.setReverseDirection(false);
-      
-        
+      m_leftEncoder.setReverseDirection(false);  
+    }
+
+    public DriveSubsystem(CANSparkMax Left1, CANSparkMax Left2, CANSparkMax Left3, CANSparkMax Right1,
+    CANSparkMax Right2, CANSparkMax Right3, Encoder m_RightEncoder, Encoder m_LeftEncoder, TalonSRX Gyrotalon, PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry) {
+      setTalon(Gyrotalon);
+      setMotorsAndSensors(Left1,Left2,Left3,Right1,Right2,Right3,m_RightEncoder,m_LeftEncoder,m_Gyro,m_Odometry);
+      m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_rightEncoder.reset();
+      m_leftEncoder.reset();
+      m_rightEncoder.setReverseDirection(false);
+      m_leftEncoder.setReverseDirection(false);  
     }
 
     //-------- METHODS --------\\
-    public void setTalon(TalonSRX GyroTalon){
+    private void setTalon(TalonSRX GyroTalon){
       gyroTalon = GyroTalon;
     }
-    
-    public void setMotorsAndSensors() {
+
+    private void setMotorsAndSensors() {
       setMotorsAndSensors(new CANSparkMax(1, MotorType.kBrushless),
             new CANSparkMax(2, MotorType.kBrushless),
             new CANSparkMax(3, MotorType.kBrushless),
