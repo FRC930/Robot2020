@@ -12,12 +12,12 @@ import frc.robot.utilities.ShooterMath;
  * calculations returned from the math class
  * </p>
  */
-public class ShooterVelocity extends CommandBase {
+public class ShooterVelocityCommand extends CommandBase {
 
     private ShooterSubsystem m_ShooterSubsystem;
     private ShooterMath math = new ShooterMath();
 
-    public ShooterVelocity(ShooterSubsystem shooterSubsystem, boolean solenoidStatus) {
+    public ShooterVelocityCommand(ShooterSubsystem shooterSubsystem, boolean solenoidStatus) {
         m_ShooterSubsystem = shooterSubsystem;
         addRequirements(m_ShooterSubsystem);
     }
