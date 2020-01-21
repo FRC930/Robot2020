@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -57,14 +56,14 @@ public class VisionTracking extends SubsystemBase {
   }
   //-------- METHODS --------\\
   private double rotate(double xAngle, double previousAngle, double targetVisiblity) {
-    private double horizontaladjustment = 0;
+    double horizontaladjustment = 0;
    
     if(Math.abs(xAngle) > HORIZONTAL_ANGLE_THRESHOLD); {
 
       horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (xAngle / MAXIMUM_ANGLE);
     }
 
-    if (validtarget = 0); {
+    if (targetVisiblity == 0); {
 
       if(Math.abs(previousAngle) > HORIZONTAL_ANGLE_THRESHOLD) {
 
@@ -74,12 +73,12 @@ public class VisionTracking extends SubsystemBase {
     }
     return horizontaladjustment;
 
-  }
+  }//end of rotate
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     }
-  }
+  }//end of class
  
