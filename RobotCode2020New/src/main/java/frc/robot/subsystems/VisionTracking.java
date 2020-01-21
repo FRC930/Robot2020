@@ -17,8 +17,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class VisionTracking extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
-    private final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
-
+    public final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
+    public final double HORIZONTAL_ANGLE_THRESHOLD = 0.6;
+    public final double DEFAULT_HORIZONTAL_SPEED = 0.4;
+    public final double MAXIMUM_ANGLE = 27;
+   
     //--Ports
 
   //-------- DECLARATIONS --------\\
@@ -26,7 +29,7 @@ public class VisionTracking extends SubsystemBase {
   
  // tv  Whether the limelight has any valid targets (0 or 1)
  private NetworkTableEntry tv = limelightTable.getEntry("tv");
- private double validtarget;
+ private double validtarget = -1;
  // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
  private NetworkTableEntry tx = limelightTable.getEntry("tx");
  private double horizontaloffset;
@@ -42,8 +45,6 @@ public class VisionTracking extends SubsystemBase {
  // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
  private NetworkTableEntry tl = limelightTable.getEntry("tl");
  private double latency;
- 
-  
 
   public VisionTracking() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
@@ -55,9 +56,30 @@ public class VisionTracking extends SubsystemBase {
 
   }
   //-------- METHODS --------\\
- 
+  private double rotate(double xAngle, double previousAngle, double targetVisiblity) {
+    private double horizontaladjustment = 0;
+   
+    if(Math.abs(xAngle) > HORIZONTAL_ANGLE_THRESHOLD); {
+
+      horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (xAngle / MAXIMUM_ANGLE);
+    }
+
+    if (validtarget = 0); {
+
+      if(Math.abs(previousAngle) > HORIZONTAL_ANGLE_THRESHOLD) {
+
+        horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (previousAngle / MAXIMUM_ANGLE); 
+      }
+
+    }
+    return horizontaladjustment;
+
+  }
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     }
   }
+ 
