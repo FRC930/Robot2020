@@ -17,24 +17,31 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class VisionTracking extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
-    private final double If_You_See_This_Code_No_Work = 0.12345;
+    private final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
 
     //--Ports
 
   //-------- DECLARATIONS --------\\
+  private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
   
  // tv  Whether the limelight has any valid targets (0 or 1)
- private double tv;
+ private NetworkTableEntry tv = limelightTable.getEntry("tv");
+ private double validtarget;
  // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
- private double tx;
+ private NetworkTableEntry tx = limelightTable.getEntry("tx");
+ private double horizontaloffset;
  // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
- private double ty;
+ private NetworkTableEntry ty = limelightTable.getEntry("ty");
+ private double verticleoffset;
  // ta  Target Area (0% of image to 100% of image)
- private double ta;
+ private NetworkTableEntry ta = limelightTable.getEntry("ta");
+ private double percentofimage;
  // ts  Skew or rotation (-90 degrees to 0 degrees)
- private double ts;
+ private NetworkTableEntry ts = limelightTable.getEntry("ts");
+ private double skew;
  // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
- private double tl;
+ private NetworkTableEntry tl = limelightTable.getEntry("tl");
+ private double latency;
  
   
 
@@ -48,19 +55,7 @@ public class VisionTracking extends SubsystemBase {
 
   }
   //-------- METHODS --------\\
- // Whether the limelight has any valid targets (0 or 1) 
- NetworkTableEntry tv = double.getEntry("tv");
- // Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees) 
- NetworkTableEntry tx = double.getEntry("tx");
- // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees) 
- NetworkTableEntry ty = double.getEntry("ty");
- // Target Area (0% of image to 100% of image) 
- NetworkTableEntry ta = double.getEntry("ta");
- // Skew or rotation (-90 degrees to 0 degrees) 
- NetworkTableEntry ts = double.getEntry("ts");
- // The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency. 
- NetworkTableEntry tl = double.getEntry("tl");
-
+ 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
