@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -46,6 +45,9 @@ public class VisionTracking extends SubsystemBase {
  private NetworkTableEntry tl = limelightTable.getEntry("tl");
  private double latency;
 
+ private double leftMovement = 0.0;
+ private double rightMovement = 0.0;
+
   public VisionTracking() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -82,4 +84,3 @@ public class VisionTracking extends SubsystemBase {
     // This method will be called once per scheduler run
     }
   }
- 
