@@ -26,8 +26,12 @@ public final class Constants {
     public static final double KAVOLT = 0.06; //this is in seconds squared per meter
     public static final double KMAXSPEED = 1; //in meters per second
     public static final double KMAXACCELERATION = 3; //in meters per seconds squared
+    
+    //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;
+    
+    //Track width of our robot
     public static final double KTRACKWIDTH = 0.69; //in meters
     public static final double KPDRIVEVEL = 1;
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
@@ -62,7 +66,9 @@ public final class Constants {
         // DRIVETRAIN Constants --------------------------------]
     
         //public static final double DRIVE_DEADBAND_JOYSTICK = 0.1;
+        //cubbed deadband so it is super low 
         public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
+        //turning is made smoother
         public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
         
         // DRIVETRAIN Constants --------------------------------]

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.AutonomousCommand;
+//import frc.robot.commands.AutonomousCommand;
 
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -30,7 +30,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveSubsystem m_drive;
   private final DriveCommand driveCommand;
-  private final AutonomousCommand autoCommand;
+  //private final AutonomousCommand autoCommand;
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
   /**
@@ -39,7 +39,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     m_drive = new DriveSubsystem();
-    autoCommand = new AutonomousCommand(m_drive);
+    //autoCommand = new AutonomousCommand(m_drive);
     driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
     coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
     
@@ -73,8 +73,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     System.out.println("Command");
-    return autoCommand;
-    
+    //return autoCommand;
+    return null;
     //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
     // Run path following command, then stop at the end.
   }
