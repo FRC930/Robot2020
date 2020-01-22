@@ -9,32 +9,39 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 /**
  * <h2>TurretSubsystem
  * 
- * <p>TurretSubsystem is a PID subsystem that controls the rotation of the turret
+ * <p>
+ * TurretSubsystem is a PID subsystem that controls the rotation of the turret
  */
 public class TurretSubsystem extends PIDSubsystem {
     /**
      * The motor controller that will control the turret rotation
      */
     private CANSparkMax controller;
+    private double angle;
 
     /**
-     * <p>Use this constructor to initialize the PID controller to a default controller
-     * <p>This constructor also calls {@link #setHardware() setHardware}
+     * <p>
+     * Use this constructor to initialize the PID controller to a default controller
+     * <p>
+     * This constructor also calls {@link #setHardware() setHardware}
      */
     public TurretSubsystem() {
         // TODO: Figure out values for PID controller
         super(new PIDController(0, 0, 0));
         getController().setTolerance(1 /* Figure out the tolerance */);
         setSetpoint(0 /* Figure out the set-point */);
+        this.angle = 0;
     }
 
     /**
-     * Use this controller to initialize the PID controller to a specified controller
+     * Use this controller to initialize the PID controller to a specified
+     * controller
      * 
      * @param controller is a PIDController that will control the turret
      */
     public TurretSubsystem(PIDController controller) {
         super(controller);
+        this.angle = 0;
     }
 
     /**
@@ -55,25 +62,40 @@ public class TurretSubsystem extends PIDSubsystem {
     }
 
     /**
-     * This method sets the motor controller speed to the output of the PID controller 
+     * The angle should be in degrees
      * 
-     * @param output the output that the PID controller sends
-     * @param setPoint is the value that the PID controller is trying to accomplishd
+     * @param angle is the angle that the turret is off the setpoint 
      */
-    @Override
-    protected void useOutput(double output, double setPoint) {
-        // TODO: Check this. Could need to be negative output
-        controller.set(output);
+    public void setMeasurement(double angle) {
+        this.angle = angle;
     }
 
     /**
-     * This method returns the measurement that the PID controller will use to try to achieve the setpoint
+     * This method sets the motor controller speed to the output of the PID
+     * controller
+     * 
+     * @param output   the output that the PID controller sends
+     * @param setPoint is the value that the PID controller is trying to accomplish
+     */
+    @Override
+    protected void useOutput(double output, double setPoint) {
+        if (output > 1) {
+            controller.set(1);
+        } else if (output < -1) {
+            controller.set(-1);
+        } else {
+            controller.set(output);
+        }
+    }
+
+    /**
+     * This method returns the measurement that the PID controller will use to try
+     * to achieve the setpoint
      * 
      * @return the measurement given from the LimeLight
      */
     @Override
     protected double getMeasurement() {
-        // TODO: Talk to Andrew's subteam to get the angle value from the LimeLight
-        return 0 /* LimeLight get angle */;
+        return this.angle;
     }
 }
