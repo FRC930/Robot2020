@@ -13,11 +13,12 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
-interface Distance {
+/*interface Distance {implements Distance
   public void headOn();
   public void angled();
 }
-public class VisionTracking extends SubsystemBase implements Distance {
+*/
+public class VisionTracking extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
     public final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
