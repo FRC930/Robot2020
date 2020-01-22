@@ -59,14 +59,14 @@ public class VisionTracking extends SubsystemBase {
   }
   //-------- METHODS --------\\
   private double rotate(double xAngle, double previousAngle, double targetVisiblity) {
-    double horizontaladjustment = 0;
+    private double horizontaladjustment = 0;
    
     if(Math.abs(xAngle) > HORIZONTAL_ANGLE_THRESHOLD); {
 
       horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (xAngle / MAXIMUM_ANGLE);
     }
 
-    if (targetVisiblity == 0); {
+    if (validtarget = 0); {
 
       if(Math.abs(previousAngle) > HORIZONTAL_ANGLE_THRESHOLD) {
 
@@ -76,16 +76,10 @@ public class VisionTracking extends SubsystemBase {
     }
     return horizontaladjustment;
 
-  }//end of rotate
-
-
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     }
-<<<<<<< HEAD
   }
-=======
-  }//end of class
- 
->>>>>>> fb45d7a2909c8157ceb7f410742112a6e43a2c18
