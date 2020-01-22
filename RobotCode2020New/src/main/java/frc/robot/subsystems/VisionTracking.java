@@ -13,7 +13,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
-public class VisionTracking extends SubsystemBase {
+interface Distance {
+  public void headOn();
+  public void angled();
+}
+public class VisionTracking extends SubsystemBase implements Distance {
 
   //-------- CONSTANTS --------\\
     public final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
@@ -34,20 +38,19 @@ public class VisionTracking extends SubsystemBase {
  private double horizontaloffset = tx.getDouble(0.12345);
  // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
  private NetworkTableEntry ty = limelightTable.getEntry("ty");
- private double verticleoffset;
+ private double verticleoffset = ty.getDouble(0.12345);
  // ta  Target Area (0% of image to 100% of image)
  private NetworkTableEntry ta = limelightTable.getEntry("ta");
- private double percentofimage;
+ private double percentofimage = ta.getDouble(0.12345);
  // ts  Skew or rotation (-90 degrees to 0 degrees)
  private NetworkTableEntry ts = limelightTable.getEntry("ts");
- private double skew;
+ private double skew = ts.getDouble(0.12345);
  // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
  private NetworkTableEntry tl = limelightTable.getEntry("tl");
- private double latency;
-
- private double leftMovement = 0.0;
- private double rightMovement = 0.0;
-
+ private double latency = tl.getDouble(0.12345);
+ private int Distance;
+ /*Head-on equation is y = 1.01717625x + 8.02978
+ Angled equation is y = 9.3065108x - 14.8083 */
   public VisionTracking() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -58,33 +61,31 @@ public class VisionTracking extends SubsystemBase {
 
   }
   //-------- METHODS --------\\
-  public double rotate(double xAngle, double previousAngle, double targetVisiblity) {
-    private double horizontaladjustment = 0;
-   
-    if(Math.abs(xAngle) > HORIZONTAL_ANGLE_THRESHOLD); {
-
-      horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (xAngle / MAXIMUM_ANGLE);
-    }
-
-    if (validtarget = 0); {
-
-      if(Math.abs(previousAngle) > HORIZONTAL_ANGLE_THRESHOLD) {
-
-        horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (previousAngle / MAXIMUM_ANGLE); 
-      }
-
-    }
-    return horizontaladjustment;
-
-  }
+  
   public double getHorizontalOffset(){
+    horizontaloffset = tx.getDouble(0.12345);
     return horizontaloffset;
   }
+  public double getDistance(){
 
+    return 0.0;
+  }
   public double getValidTargets(){
+    validtarget = tv.getDouble(0.12345);
     return validtarget;
   }
+  public double getVerticleOffset(){
+    verticleoffset = ty.getDouble(0.12345);
+    return verticleoffset;
+  }
+  public double previousXAngle() {
 
+    return 0.0;
+  }
+  public double previousYAngle() {
+    
+    return 0.0;
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -33,6 +33,25 @@ public class RotateCommand extends CommandBase {
 
   //-------- COMMANDBASE METHODS --------\\
 
+  public double rotate(double xAngle, double previousAngle, double targetVisiblity) {
+    private double horizontaladjustment = 0;
+   
+    if(Math.abs(xAngle) > HORIZONTAL_ANGLE_THRESHOLD); {
+
+      horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (xAngle / MAXIMUM_ANGLE);
+    }
+
+    if (validtarget = 0); {
+
+      if(Math.abs(previousAngle) > HORIZONTAL_ANGLE_THRESHOLD) {
+
+        horizontaladjustment = DEFAULT_HORIZONTAL_SPEED * (previousAngle / MAXIMUM_ANGLE); 
+      }
+
+    }
+    return horizontaladjustment;
+
+  }
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
