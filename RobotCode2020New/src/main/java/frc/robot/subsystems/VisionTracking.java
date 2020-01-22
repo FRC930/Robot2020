@@ -28,10 +28,10 @@ public class VisionTracking extends SubsystemBase {
   
  // tv  Whether the limelight has any valid targets (0 or 1)
  private NetworkTableEntry tv = limelightTable.getEntry("tv");
- private double validtarget = -1;
+ private double validtarget = tv.getDouble(0.12345);
  // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
  private NetworkTableEntry tx = limelightTable.getEntry("tx");
- private double horizontaloffset;
+ private double horizontaloffset = tx.getDouble(0.12345);
  // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
  private NetworkTableEntry ty = limelightTable.getEntry("ty");
  private double verticleoffset;
@@ -58,7 +58,7 @@ public class VisionTracking extends SubsystemBase {
 
   }
   //-------- METHODS --------\\
-  private double rotate(double xAngle, double previousAngle, double targetVisiblity) {
+  public double rotate(double xAngle, double previousAngle, double targetVisiblity) {
     private double horizontaladjustment = 0;
    
     if(Math.abs(xAngle) > HORIZONTAL_ANGLE_THRESHOLD); {
@@ -77,7 +77,14 @@ public class VisionTracking extends SubsystemBase {
     return horizontaladjustment;
 
   }
-  
+  public double getHorizontalOffset(){
+    return horizontaloffset;
+  }
+
+  public double getValidTargets(){
+    return validtarget;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

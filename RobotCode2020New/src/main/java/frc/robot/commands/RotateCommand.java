@@ -36,8 +36,6 @@ public class RotateCommand extends CommandBase {
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-    prevX = 0.0;
-    prevY = 0.0;
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
@@ -84,43 +82,6 @@ public class RotateCommand extends CommandBase {
 
     // Arcade drive
     driveSubsystem.runAt((stickY + stickX), -(stickY - stickX));
-    
-    //-----------------------------------------------------------------CUBING
-
-    /*
-    // Joystick deadband
-    if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-      //System.out.println("Dead band");
-      stickX = 0;
-    }
-    if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-     // System.out.println("Dead band");
-      stickY = 0;
-    }
-    
-    //stickX = -lerp(prevX, stickX, 1);
-    stickX = -Math.pow(stickX, 3);
-    stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
-    stickY = lerp(prevY, stickY, 0.07);
-    prevX = stickX;
-    prevY = stickY;
-    driveSubsystem.runAt((stickY + stickX), -(stickY - stickX));
-    */
-    
-    //stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
-    
-    /*
-    if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-      //System.out.println("Dead band");
-      stickX = 0;
-    }
-    if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-     // System.out.println("Dead band");
-      stickY = 0;
-    }
-    */
-     
-    
 
 
   } //End of method run()
