@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ColorSensor2;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.util.Color;
@@ -30,8 +31,10 @@ public class GetColorCommand extends CommandBase {
   private Color color;
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ColorSensor2 m_subsystem;
-  private String lastColor = null;
-  
+  private String lastColor = "";
+  ColorMatch colorMatch = new ColorMatch();
+  ColorMatchResult match;
+
 
   /**
    * Creates a new ExampleCommand.
@@ -47,6 +50,7 @@ public class GetColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -55,16 +59,15 @@ public class GetColorCommand extends CommandBase {
 
     // This method will be called once per scheduler run
 
-    
       // Returns the color values from the sensors
       color = m_subsystem.getSensorColor();
       String colorString = getNearestColor(color);
-
+      System.out.println("Color: " + color.toString());
       // Outputs the color returned from the sensor
-      if (lastColor == null || !colorString.equals(lastColor)){
-        System.out.println("matching color:" + getNearestColor(color));
+      //if (lastColor == "" || !colorString.equals(lastColor)){
+        System.out.println("matching color:" + colorString);
         lastColor = colorString;
-      }
+      //}
       //System.out.println("matching color:" + getNearestColor(color));
       
   }
@@ -84,8 +87,7 @@ public class GetColorCommand extends CommandBase {
     // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
     // Creates a ColorMatch object that finds and manages distance/difference between colors
 
-    ColorMatch colorMatch = new ColorMatch();
-    ColorMatchResult match = colorMatch.matchClosestColor(c);
+    match = colorMatch.matchClosestColor(c);
 
     // Checks the values and matches it to one of the colors below
     if (match.color == kBlueTarget) {

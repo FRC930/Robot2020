@@ -25,7 +25,7 @@ public class ColorSensor2 extends SubsystemBase {
 
   // Creates the port value for the color sensor on the roboRIO
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  
+
   // Creates the I2C color sensor
   private ColorSensorV3 Sensor = new ColorSensorV3(i2cPort);
 
