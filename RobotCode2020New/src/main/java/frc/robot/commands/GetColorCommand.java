@@ -7,12 +7,9 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ColorSensor;
-import frc.robot.subsystems.ExampleSubsystem;
-
+import frc.robot.subsystems.ColorSensor2;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
-
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.ColorShim;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,15 +24,21 @@ public class GetColorCommand extends CommandBase {
   private final Color kGreenTarget = new ColorShim(0.197, 0.561, 0.240);
   private final Color kRedTarget = new ColorShim(0.561, 0.232, 0.114);
   private final Color kYellowTarget = new ColorShim(0.361, 0.524, 0.113);
+
+  //-------- DECLARATIONS --------\\
+  // Sets 
+  private Color color;
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ColorSensor m_subsystem;
+  private final ColorSensor2 m_subsystem;
+  private String lastColor = null;
+  
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public GetColorCommand(ColorSensor subsystem) {
+  public GetColorCommand(ColorSensor2 subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -52,18 +55,18 @@ public class GetColorCommand extends CommandBase {
 
     // This method will be called once per scheduler run
 
-    /*
+    
       // Returns the color values from the sensors
-      color = m_subsystem.getColor();
-      String colorString = colorResult(color);
+      color = m_subsystem.getSensorColor();
+      String colorString = getNearestColor(color);
 
       // Outputs the color returned from the sensor
       if (lastColor == null || !colorString.equals(lastColor)){
-        System.out.println("matching color:" + colorString);
+        System.out.println("matching color:" + getNearestColor(color));
         lastColor = colorString;
       }
-      //System.out.println("matching color:" + colorResult(color));
-      */
+      //System.out.println("matching color:" + getNearestColor(color));
+      
   }
 
   // Called once the command ends or is interrupted.
