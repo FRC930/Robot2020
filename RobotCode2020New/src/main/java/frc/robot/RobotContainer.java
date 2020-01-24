@@ -46,9 +46,9 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
-    //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-    //private final ColorSensor m_ColorSensor = new ColorSensor();
-    private final ColorSensor1 m_ColorSensor = new ColorSensor1();
+    // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    private final ColorSensor m_ColorSensor = new ColorSensor();
+    //private final ColorSensor1 m_ColorSensor = new ColorSensor1();
 
   //-------- COMMANDS --------\\
 
