@@ -6,22 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-import edu.wpi.first.wpilibj2.command.*;
+
 import edu.wpi.first.wpilibj.Joystick;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutonomousCommand;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-
-import java.util.List;
-
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -81,7 +74,7 @@ public class RobotContainer {
   }
   
   private void beginRunCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(m_drive, driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
   }
 
   /**

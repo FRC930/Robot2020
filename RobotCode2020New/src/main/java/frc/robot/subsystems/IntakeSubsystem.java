@@ -55,11 +55,13 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public double getMotorSpeed() {
-        intakeMotorController.get();
+        //return intakeMotorController.get(); //TODO: Fix me
+        return 0.0;
     }
 
     public void setIntakePiston(boolean state) {
-        (state) ? hatchPiston.set(Value.kForward) : hatchPiston.set(Value.kReverse);
+        //TODO: Fix me
+        //(state) ? intakePistonController.set(Value.kForward) : intakePistonController.set(Value.kReverse);
     }
 
     @Override
