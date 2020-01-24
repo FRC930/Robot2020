@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 //-------- SUBSYSTEM IMPORT --------\\
@@ -65,6 +66,8 @@ public class RobotContainer {
 
   //-------- COMMANDS --------\\
 
+  private final JoystickTurret m_JoystickTurret;
+
     //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   //-------- CONSTRUCTOR ---------\\
@@ -75,8 +78,10 @@ public class RobotContainer {
     coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
 
     // Configure the button bindings
-    configureButtonBindings();
+    //configureButtonBindings();
 
+    m_JoystickTurret = new JoystickTurret(m_TurretSubsystem, driver);
+    CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_JoystickTurret);
   }
 
   //-------- METHODS --------\\
@@ -96,8 +101,6 @@ public class RobotContainer {
 
     a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
     b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
-    x_buttonDriver.whenPressed(new TurretSpeedCommand(m_TurretSubsystem, 0.5));
-    y_buttonDriver.whenPressed(new StopTurretCommand(m_TurretSubsystem));
 
     // codriver buttons and assignments
     final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
