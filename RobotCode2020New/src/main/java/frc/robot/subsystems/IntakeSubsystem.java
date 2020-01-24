@@ -58,12 +58,12 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotorController.get();
     }
 
-    public void setIntakePiston(boolean state){
+    public void setIntakePiston(boolean state) {
         (state) ? hatchPiston.set(Value.kForward) : hatchPiston.set(Value.kReverse);
     }
 
     @Override
     public void periodic() {
-    // This method will be called once per scheduler run
+        // This method will be called once per scheduler run
     }
 }
