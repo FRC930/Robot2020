@@ -85,7 +85,7 @@ public class RobotContainer {
     final JoystickButton back_buttonDriver = new JoystickButton(driver, 7);
     final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
 
-    a_buttonDriver.toggleWhenPressed(new RunShooter(m_ShooterSubsystem, 1.0));
+    a_buttonDriver.toggleWhenPressed(new RunShooterCommand(m_ShooterSubsystem, 1.0));
 
     // codriver buttons and assignments
     final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);

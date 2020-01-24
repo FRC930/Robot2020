@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -20,27 +22,26 @@ public class TurretSubsystem extends SubsystemBase {
     // The current speed of the motor
     private double speed;
     // The motor controller that will control the turret
-    private CANSparkMax mc;
+    private TalonSRX mc;
 
     /**
      * The default constructor
      */
     public TurretSubsystem() {
-        // TODO: Find out the device ID
-        this(new CANSparkMax(0, MotorType.kBrushless));
+        this(new TalonSRX(5));
     }
 
     /**
      * This constructor will allow the passing of a motor controller used for testing purposes
      */
-    public TurretSubsystem(CANSparkMax turret) {
+    public TurretSubsystem(TalonSRX turret) {
         this.speed = 0;
         this.mc = turret;
     }
 
     public void setSpeed(double motorSpeed) {
         this.speed = motorSpeed;
-        this.mc.set(this.speed);
+        this.mc.set(ControlMode.PercentOutput, 0);
     }
 
     public double getSpeed() {
