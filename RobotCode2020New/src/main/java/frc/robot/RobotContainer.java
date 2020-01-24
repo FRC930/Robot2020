@@ -6,18 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-import edu.wpi.first.wpilibj2.command.*;
+
 import edu.wpi.first.wpilibj.Joystick;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.AutonomousCommand;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-
-import java.util.List;
-
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,27 +23,45 @@ import java.util.List;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final DriveSubsystem m_drive;
-  private final DriveCommand driveCommand;
-  private final AutonomousCommand autoCommand;
+
+  //-------- CONSTANTS --------\\
+
+  //-------- DECLARATIONS --------\\
+
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
+
+  //-------- SUBSYSTEMS --------\\
+
+  private final DriveSubsystem driveSubsystem;
+
+  //-------- COMMANDS --------\\
+
+  private final DriveCommand driveCommand;
+  private final AutonomousCommand autoCommand;
+  
+  //-------- CONSTRUCTOR ---------\\
+
   public RobotContainer() {
-    // Configure the button bindings
-    m_drive = new DriveSubsystem();
-    autoCommand = new AutonomousCommand(m_drive);
+
+    //Controllers
     driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
     coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
-    
-    driveCommand = new DriveCommand(m_drive, driverJoystick);
+
+    //Subsystems
+    driveSubsystem = new DriveSubsystem();
+
+    //Commands
+    driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
+    autoCommand = new AutonomousCommand(driveSubsystem);
+
     // Configure the button bindings
+
+    beginRunCommands();
     configureButtonBindings();
   }
+
+  //-------- METHODS --------\\
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -57,13 +72,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     beginRunCommands();
   }
+  
   private void beginRunCommands() {
-      
-    //CommandScheduler.getInstance().setDefaultCommand(m_drive, new RunCommand(() -> {
-    //   m_drive.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
-    //}
-    // , m_drive));
-    CommandScheduler.getInstance().setDefaultCommand(m_drive, driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
   }
 
   /**

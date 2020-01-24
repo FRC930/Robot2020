@@ -9,26 +9,25 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Joystick;
 
-public class DriveCommand extends CommandBase {
+
+public class IntakeCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
   //-------- DECLARATIONS --------\\
 
-  private final DriveSubsystem driveSubsystem;
-  private final Joystick m_driveStick;
+  private final IntakeSubsystem intakeSubsystem;
 
   //-------- CONSTRUCTOR --------\\
 
-  public DriveCommand(DriveSubsystem dSubsystem, Joystick driverStick) {
-    driveSubsystem = dSubsystem;
-    m_driveStick = driverStick;
-    addRequirements(dSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
-  } 
+  public IntakeCommand(IntakeSubsystem iSubsystem) {
+    intakeSubsystem = iSubsystem;
+
+    addRequirements(iSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
+  }
 
   //-------- COMMANDBASE METHODS --------\\
 
@@ -39,7 +38,6 @@ public class DriveCommand extends CommandBase {
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {  
-
   }
 
   
@@ -47,38 +45,13 @@ public class DriveCommand extends CommandBase {
   public void end(boolean interrupted) {
   }
 
-
-  /*
-  //We comment out isFinished so we always have control of the drive and it gives contorl up easier
   
   @Override   // Returns true when the command should end.
   public boolean isFinished() {
-    return false;
+    return true;
   }
-  */
+  
 
   //-------- METHODS --------\\
-  private void run(double stickX, double stickY) {
-        
-    // Cubing values to create smoother function
 
-    stickX = -Math.pow(stickX, 3);
-    stickY = Math.pow(stickY, 3);
-    stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
-
-    // Joystick deadband
-    if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-      stickX = 0;
-    }
-
-    if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-      stickY = 0;
-    }
-
-    // Arcade drive
-    driveSubsystem.runAt((stickY + stickX), -(stickY - stickX));
-
-  } //End of method run()
-
-} //End of class DriveCommand
-
+} //End of class IntakeCommand
