@@ -61,6 +61,8 @@ public class RobotContainer {
     
     private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
 
+    private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
+
   //-------- COMMANDS --------\\
 
     //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -94,6 +96,8 @@ public class RobotContainer {
 
     a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
     b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
+    x_buttonDriver.whenPressed(new TurretSpeedCommand(m_TurretSubsystem, 0.5));
+    y_buttonDriver.whenPressed(new StopTurretCommand(m_TurretSubsystem));
 
     // codriver buttons and assignments
     final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);

@@ -6,18 +6,16 @@ import frc.robot.subsystems.TurretSubsystem;
 /**
  * TurretSpeedCommand is a temporary speed controller
  */
-public class TurretSpeedCommand extends CommandBase {
+public class StopTurretCommand extends CommandBase {
     private TurretSubsystem turret;
-    private double speed;
 
-    public TurretSpeedCommand(TurretSubsystem turret, double speed) {
+    public StopTurretCommand(TurretSubsystem turret) {
         this.turret = turret;
-        this.speed = speed;
     }
 
     @Override
     public void execute() {
-        turret.setSpeed(this.speed);
+        turret.setSpeed(0);
     }
 
     @Override

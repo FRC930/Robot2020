@@ -41,10 +41,14 @@ public class TurretSubsystem extends SubsystemBase {
 
     public void setSpeed(double motorSpeed) {
         this.speed = motorSpeed;
-        this.mc.set(ControlMode.PercentOutput, 0);
+        this.mc.set(ControlMode.PercentOutput, this.speed);
     }
 
     public double getSpeed() {
         return this.speed;
+    }
+
+    public void stop() {
+        this.mc.set(ControlMode.PercentOutput, 0);
     }
 }
