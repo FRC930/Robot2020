@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -48,11 +50,16 @@ public class RobotContainer {
     private Joystick driver;
     private Joystick coDriver;
 
+    private AddressableLED m_leds = new AddressableLED(0);
+    private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(50);
+
   //-------- SUBSYSTEMS --------\\
 
     //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     
     private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+    
+    private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
 
   //-------- COMMANDS --------\\
 
@@ -85,7 +92,8 @@ public class RobotContainer {
     final JoystickButton back_buttonDriver = new JoystickButton(driver, 7);
     final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
 
-    a_buttonDriver.toggleWhenPressed(new RunShooter(m_ShooterSubsystem, 1.0));
+    a_buttonDriver.whenPressed(new RunShooter(m_ShooterSubsystem, 0.7));
+    b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
 
     // codriver buttons and assignments
     final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
