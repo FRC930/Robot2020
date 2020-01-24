@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -31,6 +31,7 @@ public class RobotContainer {
    private final int AXIS_RIGHT_Y = 5;
    private final int AXIS_LT = 2;
    private final int AXIS_RT = 3;
+   private Joystick joystick = new Joystick(0);
 
    //--Ports
    private final int CODRIVER_CONTROLLER_ID = 1;
@@ -46,9 +47,15 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
+<<<<<<< HEAD
     // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     private final ColorSensor m_ColorSensor = new ColorSensor();
     //private final ColorSensor1 m_ColorSensor = new ColorSensor1();
+=======
+    //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    //private final ColorSensor m_ColorSensor = new ColorSensor();
+    private final ColorSensor2 m_ColorSensor2 = new ColorSensor2();
+>>>>>>> 93a181ee4320b4da10a1bbcf0508f16a2497ad43
 
   //-------- COMMANDS --------\\
 
@@ -56,7 +63,7 @@ public class RobotContainer {
 
   //-------- CONSTRUCTOR ---------\\
 
-  public RobotContainer() {
+  public RobotContainer(){
 
     driver = new Joystick(DRIVER_CONTROLLER_ID);
     coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
@@ -69,7 +76,8 @@ public class RobotContainer {
 
   //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
   private void configureButtonBindings() {
-    
+    final JoystickButton BUTTON_A = new JoystickButton(joystick, 1);
+    BUTTON_A.whenPressed(new GetColorCommand(m_ColorSensor2));
   }
 
 
