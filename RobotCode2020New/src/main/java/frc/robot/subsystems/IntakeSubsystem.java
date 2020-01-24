@@ -9,10 +9,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.Constants;
 
@@ -21,14 +20,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final int PISTON_FORWARD_CHANNEL = 0;
-    private final int PISTON_REVERSE_CHANNEL = 7;
-    private final int INTAKE_VICTORSPX_ID = 4;
+    private final int LEFT_PISTON_ID = 0;
+    private final int RIGHT_PISTON_ID = 1;
+    private final int INTAKE_TALONSRX_ID = 6;
 
     //-------- DECLARATIONS --------\\
 
-    private DoubleSolenoid intakePistonController;
-    private VictorSPX intakeMotorController; 
+    private Solenoid intakePistonRight;
+    private Solenoid intakePistonLeft;
+    private TalonSRX intakeMotorController; 
 
     //-------- CONSTRUCTOR --------\\
 
@@ -40,13 +40,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void setControllers() {
         setControllers(
-            new DoubleSolenoid(PISTON_FORWARD_CHANNEL, PISTON_REVERSE_CHANNEL),
-            new VictorSPX(INTAKE_VICTORSPX_ID)
+            new Solenoid(LEFT_PISTON_ID),
+            new Solenoid(RIGHT_PISTON_ID),
+            new TalonSRX(INTAKE_TALONSRX_ID)
         );
     }
 
-    public void setControllers(DoubleSolenoid pistonController, VictorSPX motorController) {
-        intakePistonController = pistonController;
+    public void setControllers(Solenoid pistonControllerRight, Solenoid pistonContollerLeft, TalonSRX motorController) {
+       intakePistonRight = pistonControllerRight;
+       intakePistonLeft = pistonContollerLeft;
         intakeMotorController = motorController;
     }
 
@@ -61,7 +63,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void setIntakePiston(boolean state) {
         //TODO: Fix me
-        //(state) ? intakePistonController.set(Value.kForward) : intakePistonController.set(Value.kReverse);
+        intakePistonLeft.set(state);
+        intakePistonRight.set(state);
     }
 
     @Override

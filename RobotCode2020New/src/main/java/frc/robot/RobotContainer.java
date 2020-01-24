@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.AutonomousCommand;
+//import frc.robot.commands.DriveCommand;
+//import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.IntakeCommand;
 
-import frc.robot.subsystems.DriveSubsystem;
-
+//import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -33,13 +34,14 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
-  private final DriveSubsystem driveSubsystem;
+  //private final DriveSubsystem driveSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
 
   //-------- COMMANDS --------\\
 
-  private final DriveCommand driveCommand;
-  private final AutonomousCommand autoCommand;
-  
+  //private final DriveCommand driveCommand;
+  //private final AutonomousCommand autoCommand;
+  private final IntakeCommand intakeCommand;
   //-------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
@@ -49,15 +51,16 @@ public class RobotContainer {
     coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
 
     //Subsystems
-    driveSubsystem = new DriveSubsystem();
-
+    //driveSubsystem = new DriveSubsystem();
+    intakeSubsystem = new IntakeSubsystem();
     //Commands
-    driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
-    autoCommand = new AutonomousCommand(driveSubsystem);
+    //driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
+    //autoCommand = new AutonomousCommand(driveSubsystem);
+    intakeCommand = new IntakeCommand(intakeSubsystem);
 
     // Configure the button bindings
 
-    beginRunCommands();
+    //beginRunCommands();
     configureButtonBindings();
   }
 
@@ -70,11 +73,14 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    beginRunCommands();
+    //beginRunCommands();
+    if (coDriverJoystick.getRawAxis(3) > 0.5){
+      intakeCommand.execute();
+    }
   }
   
   private void beginRunCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
+    //CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
   }
 
   /**
@@ -84,7 +90,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     System.out.println("Command");
-    return autoCommand;
+    return null;
     
     //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
     // Run path following command, then stop at the end.

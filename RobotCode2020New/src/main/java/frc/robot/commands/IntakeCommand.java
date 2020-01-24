@@ -37,7 +37,9 @@ public class IntakeCommand extends CommandBase {
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() {  
+  public void execute() { 
+    intakeSubsystem.setIntakePiston(true);
+    intakeSubsystem.setMotorSpeed(1.0);
   }
 
   
@@ -53,5 +55,4 @@ public class IntakeCommand extends CommandBase {
   
 
   //-------- METHODS --------\\
-
 } //End of class IntakeCommand
