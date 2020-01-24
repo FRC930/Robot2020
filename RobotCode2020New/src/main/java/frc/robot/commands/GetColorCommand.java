@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ColorSensor2;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.util.Color;
@@ -50,7 +49,10 @@ public class GetColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    colorMatch.addColorMatch(kYellowTarget);
+    colorMatch.addColorMatch(kBlueTarget);
+    colorMatch.addColorMatch(kGreenTarget);
+    colorMatch.addColorMatch(kRedTarget);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,12 +64,11 @@ public class GetColorCommand extends CommandBase {
       // Returns the color values from the sensors
       color = m_subsystem.getSensorColor();
       String colorString = getNearestColor(color);
-      System.out.println("Color: " + color.toString());
       // Outputs the color returned from the sensor
-      //if (lastColor == "" || !colorString.equals(lastColor)){
-        System.out.println("matching color:" + colorString);
+      if (!colorString.equals(lastColor)){
+        System.out.println("Matching color:" + colorString);
         lastColor = colorString;
-      //}
+      }
       //System.out.println("matching color:" + getNearestColor(color));
       
   }
@@ -86,9 +87,7 @@ public class GetColorCommand extends CommandBase {
   private String getNearestColor(Color c) {
     // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
     // Creates a ColorMatch object that finds and manages distance/difference between colors
-
     match = colorMatch.matchClosestColor(c);
-
     // Checks the values and matches it to one of the colors below
     if (match.color == kBlueTarget) {
       return "Blue";
