@@ -7,11 +7,11 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.ColorSensor2;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -47,15 +47,9 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
-<<<<<<< HEAD
-    // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-    private final ColorSensor m_ColorSensor = new ColorSensor();
-    //private final ColorSensor1 m_ColorSensor = new ColorSensor1();
-=======
     //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     //private final ColorSensor m_ColorSensor = new ColorSensor();
     private final ColorSensor2 m_ColorSensor2 = new ColorSensor2();
->>>>>>> 93a181ee4320b4da10a1bbcf0508f16a2497ad43
 
   //-------- COMMANDS --------\\
 

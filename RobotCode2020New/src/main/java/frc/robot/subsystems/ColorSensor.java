@@ -33,7 +33,7 @@ public class ColorSensor extends SubsystemBase {
   private final Color kRedTarget;
   private final Color kYellowTarget;
   private final Color kwhite;
-  private final Color kcyan;
+  private final Color kaqua;
   private String lastColor = null;
 
   // Creates a ColorMatch object that finds and manages distance/difference between colors
