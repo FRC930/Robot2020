@@ -13,24 +13,49 @@ import com.revrobotics.*;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+
 public class DriveSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
     //-------- DECLARATIONS --------\\
-    
+
+    private final Encoder m_rightEncoder = new Encoder(0,1);
+    private final Encoder m_leftEncoder = new Encoder(2,3);
+    private final TalonSRX gyroTalon = new TalonSRX(1);
+    private final PigeonIMU m_gyro = new PigeonIMU(gyroTalon);
+    private double values[] = new double[3];
+    private final DifferentialDriveOdometry m_odometry;
+ 
     private CANSparkMax left1;
     private CANSparkMax left2;
     private CANSparkMax left3;
-
     private CANSparkMax right1;
     private CANSparkMax right2;
     private CANSparkMax right3;
 
+    private DifferentialDrive m_drive;
+
     //-------- CONSTRUCTOR --------\\
 
     public DriveSubsystem() {
-        setMotorControllers();
+      m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+      m_rightEncoder.reset();
+      m_leftEncoder.reset();
+      m_rightEncoder.setReverseDirection(false);
+      m_leftEncoder.setReverseDirection(false);
+      setMotorControllers();
     }
 
     //-------- METHODS --------\\
@@ -60,6 +85,11 @@ public class DriveSubsystem extends SubsystemBase {
         left3.follow(left1);
         right2.follow(right1);
         right3.follow(right1);
+
+        left1.setOpenLoopRampRate(0.5);
+        right1.setOpenLoopRampRate(0.5);
+
+        m_drive = new DifferentialDrive(right1, left1);
     }
 
     // Given Arcade value arguments and sends to motor controllers
@@ -67,25 +97,6 @@ public class DriveSubsystem extends SubsystemBase {
         left1.set(leftSpeed);
         right1.set(rightSpeed);
     }
-
-    public void run(double stickX, double stickY) {
-
-        // Cubing values to create smoother function
-        stickX = -Math.pow(stickX, 3);
-        stickY = Math.pow(stickY, 3);
-        stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
-        // Joystick deadband
-        if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-            stickX = 0;
-        }
-        if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
-            stickY = 0;
-        }
-
-        // Arcade drive
-        runAt((stickY + stickX), -(stickY - stickX));
-
-      } //End of method run()
 
     // Returns left speed
     public double getLeftSpeed() {
@@ -96,7 +107,46 @@ public class DriveSubsystem extends SubsystemBase {
     public double getRightSpeed() {
         return right1.get();
     }
-    
+
+    public Pose2d getPose() {
+      return m_odometry.getPoseMeters();
+    }
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+      return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+    }
+    public double getHeading() {
+      m_gyro.getYawPitchRoll(values);
+      return Math.IEEEremainder(values[0], 360) * (false ? -1.0 : 1.0);
+    }
+    public void resetOdometry(Pose2d pose) {
+      resetEncoders();
+      m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    }
+    public void arcadeDrive(double fwd, double rot) {
+      m_drive.arcadeDrive(fwd, rot);
+    }
+    public void resetEncoders() {
+      m_leftEncoder.reset();
+      m_rightEncoder.reset();
+    }
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+      System.out.println("MOVING");
+      right1.setVoltage(leftVolts);
+      left1.setVoltage(-rightVolts);
+    }
+    public double getAverageEncoderDistance() {
+      return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
+    }
+    public Encoder getLeftEncoder() {
+      return m_leftEncoder;
+    }
+    public Encoder getRightEncoder() {
+      return m_rightEncoder;
+    }
+    public void setMaxOutput(double maxOutput) {
+      m_drive.setMaxOutput(maxOutput);
+    }
+
     @Override
     public void periodic() {
     // This method will be called once per scheduler run

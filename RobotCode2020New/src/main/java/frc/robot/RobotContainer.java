@@ -6,11 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Joystick;
 
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.AutonomousCommand;
+
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+
+import java.util.List;
+
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -33,28 +40,28 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
-  //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  //private final DriveSubsystem driveSubsystem;
   private final DriveSubsystem driveSubsystem;
 
   //-------- COMMANDS --------\\
 
   private final DriveCommand driveCommand;
-
-  //private final DriveCommand driveCommand;
-  //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  private final AutonomousCommand autoCommand;
+  
   //-------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
 
+    //Controllers
     driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
     coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
 
+    //Subsystems
     driveSubsystem = new DriveSubsystem();
 
+    //Commands
+    driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
+    autoCommand = new AutonomousCommand(driveSubsystem);
 
-    driveCommand = new DriveCommand(driveSubsystem);
     // Configure the button bindings
 
     beginRunCommands();
@@ -63,19 +70,19 @@ public class RobotContainer {
 
   //-------- METHODS --------\\
 
-  private void beginRunCommands() {
-      
-    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, new RunCommand(() -> {
-      driveSubsystem.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
-    }
-    , driveSubsystem));
-
-  }
-  //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
+  /**
+   * Use this method to define your button->command mappings.  Buttons can be created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
   private void configureButtonBindings() {
-
+    beginRunCommands();
   }
-
+  
+  private void beginRunCommands() {
+    CommandScheduler.getInstance().setDefaultCommand(m_drive, driveCommand);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -83,7 +90,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;//m_autoCommand;
+    System.out.println("Command");
+    return autoCommand;
+    
+    //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+    // Run path following command, then stop at the end.
   }
 }

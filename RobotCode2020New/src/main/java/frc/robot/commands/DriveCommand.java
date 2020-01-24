@@ -11,7 +11,7 @@ import frc.robot.Constants;
 
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import edu.wpi.first.wpilibj.Joystick;
 
 public class DriveCommand extends CommandBase {
 
@@ -20,14 +20,15 @@ public class DriveCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   private final DriveSubsystem driveSubsystem;
+  private final Joystick m_driveStick;
 
   //-------- CONSTRUCTOR --------\\
 
-  public DriveCommand(DriveSubsystem dSubsystem) {
+  public DriveCommand(DriveSubsystem dSubsystem, Joystick driverStick) {
     driveSubsystem = dSubsystem;
-
+    m_driveStick = driverStick;
     addRequirements(dSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
-  }
+  } 
 
   //-------- COMMANDBASE METHODS --------\\
 
@@ -38,6 +39,7 @@ public class DriveCommand extends CommandBase {
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {  
+
   }
 
   
@@ -45,7 +47,10 @@ public class DriveCommand extends CommandBase {
   public void end(boolean interrupted) {
   }
 
+
   /*
+  //We comment out isFinished so we always have control of the drive and it gives contorl up easier
+  
   @Override   // Returns true when the command should end.
   public boolean isFinished() {
     return false;
@@ -56,6 +61,7 @@ public class DriveCommand extends CommandBase {
   private void run(double stickX, double stickY) {
         
     // Cubing values to create smoother function
+
     stickX = -Math.pow(stickX, 3);
     stickY = Math.pow(stickY, 3);
     stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
@@ -64,6 +70,7 @@ public class DriveCommand extends CommandBase {
     if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
       stickX = 0;
     }
+
     if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
       stickY = 0;
     }
@@ -74,3 +81,4 @@ public class DriveCommand extends CommandBase {
   } //End of method run()
 
 } //End of class DriveCommand
+
