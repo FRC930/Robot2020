@@ -76,16 +76,26 @@ public class Robot extends TimedRobot {
     
     stick = new Joystick(0);
 
-    TalonFX leftMotor1 = new TalonFX(3);
+    //Master SpeedController objects that go into DifferentialDrive().
+    TalonFXSpeedController leftMotor1 = new TalonFXSpeedController(3);
+    TalonFXSpeedController rightMotor1 = new TalonFXSpeedController(1);
 
-    TalonFX rightMotor1 = new TalonFX(1);
+    //Slave SpeedController objects that follow the two Master SpeedControllers.
+    TalonFXSpeedController leftMotor2 = new TalonFXSpeedController(4);
+    TalonFXSpeedController rightMotor2 = new TalonFXSpeedController(2);
 
+    //left follows left, right follows right
+    leftMotor2.follow(leftMotor1);
+    rightMotor2.follow(rightMotor1);
+    /*
+    old code didnt work
     SpeedController[] leftMotors = new SpeedController[1];
     leftMotors[0] = new TalonFX(4);
 
     SpeedController[] rightMotors = new SpeedController[1];
     rightMotors[0] = new TalonFX(2);
-
+    end of old code
+    */
     //
     // Configure gyro
     //
@@ -97,10 +107,10 @@ public class Robot extends TimedRobot {
     // Configure drivetrain movement
     //
 
-    SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftMotor1, leftMotors);
-    SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightMotor1, rightMotors);
+    //SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftMotor1, leftMotors);
+    //SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightMotor1, rightMotors);
 
-    drive = new DifferentialDrive(leftGroup, rightGroup);
+    drive = new DifferentialDrive(leftMotor1, rightMotor1);
     drive.setDeadband(0);
 
 
