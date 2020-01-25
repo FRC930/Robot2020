@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.ColorSensor2;
 import edu.wpi.first.wpilibj.Joystick;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
@@ -33,6 +36,7 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
+  private final ColorSensor2 m_ColorSensor2 = new ColorSensor2();
 
   private final DriveSubsystem driveSubsystem;
 
@@ -44,7 +48,7 @@ public class RobotContainer {
   
   //-------- CONSTRUCTOR ---------\\
 
-  public RobotContainer() {
+  public RobotContainer(){
 
     //Controllers
     driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
