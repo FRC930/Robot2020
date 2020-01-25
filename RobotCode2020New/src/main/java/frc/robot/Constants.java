@@ -19,8 +19,8 @@ import java.util.logging.*;
  */
 public final class Constants {
 
-    //-------- LOGGER CONSTANTS --------\\
-    
+    //-------- GetColorCommand CONSTANTS --------\\
+
     // Sets the global logger level
     public static final Level LOG_LEVEL = Level.INFO;
 }

@@ -32,7 +32,7 @@ public class GetColorCommand extends CommandBase {
   private static final Logger logger = Logger.getLogger(GetColorCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
-  
+
   // Creates a Color object
   private Color color;
   // Counts how many times individual colors have passed
@@ -111,8 +111,7 @@ public class GetColorCommand extends CommandBase {
     logger.entering(getClass().getName(), "isFinished");
     logger.exiting(getClass().getName(), "isFinished");
     // Stops the code when the color has changed 24 times
-    //return colorCounter >= 24;
-    return false;
+    return colorCounter >= 24;
   }
 
   private String getNearestColor(Color c) {
