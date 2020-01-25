@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.*;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
@@ -22,12 +21,25 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-
 public class DriveSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
     //-------- DECLARATIONS --------\\
+    private final Encoder m_rightEncoder = new Encoder(0,1);
+    private final Encoder m_leftEncoder = new Encoder(2,3);
+    private final TalonSRX gyroTalon = new TalonSRX(1);
+    private final PigeonIMU m_gyro = new PigeonIMU(gyroTalon);
+    private double values[] = new double[3];
+    private final DifferentialDriveOdometry m_odometry;
+    
+    private CANSparkMax left1;
+    private CANSparkMax left2;
+    private CANSparkMax left3;
+    private DifferentialDrive m_drive;
+    private CANSparkMax right1;
+    private CANSparkMax right2;
+    private CANSparkMax right3;
 
     private final Encoder m_rightEncoder = new Encoder(0,1);
     private final Encoder m_leftEncoder = new Encoder(2,3);
