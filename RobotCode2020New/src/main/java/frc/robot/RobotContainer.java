@@ -12,7 +12,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.AutonomousCommand;
+
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -24,56 +29,59 @@ public class RobotContainer {
 
   //-------- CONSTANTS --------\\
 
-   //--Button Mapping        //Refer to http://team358.org/files/programming/ControlSystem2009-/XBoxControlMapping.jpg
-   private final int AXIS_LEFT_X = 0;
-   private final int AXIS_LEFT_Y = 1;
-   private final int AXIS_RIGHT_X = 4;
-   private final int AXIS_RIGHT_Y = 5;
-   private final int AXIS_LT = 2;
-   private final int AXIS_RT = 3;
-   private Joystick joystick = new Joystick(0);
-
-   //--Ports
-   private final int CODRIVER_CONTROLLER_ID = 1;
-   private final int DRIVER_CONTROLLER_ID = 0;
-
-   //--Deadbands
-   private final double TRIGGER_PRESSED_THRESHOLD = 0.4;
-
   //-------- DECLARATIONS --------\\
 
-  private Joystick driver;
-  private Joystick coDriver;
+  private Joystick driverJoystick;
+  private Joystick coDriverJoystick;
 
   //-------- SUBSYSTEMS --------\\
 
-  // Creates the subsystem for the ColorSensor2 class
   private final ColorSensor2 m_ColorSensor2 = new ColorSensor2();
+
+  private final DriveSubsystem driveSubsystem;
+
 
   //-------- COMMANDS --------\\
 
-    //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  private final DriveCommand driveCommand;
+  private final AutonomousCommand autoCommand;
+  
   //-------- CONSTRUCTOR ---------\\
 
   public RobotContainer(){
 
-    driver = new Joystick(DRIVER_CONTROLLER_ID);
-    coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
+    //Controllers
+    driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
+    coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
+
+    //Subsystems
+    driveSubsystem = new DriveSubsystem();
+
+    //Commands
+    driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
+    autoCommand = new AutonomousCommand(driveSubsystem);
 
     // Configure the button bindings
+
+    beginRunCommands();
     configureButtonBindings();
   }
 
   //-------- METHODS --------\\
 
-  //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
+  /**
+   * Use this method to define your button->command mappings.  Buttons can be created by
+   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
+   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
   private void configureButtonBindings() {
-    // Setting up the "A" button for the GetColorCommand
-    final JoystickButton BUTTON_A = new JoystickButton(joystick, 1);
-    BUTTON_A.whenPressed(new GetColorCommand(m_ColorSensor2));
+    beginRunCommands();
   }
-
+  
+  private void beginRunCommands() {
+    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -81,7 +89,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;//m_autoCommand;
+    System.out.println("Command");
+    return autoCommand;
+    
+    //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+    // Run path following command, then stop at the end.
   }
 }
