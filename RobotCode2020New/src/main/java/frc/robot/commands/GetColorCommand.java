@@ -52,19 +52,19 @@ public class GetColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    logger.entering(getClass().getName(), "initialize");
+    logger.entering(getClass().getName(), "initialize {");
     frame = 0;
     colorMatch.addColorMatch(kYellowTarget);
     colorMatch.addColorMatch(kBlueTarget);
     colorMatch.addColorMatch(kGreenTarget);
     colorMatch.addColorMatch(kRedTarget);
-    logger.exiting(getClass().getName(), "initialize");
+    logger.exiting(getClass().getName(), "initialize }");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    logger.entering(getClass().getName(), "execute");
+    logger.entering(getClass().getName(), "execute {");
     // This method will be called once per scheduler run
 
       // Returns the color values from the sensors
@@ -77,26 +77,26 @@ public class GetColorCommand extends CommandBase {
       }
       //System.out.println("matching color:" + getNearestColor(color));
       frame++;
-    logger.exiting(getClass().getName(), "execute");
+    logger.exiting(getClass().getName(), "execute }");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    logger.entering(getClass().getName(), "end");
-    logger.exiting(getClass().getName(), "end");
+    logger.entering(getClass().getName(), "end {");
+    logger.exiting(getClass().getName(), "end }");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    logger.entering(getClass().getName(), "isFinished");
-    logger.exiting(getClass().getName(), "isFinished");
+    logger.entering(getClass().getName(), "isFinished {");
+    logger.exiting(getClass().getName(), "isFinished }");
     return frame >= 1000;
   }
 
   private String getNearestColor(Color c) {
-    logger.entering(getClass().getName(), "getNearestColor");
+    logger.entering(getClass().getName(), "getNearestColor {");
     // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
     // Creates a ColorMatch object that finds and manages distance/difference between colors
     match = colorMatch.matchClosestColor(c);
@@ -113,7 +113,7 @@ public class GetColorCommand extends CommandBase {
     } else {
       colorOutput = "Unknown";
     }
-    logger.exiting(getClass().getName(), "getNearestColor");
+    logger.exiting(getClass().getName(), "getNearestColor }");
     return colorOutput;
   }
 }
