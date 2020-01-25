@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.logging.*;
 
-public class ColorSensor2 extends SubsystemBase {
+public class ColorSensorSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
@@ -26,11 +26,11 @@ public class ColorSensor2 extends SubsystemBase {
   // Creates the I2C color sensor
   private ColorSensorV3 Sensor = new ColorSensorV3(i2cPort);
   // Creates an instance of the logger class
-  private static final Logger logger = Logger.getLogger(ColorSensor2.class.getName());
+  private static final Logger logger = Logger.getLogger(ColorSensorSubsystem.class.getName());
 
   //-------- CONSTRUCTOR --------\\
 
-  public ColorSensor2(){
+  public ColorSensorSubsystem(){
   }
   
   //-------- METHODS --------\\    

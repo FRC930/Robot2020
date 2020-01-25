@@ -7,17 +7,14 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.ColorSensor2;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.AutonomousCommand;
-
-import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -36,8 +33,7 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
-  private final ColorSensor2 m_ColorSensor2 = new ColorSensor2();
-
+  private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
 
 
@@ -56,6 +52,7 @@ public class RobotContainer {
 
     //Subsystems
     driveSubsystem = new DriveSubsystem();
+    colorSensorSubsystem = new ColorSensorSubsystem();
 
     //Commands
     driveCommand = new DriveCommand(driveSubsystem, driverJoystick);

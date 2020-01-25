@@ -6,10 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import java.util.logging.*;
-
-
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -22,6 +21,7 @@ import java.util.logging.*;
 public final class Constants {
     
     //[--------------------AUTO--------------------------]
+
     public static final double ksVolts = 0.22;
     public static final double kvVoltSecondsPerMeter = 0.289;
     public static final double kaVoltSecondsSquaredPerMeter = 0.06;

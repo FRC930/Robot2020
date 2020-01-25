@@ -7,18 +7,18 @@
 
 package frc.robot.commands;
 
-import java.util.logging.*;
 import frc.robot.Constants;
-import frc.robot.subsystems.ColorSensor2;
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.ColorShim;
+
+import java.util.logging.*;
+
+import frc.robot.subsystems.ColorSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * An example command that uses an example subsystem.
- */
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.ColorShim;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+
 public class GetColorCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
@@ -38,7 +38,7 @@ public class GetColorCommand extends CommandBase {
   // Counts how many times individual colors have passed
   private int colorCounter;
   // Creates an instance of the ColorSensor2 subsystem
-  private final ColorSensor2 m_subsystem;
+  private final ColorSensorSubsystem m_subsystem;
   // Tracks the last color seen by the color sensor
   private String lastColor;
   // Creates an object that adds colors for us to scan
@@ -52,7 +52,7 @@ public class GetColorCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public GetColorCommand(ColorSensor2 subsystem) {
+  public GetColorCommand(ColorSensorSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
