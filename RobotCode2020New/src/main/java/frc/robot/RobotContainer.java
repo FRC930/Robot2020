@@ -51,7 +51,7 @@ public class RobotContainer {
     private Joystick coDriver;
 
     private AddressableLED m_leds = new AddressableLED(0);
-    private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(50);
+    private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
 
   //-------- SUBSYSTEMS --------\\
 
@@ -92,8 +92,14 @@ public class RobotContainer {
     final JoystickButton back_buttonDriver = new JoystickButton(driver, 7);
     final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
 
-    a_buttonDriver.whenPressed(new RunShooter(m_ShooterSubsystem, 0.7));
+    a_buttonDriver.whenPressed(new RunShooter(m_ShooterSubsystem, 0.8));
     b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
+
+    y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
+    x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
+    //b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
+
+    //a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem));
 
     // codriver buttons and assignments
     final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);

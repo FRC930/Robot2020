@@ -28,16 +28,16 @@ public class ShooterSubsystem extends SubsystemBase {
     //PID Derivitive Gain
     private final double PID_D = 0.004;
     //PID Proportional Gain
-    private final double PID_P = 0.001;
+    private final double PID_P = 0.0004;
     //PID Feed-Forward Gain
     private final double PID_FF = 0.0002;
 
     // solenoid dedicated to moving the turret up and down to have a close and far
     // range
-    private final Solenoid solenoid;
+    //private final Solenoid solenoid;
 
     public ShooterSubsystem() {
-        this(new CANSparkMax(1, MotorType.kBrushless), new CANSparkMax(2, MotorType.kBrushless)); //new CANSparkMax(2, MotorType.kBrushless), new CANSparkMax(3, MotorType.kBrushless));
+        this(new CANSparkMax(7, MotorType.kBrushless), new CANSparkMax(9, MotorType.kBrushless)); //new CANSparkMax(2, MotorType.kBrushless), new CANSparkMax(3, MotorType.kBrushless));
     }
 
     public ShooterSubsystem(CANSparkMax lMotor, CANSparkMax rMotor) {
@@ -45,13 +45,13 @@ public class ShooterSubsystem extends SubsystemBase {
         this.motor2 = rMotor;
 
         this.pidcontroller = motorLead.getPIDController();
-        this.pidcontroller.setFF(PID_FF);
+        //this.pidcontroller.setFF(PID_FF);
         this.pidcontroller.setOutputRange(0, 1);
         this.pidcontroller.setP(PID_P);
-        this.pidcontroller.setD(PID_D);
-        motor2.follow(motorLead, true);
+        //this.pidcontroller.setD(PID_D);
+        motor2.follow(motorLead);
 
-        solenoid = new Solenoid(0);
+        //solenoid = new Solenoid(0);
     }
 
     public void setSpeed(double speed) {
@@ -59,6 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
         {
             // Set the speed in percent output * the max RPM of the NEO.
             this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
+            //motorLead.set(speed);
         }
     }
 
@@ -67,11 +68,12 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void angleChange(boolean solenoidStatus) {
-        solenoid.set(true);
+    //    solenoid.set(true);
     }
 
     public boolean getAngle() {
-        return solenoid.get();
+    //    return solenoid.get();
+        return true;
     }
 
     @Override

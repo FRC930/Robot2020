@@ -12,17 +12,20 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.LEDSubsystem;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class LEDIdleFlash extends CommandBase {
+public class LEDIdleFlash extends SequentialCommandGroup {
     private LEDSubsystem m_ledSubsystem;
     private AddressableLED m_leds;
     private AddressableLEDBuffer m_ledsBuffer;
 
-    private int flashType;
+    static private int flashType;
 
     public LEDIdleFlash(LEDSubsystem ledSubsystem, AddressableLED leds, AddressableLEDBuffer ledsBuffer, int flashType)
     {
@@ -50,17 +53,21 @@ public class LEDIdleFlash extends CommandBase {
                 for(int i = 0; i < m_ledsBuffer.getLength(); i++)
                 {
                     m_ledsBuffer.setRGB(i, 255, 150, 0);
+                    //addCommands(new WaitCommand(1));
+                    m_leds.setData(m_ledsBuffer);
                 }
-                m_leds.setData(m_ledsBuffer);
                 SmartDashboard.putNumber("ledSet", 0);
+                flashType = 1;
             break;
             case 1:
                 for(int i = 0; i < m_ledsBuffer.getLength(); i++)
                 {
                     m_ledsBuffer.setRGB(i, 0, 0, 0);
+                    //addCommands(new WaitCommand(1));
+                    m_leds.setData(m_ledsBuffer);
                 }
-                m_leds.setData(m_ledsBuffer);
                 SmartDashboard.putNumber("ledSet", 1);
+                flashType = 0;
             break;
             default:
                 for(int i = 0; i < m_ledsBuffer.getLength(); i++)
