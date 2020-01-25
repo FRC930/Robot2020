@@ -48,7 +48,8 @@ public class ShooterMath {
     }
 
     /**
-     * Returns the velocity required to make the shot
+     * Returns the velocity required to make the shot. Will return -1 if error
+     * occurs.
      * 
      * @return {@link #velocity} set in {@link #calculateVelocity}
      */
@@ -67,15 +68,19 @@ public class ShooterMath {
 
     /**
      * Calculate the velocity that the ball will need to shot at in order to make
-     * the inner goal
+     * the inner goal. Will return -1 if error occurs.
      * 
      * @param angle    is the current angle of the shooter
      * @param distance is the distance away from the wall
      */
     private void calculateVelocity(double angle, double distance) {
-        this.velocity = (Math.sqrt(9.8 / (2
-                * (Math.tan(angle) * (distance + INNER_GOAL_FROM_WALL) - (GOAL_HEIGHT_INNER_MIDDLE - START_HEIGHT))))
-                * (distance + INNER_GOAL_FROM_WALL)) / Math.cos(angle);
+        if (angle > 0 && angle < Math.toRadians(90) && distance > 0 && distance <= 13) {
+            this.velocity = (Math.sqrt(9.8 / (2 * (Math.tan(angle) * (distance + INNER_GOAL_FROM_WALL)
+                    - (GOAL_HEIGHT_INNER_MIDDLE - START_HEIGHT)))) * (distance + INNER_GOAL_FROM_WALL))
+                    / Math.cos(angle);
+        } else {
+            this.velocity = -1.0;
+        }
     }
 
     /**
@@ -94,7 +99,7 @@ public class ShooterMath {
         double yAtWallHit = calculateY(yVelocity, tAtWallHit);
         double tAtInnerWallHit = (INNER_GOAL_FROM_WALL + distance) / xVelocity;
         double yAtInnerWallHit = calculateY(yVelocity, tAtInnerWallHit);
-        if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS) {
+        if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS && velocity != -1.0) {
             shotType = ShotType.OUTER;
             if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS
                     && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
@@ -114,7 +119,7 @@ public class ShooterMath {
      */
     private double calculateY(double yVelocity, double time) {
         /**
-         * g * t^2 y * t - --------- + h 2
+         * y0 + vy * t - 0.5 * g * t ^ 2
          */
         return START_HEIGHT + yVelocity * time - 0.5 * GRAVITY * time * time;
     }
