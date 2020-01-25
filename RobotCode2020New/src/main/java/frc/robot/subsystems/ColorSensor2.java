@@ -11,8 +11,7 @@ import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-/// TODO: make this a command structure
+import java.util.logging.*;
 
 public class ColorSensor2 extends SubsystemBase {
 
@@ -24,23 +23,28 @@ public class ColorSensor2 extends SubsystemBase {
 
   // Creates the port value for the color sensor on the roboRIO
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
   // Creates the I2C color sensor
   private ColorSensorV3 Sensor = new ColorSensorV3(i2cPort);
+  // Creates an instance of the logger class
+  private static final Logger logger = Logger.getLogger(ColorSensor2.class.getName());
 
   //-------- CONSTRUCTOR --------\\
 
-  // Adds colors to a list of colors in the ColorMatch class
   public ColorSensor2(){
-
-    }
+  }
+  
   //-------- METHODS --------\\    
 
+  // Returns the color sensor
   public Color getSensorColor(){
+    logger.entering(getClass().getName(), "getSensorColor");
+    logger.exiting(getClass().getName(), "getSensorColor");
     return Sensor.getColor();
   }
 
   @Override
   public void periodic() {
+    logger.entering(getClass().getName(), "periodic");
+    logger.exiting(getClass().getName(), "periodic");
   }
 }

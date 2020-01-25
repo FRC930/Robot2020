@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.logging.*;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -16,4 +18,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    //-------- LOGGER CONSTANTS --------\\
+    // Sets the global logger level
+    public static final Level LOG_LEVEL = Level.INFO;
 }

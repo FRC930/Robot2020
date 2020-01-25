@@ -47,9 +47,8 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
-    //  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-    //private final ColorSensor m_ColorSensor = new ColorSensor();
-    private final ColorSensor2 m_ColorSensor2 = new ColorSensor2();
+  // Creates the subsystem for the ColorSensor2 class
+  private final ColorSensor2 m_ColorSensor2 = new ColorSensor2();
 
   //-------- COMMANDS --------\\
 
@@ -70,6 +69,7 @@ public class RobotContainer {
 
   //Refer to https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
   private void configureButtonBindings() {
+    // Setting up the "A" button for the GetColorCommand
     final JoystickButton BUTTON_A = new JoystickButton(joystick, 1);
     BUTTON_A.whenPressed(new GetColorCommand(m_ColorSensor2));
   }

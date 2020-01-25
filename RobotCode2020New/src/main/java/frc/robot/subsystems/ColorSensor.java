@@ -33,7 +33,7 @@ public class ColorSensor extends SubsystemBase {
   private final Color kRedTarget;
   private final Color kYellowTarget;
   private final Color kwhite;
-  private final Color kaqua;
+  private final Color kcyan;
   private String lastColor = null;
 
   // Creates a ColorMatch object that finds and manages distance/difference between colors
@@ -54,14 +54,14 @@ public class ColorSensor extends SubsystemBase {
     kRedTarget = new ColorShim(0.561, 0.232, 0.114);
     kYellowTarget = new ColorShim(0.361, 0.524, 0.113);
     kwhite = new ColorShim(0.361, 0.524, 0.429);
-    kaqua = new ColorShim(0.15, 0.56, 0.5);
+    kcyan = new ColorShim(0.165, 0.56, 0.429);
 
     colorMatch.addColorMatch(kYellowTarget);
     colorMatch.addColorMatch(kBlueTarget);
     colorMatch.addColorMatch(kGreenTarget);
     colorMatch.addColorMatch(kRedTarget);
     colorMatch.addColorMatch(kwhite);
-    colorMatch.addColorMatch(kaqua);
+    colorMatch.addColorMatch(kcyan);
     }
   //-------- METHODS --------\\    
 
@@ -81,7 +81,7 @@ public class ColorSensor extends SubsystemBase {
       return "Yellow";
     } else if (match.color == kwhite) {
       return "white";
-    } else if (match.color == kaqua) {
+    } else if (match.color == kcyan) {
       return "cyan" ;
     } else {
       return "Unknown";
