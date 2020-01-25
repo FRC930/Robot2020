@@ -16,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
-public class VisionTracking extends SubsystemBase {
+public class LimelightSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
@@ -66,9 +66,9 @@ public class VisionTracking extends SubsystemBase {
     private Logger logger;
  
   
-  public VisionTracking() {
+  public LimelightSubsystem() {
     
-    logger = Logger.getLogger(VisionTracking.class.getName());
+    logger = Logger.getLogger(LimelightSubsystem.class.getName());
     logger.setLevel(Level.INFO);
 
   }  
