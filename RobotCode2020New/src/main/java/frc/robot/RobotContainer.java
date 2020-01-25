@@ -67,7 +67,7 @@ public class RobotContainer {
 
     // -------- COMMANDS --------\\
 
-    private final JoystickTurret m_JoystickTurret;
+    private final AimTurretCommand m_aimTurret;
 
     // private final ExampleCommand m_autoCommand = new
     // ExampleCommand(m_exampleSubsystem);
@@ -82,8 +82,8 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
 
-        m_JoystickTurret = new JoystickTurret(m_TurretSubsystem, driver);
-        CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_JoystickTurret);
+        m_aimTurret = new AimTurretCommand(m_TurretSubsystem);        
+        CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_aimTurret);
     }
 
     // -------- METHODS --------\\
@@ -102,8 +102,8 @@ public class RobotContainer {
         final JoystickButton back_buttonDriver = new JoystickButton(driver, 7);
         final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
 
-        a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
-        b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
+        // a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
+        // b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
 
         // codriver buttons and assignments
         final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);

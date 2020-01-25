@@ -1,10 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -14,10 +14,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * TurretSubsystem is a PID subsystem that controls the rotation of the turret
  */
 
- /**
-  * Other details:
-  * - The encoder is a "planetary encoder."
-  */
+/**
+ * Other details: - The encoder is a "planetary encoder."
+ */
 public class TurretSubsystem extends SubsystemBase {
     // The current speed of the motor
     private double speed;
@@ -32,11 +31,14 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     /**
-     * This constructor will allow the passing of a motor controller used for testing purposes
+     * This constructor will allow the passing of a motor controller used for
+     * testing purposes
      */
     public TurretSubsystem(TalonSRX turret) {
         this.speed = 0;
         this.mc = turret;
+        this.mc.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        this.mc.setSelectedSensorPosition(0);
     }
 
     public void setSpeed(double motorSpeed) {
@@ -50,5 +52,9 @@ public class TurretSubsystem extends SubsystemBase {
 
     public void stop() {
         this.mc.set(ControlMode.PercentOutput, 0);
+    }
+
+    public int getEncoderPosition() {
+        return this.mc.getSelectedSensorPosition();
     }
 }
