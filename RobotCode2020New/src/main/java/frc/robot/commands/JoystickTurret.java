@@ -14,15 +14,17 @@ public class JoystickTurret extends CommandBase {
     public JoystickTurret(TurretSubsystem turret, Joystick driver) {
         this.turret = turret;
         this.driver = driver;
+
+        addRequirements(turret);
     }
 
     @Override
     public void execute() {
-        turret.setSpeed(Math.pow(this.driver.getRawAxis(4), 3));
+        turret.setSpeed(Math.pow(this.driver.getRawAxis(0), 3));
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }
