@@ -35,7 +35,7 @@ public class ShooterVelocityCommand extends CommandBase {
         // TODO: Get the distance and angle
         this.math.setPosition(/* ShooterSubsystem angle */ m_ShooterSubsystem.getAngle() ? 45 : 60,
                 /* Limelight distance */ 0);
-        CommandScheduler.getInstance().schedule(new RunShooter(m_ShooterSubsystem, this.math.getVelocity()));
+        CommandScheduler.getInstance().schedule(new RunShooterCommand(m_ShooterSubsystem, this.math.getVelocity()));
     }
 
     // Called once the command ends or is interrupted.

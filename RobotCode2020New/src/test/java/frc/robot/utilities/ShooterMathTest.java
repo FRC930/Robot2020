@@ -37,4 +37,69 @@ public class ShooterMathTest {
         assertEquals(13.46558, mathClass.getVelocity(), 0.0001);
         assertSame(mathClass.getPossibleShot(), NONE);
     }
+
+    //Tests for number extremes
+
+    @Test
+    public void test90_8() {
+        ShooterMath mathClass = new ShooterMath();
+        // Values
+        mathClass.setPosition(90, 8);
+        assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
+        assertSame(mathClass.getPossibleShot(), NONE);
+    }
+
+    @Test
+    public void test91_8() {
+        ShooterMath mathClass = new ShooterMath();
+        // Values
+        mathClass.setPosition(91, 8);
+        assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
+        assertSame(mathClass.getPossibleShot(), NONE);
+    }
+    
+    @Test
+    public void test0_8() {
+        ShooterMath mathClass = new ShooterMath();
+        // Values
+        mathClass.setPosition(0, 8);
+        assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
+        assertSame(mathClass.getPossibleShot(), NONE);
+    }
+
+    @Test
+    public void testneg1_8() {
+        ShooterMath mathClass = new ShooterMath();
+        // Values
+        mathClass.setPosition(-1, 8);
+        assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
+        assertSame(mathClass.getPossibleShot(), NONE);
+    }
+    
+    @Test
+    public void test25_100() {
+        ShooterMath mathClass = new ShooterMath();
+        // Values
+        mathClass.setPosition(25, 100);
+        assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
+        assertSame(mathClass.getPossibleShot(), NONE);
+    }
+
+    @Test
+    public void test25_0() {
+        ShooterMath mathClass = new ShooterMath();
+        // Values
+        mathClass.setPosition(25, 0);
+        assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
+        assertSame(mathClass.getPossibleShot(), NONE);
+    }
+    
+    @Test
+    public void test25_neg1() {
+        ShooterMath mathClass = new ShooterMath();
+        // Values
+        mathClass.setPosition(25, -1);
+        assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
+        assertSame(mathClass.getPossibleShot(), NONE);
+    }
 }

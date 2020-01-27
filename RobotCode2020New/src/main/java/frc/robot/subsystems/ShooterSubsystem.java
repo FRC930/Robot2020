@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -24,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax motor2;
 
     private CANPIDController pidcontroller;
+    private Logger logger;
 
     //PID Derivitive Gain
     private final double PID_D = 0.004;
@@ -39,40 +42,54 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem() {
         this(new CANSparkMax(7, MotorType.kBrushless), new CANSparkMax(9, MotorType.kBrushless)); //new CANSparkMax(2, MotorType.kBrushless), new CANSparkMax(3, MotorType.kBrushless));
     }
-
+    
     public ShooterSubsystem(CANSparkMax lMotor, CANSparkMax rMotor) {
         this.motorLead = lMotor;
         this.motor2 = rMotor;
-
+        
         this.pidcontroller = motorLead.getPIDController();
-        //this.pidcontroller.setFF(PID_FF);
+        this.pidcontroller.setFF(PID_FF);
         this.pidcontroller.setOutputRange(0, 1);
         this.pidcontroller.setP(PID_P);
         //this.pidcontroller.setD(PID_D);
         motor2.follow(motorLead);
-
+        
         //solenoid = new Solenoid(0);
+        
+        logger = Logger.getLogger(ShooterSubsystem.class.getName());
+        logger.setLevel(Level.INFO); 
     }
 
     public void setSpeed(double speed) {
+        logger.entering(getClass().getName(), "setSpeed()");
+
         if(speed <= 1.0 && speed >= 0.0)
         {
             // Set the speed in percent output * the max RPM of the NEO.
             this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
             //motorLead.set(speed);
         }
+        logger.log(Level.FINE, "Set shooter speed to " + speed);
+
+        logger.exiting(getClass().getName(), "setSpeed()");
     }
 
     public void stop() {
+        logger.entering(getClass().getName(), "stop()");
         motorLead.set(0.0);
+        logger.exiting(getClass().getName(), "stop()");
     }
 
     public void angleChange(boolean solenoidStatus) {
-    //    solenoid.set(true);
+        logger.entering(getClass().getName(), "angleChange()");
+        //solenoid.set(true);
+        logger.exiting(getClass().getName(), "angleChange()");
     }
 
     public boolean getAngle() {
-    //    return solenoid.get();
+        logger.entering(getClass().getName(), "getAngle()");
+        logger.exiting(getClass().getName(), "getAngle()");
+        //return solenoid.get();
         return true;
     }
 
