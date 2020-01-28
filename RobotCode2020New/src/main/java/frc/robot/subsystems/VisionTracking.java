@@ -36,6 +36,11 @@ public class VisionTracking extends SubsystemBase {
     // both used for the equasion of the error we found :)
     public final double ERROR_EQ_SLOPE = 0.23638537459;
     public final double ERROR_EQ_INTERCEPT = -.37613082;
+
+    // limelight pipelines
+    public final int PIPELINE_CLOSE = 0;
+    public final int PIPELINE_MID = 1;
+    public final int PIPELINE_FAR = 2;
     
     //--Ports
 
@@ -138,6 +143,20 @@ public class VisionTracking extends SubsystemBase {
     logger.exiting(getClass().getName(), "getVerticleOffset()");
 
     return verticleOffset;
+
+  }
+
+  // sets the current limelight pipeline (current settings and configuration)
+  public void setPipeline(int pipeline){
+
+    logger.entering(getClass().getName(), "setPipeline()");
+
+    // sets the pipeline
+    limelightTable.getEntry("pipeline").setNumber(pipeline);
+
+    logger.log(Level.INFO, "Current Pipeline: " + pipeline);
+
+    logger.exiting(getClass().getName(), "setPipeline()");
 
   }
 
