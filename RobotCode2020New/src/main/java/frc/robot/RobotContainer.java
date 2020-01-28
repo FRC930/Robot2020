@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-<<<<<<< HEAD
+
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-=======
+
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
->>>>>>> Kyles_Subteam
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -73,12 +73,11 @@ public class RobotContainer {
 
     private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
 
-<<<<<<< HEAD
   //-------- DECLARATIONS --------\\
 
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
-=======
+
     private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
 
     // -------- COMMANDS --------\\
@@ -89,11 +88,11 @@ public class RobotContainer {
     // ExampleCommand(m_exampleSubsystem);
 
     // -------- CONSTRUCTOR ---------\\
->>>>>>> Kyles_Subteam
+
 
     public RobotContainer() {
 
-<<<<<<< HEAD
+
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
 
@@ -124,7 +123,7 @@ public class RobotContainer {
     beginRunCommands();
     configureButtonBindings();
   }
-=======
+
         driver = new Joystick(DRIVER_CONTROLLER_ID);
         coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
 
@@ -158,11 +157,11 @@ public class RobotContainer {
       y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
       x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
       //b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
->>>>>>> Kyles_Subteam
+
 
       //a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem));
 
-<<<<<<< HEAD
+
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -189,7 +188,7 @@ public class RobotContainer {
     //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
     // Run path following command, then stop at the end.
   }
-=======
+
       // codriver buttons and assignments
       final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
       final JoystickButton b_buttonCoDriver = new JoystickButton(driver, 2);
@@ -211,5 +210,5 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return null;// m_autoCommand;
     }
->>>>>>> Kyles_Subteam
+
 }
