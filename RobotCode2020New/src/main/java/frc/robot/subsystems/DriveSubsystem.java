@@ -31,9 +31,9 @@ public class DriveSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
 
     //-------- DECLARATIONS --------\\
-    //private Encoder m_rightEncoder;
-    //private Encoder m_leftEncoder;
-    //private TalonSRX gyroTalon;
+    private Encoder m_rightEncoder;
+    private Encoder m_leftEncoder;
+    private TalonSRX gyroTalon;
     private PigeonIMU m_gyro;
     private double values[] = new double[3]; //put to other declerations
     private DifferentialDriveOdometry m_odometry;
@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
     //private CANSparkMax left1;
     //private CANSparkMax left2;
     //private CANSparkMax left3;
-    private DifferentialDrive m_drive;
+    //private DifferentialDrive m_drive;
     //private CANSparkMax right1;
     //private CANSparkMax right2;
     //private CANSparkMax right3;
@@ -54,38 +54,38 @@ public class DriveSubsystem extends SubsystemBase {
     public DriveSubsystem() {
       setTalon(new TalonSRX(1));
       setMotorsAndSensors();
-      // m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
-      // m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
-      // m_rightEncoder.reset();
-      // m_leftEncoder.reset();
-      // m_rightEncoder.setReverseDirection(false);
-      // m_leftEncoder.setReverseDirection(false);  
+      m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_rightEncoder.reset();
+      m_leftEncoder.reset();
+      m_rightEncoder.setReverseDirection(false);
+      m_leftEncoder.setReverseDirection(false);  
     }
 
-    public DriveSubsystem(TalonFX Left3,TalonFX left4, TalonFX right1, TalonFX right2, Encoder m_RightEncoder, Encoder m_LeftEncoder, TalonSRX Gyrotalon, PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry) {
-      setTalon(Gyrotalon);
-      //setMotorsAndSensors(Left1,Left2,Right1,Right2,m_RightEncoder,m_LeftEncoder,m_Gyro,m_Odometry);
-      // m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
-      // m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
-      // m_rightEncoder.reset();
-      // m_leftEncoder.reset();
-      // m_rightEncoder.setReverseDirection(false);
-      // m_leftEncoder.setReverseDirection(false);  
-    }
+    // public DriveSubsystem(TalonFX Left3,TalonFX left4, TalonFX right1, TalonFX right2, Encoder m_RightEncoder, Encoder m_LeftEncoder, TalonSRX Gyrotalon, PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry) {
+    //   setTalon(Gyrotalon);
+    //   setMotorsAndSensors(Left1,Left2,Right1,Right2,m_RightEncoder,m_LeftEncoder,m_Gyro,m_Odometry);
+    //   m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+    //   m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+    //   m_rightEncoder.reset();
+    //   m_leftEncoder.reset();
+    //   m_rightEncoder.setReverseDirection(false);
+    //   m_leftEncoder.setReverseDirection(false);  
+    // }
 
     //-------- METHODS --------\\
     private void setTalon(TalonSRX GyroTalon){
-      //gyroTalon = GyroTalon;
+      gyroTalon = GyroTalon;
     }
 
     private void setMotorsAndSensors() {
       setMotorsAndSensors(new TalonFX(3),new TalonFX(4),new TalonFX(1),new TalonFX(2), 
             new Encoder(0,1), 
-            new Encoder(2,3)); 
-            //new PigeonIMU(gyroTalon), 
-            //new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())));
+            new Encoder(2,3),
+            new PigeonIMU(gyroTalon), 
+            new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())));
     }
-    public void setMotorsAndSensors(TalonFX Left3,TalonFX Left4, TalonFX Right1, TalonFX Right2, Encoder m_RightEncoder, Encoder m_LeftEncoder /*PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry */) {
+    public void setMotorsAndSensors(TalonFX Left3,TalonFX Left4, TalonFX Right1, TalonFX Right2, Encoder m_RightEncoder, Encoder m_LeftEncoder, PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry) {
         // Gives each Spark Max their proper values
         left1 = Left3;
         left2 = Left4;
@@ -94,10 +94,10 @@ public class DriveSubsystem extends SubsystemBase {
         right1 = Right1;
         right2 = Right2;
         //right3 = Right3;
-        // m_rightEncoder = m_RightEncoder;
-        // m_leftEncoder = m_LeftEncoder;
-        // m_gyro = m_Gyro;
-        //m_odometry = m_Odometry;
+        m_rightEncoder = m_RightEncoder;
+        m_leftEncoder = m_LeftEncoder;
+        m_gyro = m_Gyro;
+        m_odometry = m_Odometry;
 
 
         // Mirror primary motor controllers on each side
@@ -118,21 +118,21 @@ public class DriveSubsystem extends SubsystemBase {
         right1.set(TalonFXControlMode.PercentOutput,rightSpeed);
     }
     //Returns left speed
-    // public double getLeftSpeed() {
-    //     return left1.getMotorOutputPercent();
-    // }
+    public double getLeftSpeed() {
+        return left1.getMotorOutputPercent();
+    }
 
-    // Returns right speed
-    // public double getRightSpeed() {
-    //     return right1.get();
-    // }
+    //Returns right speed
+    public double getRightSpeed() {
+        return right1.getMotorOutputPercent();
+    }
 
     public Pose2d getPose() {
       return m_odometry.getPoseMeters();
     }
-    // public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    //   return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
-    // }
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+      return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+    }
     public double getRPM(double vel)
   {
     // The velocity from the falcon encoder doesn't give use RPM, but rather their own units. There are 2048 position units per 100ms.
@@ -144,15 +144,15 @@ public class DriveSubsystem extends SubsystemBase {
   }
     public double getHeading() {
       m_gyro.getYawPitchRoll(values);
-      return Math.IEEEremainder(values[0], 360) * (false ? -1.0 : 1.0);
+      return Math.IEEEremainder(values[0], 360);
     }
     public void resetOdometry(Pose2d pose) {
       
       m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
     }
-    public void arcadeDrive(double fwd, double rot) {
-      m_drive.arcadeDrive(fwd, rot);
-    }
+    // public void arcadeDrive(double fwd, double rot) {
+    //   m_drive.arcadeDrive(fwd, rot);
+    // }
     public void tankDriveVolts(double leftVolts, double rightVolts) {
       System.out.println("MOVING");
       right1.set(TalonFXControlMode.Current,leftVolts);
