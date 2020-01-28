@@ -6,12 +6,12 @@ import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
 
-import frc.robot.Constants;
 
 public class AxisTrigger extends Trigger {
 
-    private final Joystick joystick;
-    private final int axisNumber;
+  public final double TRIGGER_PRESSED_THRESHOLD = 0.4;
+  private final Joystick joystick;
+  private final int axisNumber;
 
   /**
    * Creates a joystick button for triggering commands.
@@ -34,6 +34,6 @@ public class AxisTrigger extends Trigger {
    */
   @Override
   public boolean get() {
-    return (this.joystick.getRawAxis(this.axisNumber) >= Constants.TRIGGER_PRESSED_THRESHOLD) ? true : false;
+    return (this.joystick.getRawAxis(this.axisNumber) >= TRIGGER_PRESSED_THRESHOLD) ? true : false;
   }
 }

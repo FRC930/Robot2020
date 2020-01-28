@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ledcommands;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -20,46 +20,76 @@ import frc.robot.subsystems.LEDSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class RedLEDCommand extends CommandBase {
+public class LEDIdleFlash extends SequentialCommandGroup {
     private LEDSubsystem m_ledSubsystem;
     private AddressableLED m_leds;
     private AddressableLEDBuffer m_ledsBuffer;
 
     static private int flashType;
 
-    private int counter;
-
-    public RedLEDCommand(LEDSubsystem ledSubsystem)
+    public LEDIdleFlash(LEDSubsystem ledSubsystem, AddressableLED leds, AddressableLEDBuffer ledsBuffer, int flashType)
     {
         m_ledSubsystem = ledSubsystem;
         addRequirements(m_ledSubsystem);
+
+        m_leds = leds;
+        m_ledsBuffer = ledsBuffer;
+        this.flashType = flashType;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() 
     {
-        m_ledSubsystem.setLEDs(255, 0, 0);
-        counter = 0;
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() 
     {
-        counter++;
+        switch(flashType){
+            case 0:
+                for(int i = 0; i < m_ledsBuffer.getLength(); i++)
+                {
+                    m_ledsBuffer.setRGB(i, 255, 150, 0);
+                    //addCommands(new WaitCommand(1));
+                    m_leds.setData(m_ledsBuffer);
+                }
+                SmartDashboard.putNumber("ledSet", 0);
+                flashType = 1;
+            break;
+            case 1:
+                for(int i = 0; i < m_ledsBuffer.getLength(); i++)
+                {
+                    m_ledsBuffer.setRGB(i, 0, 0, 0);
+                    //addCommands(new WaitCommand(1));
+                    m_leds.setData(m_ledsBuffer);
+                }
+                SmartDashboard.putNumber("ledSet", 1);
+                flashType = 0;
+            break;
+            default:
+                for(int i = 0; i < m_ledsBuffer.getLength(); i++)
+                {
+                    m_ledsBuffer.setRGB(i, 0, 0, 0);
+                }
+                m_leds.setData(m_ledsBuffer);
+                SmartDashboard.putNumber("ledSet", -1);
+            break;
+        }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) 
     {
-        
+
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return counter > 200;
+        return true;
     }
 }

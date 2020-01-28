@@ -7,98 +7,94 @@
 
 package frc.robot;
 
-
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.autocommands.*;
+import frc.robot.commands.colorwheelcommands.*;
+import frc.robot.commands.drivecommands.*;
+import frc.robot.commands.intakecommands.*;
+import frc.robot.commands.ledcommands.*;
+import frc.robot.commands.shootercommands.*;
+import frc.robot.commands.turretcommads.*;
 
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.GenericHID;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-//-------- SUBSYSTEM IMPORT --------\\
-import frc.robot.subsystems.ShooterSubsystem;
-
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls). Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
 
-    // -------- CONSTANTS --------\\
+  //-------- CONSTANTS --------\\
 
-    // --Button Mapping //Refer to
-    // http://team358.org/files/programming/ControlSystem2009-/XBoxControlMapping.jpg
-    private final int AXIS_LEFT_X = 0;
-    private final int AXIS_LEFT_Y = 1;
-    private final int AXIS_RIGHT_X = 4;
-    private final int AXIS_RIGHT_Y = 5;
-    private final int AXIS_LT = 2;
-    private final int AXIS_RT = 3;
+  //----Gamecube button map----\\
+  private final int GC_Y = 1; 
+  private final int GC_B = 2; 
+  private final int GC_A = 3; 
+  private final int GC_X = 4; 
+  private final int GC_L = 5; 
+  private final int GC_R = 6; 
+  private final int GC_ZL = 7; 
+  private final int GC_ZR = 8; 
+  private final int GC_MINUS = 9; 
+  private final int GC_PLUS = 10; 
+  private final int GC_GRAYSTICK_BUTTON = 11; 
+  private final int GC_CSTICK_BUTTON = 12; 
+  private final int GC_HOME = 13; 
+  private final int GC_CAPTURE = 14; 
 
-    // --Ports
-    private final int CODRIVER_CONTROLLER_ID = 1;
-    private final int DRIVER_CONTROLLER_ID = 0;
+  private final int GC_AXIS_LEFT_X = 0;
+  private final int GC_AXIS_LEFT_Y = 1;
+  private final int GC_AXIS_RIGHT_X = 2;
+  private final int GC_AXIS_RIGHT_Y = 3; 
 
-    // --Deadbands
-    private final double TRIGGER_PRESSED_THRESHOLD = 0.4;
+  //----XBox button map ----\\
+  private final int XB_AXIS_LEFT_X = 0;
+  private final int XB_AXIS_LEFT_Y = 1;
+  private final int XB_AXIS_RIGHT_X = 4;
+  private final int XB_AXIS_RIGHT_Y = 5;
+  private final int XB_AXIS_LT = 2;
+  private final int XB_AXIS_RT = 3;
 
-    // -------- DECLARATIONS --------\\
+  public static final int XB_A = 1;
+  public static final int XB_B = 2;
+  public static final int XB_X = 3;
+  public static final int XB_Y = 4;
+  public static final int XB_LB = 5;
+  public static final int XB_RB = 6;
+  public static final int XB_BACK = 7;
+  public static final int XB_START = 8;
+  public static final int XB_LEFTSTICK_BUTTON = 9;
+  public static final int XB_RIGHTSTICK_BUTTON = 10;
 
-    private Joystick driver;
-    private Joystick coDriver;
+  //----Ports of controllers
+  private final int DRIVER_CONTROLLER_ID = 0;   //The gamecube controller
+  private final int CODRIVER_CONTROLLER_ID = 1; //The xbox controller
+  
+  // --Deadbands
 
-    private AddressableLED m_leds = new AddressableLED(0);
-    private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
+  // -------- DECLARATIONS --------\\
 
-    // -------- SUBSYSTEMS --------\\
+  private Joystick driverController;
+  private Joystick coDriverController;
 
-    // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private AddressableLED m_leds = new AddressableLED(0);
+  private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
 
-    private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+  // -------- SUBSYSTEMS --------\\
 
-    private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
-
-  //-------- DECLARATIONS --------\\
-
-  private Joystick driverJoystick;
-  private Joystick coDriverJoystick;
-
-    private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
-
-    // -------- COMMANDS --------\\
-
-    private final AimTurretCommand m_aimTurret;
-
-    // private final ExampleCommand m_autoCommand = new
-    // ExampleCommand(m_exampleSubsystem);
-
-    // -------- CONSTRUCTOR ---------\\
-
-
-    public RobotContainer() {
-
-
+  private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+  private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
+  private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
 
+  // -------- COMMANDS --------\\
 
-  //-------- COMMANDS --------\\
-
+  private final AimTurretCommand m_aimTurret;
   private final DriveCommand driveCommand;
   private final AutonomousCommand autoCommand;
   
@@ -107,16 +103,17 @@ public class RobotContainer {
   public RobotContainer(){
 
     //Controllers
-    driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
-    coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
+    driverController = new Joystick(DRIVER_CONTROLLER_ID);
+    coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
 
     //Subsystems
     driveSubsystem = new DriveSubsystem();
     colorSensorSubsystem = new ColorSensorSubsystem();
 
     //Commands
-    driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
+    driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
+    m_aimTurret = new AimTurretCommand(m_TurretSubsystem);   
 
     // Configure the button bindings
 
@@ -124,55 +121,34 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-        driver = new Joystick(DRIVER_CONTROLLER_ID);
-        coDriver = new Joystick(CODRIVER_CONTROLLER_ID);
 
-        // Configure the button bindings
-        configureButtonBindings();
+  // -------- METHODS --------\\
 
-        m_aimTurret = new AimTurretCommand(m_TurretSubsystem);        
-        CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_aimTurret);
-    }
-
-    // -------- METHODS --------\\
-
-    // Refer to
-    // https://docs.google.com/document/d/1V3UP8MBADUFDnNZTIlefdBUDyUZ-zYfYCRs3ykREHns/edit?usp=sharing
-    private void configureButtonBindings() {
-
-      // codriver buttons and assignments
-      final JoystickButton a_buttonDriver = new JoystickButton(driver, 1);
-      final JoystickButton b_buttonDriver = new JoystickButton(driver, 2);
-      final JoystickButton x_buttonDriver = new JoystickButton(driver, 3);
-      final JoystickButton y_buttonDriver = new JoystickButton(driver, 4);
-      final JoystickButton lb_buttonDriver = new JoystickButton(driver, 5);
-      final JoystickButton rb_buttonDriver = new JoystickButton(driver, 6);
-      final JoystickButton back_buttonDriver = new JoystickButton(driver, 7);
-      final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
-      
-      
-      a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
-      b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
-
-      y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
-      x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
-      //b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
-
-
-      //a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem));
-
-
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
+
+    // codriver buttons and assignments
+    final JoystickButton a_buttonDriver = new JoystickButton(driverController, 1);
+    final JoystickButton b_buttonDriver = new JoystickButton(driverController, 2);
+    final JoystickButton x_buttonDriver = new JoystickButton(driverController, 3);
+    final JoystickButton y_buttonDriver = new JoystickButton(driverController, 4);
+    final JoystickButton lb_buttonDriver = new JoystickButton(driverController, 5);
+    final JoystickButton rb_buttonDriver = new JoystickButton(driverController, 6);
+    final JoystickButton back_buttonDriver = new JoystickButton(driverController, 7);
+    final JoystickButton start_buttonDriver = new JoystickButton(driverController, 8);
+    
+    
+    a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
+    b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
+
+    y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
+    x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
+   
     beginRunCommands();
   }
+
   
   private void beginRunCommands() {
+    CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_aimTurret);
     CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
   }
 
@@ -189,26 +165,4 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
   }
 
-      // codriver buttons and assignments
-      final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
-      final JoystickButton b_buttonCoDriver = new JoystickButton(driver, 2);
-      final JoystickButton x_buttonCoDriver = new JoystickButton(driver, 3);
-      final JoystickButton y_buttonCoDriver = new JoystickButton(driver, 4);
-      final JoystickButton lb_buttonCoDriver = new JoystickButton(driver, 5);
-      final JoystickButton rb_buttonCoDriver = new JoystickButton(driver, 6);
-      final JoystickButton back_buttonCoDriver = new JoystickButton(driver, 7);
-      final JoystickButton start_buttonCoDriver = new JoystickButton(driver, 8);
-
-    }
-
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return null;// m_autoCommand;
-    }
-
-}
+} //end of class RobotContainer
