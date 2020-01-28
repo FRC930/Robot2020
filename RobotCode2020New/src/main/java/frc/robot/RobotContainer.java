@@ -10,13 +10,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.*;
 //import frc.robot.commands.DriveCommand;
 //import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.CompressorOnCommand;
+import frc.robot.commands.CompressorOffCommand;
+import frc.robot.commands.IntakeStopCommand;
 
 //import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeMotors;
+import frc.robot.subsystems.IntakePistons;
+import frc.robot.subsystems.Compresser;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -29,19 +35,24 @@ public class RobotContainer {
 
   //-------- DECLARATIONS --------\\
 
-  private Joystick driverJoystick;
-  private Joystick coDriverJoystick;
+  private final Joystick driverJoystick;
+  private final Joystick coDriverJoystick;
 
   //-------- SUBSYSTEMS --------\\
 
   //private final DriveSubsystem driveSubsystem;
-  private final IntakeSubsystem intakeSubsystem;
+  private final IntakePistons intakePistons;
+  private final IntakeMotors intakeMotors;
+  private final Compresser compressor;
 
   //-------- COMMANDS --------\\
 
   //private final DriveCommand driveCommand;
   //private final AutonomousCommand autoCommand;
   private final IntakeCommand intakeCommand;
+  private final CompressorOnCommand compressorOnCommand;
+  private final CompressorOffCommand compressorOffCommand;
+  private final IntakeStopCommand intakeStopCommand;
   //-------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
@@ -52,11 +63,17 @@ public class RobotContainer {
 
     //Subsystems
     //driveSubsystem = new DriveSubsystem();
-    intakeSubsystem = new IntakeSubsystem();
+    intakePistons = new IntakePistons();
+    intakeMotors = new IntakeMotors();
+    compressor = new Compresser();
+
     //Commands
     //driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
     //autoCommand = new AutonomousCommand(driveSubsystem);
-    intakeCommand = new IntakeCommand(intakeSubsystem);
+    intakeCommand = new IntakeCommand(intakePistons, intakeMotors,coDriverJoystick);
+    intakeStopCommand = new IntakeStopCommand(intakePistons, intakeMotors, coDriverJoystick);
+    compressorOnCommand = new CompressorOnCommand(compressor);
+    compressorOffCommand = new CompressorOffCommand(compressor);
 
     // Configure the button bindings
 
@@ -73,14 +90,18 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //beginRunCommands();
-    if (coDriverJoystick.getRawAxis(3) > 0.5){
-      intakeCommand.execute();
-    }
+    beginRunCommands();
+      //compressorOnCommand.schedule(true);
+      
+    JoystickButton intakeButton = new JoystickButton(coDriverJoystick,3);
+    intakeButton.whenActive(intakeCommand);
+    intakeButton.whenInactive(intakeStopCommand);
   }
   
   private void beginRunCommands() {
-    //CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
+   // CommandScheduler.getInstance().setDefaultCommand(intakePistons, intakeCommand);
+  
+    
   }
 
   /**

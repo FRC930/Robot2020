@@ -10,29 +10,26 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.Constants;
 
 
-public class IntakeSubsystem extends SubsystemBase {
+public class IntakePistons extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
     private final int LEFT_PISTON_ID = 0;
     private final int RIGHT_PISTON_ID = 1;
-    private final int INTAKE_TALONSRX_ID = 6;
-
+    
     //-------- DECLARATIONS --------\\
 
     private Solenoid intakePistonRight;
     private Solenoid intakePistonLeft;
-    private TalonSRX intakeMotorController; 
+   
 
     //-------- CONSTRUCTOR --------\\
 
-    public IntakeSubsystem() {
+    public IntakePistons() {
         setControllers();
     }
 
@@ -41,26 +38,17 @@ public class IntakeSubsystem extends SubsystemBase {
     public void setControllers() {
         setControllers(
             new Solenoid(LEFT_PISTON_ID),
-            new Solenoid(RIGHT_PISTON_ID),
-            new TalonSRX(INTAKE_TALONSRX_ID)
+            new Solenoid(RIGHT_PISTON_ID)
         );
     }
 
-    public void setControllers(Solenoid pistonControllerRight, Solenoid pistonContollerLeft, TalonSRX motorController) {
+    public void setControllers(Solenoid pistonControllerRight, Solenoid pistonContollerLeft) {
        intakePistonRight = pistonControllerRight;
        intakePistonLeft = pistonContollerLeft;
-        intakeMotorController = motorController;
+       
     }
 
-    public void setMotorSpeed(double speed) {
-        intakeMotorController.set(ControlMode.PercentOutput, speed);
-    }
-
-    public double getMotorSpeed() {
-        //return intakeMotorController.get(); //TODO: Fix me
-        return 0.0;
-    }
-
+   
     public void setIntakePiston(boolean state) {
         //TODO: Fix me
         intakePistonLeft.set(state);

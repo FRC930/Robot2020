@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
 
 
-public class IntakeCommand extends CommandBase {
+public class IntakeStopCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
@@ -26,7 +26,7 @@ public class IntakeCommand extends CommandBase {
 
   //-------- CONSTRUCTOR --------\\
 
-  public IntakeCommand(IntakePistons iPistons, IntakeMotors iMotors, Joystick iCoDriver) {
+  public IntakeStopCommand (IntakePistons iPistons, IntakeMotors iMotors, Joystick iCoDriver) {
     intakePistons = iPistons;
     intakeMotors = iMotors;
     coDriver = iCoDriver;
@@ -43,11 +43,16 @@ public class IntakeCommand extends CommandBase {
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() { 
-    if(coDriver.getRawAxis(3) > 0.5){
-    intakePistons.setIntakePiston(true);
-    intakeMotors.setMotorSpeed(1.0);
-  }
+  public void execute() {
+    System.out.print("command"); 
+    if(coDriver.getRawAxis(3) < 0.5){
+        intakePistons.setIntakePiston(false);
+        intakeMotors.setMotorSpeed(0.0);
+    }
+    else if (coDriver.getRawAxis(3) > 0.5){
+        intakePistons.setIntakePiston(true);
+        intakeMotors.setMotorSpeed(0.3);
+    }
 }
   
   @Override   // Called once the command ends or is interrupted.
