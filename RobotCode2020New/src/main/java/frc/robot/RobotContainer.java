@@ -81,9 +81,6 @@ public class RobotContainer {
   private Joystick driverController;
   private Joystick coDriverController;
 
-  private AddressableLED m_leds = new AddressableLED(0);
-  private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
-
   // -------- SUBSYSTEMS --------\\
 
   private final ShooterSubsystem shooterSubsystem;
@@ -163,8 +160,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     System.out.println("Command");
     return autoCommand;
-    
-    //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+
     // Run path following command, then stop at the end.
   }
 
