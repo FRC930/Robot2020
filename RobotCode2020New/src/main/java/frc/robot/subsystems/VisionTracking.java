@@ -22,75 +22,76 @@ public class VisionTracking extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
-    // default limelight value :)
-    private final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
+  // default limelight value :)
+  private final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
+  
+  // max angle of the limelight's POV (-27 to 27) :)
+  private final double MAXIMUM_ANGLE = 27;
+
+  // the height between the limelight and the target :)
+
+  private final double TARGET_HEIGHT = 1.6764;
+  
+  // the angle the camera is mounted at on the turret :)
+  private final double CAMERA_ANGLE = 45;
+  
+  // both used for the equasion of the error we found :)
+  private final double ERROR_EQ_SLOPE = 0.23638537459;
+  private final double ERROR_EQ_INTERCEPT = -.37613082;
+
+  // limelight pipelines
+  // TODO: make an enum for these
+  public final int PIPELINE_CLOSE = 0;
+  public final int PIPELINE_MID = 1;
+  public final int PIPELINE_FAR = 2;
+
+  private final double HORIZ_OFFSET_DEFAULT_VALUE = -100;
+  private final double VERT_OFFSET_DEFAULT_VALUE = -200;
     
-    // max angle of the limelight's POV (-27 to 27) :)
-    private final double MAXIMUM_ANGLE = 27;
-
-    // the height between the limelight and the target :)
-
-    private final double TARGET_HEIGHT = 1.6764;
-    
-    // the angle the camera is mounted at on the turret :)
-    private final double CAMERA_ANGLE = 45;
-   
-    // both used for the equasion of the error we found :)
-    private final double ERROR_EQ_SLOPE = 0.23638537459;
-    private final double ERROR_EQ_INTERCEPT = -.37613082;
-
-    // limelight pipelines
-    // TODO: make an enum for these
-    public final int PIPELINE_CLOSE = 0;
-    public final int PIPELINE_MID = 1;
-    public final int PIPELINE_FAR = 2;
-
-    private final double HORIZ_OFFSET_DEFAULT_VALUE = -100;
-    private final double VERT_OFFSET_DEFAULT_VALUE = -200;
-    
-    //--Ports
+  //--Ports
 
   //-------- DECLARATIONS --------\\
   
-    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-  
-    // tv  Whether the limelight has any valid targets (0 or 1)
-    private boolean validTarget; 
- 
-    // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
-    private double horizontalOffset;
- 
-    // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
-    private double verticleOffset;
- 
-    // ta  Target Area (0% of image to 100% of image)
-    private double percentOfImage;
- 
-    // ts  Skew or rotation (-90 degrees to 0 degrees)
-    private double skew;
+  private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-    // logger
-    private Logger logger;
+  // tv  Whether the limelight has any valid targets (0 or 1)
+  private boolean validTarget; 
+
+  // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+  private double horizontalOffset;
+
+  // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+  private double verticleOffset;
+
+  // ta  Target Area (0% of image to 100% of image)
+  private double percentOfImage;
+
+  // ts  Skew or rotation (-90 degrees to 0 degrees)
+  private double skew;
+
+  // logger
+  private Logger logger;
   
- // tv  Whether the limelight has any valid targets (0 or 1)
- private NetworkTableEntry tv = limelightTable.getEntry("tv");
- private double validtarget = tv.getDouble(0.12345);
- // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
- private NetworkTableEntry tx = limelightTable.getEntry("tx");
- private double horizontaloffset = tx.getDouble(0.12345);
- // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
- private NetworkTableEntry ty = limelightTable.getEntry("ty");
- private double verticleoffset = ty.getDouble(0.12345);
- // ta  Target Area (0% of image to 100% of image)
- private NetworkTableEntry ta = limelightTable.getEntry("ta");
- private double percentofimage = ta.getDouble(0.12345);
- // ts  Skew or rotation (-90 degrees to 0 degrees)
- private NetworkTableEntry ts = limelightTable.getEntry("ts");
- private double skew = ts.getDouble(0.12345);
- // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
- private NetworkTableEntry tl = limelightTable.getEntry("tl");
- private double latency = tl.getDouble(0.12345);
- private int Distance;
+  // tv  Whether the limelight has any valid targets (0 or 1)
+  private NetworkTableEntry tv = limelightTable.getEntry("tv");
+  private double validtarget = tv.getDouble(0.12345);
+  // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+  private NetworkTableEntry tx = limelightTable.getEntry("tx");
+  private double horizontaloffset = tx.getDouble(0.12345);
+  // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+  private NetworkTableEntry ty = limelightTable.getEntry("ty");
+  private double verticleoffset = ty.getDouble(0.12345);
+  // ta  Target Area (0% of image to 100% of image)
+  private NetworkTableEntry ta = limelightTable.getEntry("ta");
+  private double percentofimage = ta.getDouble(0.12345);
+  // ts  Skew or rotation (-90 degrees to 0 degrees)
+  private NetworkTableEntry ts = limelightTable.getEntry("ts");
+  skew = ts.getDouble(0.12345);
+  // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+  private NetworkTableEntry tl = limelightTable.getEntry("tl");
+  private double latency = tl.getDouble(0.12345);
+  private int Distance;
+
  /*Head-on equation is y = 1.01717625x + 8.02978
  Angled equation is y = 9.3065108x - 14.8083 */
   public VisionTracking() {
@@ -117,7 +118,6 @@ public class VisionTracking extends SubsystemBase {
     return horizontalOffset;
 
   }
-  public double getDistance(){
 
   // the distance between the robot and the goal :)
   public double getDistance(){
