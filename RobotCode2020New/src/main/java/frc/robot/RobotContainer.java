@@ -86,15 +86,15 @@ public class RobotContainer {
 
   // -------- SUBSYSTEMS --------\\
 
-  private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
-  private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
-  private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
+  private final ShooterSubsystem shooterSubsystem;
+  private final LEDSubsystem ledSubsystem;
+  private final TurretSubsystem turretSubsystem;
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
 
   // -------- COMMANDS --------\\
 
-  private final AimTurretCommand m_aimTurret;
+  private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
   private final AutonomousCommand autoCommand;
   
@@ -109,11 +109,14 @@ public class RobotContainer {
     //Subsystems
     driveSubsystem = new DriveSubsystem();
     colorSensorSubsystem = new ColorSensorSubsystem();
+    turretSubsystem = new TurretSubsystem();
+    shooterSubsystem = new ShooterSubsystem();
+    ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
 
     //Commands
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
-    m_aimTurret = new AimTurretCommand(m_TurretSubsystem);   
+    aimTurretCommand = new AimTurretCommand(turretSubsystem);   
 
     // Configure the button bindings
 
