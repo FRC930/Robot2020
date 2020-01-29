@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
+import frc.robot.commands.turretcommads.AutoAimTurretCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -62,12 +63,12 @@ public class RobotContainer {
     //private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
 
     private final LEDSubsystem m_LedSubsystem = new LEDSubsystem();
-
+    private final VisionTracking m_LimeLight = new VisionTracking(); 
     private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
 
     // -------- COMMANDS --------\\
 
-    private final AimTurretCommand m_aimTurret;
+    private final AutoAimTurretCommand m_autoAimTurret;
 
     private LEDDone isLEDDone = new LEDDone();
 
@@ -83,9 +84,9 @@ public class RobotContainer {
 
         // Configure the button bindings
         configureButtonBindings();
-
-        m_aimTurret = new AimTurretCommand(m_TurretSubsystem);        
-        CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_aimTurret);
+        
+        this.m_autoAimTurret = new AutoAimTurretCommand(this.m_LimeLight, this.m_TurretSubsystem);
+        CommandScheduler.getInstance().setDefaultCommand(this.m_TurretSubsystem, this.m_autoAimTurret);
     }
 
     // -------- METHODS --------\\
