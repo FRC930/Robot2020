@@ -19,6 +19,7 @@ import frc.robot.commands.shootercommands.*;
 import frc.robot.commands.turretcommads.*;
 
 import frc.robot.subsystems.*;
+import frc.robot.triggers.*;  
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -125,30 +126,27 @@ public class RobotContainer {
   // -------- METHODS --------\\
 
   private void configureButtonBindings() {
-
-    // codriver buttons and assignments
-    final JoystickButton a_buttonDriver = new JoystickButton(driverController, 1);
-    final JoystickButton b_buttonDriver = new JoystickButton(driverController, 2);
-    final JoystickButton x_buttonDriver = new JoystickButton(driverController, 3);
-    final JoystickButton y_buttonDriver = new JoystickButton(driverController, 4);
-    final JoystickButton lb_buttonDriver = new JoystickButton(driverController, 5);
-    final JoystickButton rb_buttonDriver = new JoystickButton(driverController, 6);
-    final JoystickButton back_buttonDriver = new JoystickButton(driverController, 7);
-    final JoystickButton start_buttonDriver = new JoystickButton(driverController, 8);
-    
-    
-    a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
-    b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
-
-    y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
-    x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
-   
-    beginRunCommands();
+    configureDriverBindings();
+    configureCodriverBindings();
   }
 
+  private void configureDriverBindings() {
+
+    JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+
+  }
+
+  private void configureCodriverBindings() { 
+
+    //--Buttons
+    AxisTrigger intakeButton = new AxisTrigger(coDriverController, XB_AXIS_RT);
+
+    //--Command binds
+    //intakeButton.whenPressed(intake::run);
+  }
   
   private void beginRunCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_aimTurret);
+    CommandScheduler.getInstance().setDefaultCommand(turretSubsystem, aimTurretCommand);
     CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
   }
 
