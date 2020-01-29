@@ -8,14 +8,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
+/*interface Distance {implements Distance
+  public void headOn();
+  public void angled();
+}
+*/
 public class VisionTracking extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
@@ -48,9 +50,8 @@ public class VisionTracking extends SubsystemBase {
     
     //--Ports
 
-
-  
   //-------- DECLARATIONS --------\\
+  
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
   
     // tv  Whether the limelight has any valid targets (0 or 1)
@@ -70,17 +71,39 @@ public class VisionTracking extends SubsystemBase {
 
     // logger
     private Logger logger;
- 
   
+ // tv  Whether the limelight has any valid targets (0 or 1)
+ private NetworkTableEntry tv = limelightTable.getEntry("tv");
+ private double validtarget = tv.getDouble(0.12345);
+ // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+ private NetworkTableEntry tx = limelightTable.getEntry("tx");
+ private double horizontaloffset = tx.getDouble(0.12345);
+ // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+ private NetworkTableEntry ty = limelightTable.getEntry("ty");
+ private double verticleoffset = ty.getDouble(0.12345);
+ // ta  Target Area (0% of image to 100% of image)
+ private NetworkTableEntry ta = limelightTable.getEntry("ta");
+ private double percentofimage = ta.getDouble(0.12345);
+ // ts  Skew or rotation (-90 degrees to 0 degrees)
+ private NetworkTableEntry ts = limelightTable.getEntry("ts");
+ private double skew = ts.getDouble(0.12345);
+ // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+ private NetworkTableEntry tl = limelightTable.getEntry("tl");
+ private double latency = tl.getDouble(0.12345);
+ private int Distance;
+ /*Head-on equation is y = 1.01717625x + 8.02978
+ Angled equation is y = 9.3065108x - 14.8083 */
   public VisionTracking() {
-    
-    logger = Logger.getLogger(VisionTracking.class.getName());
-    logger.setLevel(Level.INFO);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("tl").getDouble(0);
 
-  }  
+  }
   //-------- METHODS --------\\
   
-  // this returns the horizontal angle between the limelights crosshair and the target crosshair :)
   public double getHorizontalOffset(){
 
     logger.entering(getClass().getName(), "getHorizontalOffset()");
@@ -94,6 +117,7 @@ public class VisionTracking extends SubsystemBase {
     return horizontalOffset;
 
   }
+  public double getDistance(){
 
   // the distance between the robot and the goal :)
   public double getDistance(){
@@ -121,23 +145,10 @@ public class VisionTracking extends SubsystemBase {
 
     return distanceAndError;
   }
-
-  // whether the limelight sees a target or not :)
-  public boolean getValidTargets(){
-
-    logger.entering(getClass().getName(), "getValidTargets()");
-
-    validTarget = limelightTable.getEntry("tv").getBoolean(false);
-
-    logger.log(Level.FINE, "Valid Target?: " + validTarget);
-
-    logger.exiting(getClass().getName(), "getValidTargets()");
-
-    return validTarget;
-
+  public double getValidTargets(){
+    validtarget = tv.getDouble(0.12345);
+    return validtarget;
   }
-
-  // this returns the verticle offset between the limelights crosshair and the target crosshair :)
   public double getVerticleOffset(){
 
     logger.entering(getClass().getName(), "getVerticleOffset()");
@@ -168,10 +179,6 @@ public class VisionTracking extends SubsystemBase {
  
   @Override
   public void periodic() {
-
     // This method will be called once per scheduler run
-
+    }
   }
-
-}
-  

@@ -16,7 +16,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import frc.robot.Constants;
 
-
 public class IntakeSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
