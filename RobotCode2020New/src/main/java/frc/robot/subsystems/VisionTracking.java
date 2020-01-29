@@ -21,26 +21,30 @@ public class VisionTracking extends SubsystemBase {
   //-------- CONSTANTS --------\\
 
     // default limelight value :)
-    public final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
+    private final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
     
     // max angle of the limelight's POV (-27 to 27) :)
-    public final double MAXIMUM_ANGLE = 27;
+    private final double MAXIMUM_ANGLE = 27;
 
     // the height between the limelight and the target :)
 
-    public final double TARGET_HEIGHT = 1.6764;
+    private final double TARGET_HEIGHT = 1.6764;
     
     // the angle the camera is mounted at on the turret :)
-    public final double CAMERA_ANGLE = 45;
+    private final double CAMERA_ANGLE = 45;
    
     // both used for the equasion of the error we found :)
-    public final double ERROR_EQ_SLOPE = 0.23638537459;
-    public final double ERROR_EQ_INTERCEPT = -.37613082;
+    private final double ERROR_EQ_SLOPE = 0.23638537459;
+    private final double ERROR_EQ_INTERCEPT = -.37613082;
 
     // limelight pipelines
+    // TODO: make an enum for these
     public final int PIPELINE_CLOSE = 0;
     public final int PIPELINE_MID = 1;
     public final int PIPELINE_FAR = 2;
+
+    private final double HORIZ_OFFSET_DEFAULT_VALUE = -100;
+    private final double VERT_OFFSET_DEFAULT_VALUE = -200;
     
     //--Ports
 
@@ -63,9 +67,6 @@ public class VisionTracking extends SubsystemBase {
  
     // ts  Skew or rotation (-90 degrees to 0 degrees)
     private double skew;
- 
-    // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
-    private double latency;
 
     // logger
     private Logger logger;
@@ -84,7 +85,7 @@ public class VisionTracking extends SubsystemBase {
 
     logger.entering(getClass().getName(), "getHorizontalOffset()");
 
-    horizontalOffset = limelightTable.getEntry("tx").getDouble(0.12345);
+    horizontalOffset = limelightTable.getEntry("tx").getDouble(HORIZ_OFFSET_DEFAULT_VALUE);
 
     logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
 
@@ -95,15 +96,20 @@ public class VisionTracking extends SubsystemBase {
   }
 
   // the distance between the robot and the goal :)
-  public double getDistance( double angleOffset){
+  public double getDistance(){
 
     logger.entering(getClass().getName(),  "getDistance()");
 
+    // estimated distance from initial calculation
     double estDistance;
+
+    // distance error based on our initial distance calculation
     double error;
+
+    // sum of estimated distance and error, becomes our actual distance
     double distanceAndError;
 
-    estDistance = TARGET_HEIGHT / Math.tan(CAMERA_ANGLE + angleOffset);
+    estDistance = TARGET_HEIGHT / Math.tan(CAMERA_ANGLE + getVerticleOffset());
     error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
     distanceAndError = estDistance + error;
 
@@ -136,7 +142,7 @@ public class VisionTracking extends SubsystemBase {
 
     logger.entering(getClass().getName(), "getVerticleOffset()");
 
-    verticleOffset = limelightTable.getEntry("ty").getDouble(0.12345);
+    verticleOffset = limelightTable.getEntry("ty").getDouble(VERT_OFFSET_DEFAULT_VALUE);
 
     logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
 
@@ -159,20 +165,6 @@ public class VisionTracking extends SubsystemBase {
     logger.exiting(getClass().getName(), "setPipeline()");
 
   }
-
-  /* 
-  public double previousXAngle() {
-
-    return 0.0;
-
-  }
-
-  public double previousYAngle() {
-    
-    return 0.0;
-
-  }
-  */
  
   @Override
   public void periodic() {
