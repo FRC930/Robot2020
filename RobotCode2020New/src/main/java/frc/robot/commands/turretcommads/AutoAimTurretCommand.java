@@ -10,7 +10,7 @@ import frc.robot.subsystems.VisionTracking;
 
 public class AutoAimTurretCommand extends PIDCommand {
     public AutoAimTurretCommand(VisionTracking limeLight, TurretSubsystem turret) {
-        super(new PIDController(0, 0, 0), () -> {
+        super(new PIDController(0.0001, 0, 0), () -> {
             // TODO: Check for valid targets
             if (true) {
                 return limeLight.getHorizontalOffset();
