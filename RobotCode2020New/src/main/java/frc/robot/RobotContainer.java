@@ -85,7 +85,7 @@ public class RobotContainer {
   // -------- SUBSYSTEMS --------\\
 
   private final ShooterSubsystem shooterSubsystem;
-  private final LEDSubsystem ledSubsystem;
+  //private final LEDSubsystem ledSubsystem;
   private final TurretSubsystem turretSubsystem;
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
@@ -109,7 +109,7 @@ public class RobotContainer {
     colorSensorSubsystem = new ColorSensorSubsystem();
     turretSubsystem = new TurretSubsystem();
     shooterSubsystem = new ShooterSubsystem();
-    ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
+    //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
 
     //Commands
     driveCommand = new DriveCommand(driveSubsystem, driverController);

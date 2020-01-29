@@ -12,6 +12,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import java.util.logging.*;
+
 
 /*interface Distance {implements Distance
   public void headOn();
@@ -66,9 +68,6 @@ public class VisionTracking extends SubsystemBase {
   // ta  Target Area (0% of image to 100% of image)
   private double percentOfImage;
 
-  // ts  Skew or rotation (-90 degrees to 0 degrees)
-  private double skew;
-
   // logger
   private Logger logger;
   
@@ -86,7 +85,10 @@ public class VisionTracking extends SubsystemBase {
   private double percentofimage = ta.getDouble(0.12345);
   // ts  Skew or rotation (-90 degrees to 0 degrees)
   private NetworkTableEntry ts = limelightTable.getEntry("ts");
-  skew = ts.getDouble(0.12345);
+
+  // ts  Skew or rotation (-90 degrees to 0 degrees)
+  private double skew = ts.getDouble(0.12345);
+
   // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
   private NetworkTableEntry tl = limelightTable.getEntry("tl");
   private double latency = tl.getDouble(0.12345);
