@@ -59,15 +59,17 @@ public class RobotContainer {
 
     // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-    private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+    //private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
 
-    private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
+    private final LEDSubsystem m_LedSubsystem = new LEDSubsystem();
 
     private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
 
     // -------- COMMANDS --------\\
 
     private final AimTurretCommand m_aimTurret;
+
+    private LEDDone isLEDDone = new LEDDone();
 
     // private final ExampleCommand m_autoCommand = new
     // ExampleCommand(m_exampleSubsystem);
@@ -103,15 +105,17 @@ public class RobotContainer {
       final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
       
       
-      a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
-      b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
+      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
+      //b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
 
-      y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
-      x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
+      //y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
+      //x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
       //b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
 
-      //a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem));
-
+      a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem, isLEDDone));
+        
+      DoneTrigger doneTrigger = new DoneTrigger(isLEDDone);
+      doneTrigger.whenActive(new LEDSwitchCommand(m_LedSubsystem, isLEDDone));
       // codriver buttons and assignments
       final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
       final JoystickButton b_buttonCoDriver = new JoystickButton(driver, 2);
