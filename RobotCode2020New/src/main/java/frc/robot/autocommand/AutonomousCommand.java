@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.autocommand;
 
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
