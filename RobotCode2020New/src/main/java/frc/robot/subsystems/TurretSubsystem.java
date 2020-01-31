@@ -46,7 +46,7 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void setSpeed(double motorSpeed) {
-        this.speed = motorSpeed;
+        this.speed = -motorSpeed;
         // TODO: Figure out the position needed for 380° of rotation
         if (speed < 0) {
             if (this.mc.getSelectedSensorPosition() > 1500) {
