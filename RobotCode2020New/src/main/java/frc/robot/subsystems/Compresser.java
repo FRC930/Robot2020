@@ -20,18 +20,19 @@ public class Compresser extends SubsystemBase {
     //this sends the value to the compressor object
     public void setControllers() {
         setControllers(
-            new Compressor(COMPRESSOR_PORT)
+           // new Compressor(COMPRESSOR_PORT)
+           null
         );
     }
     //this sets the compressor constructer to the compressor object
     public void setControllers(Compressor compressor) {
-        compressorUtility = compressor;
+       // compressorUtility = compressor;
     }
     //turns compresser eather on and off
     public void turnCompressorOn(){
-        compressorUtility.setClosedLoopControl(COMPRESSOR_ON);
+      //  compressorUtility.setClosedLoopControl(COMPRESSOR_ON);
     }
     public void turnCompressorOff(){
-        compressorUtility.setClosedLoopControl(COMPRESSOR_OFF);
+       // compressorUtility.setClosedLoopControl(COMPRESSOR_OFF);
     }
 }

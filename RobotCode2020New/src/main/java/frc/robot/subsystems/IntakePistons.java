@@ -23,8 +23,8 @@ public class IntakePistons extends SubsystemBase {
     
     //-------- DECLARATIONS --------\\
 
-    private Solenoid intakePistonRight;
-    private Solenoid intakePistonLeft;
+    //private Solenoid intakePistonRight;
+    //private Solenoid intakePistonLeft;
    
 
     //-------- CONSTRUCTOR --------\\
@@ -37,22 +37,23 @@ public class IntakePistons extends SubsystemBase {
 
     public void setControllers() {
         setControllers(
-            new Solenoid(LEFT_PISTON_ID),
-            new Solenoid(RIGHT_PISTON_ID)
+            //new Solenoid(LEFT_PISTON_ID),
+           //new Solenoid(RIGHT_PISTON_ID)
+           null,null
         );
     }
 
     public void setControllers(Solenoid pistonControllerRight, Solenoid pistonContollerLeft) {
-       intakePistonRight = pistonControllerRight;
-       intakePistonLeft = pistonContollerLeft;
+     //  intakePistonRight = pistonControllerRight;
+       //intakePistonLeft = pistonContollerLeft;
        
     }
 
    
     public void setIntakePiston(boolean state) {
         //TODO: Fix me
-        intakePistonLeft.set(state);
-        intakePistonRight.set(state);
+      //  intakePistonLeft.set(state);
+        //intakePistonRight.set(state);
     }
 
     @Override

@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -58,8 +59,9 @@ public class RobotContainer {
   public RobotContainer() {
 
     //Controllers
-    driverJoystick = new Joystick(Constants.DRIVER_CONTROLLER_ID);
+    driverJoystick = null; //new Joystick(Constants.DRIVER_CONTROLLER_ID);
     coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
+  
 
     //Subsystems
     //driveSubsystem = new DriveSubsystem();
@@ -92,15 +94,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     beginRunCommands();
       //compressorOnCommand.schedule(true);
-      
-    JoystickButton intakeButton = new JoystickButton(coDriverJoystick,3);
-    intakeButton.whenActive(intakeCommand);
-    intakeButton.whenInactive(intakeStopCommand);
+      System.out.println("ButtonConfigure");
+    JoystickButton intakeButton = new JoystickButton(coDriverJoystick, 1);
+    JoystickButton intakeStopButton = new JoystickButton(coDriverJoystick, 2);
+    intakeButton.whenPressed(intakeCommand);
+    intakeStopButton.whenPressed(intakeStopCommand);
+    //intakeButton.whenInactive(intakeStopCommand);
   }
   
   private void beginRunCommands() {
    // CommandScheduler.getInstance().setDefaultCommand(intakePistons, intakeCommand);
-  
+    System.out.println("beginRunCommands");
     
   }
 

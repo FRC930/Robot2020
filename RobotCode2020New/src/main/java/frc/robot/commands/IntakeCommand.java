@@ -44,10 +44,10 @@ public class IntakeCommand extends CommandBase {
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() { 
-    if(coDriver.getRawAxis(3) > 0.5){
+    //System.out.println("intakeCommandExecute" + coDriver.getRawAxis(3));
     intakePistons.setIntakePiston(true);
-    intakeMotors.setMotorSpeed(1.0);
-  }
+    intakeMotors.setMotorSpeed(0.6);
+    System.out.println("intakeCommandExecute buttonPressed" );
 }
   
   @Override   // Called once the command ends or is interrupted.
