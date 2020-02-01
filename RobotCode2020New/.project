@@ -6,34 +6,19 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Kyles_Subteam
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-<<<<<<< HEAD
->>>>>>> e6514a6ecf70befa6cc0a19ce7b1e498d26bde5c
-=======
->>>>>>> Kyles_Subteam
 			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 		<nature>org.eclipse.jdt.core.javanature</nature>
->>>>>>> e6514a6ecf70befa6cc0a19ce7b1e498d26bde5c
-=======
 		<nature>org.eclipse.jdt.core.javanature</nature>
->>>>>>> Kyles_Subteam
 		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
 	</natures>
 </projectDescription>
