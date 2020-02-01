@@ -1,4 +1,4 @@
-package main.java.frc.robot.utilities;
+package frc.robot.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
