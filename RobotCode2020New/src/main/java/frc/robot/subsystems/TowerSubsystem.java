@@ -13,8 +13,8 @@ public class TowerSubsystem extends SubsystemBase {
     // VictorSPX is a motor controller that makes the conveor belt  
     //take the power cell up to the shooter
     public VictorSPX TowerMotor;
-    
-    public double speed;
+    private Logger logger = Logger.getLogger(getClass().getName());
+    private double speed;
     
     /**
      * The default constructor
@@ -25,6 +25,7 @@ public class TowerSubsystem extends SubsystemBase {
 
     //sets the speed to the tower motor
     public void setSpeed(double speed){
+        logger.log(Level.INFO, "motorSpeed: "+ speed );
         this.speed = speed;
         TowerMotor.set(ControlMode.PercentOutput, speed);
     }
