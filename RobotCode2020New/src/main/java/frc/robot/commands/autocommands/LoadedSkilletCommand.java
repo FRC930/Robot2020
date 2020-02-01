@@ -71,14 +71,14 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the W.O.F. facing towards the goal, away from the W.O.F.
         new Pose2d(0, 0, new Rotation2d(270)),
-        // Pass through these two interior waypoints, making an 's' curve path
+        // Pass this waypoint to have a more drastic curve towards the second shooting point
         List.of(
             //***Requires future adjustments based on game field dimensions
-            new Translation2d(1, 1)
+            new Translation2d(2, 0)
         ),
         // End 3 meters straight ahead of where we started, still facing forward
             //***Requires future adjustments based on game field dimensions
-        new Pose2d(3, 0, new Rotation2d(90)),
+        new Pose2d(3, 1, new Rotation2d(90)),
         // Pass config
         config
     );
