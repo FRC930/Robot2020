@@ -16,7 +16,8 @@ public class AutoAimTurretCommand extends PIDCommand {
     private final Logger logger = Logger.getLogger(AutoAimTurretCommand.class.getName());
     
     public AutoAimTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret) {
-        super(new PIDController(0.009, 0.006, 0.0011), () -> {
+        // TODO: Make comment explaining the constructor
+        super(new PIDController(0.011, 0.006, 0.0011), () -> {
             // double horizOff = limeLight.getHorizontalOffset();
             // if (limeLight.getValidTargets() && horizOff < 12 && horizOff > -12) {
             //     limeLight.setPipeline(LimelightPipelines.MID_PIPELINE);
@@ -26,12 +27,12 @@ public class AutoAimTurretCommand extends PIDCommand {
             //     SmartDashboard.putString("Pipeline", "Far pipeline");
             // }
 
+            SmartDashboard.putNumber("horiz off", limeLight.getHorizontalOffset());
             if (limeLight.getValidTargets()) {
                 return limeLight.getHorizontalOffset();
             }
-            return 0;
-        }, 0, (double output) -> {
-
+            return 0.0;
+        }, 0.0, (double output) -> {
             // Sets up a lambda (DoubleConsumer) to get the output from the PID controller
             if (output > 1) {
                 output = 1;
@@ -39,6 +40,7 @@ public class AutoAimTurretCommand extends PIDCommand {
                 output = -1;
             }
 
+            SmartDashboard.putNumber("controller", output);
             // Make sure that the turret does not turn past ~300° in either direction
             // Internal units. 3570 == ~300°
 
@@ -53,17 +55,15 @@ public class AutoAimTurretCommand extends PIDCommand {
             }
 
             turret.setSpeed(output);
-        }, turret, limeLight);
+        }, turret, limeLight); // End of super constructor
 
-        logger.entering(getClass().getName(), "AutoAimTurretCommand");
+        logger.entering(this.getClass().getName(), "AutoAimTurretCommand");
         logger.log(Level.INFO, "horizontal offset: " + limeLight.getHorizontalOffset());
         logger.log(Level.INFO, "encoder position: " + turret.getEncoderPosition());
 
         this.getController().enableContinuousInput(-27, 27);
 
         this.getController().setTolerance(2);
-
-        logger.setLevel(Level.INFO);
 
         addRequirements(limeLight, turret);
     }
@@ -72,4 +72,4 @@ public class AutoAimTurretCommand extends PIDCommand {
     public boolean isFinished() {
         return false;
     }
-}
+} // End AutoAimTurretCommand class

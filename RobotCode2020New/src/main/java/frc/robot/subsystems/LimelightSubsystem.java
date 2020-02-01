@@ -34,7 +34,8 @@ public class LimelightSubsystem extends SubsystemBase {
 
     // both used for the equasion of the error we found
     public final double ERROR_EQ_SLOPE = 0.23638537459;
-    public final double ERROR_EQ_INTERCEPT = -.37613082;
+    // NEED the zero for Jabroni's OCD
+    public final double ERROR_EQ_INTERCEPT = -0.37613082;
 
     // default limelight return values
     public final double DEFAULT_HORIZ_ANGLE_OFFSET = -100;
