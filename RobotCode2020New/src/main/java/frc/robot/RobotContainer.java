@@ -53,8 +53,8 @@ public class RobotContainer {
     private Joystick driver;
     private Joystick coDriver;
 
-    private AddressableLED m_leds = new AddressableLED(0);
-    private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
+    // private AddressableLED m_leds = new AddressableLED(0);
+    // private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
 
     // -------- SUBSYSTEMS --------\\
 
@@ -70,7 +70,7 @@ public class RobotContainer {
 
     private final AutoAimTurretCommand m_autoAimTurret;
 
-    private LEDDone isLEDDone = new LEDDone();
+    // private LEDDone isLEDDone = new LEDDone();
 
     // private final ExampleCommand m_autoCommand = new
     // ExampleCommand(m_exampleSubsystem);

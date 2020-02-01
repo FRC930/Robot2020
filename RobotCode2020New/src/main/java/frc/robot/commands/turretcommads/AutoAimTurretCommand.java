@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.LimelightSubsystem.LimelightPipelines;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,16 +16,21 @@ public class AutoAimTurretCommand extends PIDCommand {
     private final Logger logger = Logger.getLogger(AutoAimTurretCommand.class.getName());
     
     public AutoAimTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret) {
-        super(new PIDController(0.01, 0, 0.001), () -> {
+        super(new PIDController(0.009, 0.006, 0.0011), () -> {
+            // double horizOff = limeLight.getHorizontalOffset();
+            // if (limeLight.getValidTargets() && horizOff < 12 && horizOff > -12) {
+            //     limeLight.setPipeline(LimelightPipelines.MID_PIPELINE);
+            //     SmartDashboard.putString("Pipeline", "Close pipeline");
+            // } else {
+            //     limeLight.setPipeline(LimelightPipelines.CLOSE_PIPELINE);
+            //     SmartDashboard.putString("Pipeline", "Far pipeline");
+            // }
 
-            // TODO: Check for valid targets
-            if (true) {
+            if (limeLight.getValidTargets()) {
                 return limeLight.getHorizontalOffset();
             }
             return 0;
         }, 0, (double output) -> {
-
-            SmartDashboard.putNumber("controller output", output);
 
             // Sets up a lambda (DoubleConsumer) to get the output from the PID controller
             if (output > 1) {
@@ -35,8 +41,6 @@ public class AutoAimTurretCommand extends PIDCommand {
 
             // Make sure that the turret does not turn past ~300° in either direction
             // Internal units. 3570 == ~300°
-
-            SmartDashboard.putNumber("Encoder Position", turret.getEncoderPosition());
 
             if (output < 0) {
                 if (turret.getEncoderPosition() > 3570) {
@@ -62,5 +66,10 @@ public class AutoAimTurretCommand extends PIDCommand {
         logger.setLevel(Level.INFO);
 
         addRequirements(limeLight, turret);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }

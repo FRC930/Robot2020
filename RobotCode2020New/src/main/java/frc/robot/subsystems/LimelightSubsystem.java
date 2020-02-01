@@ -65,7 +65,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // logger
     private Logger logger;
 
-    private FIFOStack smoother = new FIFOStack(30);
+    private FIFOStack smoother = new FIFOStack(10);
 
     // enum for the different limelight pipelines
     public enum LimelightPipelines {
