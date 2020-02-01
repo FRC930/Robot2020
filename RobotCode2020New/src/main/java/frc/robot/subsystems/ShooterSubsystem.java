@@ -31,7 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //PID Derivitive Gain
     private final double PID_D = 0.004;
     //PID Proportional Gain
-    private final double PID_P = 0.0004;
+    private final double PID_P = 0.0005;
     //PID Feed-Forward Gain
     private final double PID_FF = 0.0002;
 
@@ -48,9 +48,9 @@ public class ShooterSubsystem extends SubsystemBase {
         this.motor2 = rMotor;
         
         this.pidcontroller = motorLead.getPIDController();
-        this.pidcontroller.setFF(PID_FF);
+        //this.pidcontroller.setFF(PID_FF);
         this.pidcontroller.setOutputRange(0, 1);
-        this.pidcontroller.setP(PID_P);
+        //this.pidcontroller.setP(PID_P);
         //this.pidcontroller.setD(PID_D);
         motor2.follow(motorLead);
         
@@ -66,8 +66,8 @@ public class ShooterSubsystem extends SubsystemBase {
         if(speed <= 1.0 && speed >= 0.0)
         {
             // Set the speed in percent output * the max RPM of the NEO.
-            this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-            //motorLead.set(speed);
+            //this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
+            motorLead.set(speed);
         }
         logger.log(Level.FINE, "Set shooter speed to " + speed);
 

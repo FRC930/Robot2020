@@ -20,7 +20,7 @@ import frc.robot.subsystems.LEDSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class LEDIdleFlash extends SequentialCommandGroup {
+public class LEDIdleFlash extends CommandBase {
     private LEDSubsystem m_ledSubsystem;
 
     private int flashType;
@@ -29,7 +29,7 @@ public class LEDIdleFlash extends SequentialCommandGroup {
     {
         m_ledSubsystem = ledSubsystem;
         addRequirements(m_ledSubsystem);
-
+        
         this.flashType = flashType;
     }
 

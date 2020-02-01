@@ -26,16 +26,23 @@ public class LEDSwitchCommand extends SequentialCommandGroup {
     private AddressableLED m_leds;
     private AddressableLEDBuffer m_ledsBuffer;
 
-    public LEDSwitchCommand(LEDSubsystem ledSubsystem, LEDDone isDone)
+    public LEDSwitchCommand(LEDSubsystem ledSubsystem /*, LEDDone isDone */ )
     {
         m_ledSubsystem = ledSubsystem;
         addRequirements(m_ledSubsystem);
 
-        addCommands(new DoneCommand(isDone, true),
+        addCommands(// new DoneCommand(isDone, true),
                     new LEDIdleFlash(m_ledSubsystem, 0),
                     new WaitCommand(1),
                     new LEDIdleFlash(m_ledSubsystem, 1),
-                    new WaitCommand(1),
-                    new DoneCommand(isDone, false));
+                    new WaitCommand(1) // ,
+                    // new DoneCommand(isDone, false)
+                    );
+    }
+
+    @Override
+    public boolean isFinished()
+    {
+        return false;
     }
 }

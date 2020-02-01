@@ -52,8 +52,8 @@ public class RobotContainer {
     private Joystick driver;
     private Joystick coDriver;
 
-    private AddressableLED m_leds = new AddressableLED(0);
-    private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
+    //private AddressableLED m_leds = new AddressableLED(0);
+    //private AddressableLEDBuffer m_ledsBuffer = new AddressableLEDBuffer(60);
 
     // -------- SUBSYSTEMS --------\\
 
@@ -68,8 +68,10 @@ public class RobotContainer {
     // -------- COMMANDS --------\\
 
     private final AimTurretCommand m_aimTurret;
+    private final LEDSwitchCommand m_SwitchCommand = new LEDSwitchCommand(m_LedSubsystem);
+    
 
-    private LEDDone isLEDDone = new LEDDone();
+    // private LEDDone isLEDDone = new LEDDone();
 
     // private final ExampleCommand m_autoCommand = new
     // ExampleCommand(m_exampleSubsystem);
@@ -85,7 +87,9 @@ public class RobotContainer {
         configureButtonBindings();
 
         m_aimTurret = new AimTurretCommand(m_TurretSubsystem);        
-        CommandScheduler.getInstance().setDefaultCommand(m_TurretSubsystem, m_aimTurret);
+
+        //  set default command for ledsubsystem
+        m_LedSubsystem.setDefaultCommand(m_SwitchCommand) ;
     }
 
     // -------- METHODS --------\\
@@ -105,17 +109,19 @@ public class RobotContainer {
       final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
       
       
-      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.7));
+      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.8));
       //b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
 
-      //y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
-      //x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
-      //b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
+      y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
+      x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
+      b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
+      //LEDSwitchCommand m_SWC = new LEDSwitchCommand(m_LedSubsystem);
+      //CommandScheduler.getInstance().setDefaultCommand(m_LedSubsystem, m_SWC) ; 
 
-      a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem, isLEDDone));
+      //a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem));
         
-      DoneTrigger doneTrigger = new DoneTrigger(isLEDDone);
-      doneTrigger.whenActive(new LEDSwitchCommand(m_LedSubsystem, isLEDDone));
+      // DoneTrigger doneTrigger = new DoneTrigger(isLEDDone);
+      // doneTrigger.whenActive(new LEDSwitchCommand(m_LedSubsystem, isLEDDone));
       // codriver buttons and assignments
       final JoystickButton a_buttonCoDriver = new JoystickButton(driver, 1);
       final JoystickButton b_buttonCoDriver = new JoystickButton(driver, 2);
