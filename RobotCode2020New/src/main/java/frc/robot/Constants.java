@@ -6,7 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import java.util.logging.*;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -84,11 +86,38 @@ public final class Constants {
         
         // DRIVETRAIN Constants --------------------------------]
     
-        //public static final double DRIVE_DEADBAND_JOYSTICK = 0.1;
-        //cubbed deadband so it is super low 
-        public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
-        //turning is made smoother
-        public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
+    //[--------------------AUTO--------------------------]
+
+    public static final double ksVolts = 0.22;
+    public static final double kvVoltSecondsPerMeter = 0.289;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.06;
+    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
+    public static final double kTrackwidthMeters = 0.69;
+    public static final double kPDriveVel = 1;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+
+  
+    //[-------------------AUTO--------------------------]
+
+    //[------------------JOYSTICK-----------------------]
+    
+    //[------------------JOYSTICK-----------------------]
         
-        // DRIVETRAIN Constants --------------------------------]
-}
+    //[------------------DRIVETRAIN---------------------]
+    
+    public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
+    public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
+        
+    //[------------------DRIVETRAIN---------------------]
+  
+    //[--------------------UTILITIES--------------------]
+
+    // Sets the global logger level
+    public static final Level LOG_LEVEL = Level.INFO;
+
+    //[--------------------UTILITIES--------------------]
+  
+} //End of Constants.java

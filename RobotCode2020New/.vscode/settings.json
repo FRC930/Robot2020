@@ -11,5 +11,16 @@
     "**/.project": true,
     "**/.settings": true,
     "**/.factorypath": true
-  }
+  },
+
+  "java.test.config": {
+    "name": "testlibs",
+      "env": {
+        "path": "{$workspaceFolder}\\build\\tmp\\jniExtractDir"
+      }
+  } ,
+
+  "java.test.defaultConfig": "testlibs",
+  
+  "liveshare.languages.allowGuestCommandControl": true
 }
