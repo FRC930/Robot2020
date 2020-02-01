@@ -46,6 +46,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 public class Robot extends TimedRobot {
 
   static private double WHEEL_DIAMETER = 0.1016;
@@ -60,6 +61,7 @@ public class Robot extends TimedRobot {
   Supplier<Double> rightEncoderRate;
   Supplier<Double> gyroAngleRadians;
   double[] values = new double[3];
+  Supplier<Double> yaw;
 
   NetworkTableEntry autoSpeedEntry = NetworkTableInstance.getDefault().getEntry("/robot/autospeed");
   NetworkTableEntry telemetryEntry = NetworkTableInstance.getDefault().getEntry("/robot/telemetry");
@@ -103,6 +105,7 @@ public class Robot extends TimedRobot {
     // Note that the angle from the NavX and all implementors of wpilib Gyro
     // must be negated because getAngle returns a clockwise positive angle
     gyro.getYawPitchRoll(values);
+    yaw = Double.valueOf(values[0]);
     //
     // Configure drivetrain movement
     //
@@ -118,25 +121,24 @@ public class Robot extends TimedRobot {
     // Configure encoder related functions -- getDistance and getrate should return
     // units and units/s
     //
-
+    
     double encoderConstant = (1 / ENCODER_EDGES_PER_REV) * WHEEL_DIAMETER * Math.PI;
 
-    Encoder leftEncoder = new Encoder(2, 3);
-    leftEncoder.setDistancePerPulse(encoderConstant);
-    leftEncoder.setReverseDirection(true);
-    leftEncoderPosition = leftEncoder::getDistance;
-    leftEncoderRate = leftEncoder::getRate;
+    TalonFXEncoders leftEncoder = new TalonFXEncoders();
+    leftEncoderPosition = leftEncoder::getRPMLeft;
+    leftEncoderRate = leftEncoder::getLeftRate;
 
-    Encoder rightEncoder = new Encoder(0, 1);
-    rightEncoder.setDistancePerPulse(encoderConstant);
-    rightEncoderPosition = rightEncoder::getDistance;
-    rightEncoderRate = rightEncoder::getRate;
+    TalonFXEncoders rightEncoder = new TalonFXEncoders();
+    rightEncoderPosition = rightEncoder::getRPMRight;
+    rightEncoderRate = rightEncoder::getRightRate;
+
+    
+    
 
     // Set the update rate instead of using flush because of a ntcore bug
     // -> probably don't want to do this on a robot in competition
     NetworkTableInstance.getDefault().setUpdateRate(0.010);
   }
-
   @Override
   public void disabledInit() {
     System.out.println("Robot disabled");
@@ -151,9 +153,9 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     // feedback for users, but not used by the control program
     SmartDashboard.putNumber("l_encoder_pos", leftEncoderPosition.get());
-    SmartDashboard.putNumber("l_encoder_rate", leftEncoderRate.get());
+    //SmartDashboard.putNumber("l_encoder_rate", leftEncoderRate.get());
     SmartDashboard.putNumber("r_encoder_pos", rightEncoderPosition.get());
-    SmartDashboard.putNumber("r_encoder_rate", rightEncoderRate.get());
+    //SmartDashboard.putNumber("r_encoder_rate", rightEncoderRate.get());
   }
 
   @Override
@@ -181,6 +183,7 @@ public class Robot extends TimedRobot {
   */
   @Override
   public void autonomousPeriodic() {
+    
 
     // Retrieve values to send back before telling the motors to do something
     double now = Timer.getFPGATimestamp();

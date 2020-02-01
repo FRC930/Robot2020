@@ -20,6 +20,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     */
     public TalonFXSpeedController(int deviceNumber) {
         super(deviceNumber);
+        System.out.println("constructor");
     }
 
 
@@ -29,6 +30,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     * super goes to BaseMotorController class above TalonFX and BaseTalon.
     */
     public void disable() {
+        System.out.println("void disable");
         super.neutralOutput();
     }
 
@@ -38,7 +40,9 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     * 
     * super goes to BaseMotorController class above TalonFX and BaseTalon.
     */
+    @Override
     public double get() {
+        System.out.println("double get "+super.getMotorOutputPercent());
         return super.getMotorOutputPercent();
     }
 
@@ -47,6 +51,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     * Sets speed by percent from -1 to 1.
     */
     public void set(double speed) { //that ----------------.
+        System.out.println("void set");
         super.set(ControlMode.PercentOutput, speed);    // |
     }                                                   // |
                                                         // |
@@ -55,6 +60,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     * Stops motor by setting speed to 0.0.              // |
     */                                                  // |
     public void stopMotor() {                           // |
+        System.out.println("void stopmotor");
         this.set(0.0); //this -----------------------------'
     }
 
@@ -65,6 +71,6 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     * pidWrite is located within SpeedController and PIDOutput class.
     */
     public void pidWrite(double output) {
-
+        System.out.println("pidwrite");
     }
 }
