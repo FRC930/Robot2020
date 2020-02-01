@@ -5,13 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.colorwheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.RotationalControlSubsystem;
-import com.revrobotics.CANSparkMax;
 import java.util.logging.*;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 
 public class RotationalControlCommand extends CommandBase {
 
@@ -19,10 +17,11 @@ public class RotationalControlCommand extends CommandBase {
     // Creates an instance of the RotationalControlSubsystem subsystem
     private final RotationalControlSubsystem m_subsystem;
     // Creates an instance of the logger class
-    private static final Logger logger = Logger.getLogger(GetColorCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(RotationalControlCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
 
+    private final double SPEED = 0.5;
 
     public RotationalControlCommand(RotationalControlSubsystem subsystem) {
         m_subsystem = subsystem;
@@ -30,36 +29,38 @@ public class RotationalControlCommand extends CommandBase {
         addRequirements(subsystem);
     }
 
-
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         logger.entering(getClass().getName(), "initialize");
+        // Sets the motor speed to the constant SPEED
+        m_subsystem.setMotorSpeed(SPEED);
         logger.exiting(getClass().getName(), "initialize");
     }
 
     @Override
     public void execute() {
-        logger.entering(getClass().getName(), "execute");
-        // Gets the SparkMax values from the RotationalControlSubsystem subsystem
-        final double spark = m_subsystem.getMotorSpeed();
-        logger.log(Level.INFO, "(spinning)");
-        logger.exiting(getClass().getName(), "execute");
+        logger.entering(this.getClass().getName(), "execute");
+        // Gets the SparkMax values from the RotationalControlSubsystem subsystem        
+        logger.log(Level.FINE, "(spinning)");
+        logger.exiting(this.getClass().getName(), "execute");
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         // Logging stuff
-        logger.entering(getClass().getName(), "end");
-        logger.exiting(getClass().getName(), "end");
+        logger.entering(this.getClass().getName(), "end");
+        // Sets the motor speed to 0
+        m_subsystem.setMotorSpeed(0.0);
+        logger.exiting(this.getClass().getName(), "end");
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        logger.entering(getClass().getName(), "isFinished");
-        logger.exiting(getClass().getName(), "isFinished");
+        logger.entering(this.getClass().getName(), "isFinished");
+        logger.exiting(this.getClass().getName(), "isFinished");
         return false;
     }
-}
+} // End of class

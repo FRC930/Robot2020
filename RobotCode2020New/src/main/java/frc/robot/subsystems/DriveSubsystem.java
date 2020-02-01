@@ -37,7 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
     private TalonSRX gyroTalon;
     private PigeonIMU m_gyro;
     private double values[] = new double[3]; //put to other declerations
-    private DifferentialDriveOdometry m_odometry;
+    //private DifferentialDriveOdometry m_odometry;
     private TalonFX right1;
     private TalonFX right2;
     private TalonFX left1;
@@ -98,7 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_rightEncoder = m_RightEncoder;
         m_leftEncoder = m_LeftEncoder;
         m_gyro = m_Gyro;
-        m_odometry = m_Odometry;
+        //m_odometry = m_Odometry;
 
 
         // Mirror primary motor controllers on each side
@@ -128,9 +128,9 @@ public class DriveSubsystem extends SubsystemBase {
         return right1.getMotorOutputPercent();
     }
 
-    public Pose2d getPose() {
-      return m_odometry.getPoseMeters();
-    }
+    // public Pose2d getPose() {
+    //   return m_odometry.getPoseMeters();
+    // }
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
       return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
     }

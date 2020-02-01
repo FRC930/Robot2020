@@ -7,39 +7,46 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.logging.*;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import java.util.logging.*;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class RotationalControlSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
+    private VictorSPX victor;
+
+    //--- Ports
+    private final int COLOR_WHEEL_PORT = 4;
+    //-------- DECLARATIONS --------\\
+
     // Creates an instance of the logger class
-    private static final Logger logger = Logger.getLogger(ColorSensorSubsystem.class.getName());
-    private CANSparkMax Spark;
-    
+    private Logger logger = Logger.getLogger(RotationalControlSubsystem.class.getName());
+
     //-------- CONSTRUCTOR --------\\
 
     public RotationalControlSubsystem(){
-        Spark = new CANSparkMax(0, MotorType.kBrushless);
+        victor = new VictorSPX(COLOR_WHEEL_PORT);
     }
 
     //-------- METHODS --------\\
 
+    // Returns the speed of the motor controller
     public double getMotorSpeed(){
-        logger.entering(getClass().getName(), "getMotorController");
-        logger.exiting(getClass().getName(), "getMotorController");
-        return Spark.get();
+        logger.entering(this.getClass().getName(), "getMotorSpeed");
+        logger.exiting(this.getClass().getName(), "getMotorSpeed");
+        return victor.getMotorOutputPercent();
     }
 
-    @Override
-    public void periodic() {
-        logger.entering(getClass().getName(), "periodic");
-        logger.exiting(getClass().getName(), "periodic");
+    // Sets the motor speed to a value between -1.0 and 1.0
+    public void setMotorSpeed(double speed){
+        logger.entering(this.getClass().getName(), "setMotorSpeed");
+        victor.set(ControlMode.PercentOutput, speed);
+        // Logs the speed from the motor controller
+        logger.log(Level.FINE, "VictorSPX speed: " + getMotorSpeed());
+        logger.exiting(this.getClass().getName(), "setMotorSpeed");
     }
-}
+} // End of class

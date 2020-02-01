@@ -92,12 +92,14 @@ public class RobotContainer {
   //private final LEDSubsystem ledSubsystem;
   private final TurretSubsystem turretSubsystem;
   private final ColorSensorSubsystem colorSensorSubsystem;
+  private final RotationalControlSubsystem rotationalControlSubsystem;
   private final DriveSubsystem driveSubsystem;
 
   // -------- COMMANDS --------\\
 
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
+  private final ColorWheelCommandGroup colorWheelCommandGroup;
   //private final AutonomousCommand autoCommand;
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
@@ -117,6 +119,7 @@ public class RobotContainer {
     //Subsystems
     driveSubsystem = new DriveSubsystem();
     colorSensorSubsystem = new ColorSensorSubsystem();
+    rotationalControlSubsystem = new RotationalControlSubsystem();
     turretSubsystem = new TurretSubsystem();
     shooterSubsystem = new ShooterSubsystem();
     //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
@@ -124,7 +127,8 @@ public class RobotContainer {
     //Commands
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
-    aimTurretCommand = new AimTurretCommand(turretSubsystem);   
+    aimTurretCommand = new AimTurretCommand(turretSubsystem);
+    colorWheelCommandGroup = new ColorWheelCommandGroup(colorSensorSubsystem, rotationalControlSubsystem);
 
     // Configure the button bindings
 
@@ -140,6 +144,8 @@ public class RobotContainer {
     
     configureDriverBindings();
     configureCodriverBindings();
+    JoystickButton aButton = new JoystickButton(driverController, 1);
+    aButton.whenPressed(colorWheelCommandGroup);
   }
 
   private void configureDriverBindings() {
