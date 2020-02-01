@@ -5,8 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.autocommand;
-
+package frc.robot.commands.autocommands;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 
@@ -59,6 +58,7 @@ public class AutonomousCommand extends SequentialCommandGroup {
         new Pose2d(1, -1, new Rotation2d(270)),
         // Pass config
         config);
+        
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
         m_drive::getPose,
