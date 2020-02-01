@@ -6,14 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.GetColorCommand;
 //import frc.robot.commands.AutonomousCommand;
 
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ColorSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 import java.util.List;
@@ -28,6 +32,7 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ColorSensorSubsystem m_colorSensorSubsystem = new ColorSensorSubsystem();
   private final DriveSubsystem m_drive;
   private final DriveCommand driveCommand;
   //private final AutonomousCommand autoCommand;
@@ -56,6 +61,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     beginRunCommands();
+    
   }
   private void beginRunCommands() {
       
