@@ -98,7 +98,7 @@ public class RobotContainer {
   
   //-------- CONSTRUCTOR ---------\\
 
-  public RobotContainer(){
+  public RobotContainer() {
 
     //Controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
