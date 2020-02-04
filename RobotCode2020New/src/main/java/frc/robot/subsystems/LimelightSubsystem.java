@@ -66,7 +66,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // logger
     private Logger logger;
 
-    private FIFOStack smoother = new FIFOStack(10);
+    //private FIFOStack smoother = new FIFOStack(10);
 
     // enum for the different limelight pipelines
     public enum LimelightPipelines {
@@ -100,9 +100,9 @@ public class LimelightSubsystem extends SubsystemBase {
 
         logger.entering(getClass().getName(), "getHorizontalOffset()");
 
-        smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
+        //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
-        horizontalOffset = smoother.getSum();
+        horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
         logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
 
