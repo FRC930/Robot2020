@@ -35,7 +35,12 @@ public class RedLEDCommand extends CommandBase {
     @Override
     public void initialize() 
     {
-        m_ledSubsystem.setLEDs(255, 0, 0);
+        m_ledsBuffer = new AddressableLEDBuffer(60);
+        for(int i = 0; i < 60; i++)
+        {
+            m_ledsBuffer.setRGB(i, 255, 0, 0);
+        }
+        m_ledSubsystem.updateBuffer(m_ledsBuffer);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

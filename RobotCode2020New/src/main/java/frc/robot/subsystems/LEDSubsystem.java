@@ -12,16 +12,23 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDSubsystem extends SubsystemBase {
-    private AddressableLEDBuffer ledsBuffer = new AddressableLEDBuffer(60);
-    private AddressableLED leds;;
+    private AddressableLEDBuffer ledsBuffer;
+    private AddressableLED leds;
 
     public LEDSubsystem() 
     {
         leds = new AddressableLED(1);
+        ledsBuffer = new AddressableLEDBuffer(60);
 
         leds.setLength(ledsBuffer.getLength());
         leds.setData(ledsBuffer);
         leds.start();
+    }
+
+    public void updateBuffer(AddressableLEDBuffer LocalLedsBuffer) 
+    {
+        leds.setLength(LocalLedsBuffer.getLength());
+        leds.setData(ledsBuffer);
     }
 
     public void setLEDs(int r, int g, int b)
@@ -30,6 +37,12 @@ public class LEDSubsystem extends SubsystemBase {
         {
             ledsBuffer.setRGB(i, r, g, b);
         }
+        leds.setData(ledsBuffer);
+    }
+
+    public void setLEDs(int index, int r, int g, int b)
+    {
+        ledsBuffer.setRGB(index, r, g, b);
         leds.setData(ledsBuffer);
     }
 

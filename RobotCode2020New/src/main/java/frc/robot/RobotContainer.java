@@ -68,7 +68,7 @@ public class RobotContainer {
     // -------- COMMANDS --------\\
 
     private final AimTurretCommand m_aimTurret;
-    private final LEDSwitchCommand m_SwitchCommand = new LEDSwitchCommand(m_LedSubsystem);
+    //private final LEDSwitchCommand m_SwitchCommand = new LEDSwitchCommand(m_LedSubsystem);
     
 
     // private LEDDone isLEDDone = new LEDDone();
@@ -89,7 +89,7 @@ public class RobotContainer {
         m_aimTurret = new AimTurretCommand(m_TurretSubsystem);        
 
         //  set default command for ledsubsystem
-        m_LedSubsystem.setDefaultCommand(m_SwitchCommand) ;
+        //m_LedSubsystem.setDefaultCommand(m_SwitchCommand) ;
     }
 
     // -------- METHODS --------\\
@@ -109,7 +109,7 @@ public class RobotContainer {
       final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
       
       
-      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.8));
+      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.8, m_ledSubsystem));
       //b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
 
       y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
