@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     // Note that the angle from the NavX and all implementors of wpilib Gyro
     // must be negated because getAngle returns a clockwise positive angle
     gyro.getYawPitchRoll(values);
-    yaw = Double.valueOf(values[0]);
+    yaw  = () -> values[0];
     //
     // Configure drivetrain movement
     //
