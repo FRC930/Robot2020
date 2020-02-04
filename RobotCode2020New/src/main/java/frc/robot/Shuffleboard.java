@@ -7,7 +7,8 @@
 
 package frc.robot;
 
-public class {
+public class Shuffleboard {
    
+    
 } //end of class 
     

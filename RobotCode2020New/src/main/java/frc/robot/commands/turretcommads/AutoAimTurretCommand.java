@@ -17,7 +17,7 @@ public class AutoAimTurretCommand extends PIDCommand {
     
     public AutoAimTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret) {
         // TODO: Make comment explaining the constructor
-        super(new PIDController(0.011, 0.006, 0.0011), () -> {
+        super(new PIDController(0.019, 0.006, 0.0011), () -> {
             // double horizOff = limeLight.getHorizontalOffset();
             // if (limeLight.getValidTargets() && horizOff < 12 && horizOff > -12) {
             //     limeLight.setPipeline(LimelightPipelines.MID_PIPELINE);
