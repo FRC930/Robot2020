@@ -45,7 +45,7 @@ public class AutoAimTurretCommand extends PIDCommand {
             // Internal units. 3570 == ~300°
 
             if (output < 0) {
-                if (turret.getEncoderPosition() > 3570) {
+                if (turret.getEncoderPosition() > 3570) { //MEOW TODO: 3570 is a constant squiadward
                     output = 0;
                 }
             } else if (output > 0) {
