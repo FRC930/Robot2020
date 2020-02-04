@@ -119,8 +119,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     System.out.println("MOVING");
-    right1.set(TalonFXControlMode.Current, leftVolts);
-    left1.set(TalonFXControlMode.Current, -rightVolts);
+    right1.setvolts(leftVolts);
+    left1.setvolts(-rightVolts);
   }
 
   public double getAverageEncoderDistance() {
@@ -140,7 +140,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //System.out.println(yaw);
     // This method will be called once per scheduler run
+    
   }
 
 } // end of the class DriveSubsystem

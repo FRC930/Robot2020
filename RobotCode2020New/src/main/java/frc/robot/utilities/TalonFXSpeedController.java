@@ -2,6 +2,7 @@ package frc.robot.utilities;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -42,7 +43,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     */
     @Override
     public double get() {
-        System.out.println("double get "+super.getMotorOutputPercent());
+        //System.out.println("double get "+super.getMotorOutputPercent());
         return super.getMotorOutputPercent();
     }
 
@@ -52,7 +53,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     */
     public void set(double speed) { //that ----------------.
         System.out.println("void set");
-        super.set(ControlMode.PercentOutput, speed);    // |
+        super.set(TalonFXControlMode.PercentOutput, speed);    // |
     }                                                   // |
                                                         // |
                                                         // to
@@ -61,9 +62,15 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     */                                                  // |
     public void stopMotor() {                           // |
         System.out.println("void stopmotor");
-        this.set(0.0); //this -----------------------------'
+        //this.set(0.0); //this -----------------------------'
+        //System.out.flush();
+        //throw new RuntimeException("thingy");
     }
-
+    
+    public void setvolts(double speed) { //that ----------------.
+        System.out.println("void set 2");
+        super.set(TalonFXControlMode.Current, speed);    // |
+    }  
 
     /*
     * Since pidWrite is never called within the DifferentialDrive() class, we do not need to fill in anything.

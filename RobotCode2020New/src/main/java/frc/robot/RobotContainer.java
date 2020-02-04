@@ -101,14 +101,13 @@ public class RobotContainer {
 
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
-  private final ColorWheelCommandGroup colorWheelCommandGroup;
-  //private final AutonomousCommand autoCommand;
+  //private final ColorWheelCommandGroup colorWheelCommandGroup;
+  private final AutonomousCommand autoCommand;
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
-  private final AutonomousCommand autoCommand;
   
   //-------- CONSTRUCTOR ---------\\
 
@@ -133,7 +132,7 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
     aimTurretCommand = new AimTurretCommand(turretSubsystem);
-    colorWheelCommandGroup = new ColorWheelCommandGroup(colorSensorSubsystem, rotationalControlSubsystem);
+    //colorWheelCommandGroup = new ColorWheelCommandGroup(colorSensorSubsystem, rotationalControlSubsystem);
 
     // Configure the button bindings
 
@@ -150,7 +149,7 @@ public class RobotContainer {
     configureDriverBindings();
     configureCodriverBindings();
     JoystickButton aButton = new JoystickButton(driverController, 1);
-    aButton.whenPressed(colorWheelCommandGroup);
+    //aButton.whenPressed(colorWheelCommandGroup);
   }
 
   private void configureDriverBindings() {
