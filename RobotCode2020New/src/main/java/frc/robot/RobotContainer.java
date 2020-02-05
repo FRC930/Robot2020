@@ -65,7 +65,7 @@ public class RobotContainer {
     //private final LEDSubsystem m_LedSubsystem = new LEDSubsystem();
     private final LimelightSubsystem m_LimeLight = new LimelightSubsystem(); 
     private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
-
+    private final HopperSubsystem m_HopperSubsystem = new HopperSubsystem();
     // -------- COMMANDS --------\\
 
     private final AutoAimTurretCommand m_autoAimTurret;

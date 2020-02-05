@@ -27,6 +27,12 @@ public final class Constants {
     
     //[-------------------PORTS--------------------------]
 
+    //[-------------------HOPPER--------------------------]
+
+    public static final double HOPPER_DEFAULT_SPEED = 0.25;
+
+    //[-------------------HOPPER--------------------------]
+
     //[--------------------AUTO--------------------------]
 
     public static final double ksVolts = 0.22;
