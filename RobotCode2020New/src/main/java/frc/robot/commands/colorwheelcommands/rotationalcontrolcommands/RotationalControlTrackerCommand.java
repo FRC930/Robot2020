@@ -5,10 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.colorwheelcommands;
+package frc.robot.commands.colorwheelcommands.rotationalcontrolcommands;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.util.Color;
@@ -18,7 +17,7 @@ import frc.robot.subsystems.ColorSensorSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class GetColorCommand extends CommandBase {
+public class RotationalControlTrackerCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
@@ -28,7 +27,7 @@ public class GetColorCommand extends CommandBase {
   private final Color kRedTarget = new Color(0.561, 0.232, 0.114);
   private final Color kYellowTarget = new Color(0.361, 0.524, 0.113);
   // Creates an instance of the logger class
-  private Logger logger = Logger.getLogger(GetColorCommand.class.getName());
+  private Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
   // Direction wheel spins
   private final boolean CLOCKWISE = true;
   private final boolean COUNTER_CLOCKWISE = false;
@@ -51,7 +50,7 @@ public class GetColorCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public GetColorCommand(ColorSensorSubsystem subsystem) {
+  public RotationalControlTrackerCommand(ColorSensorSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -59,7 +58,7 @@ public class GetColorCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+public void initialize() {
     logger.entering(this.getClass().getName(), "initialize");
     // Color wheel spins in the direction below
     direction = COUNTER_CLOCKWISE;

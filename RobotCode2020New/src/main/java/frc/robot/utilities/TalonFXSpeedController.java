@@ -42,7 +42,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     */
     @Override
     public double get() {
-        System.out.println("double get "+super.getMotorOutputPercent());
+        //System.out.println("double get "+super.getMotorOutputPercent());
         return super.getMotorOutputPercent();
     }
 

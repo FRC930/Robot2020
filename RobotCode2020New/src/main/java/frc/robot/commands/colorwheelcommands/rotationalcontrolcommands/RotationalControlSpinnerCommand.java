@@ -5,25 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.colorwheelcommands;
+package frc.robot.commands.colorwheelcommands.rotationalcontrolcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.RotationalControlSubsystem;
+import frc.robot.subsystems.ColorWheelSpinnerSubsystem;
 import java.util.logging.*;
 
-public class RotationalControlCommand extends CommandBase {
+public class RotationalControlSpinnerCommand extends CommandBase {
 
     //-------- CONSTANTS --------\\
     // Creates an instance of the RotationalControlSubsystem subsystem
-    private final RotationalControlSubsystem m_subsystem;
+    private final ColorWheelSpinnerSubsystem m_subsystem;
     // Creates an instance of the logger class
-    private static final Logger logger = Logger.getLogger(RotationalControlCommand.class.getName());
+    private Logger logger = Logger.getLogger(RotationalControlSpinnerCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
 
     private final double SPEED = 0.5;
 
-    public RotationalControlCommand(RotationalControlSubsystem subsystem) {
+    public RotationalControlSpinnerCommand(ColorWheelSpinnerSubsystem subsystem) {
         m_subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);

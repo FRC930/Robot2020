@@ -7,23 +7,16 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.autocommands.*;
-import frc.robot.commands.colorwheelcommands.*;
+import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
 import frc.robot.commands.drivecommands.*;
-import frc.robot.commands.intakecommands.*;
-import frc.robot.commands.ledcommands.*;
-import frc.robot.commands.shootercommands.*;
 import frc.robot.commands.turretcommads.*;
 
 import frc.robot.subsystems.*;
 import frc.robot.triggers.*;  
-
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -64,7 +57,8 @@ public class RobotContainer {
   private final int XB_AXIS_LT = 2;
   private final int XB_AXIS_RT = 3;
 
-  public static final int XB_A = 1;
+  //A button is being used in multiple places, so it is in the constants class
+  //public static final int XB_A = 1;
   public static final int XB_B = 2;
   public static final int XB_X = 3;
   public static final int XB_Y = 4;
@@ -89,26 +83,27 @@ public class RobotContainer {
   // -------- SUBSYSTEMS --------\\
 
   private final ColorSensorSubsystem colorSensorSubsystem;
-  private final RotationalControlSubsystem rotationalControlSubsystem;
-  private final DriveSubsystem driveSubsystem;
-  private final IntakeSubsystem intakeSubsystem;
+  private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
+  //private final DriveSubsystem driveSubsystem;
+  //private final IntakeSubsystem intakeSubsystem;
   //private final LEDSubsystem ledSubsystem;
-  private final LimelightSubsystem limelightSubsystem;
-  private final ShooterSubsystem shooterSubsystem;
-  private final TurretSubsystem turretSubsystem;
+  //private final LimelightSubsystem limelightSubsystem;
+  //private final ShooterSubsystem shooterSubsystem;
+  //private final TurretSubsystem turretSubsystem;
   
   // -------- COMMANDS --------\\
 
-  private final AimTurretCommand aimTurretCommand;
-  private final DriveCommand driveCommand;
-  private final ColorWheelCommandGroup colorWheelCommandGroup;
+  //private final AimTurretCommand aimTurretCommand;
+  //private final DriveCommand driveCommand;
+  private final RotationalControlCommandGroup rotationalControlCommandGroup;
   //private final AutonomousCommand autoCommand;
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
+  private JoystickButton aButton;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
-  private final AutonomousCommand autoCommand;
+  //private final AutonomousCommand autoCommand;
   
   //-------- CONSTRUCTOR ---------\\
 
@@ -117,23 +112,25 @@ public class RobotContainer {
     //Controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
+    aButton = new JoystickButton(driverController, Constants.XB_A);
 
     //Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
-    rotationalControlSubsystem = new RotationalControlSubsystem();
-    turretSubsystem = new TurretSubsystem();
-    shooterSubsystem = new ShooterSubsystem();
-    driveSubsystem = new DriveSubsystem();
-    intakeSubsystem = new IntakeSubsystem();
+    colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
+    //turretSubsystem = new TurretSubsystem();
+    //shooterSubsystem = new ShooterSubsystem();
+    //driveSubsystem = new DriveSubsystem();
+    //intakeSubsystem = new IntakeSubsystem();
     //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
-    limelightSubsystem = new LimelightSubsystem();
+    //limelightSubsystem = new LimelightSubsystem();
 
     
     //Commands
-    driveCommand = new DriveCommand(driveSubsystem, driverController);
-    autoCommand = new AutonomousCommand(driveSubsystem);
-    aimTurretCommand = new AimTurretCommand(turretSubsystem);
-    colorWheelCommandGroup = new ColorWheelCommandGroup(colorSensorSubsystem, rotationalControlSubsystem);
+    //driveCommand = new DriveCommand(driveSubsystem, driverController);
+    //autoCommand = new AutonomousCommand(driveSubsystem);
+    //aimTurretCommand = new AimTurretCommand(turretSubsystem);
+    
+    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem, aButton);
 
     // Configure the button bindings
 
@@ -149,8 +146,7 @@ public class RobotContainer {
     
     configureDriverBindings();
     configureCodriverBindings();
-    JoystickButton aButton = new JoystickButton(driverController, 1);
-    aButton.whenPressed(colorWheelCommandGroup);
+    aButton.whenPressed(rotationalControlCommandGroup);
   }
 
   private void configureDriverBindings() {
@@ -169,8 +165,8 @@ public class RobotContainer {
   }
   
   private void beginRunCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(turretSubsystem, aimTurretCommand);
-    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
+    //CommandScheduler.getInstance().setDefaultCommand(turretSubsystem, aimTurretCommand);
+    //CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
   }
 
   /**
@@ -180,8 +176,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     System.out.println("Command");
-    return autoCommand;
-
+    //return autoCommand;
+    return null;
     // Run path following command, then stop at the end.
   }
 
