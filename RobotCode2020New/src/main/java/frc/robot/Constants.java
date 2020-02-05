@@ -21,22 +21,7 @@ import java.util.logging.*;
 public final class Constants {
     
     // AUTO code values---------------------------------------[
-    public static final double KSVOLTS = 0.22;
-
-    public static final double KVVOLT = 0.289; // seconds per meter
     
-    public static final double KAVOLT = 0.06; //this is in seconds squared per meter
-    public static final double KMAXSPEED = 1; //in meters per second
-    public static final double KMAXACCELERATION = 3; //in meters per seconds squared
-    
-    //gyro values
-    public static final double KRAMSETEB = 2;
-    public static final double KRAMSETEZETA = 0.7;
-    
-    //Track width of our robot
-    public static final double KTRACKWIDTH = 0.69; //in meters
-    public static final double KPDRIVEVEL = 1;
-    public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
 
     // JOYSTICK Controller Values-----------------------------[
@@ -90,17 +75,18 @@ public final class Constants {
         // DRIVETRAIN Constants --------------------------------]
     
     //[--------------------AUTO--------------------------]
-
-    public static final double ksVolts = 0.22;
-    public static final double kvVoltSecondsPerMeter = 0.289;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.06;
-    public static final double kMaxSpeedMetersPerSecond = 1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-    public static final double kRamseteB = 2;
-    public static final double kRamseteZeta = 0.7;
-    public static final double kTrackwidthMeters = 0.69;
-    public static final double kPDriveVel = 1;
-    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+    public static final double KSVOLTS = 0.662;
+    public static final double KVVOLT = 0.106; // seconds per meter
+    public static final double KAVOLT = 0.00882; //this is in seconds squared per meter
+    public static final double KMAXSPEED = 1; //in meters per second
+    public static final double KMAXACCELERATION = 3; //in meters per seconds squared
+    //gyro values
+    public static final double KRAMSETEB = 2;
+    public static final double KRAMSETEZETA = 0.7;
+    //Track width of our robot
+    public static final double KTRACKWIDTH = 0.69; //in meters
+    public static final double KPDRIVEVEL = 1;
+    public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
 
     //[-------------------AUTO--------------------------]
         
