@@ -74,13 +74,13 @@ public class RobotContainer {
   
   // --Deadbands
 
-  // -------- DECLARATIONS --------\\
+  //-------- DECLARATIONS --------\\
 
   private boolean usingGamecube = true;
   private Joystick driverController;
   private Joystick coDriverController;
 
-  // -------- SUBSYSTEMS --------\\
+  //-------- SUBSYSTEMS --------\\
 
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
@@ -90,7 +90,7 @@ public class RobotContainer {
   private final ShooterSubsystem shooterSubsystem;
   private final TurretSubsystem turretSubsystem;
   
-  // -------- COMMANDS --------\\
+  //-------- COMMANDS --------\\
 
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
@@ -124,7 +124,7 @@ public class RobotContainer {
   }
 
 
-  // -------- METHODS --------\\
+  //-------- METHODS --------\\
 
   private void configureButtonBindings() {
     configureDriverBindings();
