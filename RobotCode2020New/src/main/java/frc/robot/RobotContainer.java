@@ -21,9 +21,6 @@ import frc.robot.commands.turretcommads.*;
 import frc.robot.subsystems.*;
 import frc.robot.triggers.*;  
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -79,6 +76,7 @@ public class RobotContainer {
 
   // -------- DECLARATIONS --------\\
 
+  private boolean usingGamecube = true;
   private Joystick driverController;
   private Joystick coDriverController;
 
@@ -102,11 +100,11 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    //Controllers
+    //--Controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
 
-    //Subsystems
+    //--Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     driveSubsystem = new DriveSubsystem();
     intakeSubsystem = new IntakeSubsystem();
@@ -115,15 +113,14 @@ public class RobotContainer {
     shooterSubsystem = new ShooterSubsystem();
     turretSubsystem = new TurretSubsystem();
     
-    //Commands
+    //--Commands
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
 
-    // Configure the button bindings
-
-    beginRunCommands();
-    configureButtonBindings();
+    //--Configure button bindings
+    beginRunCommands();         //Sets the default command
+    configureButtonBindings();  //Configures buttons for drive team
   }
 
 
@@ -134,25 +131,37 @@ public class RobotContainer {
     configureCodriverBindings();
   }
 
-  private void configureDriverBindings() {
+  private void configureDriverBindings() {    //TODO: Bind controls to commands
+    if (usingGamecube) {  //If we're using the gamecube controller
+      //--Buttons and triggers
+      JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
 
-    JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+      //--Command binds
+    } else {  //If we're using the Xbox controller
+      //--Buttons and triggers
+      AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
 
-  }
+      //--Command binds
+    }
+    
+  } // end of method configureDriverBindings()
 
   private void configureCodriverBindings() { 
-
     //--Buttons
     AxisTrigger intakeButton = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
     //--Command binds
     //intakeButton.whenPressed(intake::run);
-  }
+  } // end of method configureCodriverBindings()
   
   private void beginRunCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(turretSubsystem, aimTurretCommand);
-    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
-  }
+    //--The instance of the scheduler
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+
+    //--Setting default commands
+    scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
+    scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+  } // end of method beginRunCommands()
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
