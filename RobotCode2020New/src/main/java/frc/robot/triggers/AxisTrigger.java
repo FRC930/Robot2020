@@ -34,6 +34,6 @@ public class AxisTrigger extends Trigger {
    */
   @Override
   public boolean get() {
-    return (this.joystick.getRawAxis(this.axisNumber) >= TRIGGER_PRESSED_THRESHOLD) ? true : false;
+    return (this.joystick.getRawAxis(this.axisNumber) >= TRIGGER_PRESSED_THRESHOLD);
   }
-}
+}//END OF CLASS

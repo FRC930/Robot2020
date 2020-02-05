@@ -20,8 +20,8 @@ import frc.robot.commands.intakecommands.*;
 import frc.robot.commands.CompressorOnCommand;
 import frc.robot.commands.CompressorOffCommand;
 //import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeMotors;
-import frc.robot.subsystems.IntakePistons;
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.IntakePistonSubsystem;
 import frc.robot.subsystems.Compresser;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -104,8 +104,8 @@ public class RobotContainer {
   // -------- SUBSYSTEMS --------\\
 
   //private final DriveSubsystem driveSubsystem;
-  private final IntakePistons intakePistons;
-  private final IntakeMotors intakeMotors;
+  private final IntakePistonSubsystem intakePistons;
+  private final IntakeMotorSubsystem intakeMotors;
   private final Compresser compressor;
   private final ShooterSubsystem shooterSubsystem;
   //private final LEDSubsystem ledSubsystem;
@@ -142,15 +142,15 @@ public class RobotContainer {
 
     //Subsystems
     //driveSubsystem = new DriveSubsystem();
-    intakePistons = new IntakePistons();
-    intakeMotors = new IntakeMotors();
+    intakePistons = new IntakePistonSubsystem();
+    intakeMotors = new IntakeMotorSubsystem();
     compressor = new Compresser();
 
     //Commands
     //driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
     //autoCommand = new AutonomousCommand(driveSubsystem);
-    intakeCommand = new IntakeCommand(intakePistons, intakeMotors,coDriverJoystick);
-    intakeStopCommand = new IntakeStopCommand(intakePistons, intakeMotors, coDriverJoystick);
+    intakeCommand = new IntakeCommand(intakePistons, intakeMotors);
+    intakeStopCommand = new IntakeStopCommand(intakePistons, intakeMotors);
     compressorOnCommand = new CompressorOnCommand(compressor);
     compressorOffCommand = new CompressorOffCommand(compressor);
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
@@ -191,10 +191,11 @@ public class RobotContainer {
   private void configureCodriverBindings() { 
 
     //--Buttons
-    AxisTrigger intakeButton = new AxisTrigger(coDriverController, XB_AXIS_RT);
+    AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
     //--Command binds
-    //intakeButton.whenPressed(intake::run);
+    //intakeAxisTrigger.whenActive(intakeCommand).whenInactive(intakeStopCommand);
+    intakeAxisTrigger.toggleWhenActive(intakeCommand).cancelWhenActive(intakeStopCommand);
   }
   
   private void beginRunCommands() {

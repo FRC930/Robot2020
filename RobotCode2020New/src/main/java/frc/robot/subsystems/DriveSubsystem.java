@@ -53,7 +53,7 @@ public class DriveSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public DriveSubsystem() {
-      setTalon(new TalonSRX(1));
+      setTalon(new TalonSRX(6));
       setMotorsAndSensors();
       m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
       m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
@@ -83,10 +83,10 @@ public class DriveSubsystem extends SubsystemBase {
       setMotorsAndSensors(new TalonFX(3),new TalonFX(4),new TalonFX(1),new TalonFX(2), 
             new Encoder(0,1), 
             new Encoder(2,3),
-            new PigeonIMU(gyroTalon), 
-            new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())));
+            new PigeonIMU(gyroTalon)); 
+            //new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())));
     }
-    public void setMotorsAndSensors(TalonFX Left3,TalonFX Left4, TalonFX Right1, TalonFX Right2, Encoder m_RightEncoder, Encoder m_LeftEncoder, PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry) {
+    public void setMotorsAndSensors(TalonFX Left3,TalonFX Left4, TalonFX Right1, TalonFX Right2, Encoder m_RightEncoder, Encoder m_LeftEncoder, PigeonIMU m_Gyro /*DifferentialDriveOdometry m_Odometry*/) {
         // Gives each Spark Max their proper values
         left1 = Left3;
         left2 = Left4;
@@ -98,7 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_rightEncoder = m_RightEncoder;
         m_leftEncoder = m_LeftEncoder;
         m_gyro = m_Gyro;
-        m_odometry = m_Odometry;
+        //m_odometry = m_Odometry;
 
 
         // Mirror primary motor controllers on each side
@@ -143,14 +143,14 @@ public class DriveSubsystem extends SubsystemBase {
     // So our final equation will be (getIntergratedSensorVelocity() * (600.0 / 2048.0)) resulting in a pretty accurate RPM (+-10).
     return vel * (600.0 / 2048.0);
   }
-    public double getHeading() {
-      m_gyro.getYawPitchRoll(values);
-      return Math.IEEEremainder(values[0], 360);
-    }
-    public void resetOdometry(Pose2d pose) {
+    // public double getHeading() {
+    //   m_gyro.getYawPitchRoll(values);
+    //   return Math.IEEEremainder(values[0], 360);
+    // }
+    // public void resetOdometry(Pose2d pose) {
       
-      m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
-    }
+    //   m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    // }
     // public void arcadeDrive(double fwd, double rot) {
     //   m_drive.arcadeDrive(fwd, rot);
     // }

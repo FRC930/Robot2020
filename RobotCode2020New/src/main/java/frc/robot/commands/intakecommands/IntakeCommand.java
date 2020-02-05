@@ -9,27 +9,33 @@ package frc.robot.commands.intakecommands;
 
 import frc.robot.Constants;
 
-import frc.robot.subsystems.IntakeMotors;
-import frc.robot.subsystems.IntakePistons;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.IntakePistonSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
+import static frc.robot.subsystems.IntakePistonSubsystem.INTAKE_PISTONS_DOWN;
 
 
 public class IntakeCommand extends CommandBase {
+  
+  private final Logger logger = Logger.getLogger (IntakeCommand.class.getName());
 
   //-------- CONSTANTS --------\\
 
   //-------- DECLARATIONS --------\\
-  private final Joystick coDriver;
-  private final IntakePistons intakePistons;
-  private final IntakeMotors intakeMotors;
+
+  private final IntakePistonSubsystem intakePistons;
+  private final IntakeMotorSubsystem intakeMotors;
 
   //-------- CONSTRUCTOR --------\\
 
-  public IntakeCommand(IntakePistons iPistons, IntakeMotors iMotors, Joystick iCoDriver) {
+  public IntakeCommand(IntakePistonSubsystem iPistons, IntakeMotorSubsystem iMotors) {
     intakePistons = iPistons;
     intakeMotors = iMotors;
-    coDriver = iCoDriver;
+    logger.log(Level.FINE,"starting intake command");
 
 
     addRequirements(iPistons, iMotors);  // Use addRequirements() here to declare subsystem dependencies.
@@ -40,15 +46,16 @@ public class IntakeCommand extends CommandBase {
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
+     //System.out.println("intakeCommandExecute" + coDriver.getRawAxis(3));TODO: init
+     intakePistons.setIntakePiston(INTAKE_PISTONS_DOWN);
+     intakeMotors.setMotorSpeed(0.8);
+     logger.log(Level.FINE,"starting intake");
+ 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() { 
-    //System.out.println("intakeCommandExecute" + coDriver.getRawAxis(3));
-    intakePistons.setIntakePiston(true);
-    intakeMotors.setMotorSpeed(0.6);
-    System.out.println("intakeCommandExecute buttonPressed" );
-}
+  } 
   
   @Override   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {

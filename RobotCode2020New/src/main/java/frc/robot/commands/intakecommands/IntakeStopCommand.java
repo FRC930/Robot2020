@@ -9,30 +9,33 @@ package frc.robot.commands.intakecommands;
 
 import frc.robot.Constants;
 
-import frc.robot.subsystems.IntakeMotors;
-import frc.robot.subsystems.IntakePistons;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.IntakePistonSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
+import static frc.robot.subsystems.IntakePistonSubsystem.*;
 
 
 public class IntakeStopCommand extends CommandBase {
 
+  private final Logger logger = Logger.getLogger(IntakeStopCommand.class.getName());
   //-------- CONSTANTS --------\\
 
   //-------- DECLARATIONS --------\\
-  private final Joystick coDriver;
-  private final IntakePistons intakePistons;
-  private final IntakeMotors intakeMotors;
+  private final IntakePistonSubsystem intakePistonsSubsystem;
+  private final IntakeMotorSubsystem intakeMotorsSubsystem;
 
   //-------- CONSTRUCTOR --------\\
 
-  public IntakeStopCommand (IntakePistons iPistons, IntakeMotors iMotors, Joystick iCoDriver) {
-    intakePistons = iPistons;
-    intakeMotors = iMotors;
-    coDriver = iCoDriver;
+  public IntakeStopCommand (final IntakePistonSubsystem iPistonsSubsystem, final IntakeMotorSubsystem iMotorSubsystem) {
+    intakePistonsSubsystem = iPistonsSubsystem;
+    intakeMotorsSubsystem = iMotorSubsystem;
+    logger.log(Level.FINE,"starting intake stop command");
 
-
-    addRequirements(iPistons, iMotors);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(iPistonsSubsystem, iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
@@ -40,23 +43,18 @@ public class IntakeStopCommand extends CommandBase {
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
+    intakePistonsSubsystem.setIntakePiston(INTAKE_PISTONS_UP);
+    intakeMotorsSubsystem.setMotorSpeed(0.0);
+    logger.log(Level.FINE,"stoping intake");
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
-    System.out.print("command"); 
-    if(coDriver.getRawAxis(3) < 0.5){
-        intakePistons.setIntakePiston(false);
-        intakeMotors.setMotorSpeed(0.0);
-    }
-    else if (coDriver.getRawAxis(3) > 0.5){
-        intakePistons.setIntakePiston(true);
-        intakeMotors.setMotorSpeed(0.3);
-    }
+       
 }
   
   @Override   // Called once the command ends or is interrupted.
-  public void end(boolean interrupted) {
+  public void end(final boolean interrupted) {
   }
 
   
