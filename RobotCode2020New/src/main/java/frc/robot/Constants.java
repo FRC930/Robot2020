@@ -20,6 +20,21 @@ import java.util.logging.*;
  */
 public final class Constants {
     
+    //[-------------------PORTS--------------------------]
+
+    public static final int HOPPER_MOTOR_PORT = 3;
+    public static final int TOWER_MOTOR_PORT = 4;
+    
+    //[-------------------PORTS--------------------------]
+
+    //[-------------------HOPPER--------------------------]
+
+    public static final double HOPPER_DEFAULT_SPEED = 0.2;
+    public static final double HOPPER_SHOOTING_SPEED = 0.8;
+    public static final double TOWER_SPEED = 0.75;
+
+    //[-------------------HOPPER--------------------------]
+
     //[--------------------AUTO--------------------------]
 
     public static final double ksVolts = 0.22;

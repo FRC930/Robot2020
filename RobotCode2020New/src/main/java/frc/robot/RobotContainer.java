@@ -8,22 +8,30 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import frc.robot.commands.autocommands.*;
-import frc.robot.commands.colorwheelcommands.*;
-import frc.robot.commands.drivecommands.*;
-import frc.robot.commands.intakecommands.*;
-import frc.robot.commands.ledcommands.*;
-import frc.robot.commands.shootercommands.*;
-import frc.robot.commands.turretcommads.*;
-
+import frc.robot.commands.*;
+import frc.robot.commands.hoppercommands.HopperDefaultCommand;
+import frc.robot.commands.shootercommands.HopperTurretCommand;
+import frc.robot.commands.turretcommads.AutoAimTurretCommand;
 import frc.robot.subsystems.*;
 import frc.robot.triggers.*;  
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.GenericHID;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+//-------- SUBSYSTEM IMPORT --------\\
+import frc.robot.subsystems.ShooterSubsystem;
+
+/**
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
+ */
 public class RobotContainer {
 
   //-------- CONSTANTS --------\\
