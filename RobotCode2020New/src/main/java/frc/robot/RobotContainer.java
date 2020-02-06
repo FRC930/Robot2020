@@ -92,24 +92,35 @@ public class RobotContainer {
 
   //-------- SUBSYSTEMS --------\\
 
+  //--Color wheel subsystem
   private final ColorSensorSubsystem colorSensorSubsystem;
 
+  //--Compressor subsystem
   private final CompresserSubsystem compressorSubsystem;
 
+  //--Drive subsystem
   private final DriveSubsystem driveSubsystem;
 
+  //--Hopper subsystem
   private final HopperSubsystem hopperSubsystem;
  
+  //--Intake subsystems
   private final IntakeMotorSubsystem intakeMotors;
   private final IntakePistonSubsystem intakePistons;
   
+  //--LED subsystems
   private final LEDSubsystem ledSubsystem;
 
+  //--Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
 
+  //--Shooter subsystem
   private final ShooterSubsystem shooterSubsystem;
 
+  //--Turret subsystem
   private final TowerSubsystem towerSubsystem;
+
+  //--Turret subsystem
   private final TurretSubsystem turretSubsystem;
   
   //-------- COMMANDS --------\\
@@ -161,10 +172,8 @@ public class RobotContainer {
     compressorSubsystem = new CompresserSubsystem();
     driveSubsystem = new DriveSubsystem();
     hopperSubsystem = new HopperSubsystem();
-
     intakeMotors = new IntakeMotorSubsystem();
     intakePistons = new IntakePistonSubsystem();
- 
     ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
     shooterSubsystem = new ShooterSubsystem();

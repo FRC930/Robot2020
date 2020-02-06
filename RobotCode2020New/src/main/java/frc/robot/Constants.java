@@ -38,7 +38,7 @@ public final class Constants {
 
     //[--------------------AUTO--------------------------]
 
-    public static final double ksVolts = 0.22;
+    public static final double KSVOLTS = 0.22;
     public static final double kvVoltSecondsPerMeter = 0.289;
     public static final double kaVoltSecondsSquaredPerMeter = 0.06;
     public static final double kMaxSpeedMetersPerSecond = 1;
