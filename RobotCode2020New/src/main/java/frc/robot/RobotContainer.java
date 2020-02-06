@@ -8,30 +8,22 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.*;
-import frc.robot.commands.hoppercommands.HopperDefaultCommand;
-import frc.robot.commands.shootercommands.HopperTurretCommand;
-import frc.robot.commands.turretcommads.AutoAimTurretCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import frc.robot.commands.autocommands.*;
+import frc.robot.commands.colorwheelcommands.*;
+import frc.robot.commands.drivecommands.*;
+import frc.robot.commands.intakecommands.*;
+import frc.robot.commands.ledcommands.*;
+import frc.robot.commands.shootercommands.*;
+import frc.robot.commands.turretcommads.*;
+
 import frc.robot.subsystems.*;
 import frc.robot.triggers.*;  
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.GenericHID;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-//-------- SUBSYSTEM IMPORT --------\\
-import frc.robot.subsystems.ShooterSubsystem;
-
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls). Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
 
   //-------- CONSTANTS --------\\
@@ -103,6 +95,9 @@ public class RobotContainer {
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
   private final AutonomousCommand autoCommand;
+
+  private final IntakeCommand intakeCommand;
+  //private final StopIntakeCommand stopIntakeCommand;
   
   //-------- CONSTRUCTOR ---------\\
 
@@ -126,6 +121,9 @@ public class RobotContainer {
     autoCommand = new AutonomousCommand(driveSubsystem);
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
 
+    intakeCommand = new IntakeCommand(intakeSubsystem);
+    //stopIntakeCommand = new IntakeCommand(intakeSubsystem);
+
     //--Configure button bindings
     beginRunCommands();         //Sets the default command
     configureButtonBindings();  //Configures buttons for drive team
@@ -135,16 +133,27 @@ public class RobotContainer {
   //-------- METHODS --------\\
 
   private void configureButtonBindings() {
-    configureDriverBindings();
+    configureDriverBindings(); 
     configureCodriverBindings();
   }
 
   private void configureDriverBindings() {    //TODO: Bind controls to commands
     if (usingGamecube) {  //If we're using the gamecube controller
       //--Buttons and triggers
+
+      //B Button
+      JoystickButton rotationalButton = new JoystickButton(driverController, GC_A);
+      //A Button
+      JoystickButton positionalButton = new JoystickButton(driverController, GC_B);
+      //L Button
+      JoystickButton toggleEndgame = new JoystickButton(driverController, GC_L);
+      //ZL Button
+      JoystickButton toggleShootButton = new JoystickButton(driverController, GC_ZL);
+      //ZR Button
       JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
 
       //--Command binds
+
     } else {  //If we're using the Xbox controller
       //--Buttons and triggers
       AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
@@ -159,7 +168,10 @@ public class RobotContainer {
     AxisTrigger intakeButton = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
     //--Command binds
-    //intakeButton.whenPressed(intake::run);
+
+    //Toggle intake
+    //intakeButton.toggleWhenPressed(intakeCommand).cancelWhenPressed(stopIntakeCommand);
+
   } // end of method configureCodriverBindings()
   
   private void beginRunCommands() {
