@@ -8,20 +8,20 @@ import java.util.logging.Logger;
 
 
 
-public class Compresser extends SubsystemBase {
+public class CompresserSubsystem extends SubsystemBase {
         // this is the port number for the compressor
     private final int COMPRESSOR_PORT = 0;
         //values for turning on and off the compressor
     private final boolean COMPRESSOR_ON = true;
     private final boolean COMPRESSOR_OFF = false;
 
-    private final Logger logger = Logger.getLogger(Compresser.class.getName());
+    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
 
     //creates a objest of the compressor class
     private Compressor compressorUtility;
 
     //this is the contstructer for the compressor
-    public Compresser() {
+    public CompresserSubsystem() {
         //compressorUtility = new Compressor(COMPRESSOR_PORT);
       
     }

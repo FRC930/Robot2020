@@ -35,7 +35,7 @@ public class DriveCommand extends CommandBase {
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {  
-    run(m_driveStick.getRawAxis(Constants.DRIVE_AXIS_RIGHT_X), m_driveStick.getRawAxis(Constants.DRIVE_AXIS_LEFT_Y));
+    run(m_driveStick.getRawAxis(0), m_driveStick.getRawAxis(3));
   }
   @Override   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {

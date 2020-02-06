@@ -1,11 +1,11 @@
-package frc.robot.commands;
+package frc.robot.commands.compressorcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Compresser;
+import frc.robot.subsystems.CompresserSubsystem;
 
 public class CompressorOnCommand extends CommandBase {
-    private Compresser compressor;
-    public CompressorOnCommand(Compresser iCompressor) {
+    private CompresserSubsystem compressor;
+    public CompressorOnCommand(CompresserSubsystem iCompressor) {
         compressor = iCompressor;
         addRequirements(iCompressor);  // Use addRequirements() here to declare subsystem dependencies.
     }
