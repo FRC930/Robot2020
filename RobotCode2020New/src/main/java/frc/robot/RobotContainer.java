@@ -7,9 +7,28 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.*;
+//import frc.robot.commands.DriveCommand;
+//import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.intakecommands.*;
+import frc.robot.commands.CompressorOnCommand;
+import frc.robot.commands.CompressorOffCommand;
+//import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.subsystems.Compresser;
+/**
+ * This class is where the bulk of the robot should be declared.  Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
+ * (including subsystems, commands, and button mappings) should be declared here.
+ */
 import frc.robot.commands.autocommands.*;
 import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.drivecommands.*;
@@ -88,7 +107,9 @@ public class RobotContainer {
   private final DriveSubsystem driveSubsystem;
   private final HopperSubsystem hopperSubsystem;
   private final IntakeSubsystem intakeSubsystem;
-  //private final LEDSubsystem ledSubsystem;
+  private final IntakePistonSubsystem intakePistons;
+  private final IntakeMotorSubsystem intakeMotors;
+  private final Compresser compressor;
   private final LimelightSubsystem limelightSubsystem;
   private final ShooterSubsystem shooterSubsystem;
   private final TowerSubsystem towerSubsystem;
@@ -96,8 +117,20 @@ public class RobotContainer {
   
   //-------- COMMANDS --------\\
 
+  //private final DriveCommand driveCommand;
+  //private final AutonomousCommand autoCommand;
+  private final IntakeCommand intakeCommand;
+  private final CompressorOnCommand compressorOnCommand;
+  private final CompressorOffCommand compressorOffCommand;
+  private final IntakeStopCommand intakeStopCommand;
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
+  //private final AutonomousCommand autoCommand;
+  private Joystick driverJoystick;
+  private Joystick coDriverJoystick;
+  /**
+   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   */
   private final AutonomousCommand autoCommand;
   private final RunHopperCommand runHopperCommand;
   private final HopperDefaultCommand hopperDefaultCommand;
@@ -110,7 +143,6 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    //--Controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
 
@@ -118,7 +150,9 @@ public class RobotContainer {
     colorSensorSubsystem = new ColorSensorSubsystem();
     driveSubsystem = new DriveSubsystem();
     hopperSubsystem = new HopperSubsystem();
-    intakeSubsystem = new IntakeSubsystem();
+    intakePistons = new IntakePistonSubsystem();
+    intakeMotors = new IntakeMotorSubsystem();
+    compressor = new Compresser();
     //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
     limelightSubsystem = new LimelightSubsystem();
     shooterSubsystem = new ShooterSubsystem();
@@ -134,8 +168,10 @@ public class RobotContainer {
     runTowerCommand = new RunTowerCommand(towerSubsystem);
     stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
-    intakeCommand = new IntakeCommand(intakeSubsystem);
-    //stopIntakeCommand = new IntakeCommand(intakeSubsystem);
+    intakeCommand = new IntakeCommand(intakePistons, intakeMotors);
+    intakeStopCommand = new IntakeStopCommand(intakePistons, intakeMotors);
+    compressorOnCommand = new CompressorOnCommand(compressor);
+    compressorOffCommand = new CompressorOffCommand(compressor);
 
     //--Configure button bindings
     beginRunCommands();         //Sets the default command
@@ -167,6 +203,7 @@ public class RobotContainer {
 
       //--Command binds
 
+
     } else {  //If we're using the Xbox controller
       //--Buttons and triggers
       AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
@@ -178,13 +215,11 @@ public class RobotContainer {
 
   private void configureCodriverBindings() { 
     //--Buttons
-    AxisTrigger intakeButton = new AxisTrigger(coDriverController, XB_AXIS_RT);
+    AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
     //--Command binds
-
     //Toggle intake
-    //intakeButton.toggleWhenPressed(intakeCommand).cancelWhenPressed(stopIntakeCommand);
-
+    intakeAxisTrigger.toggleWhenActive(intakeCommand).cancelWhenActive(intakeStopCommand);
   } // end of method configureCodriverBindings()
   
   private void beginRunCommands() {
@@ -196,6 +231,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
   } // end of method beginRunCommands()
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

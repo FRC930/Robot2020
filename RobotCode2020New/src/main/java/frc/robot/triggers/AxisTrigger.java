@@ -42,4 +42,6 @@ public class AxisTrigger extends Trigger {
   public boolean get() {
     return (this.joystick.getRawAxis(this.axisNumber) >= TRIGGER_PRESSED_THRESHOLD);
   }
+
 } // end of class AxisTrigger
+

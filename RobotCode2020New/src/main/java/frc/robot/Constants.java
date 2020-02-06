@@ -20,6 +20,7 @@ import java.util.logging.*;
  */
 public final class Constants {
     
+
     //[-------------------PORTS--------------------------]
 
     public static final int HOPPER_MOTOR_PORT = 3;

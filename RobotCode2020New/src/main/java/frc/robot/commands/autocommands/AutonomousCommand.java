@@ -28,11 +28,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
-
-
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class AutonomousCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -40,44 +35,41 @@ public class AutonomousCommand extends SequentialCommandGroup {
   DriveSubsystem m_drive;
   public AutonomousCommand(DriveSubsystem subsystem) {
     m_drive = subsystem;
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.ksVolts,
-            Constants.kvVoltSecondsPerMeter,
-            Constants.kaVoltSecondsSquaredPerMeter),
-            Constants.kDriveKinematics,10);
+            new SimpleMotorFeedforward(Constants.KSVOLTS,
+            Constants.KVVOLT,
+            Constants.KAVOLT),
+            Constants.KDRIVEKINEMATICS,10);
     
     TrajectoryConfig config =
-      new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
-      Constants.kMaxAccelerationMetersPerSecondSquared)
+      new TrajectoryConfig(Constants.KMAXSPEED,
+      Constants.KMAXACCELERATION)
       // Add kinematics to ensure max speed is actually obeyed
-      .setKinematics(Constants.kDriveKinematics)
+      .setKinematics(Constants.KDRIVEKINEMATICS)
       // Apply the voltage constraint
       .addConstraint(autoVoltageConstraint);
 
   Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
         List.of(),
         //new Translation2d(1, 2)),
-        // End 3 meters straight ahead of where we started, facing forward
+        // End 1 meters straight ahead of where we started, facing forward
         new Pose2d(1, -1, new Rotation2d(270)),
         // Pass config
         config);
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
         m_drive::getPose,
-        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts,
-                                   Constants.kvVoltSecondsPerMeter,
-                                   Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
+        new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
+        new SimpleMotorFeedforward(Constants.KSVOLTS,
+                                   Constants.KVVOLT,
+                                   Constants.KAVOLT),
+        Constants.KDRIVEKINEMATICS,
         m_drive::getWheelSpeeds,
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
         m_drive::tankDriveVolts,
         m_drive
@@ -85,7 +77,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
         List.of(),
         //new Translation2d(1, 2)),
         // End 3 meters straight ahead of where we started, facing forward
@@ -95,14 +86,14 @@ public class AutonomousCommand extends SequentialCommandGroup {
      RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
         m_drive::getPose,
-        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts,
-                                   Constants.kvVoltSecondsPerMeter,
-                                   Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
+        new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
+        new SimpleMotorFeedforward(Constants.KSVOLTS,
+                                   Constants.KVVOLT,
+                                   Constants.KAVOLT),
+        Constants.KDRIVEKINEMATICS,
         m_drive::getWheelSpeeds,
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
         m_drive::tankDriveVolts,
         m_drive

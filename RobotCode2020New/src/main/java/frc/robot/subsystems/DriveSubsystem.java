@@ -14,227 +14,166 @@ import com.revrobotics.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  //-------- CONSTANTS --------\\
+    //-------- CONSTANTS --------\\
 
-  private final int RIGHT_ENCODER_CHANNEL_A = 0;
-  private final int RIGHT_ENCODER_CHANNEL_B = 1;
-  private final int LEFT_ENCODER_CHANNEL_A = 2;
-  private final int LEFT_ENCODER_CHANNEL_B = 3;
+    //-------- DECLARATIONS --------\\
+    private Encoder m_rightEncoder;
+    private Encoder m_leftEncoder;
+    private TalonSRX gyroTalon;
+    private PigeonIMU m_gyro;
+    private double values[] = new double[3]; //put to other declerations
+    private DifferentialDriveOdometry m_odometry;
+    private TalonFX right1;
+    private TalonFX right2;
+    private TalonFX left1;
+    private TalonFX left2;
+    //private CANSparkMax left1;
+    //private CANSparkMax left2;
+    //private CANSparkMax left3;
+    //private DifferentialDrive m_drive;
+    //private CANSparkMax right1;
+    //private CANSparkMax right2;
+    //private CANSparkMax right3;
 
-  private final int GRYO_TALON_PORT = 1;
+    //-------- CONSTRUCTOR --------\\
 
-  //in meters
-  private final double WHEEL_DIAMETER = 0.1016; 
-  //in ticks
-  private final int ENCODER_TICKS_PER_ROTATION = 500;  
+    public DriveSubsystem() {
+      setTalon(new TalonSRX(6));
+      setMotorsAndSensors();
+      m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+      m_rightEncoder.reset();
+      m_leftEncoder.reset();
+      m_rightEncoder.setReverseDirection(false);
+      m_leftEncoder.setReverseDirection(false);  
+    }
 
-  //in seconds
-  private final double RAMPRATE_TIME = 0.5;
+    // public DriveSubsystem(TalonFX Left3,TalonFX left4, TalonFX right1, TalonFX right2, Encoder m_RightEncoder, Encoder m_LeftEncoder, TalonSRX Gyrotalon, PigeonIMU m_Gyro, DifferentialDriveOdometry m_Odometry) {
+    //   setTalon(Gyrotalon);
+    //   setMotorsAndSensors(Left1,Left2,Right1,Right2,m_RightEncoder,m_LeftEncoder,m_Gyro,m_Odometry);
+    //   m_leftEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+    //   m_rightEncoder.setDistancePerPulse(0.1016*Math.PI/500);
+    //   m_rightEncoder.reset();
+    //   m_leftEncoder.reset();
+    //   m_rightEncoder.setReverseDirection(false);
+    //   m_leftEncoder.setReverseDirection(false);  
+    // }
 
-  //-------- DECLARATIONS --------\\
+    //-------- METHODS --------\\
+    private void setTalon(TalonSRX GyroTalon){
+      gyroTalon = GyroTalon;
+    }
 
-  //Encoders on the left and right side of the drivetrain
-  //TODO: May be subject to change because the TalonFX has their own controllers
-  private Encoder rightEncoder;
-  private Encoder leftEncoder;
+    private void setMotorsAndSensors() {
+      setMotorsAndSensors(new TalonFX(3),new TalonFX(4),new TalonFX(1),new TalonFX(2), 
+            new Encoder(0,1), 
+            new Encoder(2,3),
+            new PigeonIMU(gyroTalon)); 
+            //new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())));
+    }
+    public void setMotorsAndSensors(TalonFX Left3,TalonFX Left4, TalonFX Right1, TalonFX Right2, Encoder m_RightEncoder, Encoder m_LeftEncoder, PigeonIMU m_Gyro /*DifferentialDriveOdometry m_Odometry*/) {
+        // Gives each Spark Max their proper values
+        left1 = Left3;
+        left2 = Left4;
+        //left3 = Left3;
 
-  //Talon that the pigeon IMU gyro is hooked up to (same talon that controls intake motors)
-  private TalonSRX gyroTalon;
+        right1 = Right1;
+        right2 = Right2;
+        //right3 = Right3;
+        m_rightEncoder = m_RightEncoder;
+        m_leftEncoder = m_LeftEncoder;
+        m_gyro = m_Gyro;
+        //m_odometry = m_Odometry;
 
-  //The robot gyro, used to measure the yaw of the robot
-  private PigeonIMU gyro;
 
-  //A double array used to store the values of the gyro's yaw, pitch, and roll (the 3 rotational axes of the devil)
-  private double yawPitchRoll[];
+        // Mirror primary motor controllers on each side
+        left2.follow(left1);
+        //left3.follow(left1);
+        right2.follow(right1); 
+        //right3.follow(right1);
 
-  //Used to determine the robot's change in position 
-  private DifferentialDriveOdometry odometry;
+        left1.configOpenloopRamp(0.5);
+        right1.configOpenloopRamp(0.5);
+        //m_drive = new DifferentialDrive(right1, left1);
+    }
 
-  //Our motor controllers on the robot 
-  //TODO: Change for Falcon FXs
-  private CANSparkMax left1;
-  private CANSparkMax left2;
-  private CANSparkMax left3;
-  private CANSparkMax right1;
-  private CANSparkMax right2;
-  private CANSparkMax right3;
+    // Given Arcade value arguments and sends to motor controllers
+    public void runAt(double leftSpeed, double rightSpeed) {
+        System.out.println(left1.getMotorOutputPercent());
+        left1.set(TalonFXControlMode.PercentOutput,leftSpeed);
+        right1.set(TalonFXControlMode.PercentOutput,rightSpeed);
+    }
+    //Returns left speed
+    public double getLeftSpeed() {
+        return left1.getMotorOutputPercent();
+    }
 
-  //Our drivetrain type
-  private DifferentialDrive m_drive;
+    //Returns right speed
+    public double getRightSpeed() {
+        return right1.getMotorOutputPercent();
+    }
 
-  //-------- CONSTRUCTOR --------\\
-
-  //Initialize our subsystem
-  public DriveSubsystem() {
-
-    //Init encoders
-    initializeEncoders();
-
-    //Set up talon and the gyro attached via ribbon cable
-    gyroTalon = new TalonSRX(GRYO_TALON_PORT);
-    gyro = new PigeonIMU(gyroTalon);
-
-    //Instantiate array for yawPitchRoll
-    yawPitchRoll = new double[3];
-
-    //Sets up initial robot position
-    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
-
-    setMotorControllers();
-  } //end of constructor DriveSubsystem()
-
-  //-------- INITIALIZE METHODS --------\\
-
-  //This method will initialize any encoder logic before its use
-  public void initializeEncoders() {
-
-    //Instantiates our encoders with their proper ports
-    rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
-    leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
-
-    //Sets up a ratio between robot's movement and the encoder's rotation (aka, rotations to meters)
-    leftEncoder.setDistancePerPulse(WHEEL_DIAMETER * Math.PI / ENCODER_TICKS_PER_ROTATION);
-    rightEncoder.setDistancePerPulse(WHEEL_DIAMETER * Math.PI / ENCODER_TICKS_PER_ROTATION);
-
-    //Resets encoders to 0
-    rightEncoder.reset();
-    leftEncoder.reset();
-
-    //Puts encoder values to opposite of their placement on the robot
-    rightEncoder.setReverseDirection(false);
-    leftEncoder.setReverseDirection(false);
-  } //End of method initializeEncoders()
-
-  public void setMotorControllers() {
-    //TODO: Change this when converting to Falcon FX
-    setMotorControllers(new CANSparkMax(1, MotorType.kBrushless),
-        new CANSparkMax(2, MotorType.kBrushless),
-        new CANSparkMax(3, MotorType.kBrushless),
-        new CANSparkMax(4, MotorType.kBrushless),
-        new CANSparkMax(5, MotorType.kBrushless),
-        new CANSparkMax(6, MotorType.kBrushless));
-  } //end of default method setMotorControllers()
-
-  //TODO: Change parameters when converting to Falcon FX
-  public void setMotorControllers(CANSparkMax Left1, CANSparkMax Left2, CANSparkMax Left3, CANSparkMax Right1, CANSparkMax Right2, CANSparkMax Right3) {
-    // Gives each Spark Max their proper values
-    left1 = Left1;
-    left2 = Left2;
-    left3 = Left3;
-
-    right1 = Right1;
-    right2 = Right2;
-    right3 = Right3;
-
-    // Mirror primary motor controllers on each side
-    left2.follow(left1);
-    left3.follow(left1);
-    right2.follow(right1);
-    right3.follow(right1);
-
-    //Allows the motors to automatically be ramped up to speed when controlled
-    //TODO: change to new method for Falcon FX
-    left1.setOpenLoopRampRate(RAMPRATE_TIME);
-    right1.setOpenLoopRampRate(RAMPRATE_TIME);
-
-    //Sets up drive train type
-    m_drive = new DifferentialDrive(right1, left1);
-
-  } //end of overloaded method setMotorControllers()
-
-  //-------- GETTERS --------\\
-
-  // Returns left speed
-  public double getLeftSpeed() {
-    return left1.get();
+    public Pose2d getPose() {
+      return m_odometry.getPoseMeters();
+    }
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+      return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+    }
+    public double getRPM(double vel)
+  {
+    // The velocity from the falcon encoder doesn't give use RPM, but rather their own units. There are 2048 position units per 100ms.
+    // One unit = one position unit / 100ms; One revolution per 2048 units;
+    // So if we do, (1 Revolution/ 2048)*(1000ms/1s)*(60s/1min) that converts our revolutions to minutes.
+    // The conversion will result in 60000/204800 (600/2048 simplified (as seen in the return statement))
+    // So our final equation will be (getIntergratedSensorVelocity() * (600.0 / 2048.0)) resulting in a pretty accurate RPM (+-10).
+    return vel * (600.0 / 2048.0);
   }
-
-  // Returns right speed
-  public double getRightSpeed() {
-    return right1.get();
-  }
-
-  //Returns the left encoder
-  public Encoder getLeftEncoder() {
-    return leftEncoder;
-  }
-
-  //Returns the average distance with the two encoders
-  public double getAverageEncoderDistance() {
-    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
-  }
-
-  //Returns the right encoder
-  public Encoder getRightEncoder() {
-    return rightEncoder;
-  }
-
-  // gets the current position of the robot, based off initial position
-  public Pose2d getPose() {
-    return odometry.getPoseMeters();
-  }
-
-  // gets the speeds at which the encoders run at
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
-  }
-
-  // gets the yaw rotation of the robot
-  public double getHeading() {
-    gyro.getYawPitchRoll(yawPitchRoll);
-    return Math.IEEEremainder(yawPitchRoll[0], 360);  //If our gyro is rotated backwards, we must negate this value
-  }
-
-  //-------- METHODS --------\\
-
-  // Given Arcade value arguments and sends to motor controllers
-  public void runAt(double leftSpeed, double rightSpeed) {
-      left1.set(leftSpeed);
-      right1.set(rightSpeed);
-  }
-
-  //Resets the encoders
-  public void resetEncoders() {
-    leftEncoder.reset();
-    rightEncoder.reset();
-  }
-
-  //Resets the odemetry (basically, sets position back to 0)
-  public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
-  }
-
-  //This drives the the robot by manually setting volts to the motors 
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
-    right1.setVoltage(leftVolts);
-    left1.setVoltage(-rightVolts);
-  }
- 
-  /* TODO: Determine if this is neccessary also
-  public void setMaxOutput(double maxOutput) {
-    m_drive.setMaxOutput(maxOutput);
-  }
-  */
-
-  /* TODO: Determine if this is even neccessary in the code
-  public void arcadeDrive(double fwd, double rot) {
-    m_drive.arcadeDrive(fwd, rot);
-  }
-  */
-
-  @Override
-  public void periodic() {
+    // public double getHeading() {
+    //   m_gyro.getYawPitchRoll(values);
+    //   return Math.IEEEremainder(values[0], 360);
+    // }
+    // public void resetOdometry(Pose2d pose) {
+      
+    //   m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    // }
+    // public void arcadeDrive(double fwd, double rot) {
+    //   m_drive.arcadeDrive(fwd, rot);
+    // }
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+      System.out.println("MOVING");
+      right1.set(TalonFXControlMode.Current,leftVolts);
+      left1.set(TalonFXControlMode.Current,-rightVolts);
+    }
+    public double getAverageEncoderDistance() {
+      return (getRPM(right1.getSensorCollection().getIntegratedSensorVelocity()) + getRPM(left1.getSensorCollection().getIntegratedSensorVelocity())) / 2.0;
+    }
+    // public Encoder getLeftEncoder() {
+    //   return m_leftEncoder;
+    // }
+    // public Encoder getRightEncoder() {
+    //   return m_rightEncoder;
+    // }
+    // public void setMaxOutput(double maxOutput) {
+    //   m_drive.setMaxOutput(maxOutput);
+    // }
+    
+    @Override
+    public void periodic() {
     // This method will be called once per scheduler run
   }
   
