@@ -75,9 +75,9 @@ public final class Constants {
         // DRIVETRAIN Constants --------------------------------]
     
     //[--------------------AUTO--------------------------]
-    public static final double KSVOLTS = 0.662;
-    public static final double KVVOLT = 0.106; // seconds per meter
-    public static final double KAVOLT = 0.00882; //this is in seconds squared per meter
+    public static final double KSVOLTS = 0.22;
+    public static final double KVVOLT = 0.289; // seconds per meter
+    public static final double KAVOLT = 0.06; //this is in seconds squared per meter
     public static final double KMAXSPEED = 1; //in meters per second
     public static final double KMAXACCELERATION = 3; //in meters per seconds squared
     //gyro values

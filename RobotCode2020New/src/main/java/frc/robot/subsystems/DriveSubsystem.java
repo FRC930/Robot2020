@@ -60,6 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
     gyroTalon = new TalonSRX(6);
     gyro = new PigeonIMU(gyroTalon);
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+    
     setDriveMotors();
   }
 
@@ -74,7 +75,6 @@ public class DriveSubsystem extends SubsystemBase {
     // left3.follow(left1);
     right2.follow(right1);
     // right3.follow(right1);
-
     left1.configOpenloopRamp(0.5);
     right1.configOpenloopRamp(0.5);
     drive = new DifferentialDrive(right1, left1);
@@ -82,9 +82,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Given Arcade value arguments and sends to motor controllers
   public void runAt(double leftSpeed, double rightSpeed) {
-    System.out.println(left1.getMotorOutputPercent());
-    left1.set(TalonFXControlMode.PercentOutput, leftSpeed);
-    right1.set(TalonFXControlMode.PercentOutput, rightSpeed);
+    gyro.getYawPitchRoll(values);
+    System.out.println(values[0]);
+    System.out.println();
+    left1.set(leftSpeed);
+    right1.set(rightSpeed);
   }
 
   // Returns left speed
@@ -108,19 +110,23 @@ public class DriveSubsystem extends SubsystemBase {
     gyro.getYawPitchRoll(values);
     return Math.IEEEremainder(values[0], 360);
   }
-
+  public double getYaw(){
+    gyro.getYawPitchRoll(values);
+    return values[0];
+    }
   public void resetOdometry(Pose2d pose) {
     driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
   }
 
-  public void arcadeDrive(double fwd, double rot) {
-    drive.arcadeDrive(fwd, rot);
+  public void zeroHeading(){
+    gyro.setYaw(0.0);
+    gyro.setFusedHeading(0.0);
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    System.out.println("MOVING");
-    right1.setvolts(leftVolts);
-    left1.setvolts(-rightVolts);
+    System.out.println("MOVING: " + leftVolts + " " + rightVolts);
+    right1.set(-rightVolts);
+    left1.set(leftVolts);
   }
 
   public double getAverageEncoderDistance() {
@@ -128,12 +134,12 @@ public class DriveSubsystem extends SubsystemBase {
         + right1.getRPMRight(right1)) / 2.0;
   }
 
-  // public Encoder getLeftEncoder() {
-  // return m_leftEncoder;
-  // }
-  // public Encoder getRightEncoder() {
-  // return m_rightEncoder;
-  // }
+  public double getLeftEncoder() {
+   return left1.getRPMLeft(left1);
+  }
+  public double getRightEncoder() {
+   return right1.getRPMLeft(right1);
+  }
   public void setMaxOutput(double maxOutput) {
     drive.setMaxOutput(maxOutput);
   }
@@ -142,6 +148,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     //System.out.println(yaw);
     // This method will be called once per scheduler run
+    driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
+    right1.getRPMRight(right1));
     
   }
 

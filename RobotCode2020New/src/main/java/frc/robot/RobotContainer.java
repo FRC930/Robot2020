@@ -84,7 +84,7 @@ public class RobotContainer {
 
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
-  //private final DriveSubsystem driveSubsystem;
+  private final DriveSubsystem driveSubsystem;
   //private final IntakeSubsystem intakeSubsystem;
   //private final LEDSubsystem ledSubsystem;
   //private final LimelightSubsystem limelightSubsystem;
@@ -94,9 +94,9 @@ public class RobotContainer {
   // -------- COMMANDS --------\\
 
   //private final AimTurretCommand aimTurretCommand;
-  //private final DriveCommand driveCommand;
+  private final DriveCommand driveCommand;
   private final RotationalControlCommandGroup rotationalControlCommandGroup;
-  //private final AutonomousCommand autoCommand;
+  private final AutonomousCommand autoCommand;
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
   private JoystickButton aButton;
@@ -119,15 +119,16 @@ public class RobotContainer {
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
     //turretSubsystem = new TurretSubsystem();
     //shooterSubsystem = new ShooterSubsystem();
-    //driveSubsystem = new DriveSubsystem();
+    driveSubsystem = new DriveSubsystem();
+    driveSubsystem.zeroHeading();
     //intakeSubsystem = new IntakeSubsystem();
     //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
     //limelightSubsystem = new LimelightSubsystem();
 
     
     //Commands
-    //driveCommand = new DriveCommand(driveSubsystem, driverController);
-    //autoCommand = new AutonomousCommand(driveSubsystem);
+    driveCommand = new DriveCommand(driveSubsystem, driverController);
+    autoCommand = new AutonomousCommand(driveSubsystem);
     //aimTurretCommand = new AimTurretCommand(turretSubsystem);
     
     rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem, aButton);
@@ -166,7 +167,7 @@ public class RobotContainer {
   
   private void beginRunCommands() {
     //CommandScheduler.getInstance().setDefaultCommand(turretSubsystem, aimTurretCommand);
-    //CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
   }
 
   /**
@@ -176,8 +177,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     System.out.println("Command");
-    //return autoCommand;
-    return null;
+    return autoCommand;
+    //return null;
     // Run path following command, then stop at the end.
   }
 

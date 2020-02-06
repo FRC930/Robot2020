@@ -1,11 +1,13 @@
 package frc.robot.utilities;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Talon;
 
 
 /*
@@ -66,12 +68,15 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
         //System.out.flush();
         //throw new RuntimeException("thingy");
     }
-    
-    public void setvolts(double speed) { //that ----------------.
-        System.out.println("void set 2");
-        super.set(TalonFXControlMode.Current, speed);    // |
-    }  
 
+    // public void set(TalonFXControlMode mode, double speed) { //that ----------------.
+    //     System.out.println("void set22");
+    //     super.set(mode, speed);    // |
+    // }
+
+    // public void setVolts(double speed){
+    //     this.set(TalonFXControlMode.Current, speed);
+    // }
     /*
     * Since pidWrite is never called within the DifferentialDrive() class, we do not need to fill in anything.
     * 

@@ -26,8 +26,6 @@ public class RotationalControlTrackerCommand extends CommandBase {
   private final Color kGreenTarget = new Color(0.197, 0.561, 0.240);
   private final Color kRedTarget = new Color(0.561, 0.232, 0.114);
   private final Color kYellowTarget = new Color(0.361, 0.524, 0.113);
-  // Creates an instance of the logger class
-  private Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
   // Direction wheel spins
   private final boolean CLOCKWISE = true;
   private final boolean COUNTER_CLOCKWISE = false;
@@ -44,6 +42,8 @@ public class RotationalControlTrackerCommand extends CommandBase {
   ColorMatch colorMatch = new ColorMatch();
   // true is clockwise, false is counter-clockwise
   private boolean direction;
+  // Creates an instance of the logger class
+  private Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
 
   /**
    * Creates a new ExampleCommand.
