@@ -8,11 +8,11 @@ import frc.robot.subsystems.TurretSubsystem;
 /**
  * TurretSpeedCommand is a temporary speed controller
  */
-public class JoystickTurret extends CommandBase {
+public class JoystickTurretCommand extends CommandBase {
     private TurretSubsystem turret;
     private Joystick driver;
 
-    public JoystickTurret(TurretSubsystem turret, Joystick driver) {
+    public JoystickTurretCommand(TurretSubsystem turret, Joystick driver) {
         this.turret = turret;
         this.driver = driver;
 

@@ -32,16 +32,15 @@ import frc.robot.subsystems.Compresser;
 import frc.robot.commands.autocommands.*;
 import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.drivecommands.*;
+import frc.robot.commands.hoppercommands.*;
 import frc.robot.commands.intakecommands.*;
 import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.*;
+import frc.robot.commands.towercommands.*;
 import frc.robot.commands.turretcommads.*;
 
 import frc.robot.subsystems.*;
 import frc.robot.triggers.*;  
-
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -96,24 +95,27 @@ public class RobotContainer {
   
   // --Deadbands
 
-  // -------- DECLARATIONS --------\\
+  //-------- DECLARATIONS --------\\
 
+  private boolean usingGamecube = true;
   private Joystick driverController;
   private Joystick coDriverController;
 
-  // -------- SUBSYSTEMS --------\\
+  //-------- SUBSYSTEMS --------\\
 
-  //private final DriveSubsystem driveSubsystem;
+  private final ColorSensorSubsystem colorSensorSubsystem;
+  private final DriveSubsystem driveSubsystem;
+  private final HopperSubsystem hopperSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
   private final IntakePistonSubsystem intakePistons;
   private final IntakeMotorSubsystem intakeMotors;
   private final Compresser compressor;
+  private final LimelightSubsystem limelightSubsystem;
   private final ShooterSubsystem shooterSubsystem;
-  //private final LEDSubsystem ledSubsystem;
+  private final TowerSubsystem towerSubsystem;
   private final TurretSubsystem turretSubsystem;
-  private final ColorSensorSubsystem colorSensorSubsystem;
-  private final DriveSubsystem driveSubsystem;
-
-  // -------- COMMANDS --------\\
+  
+  //-------- COMMANDS --------\\
 
   //private final DriveCommand driveCommand;
   //private final AutonomousCommand autoCommand;
@@ -130,81 +132,106 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   private final AutonomousCommand autoCommand;
+  private final RunHopperCommand runHopperCommand;
+  private final HopperDefaultCommand hopperDefaultCommand;
+  private final RunTowerCommand runTowerCommand;
+  private final StopTowerCommand stopTowerCommand;
+  private final IntakeCommand intakeCommand;
+  //private final StopIntakeCommand stopIntakeCommand;
   
   //-------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
 
-    //Controllers
-    driverJoystick = null; //new Joystick(Constants.DRIVER_CONTROLLER_ID);
-    coDriverJoystick = new Joystick(Constants.CODRIVER_CONTROLLER_ID);
-  
+    driverController = new Joystick(DRIVER_CONTROLLER_ID);
+    coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
 
-    //Subsystems
-    //driveSubsystem = new DriveSubsystem();
+    //--Subsystems
+    colorSensorSubsystem = new ColorSensorSubsystem();
+    driveSubsystem = new DriveSubsystem();
+    hopperSubsystem = new HopperSubsystem();
     intakePistons = new IntakePistonSubsystem();
     intakeMotors = new IntakeMotorSubsystem();
     compressor = new Compresser();
+    //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
+    limelightSubsystem = new LimelightSubsystem();
+    shooterSubsystem = new ShooterSubsystem();
+    towerSubsystem = new TowerSubsystem();
+    turretSubsystem = new TurretSubsystem();
+    
+    //--Commands
+    driveCommand = new DriveCommand(driveSubsystem, driverController);
+    autoCommand = new AutonomousCommand(driveSubsystem);
+    aimTurretCommand = new AimTurretCommand(turretSubsystem);   
+    runHopperCommand = new RunHopperCommand(hopperSubsystem);
+    hopperDefaultCommand = new HopperDefaultCommand(hopperSubsystem);
+    runTowerCommand = new RunTowerCommand(towerSubsystem);
+    stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
-    //Commands
-    //driveCommand = new DriveCommand(driveSubsystem, driverJoystick);
-    //autoCommand = new AutonomousCommand(driveSubsystem);
     intakeCommand = new IntakeCommand(intakePistons, intakeMotors);
     intakeStopCommand = new IntakeStopCommand(intakePistons, intakeMotors);
     compressorOnCommand = new CompressorOnCommand(compressor);
     compressorOffCommand = new CompressorOffCommand(compressor);
-    driverController = new Joystick(DRIVER_CONTROLLER_ID);
-    coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
 
-    //Subsystems
-    driveSubsystem = new DriveSubsystem();
-    colorSensorSubsystem = new ColorSensorSubsystem();
-    turretSubsystem = new TurretSubsystem();
-    shooterSubsystem = new ShooterSubsystem();
-    //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
-
-    //Commands
-    driveCommand = new DriveCommand(driveSubsystem, driverController);
-    autoCommand = new AutonomousCommand(driveSubsystem);
-    aimTurretCommand = new AimTurretCommand(turretSubsystem);   
-
-    // Configure the button bindings
-
-    //beginRunCommands();
-    configureButtonBindings();
+    //--Configure button bindings
+    beginRunCommands();         //Sets the default command
+    configureButtonBindings();  //Configures buttons for drive team
   }
 
 
-  // -------- METHODS --------\\
+  //-------- METHODS --------\\
 
   private void configureButtonBindings() {
-    beginRunCommands();
-      //compressorOnCommand.schedule(true);
-      System.out.println("ButtonConfigure");
-    JoystickButton intakeButton = new JoystickButton(coDriverJoystick, 1);
-    JoystickButton intakeStopButton = new JoystickButton(coDriverJoystick, 2);
-    intakeButton.whenPressed(intakeCommand);
-    intakeStopButton.whenPressed(intakeStopCommand);
-    //intakeButton.whenInactive(intakeStopCommand);
+    configureDriverBindings(); 
+    configureCodriverBindings();
   }
 
-  private void configureCodriverBindings() { 
+  private void configureDriverBindings() {    //TODO: Bind controls to commands
+    if (usingGamecube) {  //If we're using the gamecube controller
+      //--Buttons and triggers
 
+      //B Button
+      JoystickButton rotationalButton = new JoystickButton(driverController, GC_A);
+      //A Button
+      JoystickButton positionalButton = new JoystickButton(driverController, GC_B);
+      //L Button
+      JoystickButton toggleEndgame = new JoystickButton(driverController, GC_L);
+      //ZL Button
+      JoystickButton toggleShootButton = new JoystickButton(driverController, GC_ZL);
+      //ZR Button
+      JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+
+      //--Command binds
+
+
+    } else {  //If we're using the Xbox controller
+      //--Buttons and triggers
+      AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
+
+      //--Command binds
+    }
+    
+  } // end of method configureDriverBindings()
+
+  private void configureCodriverBindings() { 
     //--Buttons
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
     //--Command binds
-    //intakeAxisTrigger.whenActive(intakeCommand).whenInactive(intakeStopCommand);
+    //Toggle intake
     intakeAxisTrigger.toggleWhenActive(intakeCommand).cancelWhenActive(intakeStopCommand);
-  }
+  } // end of method configureCodriverBindings()
   
   private void beginRunCommands() {
-    CommandScheduler.getInstance().setDefaultCommand(turretSubsystem, aimTurretCommand);
-    CommandScheduler.getInstance().setDefaultCommand(driveSubsystem, driveCommand);
-    System.out.println("beginRunCommands");
-    
-    configureCodriverBindings();
-  }
+    //--The instance of the scheduler
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+
+    //--Setting default commands
+    scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
+    scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
+  } // end of method beginRunCommands()
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
-public class StopShooter extends CommandBase {
+public class StopShooterCommand extends CommandBase {
     private ShooterSubsystem m_ShooterSubsystem;
 
-    public StopShooter(ShooterSubsystem shooterSubsystem) 
+    public StopShooterCommand(ShooterSubsystem shooterSubsystem) 
     {
         m_ShooterSubsystem = shooterSubsystem;
         addRequirements(m_ShooterSubsystem);
