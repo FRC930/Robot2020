@@ -4,26 +4,22 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package frc.robot.commands.shootercommands;
+package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.Constants;
 
  
-public class HopperTurretCommand extends CommandBase {
+public class RunHopperCommand extends CommandBase {
 
-    private TowerSubsystem m_TowerSubsystem;
     private HopperSubsystem m_HopperSubsystem;
-    public HopperTurretCommand(HopperSubsystem HopperSubsystem, TowerSubsystem TowerSubsystem){
+    
+    public RunHopperCommand(HopperSubsystem HopperSubsystem){
         m_HopperSubsystem = HopperSubsystem;
         addRequirements(m_HopperSubsystem);
-
-        m_TowerSubsystem = TowerSubsystem;
-        addRequirements(m_TowerSubsystem);
-
     }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
@@ -33,7 +29,6 @@ public class HopperTurretCommand extends CommandBase {
     @Override
     public void execute() {
         m_HopperSubsystem.setSpeed(Constants.HOPPER_SHOOTING_SPEED);
-        m_TowerSubsystem.setSpeed(Constants.TOWER_SPEED);
     }
 
     // Called once the command ends or is interrupted.

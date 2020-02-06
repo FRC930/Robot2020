@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.autocommands.*;
 import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.drivecommands.*;
+import frc.robot.commands.hoppercommands.*;
 import frc.robot.commands.intakecommands.*;
 import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.*;
+import frc.robot.commands.towercommands.*;
 import frc.robot.commands.turretcommads.*;
 
 import frc.robot.subsystems.*;
@@ -84,10 +86,12 @@ public class RobotContainer {
 
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
+  private final HopperSubsystem hopperSubsystem;
   private final IntakeSubsystem intakeSubsystem;
   //private final LEDSubsystem ledSubsystem;
   private final LimelightSubsystem limelightSubsystem;
   private final ShooterSubsystem shooterSubsystem;
+  private final TowerSubsystem towerSubsystem;
   private final TurretSubsystem turretSubsystem;
   
   //-------- COMMANDS --------\\
@@ -95,7 +99,10 @@ public class RobotContainer {
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
   private final AutonomousCommand autoCommand;
-
+  private final RunHopperCommand runHopperCommand;
+  private final HopperDefaultCommand hopperDefaultCommand;
+  private final RunTowerCommand runTowerCommand;
+  private final StopTowerCommand stopTowerCommand;
   private final IntakeCommand intakeCommand;
   //private final StopIntakeCommand stopIntakeCommand;
   
@@ -110,16 +117,22 @@ public class RobotContainer {
     //--Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     driveSubsystem = new DriveSubsystem();
+    hopperSubsystem = new HopperSubsystem();
     intakeSubsystem = new IntakeSubsystem();
     //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
     limelightSubsystem = new LimelightSubsystem();
     shooterSubsystem = new ShooterSubsystem();
+    towerSubsystem = new TowerSubsystem();
     turretSubsystem = new TurretSubsystem();
     
     //--Commands
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
+    runHopperCommand = new RunHopperCommand(hopperSubsystem);
+    hopperDefaultCommand = new HopperDefaultCommand(hopperSubsystem);
+    runTowerCommand = new RunTowerCommand(towerSubsystem);
+    stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
     intakeCommand = new IntakeCommand(intakeSubsystem);
     //stopIntakeCommand = new IntakeCommand(intakeSubsystem);
@@ -181,6 +194,7 @@ public class RobotContainer {
     //--Setting default commands
     scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
   } // end of method beginRunCommands()
 
   /**
