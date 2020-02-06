@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
+import frc.robot.commands.hoppercommands.HopperDefaultCommand;
+import frc.robot.commands.shootercommands.HopperTurretCommand;
 import frc.robot.commands.turretcommads.AutoAimTurretCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -63,12 +65,16 @@ public class RobotContainer {
     //private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
 
     //private final LEDSubsystem m_LedSubsystem = new LEDSubsystem();
-    private final LimelightSubsystem m_LimeLight = new LimelightSubsystem(); 
-    private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
-    private final HopperSubsystem m_HopperSubsystem = new HopperSubsystem();
+    private final LimelightSubsystem m_LimeLight; 
+    private final TurretSubsystem m_TurretSubsystem;
+    private final HopperSubsystem m_HopperSubsystem;
+    private final TowerSubsystem m_TowerSubsystem;
+
     // -------- COMMANDS --------\\
 
     private final AutoAimTurretCommand m_autoAimTurret;
+    private final HopperTurretCommand m_HopperTurretCommand;
+    private final HopperDefaultCommand m_HopperDefaultCommand;
 
     // private LEDDone isLEDDone = new LEDDone();
 
@@ -84,8 +90,17 @@ public class RobotContainer {
 
         // Configure the button bindings
         configureButtonBindings();
+
+        //--Subsystems
+        this.m_LimeLight = new LimelightSubsystem();
+        this.m_TurretSubsystem = new TurretSubsystem();
+        this.m_HopperSubsystem = new HopperSubsystem();
+        this.m_TowerSubsystem = new TowerSubsystem();
         
+        //--Commands
         this.m_autoAimTurret = new AutoAimTurretCommand(this.m_LimeLight, this.m_TurretSubsystem);
+        this.m_HopperTurretCommand = new HopperTurretCommand(this.m_HopperSubsystem, this.m_TowerSubsystem);
+
         CommandScheduler.getInstance().setDefaultCommand(this.m_TurretSubsystem, this.m_autoAimTurret);
     }
 

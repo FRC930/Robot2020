@@ -4,23 +4,24 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package frc.robot.commands;
+package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.Constants;
 
  
 public class HopperTurretCommand extends CommandBase {
 
-    private ShooterSubsystem m_ShooterSubsystem;
+    private TowerSubsystem m_TowerSubsystem;
     private HopperSubsystem m_HopperSubsystem;
-    public HopperTurretCommand(HopperSubsystem HopperSubsystem, ShooterSubsystem ShooterSubsystem){
+    public HopperTurretCommand(HopperSubsystem HopperSubsystem, TowerSubsystem TowerSubsystem){
         m_HopperSubsystem = HopperSubsystem;
         addRequirements(m_HopperSubsystem);
 
-        m_ShooterSubsystem = ShooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
+        m_TowerSubsystem = TowerSubsystem;
+        addRequirements(m_TowerSubsystem);
 
     }
     // Called when the command is initially scheduled.
@@ -31,11 +32,8 @@ public class HopperTurretCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(RunShooterCommand.isFinished == true){
-            m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED);
-            m_ShooterSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED);
-        }
-
+        m_HopperSubsystem.setSpeed(Constants.HOPPER_SHOOTING_SPEED);
+        m_TowerSubsystem.setSpeed(Constants.TOWER_SPEED);
     }
 
     // Called once the command ends or is interrupted.
@@ -46,6 +44,6 @@ public class HopperTurretCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

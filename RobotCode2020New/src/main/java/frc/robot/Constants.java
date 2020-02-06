@@ -29,7 +29,9 @@ public final class Constants {
 
     //[-------------------HOPPER--------------------------]
 
-    public static final double HOPPER_DEFAULT_SPEED = 0.25;
+    public static final double HOPPER_DEFAULT_SPEED = 0.2;
+    public static final double HOPPER_SHOOTING_SPEED = 0.8;
+    public static final double TOWER_SPEED = 0.75;
 
     //[-------------------HOPPER--------------------------]
 
