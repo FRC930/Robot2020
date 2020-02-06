@@ -48,12 +48,7 @@ public final class Constants {
     public static final double kPDriveVel = 1;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
 
-  
     //[-------------------AUTO--------------------------]
-
-    //[------------------JOYSTICK-----------------------]
-    
-    //[------------------JOYSTICK-----------------------]
         
     //[------------------DRIVETRAIN---------------------]
     
