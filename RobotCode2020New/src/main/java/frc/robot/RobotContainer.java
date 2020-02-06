@@ -10,7 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.*;
 import frc.robot.commands.hoppercommands.HopperDefaultCommand;
+import frc.robot.commands.hoppercommands.RunHopperCommand;
 import frc.robot.commands.shootercommands.HopperTurretCommand;
+import frc.robot.commands.towercommands.RunTowerCommand;
+import frc.robot.commands.towercommands.StopTowerCommand;
 import frc.robot.commands.turretcommads.AutoAimTurretCommand;
 import frc.robot.subsystems.*;
 import frc.robot.triggers.*;  
@@ -105,8 +108,10 @@ public class RobotContainer {
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
   private final AutonomousCommand autoCommand;
-  private final HopperTurretCommand hopperTurretCommand;
+  private final RunHopperCommand runHopperCommand;
   private final HopperDefaultCommand hopperDefaultCommand;
+  private final RunTowerCommand runTowerCommand;
+  private final StopTowerCommand stopTowerCommand;
   
   //-------- CONSTRUCTOR ---------\\
 
@@ -131,8 +136,10 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
-    hopperTurretCommand = new HopperTurretCommand(hopperSubsystem, towerSubsystem);
+    runHopperCommand = new RunHopperCommand(hopperSubsystem);
     hopperDefaultCommand = new HopperDefaultCommand(hopperSubsystem);
+    runTowerCommand = new RunTowerCommand(towerSubsystem);
+    stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
     //--Configure button bindings
     beginRunCommands();         //Sets the default command
