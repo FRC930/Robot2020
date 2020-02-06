@@ -17,7 +17,7 @@ public class AutoAimTurretCommand extends PIDCommand {
     
     public AutoAimTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret) {
         // TODO: Make comment explaining the constructor
-        super(new PIDController(0.03, 0.00, 0.00), () -> {
+        super(new PIDController(0.025, 0.0, 0.0), () -> {
             // double horizOff = limeLight.getHorizontalOffset();
             // if (limeLight.getValidTargets() && horizOff < 12 && horizOff > -12) {
             //     limeLight.setPipeline(LimelightPipelines.MID_PIPELINE);
@@ -41,7 +41,7 @@ public class AutoAimTurretCommand extends PIDCommand {
             } else if (output < -1) {
                 output = -1;
             }
-
+            SmartDashboard.putString("test", "test");
             SmartDashboard.putNumber("controller", output);
             // Make sure that the turret does not turn past ~300° in either direction
             // Internal units. 3570 == ~300°

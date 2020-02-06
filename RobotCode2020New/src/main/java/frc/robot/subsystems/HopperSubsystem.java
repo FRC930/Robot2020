@@ -5,13 +5,16 @@ import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
  
 public class HopperSubsystem extends SubsystemBase {
     // VictorSPX is a motor controller that rotates the hopper, containing the power cells. Works like a nerf hellraiser loader  
+
+    //--Constants
+    public final int HOPPER_MOTOR_PORT = 3;
+
     public VictorSPX HopperMotor;
     
     public double speed;
@@ -22,7 +25,7 @@ public class HopperSubsystem extends SubsystemBase {
     * The default constructor
     */
     public HopperSubsystem() {
-        HopperMotor = new VictorSPX(Constants.HOPPER_MOTOR_PORT);
+        HopperMotor = new VictorSPX(HOPPER_MOTOR_PORT);
 
         logger = Logger.getLogger(HopperSubsystem.class.getName());
     }

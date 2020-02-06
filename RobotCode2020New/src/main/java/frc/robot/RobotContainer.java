@@ -97,6 +97,7 @@ public class RobotContainer {
   //-------- COMMANDS --------\\
 
   private final AimTurretCommand aimTurretCommand;
+  private final AutoAimTurretCommand autoAimTurretCommand;
   private final DriveCommand driveCommand;
   private final AutonomousCommand autoCommand;
   private final RunHopperCommand runHopperCommand;
@@ -126,6 +127,7 @@ public class RobotContainer {
     turretSubsystem = new TurretSubsystem();
     
     //--Commands
+    autoAimTurretCommand = new AutoAimTurretCommand(limelightSubsystem, turretSubsystem);
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
@@ -195,6 +197,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
+    scheduler.setDefaultCommand(limelightSubsystem, autoAimTurretCommand);
   } // end of method beginRunCommands()
 
   /**

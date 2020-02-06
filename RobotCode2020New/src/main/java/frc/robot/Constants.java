@@ -19,13 +19,6 @@ import java.util.logging.*;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    
-    //[-------------------PORTS--------------------------]
-
-    public static final int HOPPER_MOTOR_PORT = 3;
-    public static final int TOWER_MOTOR_PORT = 4;
-    
-    //[-------------------PORTS--------------------------]
 
     //[-------------------HOPPER--------------------------]
 

@@ -10,16 +10,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class TowerSubsystem extends SubsystemBase {
     // VictorSPX is a motor controller that makes the conveor belt  
     //Take's the power cell up to the shooter
+
+    //--Constants
+    public final int TOWER_MOTOR_PORT = 4;
+
     public VictorSPX TowerMotor;
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private double speed;
 
     public TowerSubsystem() {
-        TowerMotor = new VictorSPX(4);
+        TowerMotor = new VictorSPX(TOWER_MOTOR_PORT);
         logger.setLevel(Level.FINE);
+    }
 
-        //sets the speed to the tower motor 
-    
+    //sets the speed to the tower motor 
     public void setSpeed(double speed){
         logger.entering(this.getClass().getName(), "setSpeed");
         logger.log(Level.INFO, "motorSpeed: "+ speed );
@@ -36,6 +40,7 @@ public class TowerSubsystem extends SubsystemBase {
         return this.speed;
     }
 
+    // stops the tower motor
     public void stopMotor() {
         this.speed = 0;
         TowerMotor.set(ControlMode.PercentOutput, 0);
