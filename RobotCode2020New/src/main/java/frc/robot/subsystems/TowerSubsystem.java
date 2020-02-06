@@ -35,4 +35,9 @@ public class TowerSubsystem extends SubsystemBase {
         logger.exiting (this.getClass().getName(),"getSpeed");
         return this.speed;
     }
+
+    public void stopMotor() {
+        this.speed = 0;
+        TowerMotor.set(ControlMode.PercentOutput, 0);
+    }
 } //end of class 

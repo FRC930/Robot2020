@@ -92,10 +92,12 @@ public class RobotContainer {
 
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final DriveSubsystem driveSubsystem;
+  private final HopperSubsystem hopperSubsystem;
   private final IntakeSubsystem intakeSubsystem;
   //private final LEDSubsystem ledSubsystem;
   private final LimelightSubsystem limelightSubsystem;
   private final ShooterSubsystem shooterSubsystem;
+  private final TowerSubsystem towerSubsystem;
   private final TurretSubsystem turretSubsystem;
   
   //-------- COMMANDS --------\\
@@ -103,6 +105,8 @@ public class RobotContainer {
   private final AimTurretCommand aimTurretCommand;
   private final DriveCommand driveCommand;
   private final AutonomousCommand autoCommand;
+  private final HopperTurretCommand hopperTurretCommand;
+  private final HopperDefaultCommand hopperDefaultCommand;
   
   //-------- CONSTRUCTOR ---------\\
 
@@ -115,16 +119,20 @@ public class RobotContainer {
     //--Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     driveSubsystem = new DriveSubsystem();
+    hopperSubsystem = new HopperSubsystem();
     intakeSubsystem = new IntakeSubsystem();
     //ledSubsystem = new LEDSubsystem(m_leds, m_ledsBuffer);
     limelightSubsystem = new LimelightSubsystem();
     shooterSubsystem = new ShooterSubsystem();
+    towerSubsystem = new TowerSubsystem();
     turretSubsystem = new TurretSubsystem();
     
     //--Commands
     driveCommand = new DriveCommand(driveSubsystem, driverController);
     autoCommand = new AutonomousCommand(driveSubsystem);
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
+    hopperTurretCommand = new HopperTurretCommand(hopperSubsystem, towerSubsystem);
+    hopperDefaultCommand = new HopperDefaultCommand(hopperSubsystem);
 
     //--Configure button bindings
     beginRunCommands();         //Sets the default command
@@ -169,6 +177,7 @@ public class RobotContainer {
     //--Setting default commands
     scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
   } // end of method beginRunCommands()
 
   /**

@@ -11,10 +11,11 @@ import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.Constants;
 
  
-public class HopperTurretCommand extends CommandBase {
+public class RunHopperCommand extends CommandBase {
 
     private HopperSubsystem m_HopperSubsystem;
-    public HopperTurretCommand(HopperSubsystem HopperSubsystem){
+    
+    public RunHopperCommand(HopperSubsystem HopperSubsystem){
         m_HopperSubsystem = HopperSubsystem;
         addRequirements(m_HopperSubsystem);
     }
