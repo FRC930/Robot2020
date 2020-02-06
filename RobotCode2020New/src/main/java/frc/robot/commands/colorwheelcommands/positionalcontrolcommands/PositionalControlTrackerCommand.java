@@ -9,50 +9,43 @@ package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensorSubsystem;
+import frc.robot.commands.colorwheelcommands.GetColorCommand;
 import java.util.logging.*;
 
 public class PositionalControlTrackerCommand extends CommandBase {
 
-    // -------- CONSTANTS --------\\
-    // Creates an instance of the ColorSensorSubsystem subsystem
-    private final ColorSensorSubsystem m_subsystem;
-    // Creates an instance of the logger class
-    private Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
-    // -------- DECLARATIONS --------\\
+    //-------- CONSTANTS --------\\
 
-    // -------- CONSTRUCTOR --------\\
+    //-------- DECLARATIONS --------\\
+    private GetColorCommand getColorCommand;
+    private final ColorSensorSubsystem m_subsystem;
+
+    //-------- CONSTRUCTOR --------\\
     public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
         m_subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
 
-    // -------- METHODS --------\\
+    //-------- METHODS --------\\
 
     @Override
     public void initialize() {
-        logger.entering(this.getClass().getName(), "initialize");
-        logger.exiting(this.getClass().getName(), "initialize");
     }
 
     @Override
     public void execute() {
-        logger.entering(this.getClass().getName(), "execute");
-        logger.exiting(this.getClass().getName(), "execute");
+        getColorCommand.rotationalTrackerCounter();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        logger.entering(this.getClass().getName(), "end");
-        logger.exiting(this.getClass().getName(), "end");
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        logger.entering(this.getClass().getName(), "isFinished");
-        logger.exiting(this.getClass().getName(), "isFinished");
         return false;
     }
-} // End of class
+}
