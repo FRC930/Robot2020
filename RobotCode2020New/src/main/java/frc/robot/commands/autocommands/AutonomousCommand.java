@@ -1,25 +1,28 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/*----------------------------------------------------------------------------*/       
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//-------- IMPORTS --------\\
+
+//TODO: Move constants in here :)
+
 package frc.robot.commands.autocommands;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.controller.PIDController;
 
 import edu.wpi.first.wpilibj2.command.*;
 
@@ -27,19 +30,24 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+//-------- COMMAND CLASS --------\\
+
 public class AutonomousCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem m_drive;
+  DriveSubsystem drive;
+  
   public AutonomousCommand(DriveSubsystem subsystem) {
-    m_drive = subsystem;
+    drive = subsystem;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
             Constants.KVVOLT,
             Constants.KAVOLT),
-            Constants.KDRIVEKINEMATICS,10);
+            Constants.KDRIVEKINEMATICS, 10);
     
     TrajectoryConfig config =
       new TrajectoryConfig(Constants.KMAXSPEED,
@@ -61,18 +69,18 @@ public class AutonomousCommand extends SequentialCommandGroup {
         
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        m_drive::getPose,
+        drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+        drive::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        drive::tankDriveVolts,
+        drive
     );
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
@@ -85,18 +93,21 @@ public class AutonomousCommand extends SequentialCommandGroup {
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        m_drive::getPose,
+        drive::getPose,
+
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+
+        drive::getWheelSpeeds,
+
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        drive::tankDriveVolts,
+        drive
     );
     addCommands(ramseteCommand1,new WaitCommand(5), ramseteCommand2);
   }
