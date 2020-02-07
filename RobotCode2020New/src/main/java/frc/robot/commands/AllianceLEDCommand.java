@@ -58,13 +58,25 @@ public class AllianceLEDCommand extends CommandBase {
                     }
                     //m_ledSubsystem.resetLEDs();
                 }
+                else if(ledPosition == 1)
+                {
+                    for(int i = 1; i < buffer.getLength(); i++)
+                    {
+                        if((i % 2) == 0)
+                        { 
+                            buffer.setRGB(i, 225, 140, 0);
+                            ledPosition = 2;
+                        }
+                    }
+                    //m_ledSubsystem.resetLEDs();
+                }
                 else
                 {
-                    for(int i = 0; i < buffer.getLength(); i++)
+                    for(int i = 1; i < buffer.getLength(); i++)
                     {
-                        if((i % 3) == 0)
+                        if((i % 2) == 0)
                         { 
-                            buffer.setRGB(i, 255, 0, 0);
+                            buffer.setRGB(i, 255, 255, 0);
                             ledPosition = 0;
                         }
                     }
@@ -76,18 +88,41 @@ public class AllianceLEDCommand extends CommandBase {
             }
             else if(DriverStation.getInstance().getAlliance() == Alliance.Blue)
             {
-                for(int i = 0; i < buffer.getLength(); i++)
+                if(ledPosition == 0)
                 {
-                    if((i % 2) == 0 && ledPosition == 0)
+                    for(int i = 0; i < buffer.getLength(); i++)
                     {
-                        buffer.setRGB(i, 0, 0, 255);
-                        ledPosition = 1;
+                        if((i % 2) == 0)
+                        {
+                            buffer.setRGB(i, 0, 0, 255);
+                            ledPosition = 1;
+                        }
                     }
-                    else if((i % 3) == 0 && ledPosition == 1)
+                    //m_ledSubsystem.resetLEDs();
+                }
+                else if(ledPosition == 1)
+                {
+                    for(int i = 1; i < buffer.getLength(); i++)
                     {
-                        buffer.setRGB(i, 0, 0, 255);
-                        ledPosition = 0;
+                        if((i % 2) == 0)
+                        { 
+                            buffer.setRGB(i, 0, 140, 225);
+                            ledPosition = 2;
+                        }
                     }
+                    //m_ledSubsystem.resetLEDs();
+                }
+                else
+                {
+                    for(int i = 1; i < buffer.getLength(); i++)
+                    {
+                        if((i % 2) == 0)
+                        { 
+                            buffer.setRGB(i, 0, 255, 255);
+                            ledPosition = 0;
+                        }
+                    }
+                    //m_ledSubsystem.resetLEDs();
                 }
 
                 m_ledSubsystem.updateBuffer(buffer);
