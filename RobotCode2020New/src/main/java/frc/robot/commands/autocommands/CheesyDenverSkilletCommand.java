@@ -37,7 +37,7 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
   DriveSubsystem m_drive;
-  public LoadedSkilletCommand(DriveSubsystem subsystem) {
+  public CheesyDenverSkilletCommand(DriveSubsystem subsystem) {
     m_drive = subsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
