@@ -20,12 +20,12 @@ import java.util.logging.*;
  */
 public final class Constants {
 
-    //[-------------------PORTS--------------------------]
+    //[-------------------IDS--------------------------]
 
-    public static final int HOPPER_MOTOR_PORT = 3;
     public static final int TOWER_MOTOR_PORT = 4;
+    public static final int INTAKE_TALONSRX_ID = 6;
     
-    //[-------------------PORTS--------------------------]
+    //[-------------------IDS--------------------------]
 
     //[-------------------HOPPER--------------------------]
 
@@ -50,15 +50,7 @@ public final class Constants {
     public static final double KPDRIVEVEL = 1;
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
 
-
     //[-------------------AUTO--------------------------]
-        
-    //[------------------DRIVETRAIN---------------------]
-    
-    public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
-    public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
-        
-    //[------------------DRIVETRAIN---------------------]
   
     //[--------------------UTILITIES--------------------]
 

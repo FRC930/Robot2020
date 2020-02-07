@@ -25,8 +25,6 @@ import frc.robot.subsystems.*;
 //--Trigger imports
 import frc.robot.triggers.*;  
 
-//--Utility imports
-import frc.robot.utilities.*;
 
 //--Other imports
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,9 +35,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //-------- CLASS RobotContainer --------\\
 
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ColorSensorSubsystem m_colorSensorSubsystem = new ColorSensorSubsystem();
-  private final DriveSubsystem m_drive = new DriveSubsystem();
 
   //-------- CONSTANTS --------\\
 
@@ -136,10 +131,8 @@ public class RobotContainer {
   private final AutonomousCommand autoCommand;
   
   //--Color wheel commands
-  //TODO: Add color commands here
   private final RotationalControlCommandGroup rotationalControlCommandGroup;
   
-
   //--Compressor commands
   private final CompressorOnCommand compressorOnCommand;
   private final CompressorOffCommand compressorOffCommand;
@@ -175,8 +168,7 @@ public class RobotContainer {
     //--Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-    aButton = new JoystickButton(driverController, Constants.XB_A);
-
+    
     //--Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -198,15 +190,14 @@ public class RobotContainer {
     autoCommand = new AutonomousCommand(driveSubsystem);
 
     //colorwheel
-    //TODO: Add color wheel commmands down here
-    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem, aButton);
+    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorWheelSpinnerSubsystem);
 
     //compressor
     compressorOnCommand = new CompressorOnCommand(compressorSubsystem);
     compressorOffCommand = new CompressorOffCommand(compressorSubsystem);
 
     //drive
-    driveCommand = new DriveCommand(driveSubsystem, driverController);
+    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
     
     //hopper
     runHopperCommand = new RunHopperCommand(hopperSubsystem);
@@ -262,6 +253,12 @@ public class RobotContainer {
 
       //--Command binds
 
+      //Rotational control command binds
+      rotationalButton.whileActiveOnce(rotationalControlCommandGroup);
+
+      //Drive command binds
+      driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
+
     } else {  //If we're using the Xbox controller
 
       //--Buttons and triggers
@@ -290,13 +287,11 @@ public class RobotContainer {
     CommandScheduler scheduler = CommandScheduler.getInstance();
 
     //--Setting default commands
-
     scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
+
   } // end of method beginRunCommands()
-
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
