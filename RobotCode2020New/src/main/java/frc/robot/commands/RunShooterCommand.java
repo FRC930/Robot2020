@@ -8,6 +8,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
@@ -18,14 +20,16 @@ public class RunShooterCommand extends CommandBase {
 
   public RunShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
   {
-      m_ShooterSubsystem = shooterSubsystem;
-      addRequirements(m_ShooterSubsystem);
+    m_ShooterSubsystem = shooterSubsystem;
+    addRequirements(m_ShooterSubsystem);
 
-      m_Speed = speed;
+    m_Speed = speed;
   }
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() 
+  {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

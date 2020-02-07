@@ -12,6 +12,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -61,14 +62,15 @@ public class RobotContainer {
 
     //private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
 
-    private final LEDSubsystem m_LedSubsystem = new LEDSubsystem();
+    //Pass in port, and length
+    private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(0, 60);
 
     private final TurretSubsystem m_TurretSubsystem = new TurretSubsystem();
 
     // -------- COMMANDS --------\\
 
     private final AimTurretCommand m_aimTurret;
-    private final LEDSwitchCommand m_SwitchCommand = new LEDSwitchCommand(m_LedSubsystem);
+    //private final LEDSwitchCommand m_SwitchCommand = new LEDSwitchCommand(m_LedSubsystem);
     
 
     // private LEDDone isLEDDone = new LEDDone();
@@ -89,7 +91,9 @@ public class RobotContainer {
         m_aimTurret = new AimTurretCommand(m_TurretSubsystem);        
 
         //  set default command for ledsubsystem
-        m_LedSubsystem.setDefaultCommand(m_SwitchCommand) ;
+        // m_LedSubsystem.setDefaultCommand(m_SwitchCommand);
+        //System.out.println("RobotContainer Init")
+        //CommandScheduler.getInstance().schedule(new AllianceLEDCommand(m_LedSubsystem));
     }
 
     // -------- METHODS --------\\
@@ -109,16 +113,15 @@ public class RobotContainer {
       final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
       
       
-      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.8));
+      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.5));
       //b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
+      //a_buttonDriver.whenPressed(new LEDTest(m_LedSubsystem));
 
-      y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
-      x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
-      b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
+      //y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
+      //x_buttonDriver.whenPressed(new GreenLEDCommand(m_LedSubsystem));
+      //b_buttonDriver.whenPressed(new BlueLEDCommand(m_LedSubsystem));
       //LEDSwitchCommand m_SWC = new LEDSwitchCommand(m_LedSubsystem);
       //CommandScheduler.getInstance().setDefaultCommand(m_LedSubsystem, m_SWC) ; 
-
-      //a_buttonDriver.whenPressed(new LEDSwitchCommand(m_LedSubsystem));
         
       // DoneTrigger doneTrigger = new DoneTrigger(isLEDDone);
       // doneTrigger.whenActive(new LEDSwitchCommand(m_LedSubsystem, isLEDDone));
@@ -140,7 +143,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return null;// m_autoCommand;
+        return new AllianceLEDCommand(m_LedSubsystem);
     }
 }
