@@ -34,9 +34,10 @@ public class AutonomousCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem m_drive;
+  DriveSubsystem drive;
   public AutonomousCommand(DriveSubsystem subsystem) {
-    m_drive = subsystem;
+    drive = subsystem;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -58,23 +59,28 @@ public class AutonomousCommand extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 1 meters straight ahead of where we started, facing forward
-        new Pose2d(1, -1, new Rotation2d(270)),
+        new Pose2d(1, -1, new Rotation2d(0)),
+
         // Pass config
         config);
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        m_drive::getPose,
+
+        drive::getPose,
+
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+
+        drive::getWheelSpeeds,
+
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        drive::tankDriveVolts,
+        drive
     );
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
@@ -82,23 +88,27 @@ public class AutonomousCommand extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(2, 1, new Rotation2d(270)),
+        new Pose2d(2, 1, new Rotation2d(0)),
         // Pass config
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        m_drive::getPose,
+
+        drive::getPose,
+
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+
+        drive::getWheelSpeeds,
+
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        drive::tankDriveVolts,
+        drive
     );
     addCommands(ramseteCommand1,new WaitCommand(5), ramseteCommand2);
   }

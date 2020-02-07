@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.commands.autocommands.*;
+
+import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
 import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.compressorcommands.*;
 import frc.robot.commands.drivecommands.*;
@@ -35,6 +37,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 //-------- CLASS RobotContainer --------\\
 
 public class RobotContainer {
+  // The robot's subsystems and commands are defined here...
+  private final ColorSensorSubsystem m_colorSensorSubsystem = new ColorSensorSubsystem();
+  private final DriveSubsystem m_drive = new DriveSubsystem();
 
   //-------- CONSTANTS --------\\
 
@@ -67,7 +72,8 @@ public class RobotContainer {
   private final int XB_AXIS_LT = 2;
   private final int XB_AXIS_RT = 3;
 
-  public static final int XB_A = 1;
+  //A button is being used in multiple places, so it is in the constants class
+  //public static final int XB_A = 1;
   public static final int XB_B = 2;
   public static final int XB_X = 3;
   public static final int XB_Y = 4;
@@ -94,6 +100,7 @@ public class RobotContainer {
 
   //--Color wheel subsystem
   private final ColorSensorSubsystem colorSensorSubsystem;
+  private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
 
   //--Compressor subsystem
   private final CompresserSubsystem compressorSubsystem;
@@ -127,9 +134,11 @@ public class RobotContainer {
 
   //--Auton commands
   private final AutonomousCommand autoCommand;
-
+  
   //--Color wheel commands
   //TODO: Add color commands here
+  private final RotationalControlCommandGroup rotationalControlCommandGroup;
+  
 
   //--Compressor commands
   private final CompressorOnCommand compressorOnCommand;
@@ -166,9 +175,12 @@ public class RobotContainer {
     //--Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
+    aButton = new JoystickButton(driverController, Constants.XB_A);
 
     //--Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
+    colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
+
     compressorSubsystem = new CompresserSubsystem();
     driveSubsystem = new DriveSubsystem();
     hopperSubsystem = new HopperSubsystem();
@@ -187,6 +199,7 @@ public class RobotContainer {
 
     //colorwheel
     //TODO: Add color wheel commmands down here
+    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem, aButton);
 
     //compressor
     compressorOnCommand = new CompressorOnCommand(compressorSubsystem);
@@ -272,6 +285,7 @@ public class RobotContainer {
   } // end of method configureCodriverBindings()
   
   private void beginRunCommands() {
+
     //--The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
 
@@ -281,6 +295,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
   } // end of method beginRunCommands()
+
 
 
   /**
