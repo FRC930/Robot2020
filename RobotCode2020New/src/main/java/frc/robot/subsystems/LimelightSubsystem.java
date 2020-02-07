@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import frc.robot.utilities.FIFOStack;
+import frc.robot.utilities.SmootherStack;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
