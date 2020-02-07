@@ -7,160 +7,189 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import frc.robot.utilities.FIFOStack;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
 
-  //-------- CONSTANTS --------\\
+    // -------- CONSTANTS --------\\
 
     // default limelight value :)
     public final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
-    
-    // max angle of the limelight's POV (-27 to 27) :)
+
+    // max angle of the limelight's POV (-27 to 27)
     public final double MAXIMUM_ANGLE = 27;
 
-    // the height between the limelight and the target :)
-
+    // the height between the limelight and the target
     public final double TARGET_HEIGHT = 1.6764;
-    
-    // the angle the camera is mounted at on the turret :)
-    public final double CAMERA_ANGLE = 45;
-   
-    // both used for the equasion of the error we found :)
+
+    // the angle the camera is mounted at on the turret
+    public final double CAMERA_ANGLE = 15;
+
+    // both used for the equasion of the error we found
     public final double ERROR_EQ_SLOPE = 0.23638537459;
-    public final double ERROR_EQ_INTERCEPT = -.37613082;
-    
-    //--Ports
+    // NEED the zero for Jabroni's OCD
+    public final double ERROR_EQ_INTERCEPT = -0.37613082;
 
+    // default limelight return values
+    public final double DEFAULT_HORIZ_ANGLE_OFFSET = -100;
+    public final double DEFAULT_VERT_ANGLE_OFFSET = -200;
 
-  
-  //-------- DECLARATIONS --------\\
+    // --Ports
+
+    // -------- DECLARATIONS --------\\
+
+    // network table that holds the limelight's settings
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-  
-    // tv  Whether the limelight has any valid targets (0 or 1)
-    private boolean validTarget; 
- 
-    // tx  Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+
+    // tv Whether the limelight has any valid targets (0 or 1)
+    private boolean validTarget;
+
+    // tx Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
     private double horizontalOffset;
- 
-    // ty  Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+
+    // ty Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     private double verticleOffset;
- 
-    // ta  Target Area (0% of image to 100% of image)
+
+    // ta Target Area (0% of image to 100% of image)
     private double percentOfImage;
- 
-    // ts  Skew or rotation (-90 degrees to 0 degrees)
+
+    // ts Skew or rotation (-90 degrees to 0 degrees)
     private double skew;
- 
-    // tl  The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
-    private double latency;
 
     // logger
     private Logger logger;
- 
-  
-  public LimelightSubsystem() {
-    
-    logger = Logger.getLogger(LimelightSubsystem.class.getName());
-    logger.setLevel(Level.INFO);
 
-  }  
-  //-------- METHODS --------\\
-  
-  // this returns the horizontal angle between the limelights crosshair and the target crosshair :)
-  public double getHorizontalOffset(){
+    //private FIFOStack smoother = new FIFOStack(10);
 
-    logger.entering(getClass().getName(), "getHorizontalOffset()");
+    // enum for the different limelight pipelines
+    public enum LimelightPipelines {
 
-    horizontalOffset = limelightTable.getEntry("tx").getDouble(0.12345);
+        CLOSE_PIPELINE(0), MID_PIPELINE(1), FAR_PIPELINE(2);
 
-    logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
+        private final int pipelineNumber;
 
-    logger.exiting(getClass().getName(), "getHorizontalOffset()");
+        LimelightPipelines(int pipelineNumber) {
+            this.pipelineNumber = pipelineNumber;
+        }
 
-    return horizontalOffset;
+        public int getPipeline() {
+            return this.pipelineNumber;
+        }
+    }
 
-  }
+    // subsystem constructor
+    public LimelightSubsystem() {
 
-  // the distance between the robot and the goal :)
-  public double getDistance( double angleOffset){
+        logger = Logger.getLogger(LimelightSubsystem.class.getName());
+        logger.setLevel(Level.INFO);
 
-    logger.entering(getClass().getName(),  "getDistance()");
+    }
 
-    double estDistance;
-    double error;
-    double distanceAndError;
+    // -------- METHODS --------\\
 
-    estDistance = TARGET_HEIGHT / Math.tan(CAMERA_ANGLE + angleOffset);
-    error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
-    distanceAndError = estDistance + error;
+    // this returns the horizontal angle between the limelights crosshair and the
+    // target crosshair :)
+    public double getHorizontalOffset() {
 
-    logger.log(Level.FINE, "Estimated distance = " + estDistance);
-    logger.log(Level.FINE, "Error = " + error);
-    logger.log(Level.FINE, "estDistance + error = " + distanceAndError);
+        logger.entering(getClass().getName(), "getHorizontalOffset()");
 
-    logger.exiting(getClass().getName(), "getDistance()");
+        //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
-    return distanceAndError;
-  }
+        horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
-  // whether the limelight sees a target or not :)
-  public boolean getValidTargets(){
+        logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
 
-    logger.entering(getClass().getName(), "getValidTargets()");
+        logger.exiting(getClass().getName(), "getHorizontalOffset()");
 
-    validTarget = limelightTable.getEntry("tv").getBoolean(false);
+        return horizontalOffset;
 
-    logger.log(Level.FINE, "Valid Target?: " + validTarget);
+    }
 
-    logger.exiting(getClass().getName(), "getValidTargets()");
+    // the distance between the robot and the goal :)
+    public double getDistance() {
 
-    return validTarget;
+        logger.entering(getClass().getName(), "getDistance()");
 
-  }
+        // initial calculated distance
+        double estDistance;
 
-  // this returns the verticle offset between the limelights crosshair and the target crosshair :)
-  public double getVerticleOffset(){
+        // error between actual and initial calculated distance
+        double error;
 
-    logger.entering(getClass().getName(), "getVerticleOffset()");
+        // sum of initial calculated distance and distance error
+        double distanceAndError;
 
-    verticleOffset = limelightTable.getEntry("ty").getDouble(0.12345);
+        estDistance = TARGET_HEIGHT / Math.tan(CAMERA_ANGLE + getVerticleOffset());
+        error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
+        distanceAndError = estDistance + error;
 
-    logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
+        logger.log(Level.FINE, "Estimated distance = " + estDistance);
+        logger.log(Level.FINE, "Error = " + error);
+        logger.log(Level.FINE, "estDistance + error = " + distanceAndError);
 
-    logger.exiting(getClass().getName(), "getVerticleOffset()");
+        logger.exiting(getClass().getName(), "getDistance()");
 
-    return verticleOffset;
+        return distanceAndError;
 
-  }
+    }
 
-  /* 
-  public double previousXAngle() {
+    // whether the limelight sees a target or not :)
+    public boolean getValidTargets() {
 
-    return 0.0;
+        logger.entering(getClass().getName(), "getValidTargets()");
 
-  }
+        validTarget = limelightTable.getEntry("tv").getDouble(989) > 0.0 ? true : false;
 
-  public double previousYAngle() {
-    
-    return 0.0;
+        logger.log(Level.FINE, "Valid Target?: " + validTarget);
 
-  }
-  */
- 
-  @Override
-  public void periodic() {
+        logger.exiting(getClass().getName(), "getValidTargets()");
 
-    // This method will be called once per scheduler run
+        return validTarget;
 
-  }
+    }
 
-}
-  
+    // this returns the verticle offset between the limelights crosshair and the
+    // target crosshair :)
+    public double getVerticleOffset() {
+
+        logger.entering(getClass().getName(), "getVerticleOffset()");
+
+        verticleOffset = limelightTable.getEntry("ty").getDouble(DEFAULT_VERT_ANGLE_OFFSET);
+
+        logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
+
+        logger.exiting(getClass().getName(), "getVerticleOffset()");
+
+        return verticleOffset;
+
+    }
+
+    // sets the pipeline, or configuration, of the limelight
+    public void setPipeline(LimelightPipelines pipeline) {
+
+        logger.entering(getClass().getName(), "setPipeline()");
+
+        // sets the pipeline to the associated number of the pipeline enum
+        limelightTable.getEntry("pipeline").setNumber(pipeline.getPipeline());
+
+        logger.log(Level.FINE, "Pipeline: " + pipeline);
+
+        logger.exiting(getClass().getName(), "setPipeline()");
+
+    }
+
+    @Override
+    public void periodic() {
+        
+        limelightTable.getEntry("tx").getDouble(989);
+
+    }
+
+} // end of class

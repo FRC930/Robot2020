@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//TODO: Move constants in here :)
+
 package frc.robot.commands.autocommands;
 
 
@@ -34,8 +36,8 @@ public class AutonomousCommand extends SequentialCommandGroup {
    */
   DriveSubsystem drive;
   public AutonomousCommand(DriveSubsystem subsystem) {
-    //System.out.println(drive.getYaw());
     drive = subsystem;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -58,17 +60,22 @@ public class AutonomousCommand extends SequentialCommandGroup {
         //new Translation2d(1, 2)),
         // End 1 meters straight ahead of where we started, facing forward
         new Pose2d(1, -1, new Rotation2d(0)),
+
         // Pass config
         config);
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
+
         drive::getPose,
+
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
+
         drive::getWheelSpeeds,
+
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
@@ -86,13 +93,17 @@ public class AutonomousCommand extends SequentialCommandGroup {
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
+
         drive::getPose,
+
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
+
         drive::getWheelSpeeds,
+
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
