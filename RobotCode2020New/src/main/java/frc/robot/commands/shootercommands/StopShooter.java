@@ -5,40 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ledcommands;
+package frc.robot.commands.shootercommands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.LEDSubsystem;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class BlueLEDCommand extends CommandBase {
-    private LEDSubsystem m_ledSubsystem;
-    private AddressableLED m_leds;
-    private AddressableLEDBuffer m_ledsBuffer;
+public class StopShooter extends CommandBase {
+    private ShooterSubsystem m_ShooterSubsystem;
 
-    public BlueLEDCommand(LEDSubsystem ledSubsystem) {
-        m_ledSubsystem = ledSubsystem;
-        addRequirements(m_ledSubsystem);
+    public StopShooter(ShooterSubsystem shooterSubsystem) 
+    {
+        m_ShooterSubsystem = shooterSubsystem;
+        addRequirements(m_ShooterSubsystem);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        m_ledSubsystem.setLEDs(0, 0, 255);
+    public void initialize() 
+    {
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
+    public void execute() 
+    {
+        m_ShooterSubsystem.stop();
     }
 
     // Called once the command ends or is interrupted.

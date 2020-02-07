@@ -22,21 +22,17 @@ import frc.robot.subsystems.LEDSubsystem;
  */
 public class LEDIdleFlash extends SequentialCommandGroup {
     private LEDSubsystem m_ledSubsystem;
-
     private int flashType;
 
-    public LEDIdleFlash(LEDSubsystem ledSubsystem, int flashType)
-    {
+    public LEDIdleFlash(LEDSubsystem ledSubsystem, int flashType) {
         m_ledSubsystem = ledSubsystem;
         addRequirements(m_ledSubsystem);
-
         this.flashType = flashType;
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() 
-    {
+    public void initialize() {
         switch(flashType){
             case 0:
                 m_ledSubsystem.setLEDs(255, 70, 0);
@@ -54,16 +50,13 @@ public class LEDIdleFlash extends SequentialCommandGroup {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() 
-    {
-
+    public void execute() {
     }
+
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) 
-    {
-
+    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensorSubsystem;
 import java.util.logging.*;
+
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 
@@ -157,3 +158,4 @@ public class GetColorCommand extends CommandBase {
         logger.exiting(this.getClass().getName(), "rotationalTrackerCounter");
     } // End of rotationalTrackerCounter
 } // End of class
+

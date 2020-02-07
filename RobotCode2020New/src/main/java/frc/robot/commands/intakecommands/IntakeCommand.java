@@ -49,8 +49,7 @@ public class IntakeCommand extends CommandBase {
      //System.out.println("intakeCommandExecute" + coDriver.getRawAxis(3));TODO: init
      intakePistons.setIntakePiston(INTAKE_PISTONS_DOWN);
      intakeMotors.setMotorSpeed(0.8);
-     logger.log(Level.FINE,"starting intake");
- 
+     logger.log(Level.FINE,"starting intake"); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
@@ -67,6 +66,6 @@ public class IntakeCommand extends CommandBase {
     return true;
   }
   
-
   //-------- METHODS --------\\
+
 } //End of class IntakeCommand

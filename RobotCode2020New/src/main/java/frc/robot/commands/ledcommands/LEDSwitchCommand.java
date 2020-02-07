@@ -20,37 +20,20 @@ import frc.robot.subsystems.LEDSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class BlueLEDCommand extends CommandBase {
+public class LEDSwitchCommand extends SequentialCommandGroup {
     private LEDSubsystem m_ledSubsystem;
     private AddressableLED m_leds;
     private AddressableLEDBuffer m_ledsBuffer;
 
-    public BlueLEDCommand(LEDSubsystem ledSubsystem) {
+    static private int flashType;
+
+    public LEDSwitchCommand(LEDSubsystem ledSubsystem)
+    {
         m_ledSubsystem = ledSubsystem;
         addRequirements(m_ledSubsystem);
-    }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        m_ledSubsystem.setLEDs(0, 0, 255);
-    }
+        System.out.println("&&&&&&&&Calling LEDSequential");
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) 
-    {
-
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return true;
+        addCommands(new RedLEDCommand(m_ledSubsystem), new WaitCommand(1), new GreenLEDCommand(m_ledSubsystem), new WaitCommand(1), new BlueLEDCommand(m_ledSubsystem));
     }
 }
