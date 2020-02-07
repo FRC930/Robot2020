@@ -37,13 +37,14 @@ public class RotationalControlTrackerCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    colorCounter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     logger.entering(this.getClass().getName(), "execute");
-    getColorCommand.rotationalTrackerCounter();
+    getColorCommand.rotationalTrackerCounter(colorCounter);
     logger.exiting(this.getClass().getName(), "execute");
   } // End of execute
 

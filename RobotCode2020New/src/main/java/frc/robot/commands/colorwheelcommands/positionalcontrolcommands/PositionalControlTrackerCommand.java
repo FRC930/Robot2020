@@ -38,7 +38,6 @@ public class PositionalControlTrackerCommand extends CommandBase {
     @Override
     public void execute() {
         logger.entering(this.getClass().getName(), "execute");
-        getColorCommand.rotationalTrackerCounter();
         logger.exiting(this.getClass().getName(), "execute");
     }
 

@@ -30,7 +30,7 @@ public class GetColorCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   // Counts how many times individual colors have passed
-  private int colorCounter;
+  //private int colorCounter;
   // Tracks the last color seen by the color sensor
   private String lastColor;
   // Creates an object that adds colors for us to scan
@@ -57,7 +57,7 @@ public class GetColorCommand extends CommandBase {
     // Color wheel spins in the direction below
     direction = COUNTER_CLOCKWISE;
     // Sets the beginning of the counter for number of times the wheel spins 
-    colorCounter = 0;
+    //colorCounter = 0;
     // Last color seen is set to nothing
     lastColor = "";
     colorMatch.addColorMatch(kYellowTarget);
@@ -85,7 +85,7 @@ public class GetColorCommand extends CommandBase {
     logger.entering(this.getClass().getName(), "isFinished");
     logger.exiting(this.getClass().getName(), "isFinished");
     // Stops the code when the color has changed 24 times
-    return colorCounter > 24;
+    return false;//colorCounter > 24;
   }
 
   private String getNearestColor(Color c) {
@@ -112,7 +112,7 @@ public class GetColorCommand extends CommandBase {
   }
 
   // Tracks when the color wheel changes color
-  public void rotationalTrackerCounter() {
+  public int rotationalTrackerCounter(int colorCounter) {
     logger.entering(this.getClass().getName(), "rotationalTrackerCounter");
     // Returns the color values from the sensors
     final Color color = m_subsystem.getSensorColor();
@@ -122,28 +122,28 @@ public class GetColorCommand extends CommandBase {
     if (lastColor.equals("Red") && nearestColor.equals("Yellow") && direction == COUNTER_CLOCKWISE){
       //Overrides what is seen from the sensor
       logger.log(Level.FINE, "discarding yellow (counter-clockwise)");       
-      return;
+      return colorCounter;
     }
 
     // When blue is being seen and is being spun counter-clockwise, make sure that the next color doesn't output green
     if (lastColor.equals("Blue") && nearestColor.equals("Green") && direction == COUNTER_CLOCKWISE){
       //Overrides what is seen from the sensor
       logger.log(Level.FINE, "discarding green (counter-clockwise)");
-      return;
+      return colorCounter;
     }
 
     // When green is being seen and is being spun clockwise, make sure that the next color doesn't output yellow
     if (lastColor.equals("Green") && nearestColor.equals("Yellow") && direction == CLOCKWISE){
       //Overrides what is seen from the sensor
       logger.log(Level.FINE, "discarding yellow (clockwise)");       
-      return;
+      return colorCounter;
     }
 
     // When yellow is being seen and is being spun clockwise, make sure that the next color doesn't output green
     if (lastColor.equals("Yellow") && nearestColor.equals("Green") && direction == CLOCKWISE){
       //Overrides what is seen from the sensor
       logger.log(Level.FINE, "discarding green (clockwise)");       
-      return;
+      return colorCounter;
     }
 
     // When the previous color is not equal to the current color, output the new/current color
@@ -152,17 +152,18 @@ public class GetColorCommand extends CommandBase {
       logger.log(Level.INFO, "Matching color:" + nearestColor);
       lastColor = nearestColor;
       // Counts how many times the color has changed
-      colorCounter++;
+      return colorCounter++;
     }
     logger.exiting(this.getClass().getName(), "rotationalTrackerCounter");
+    return colorCounter;
   } // End of rotationalTrackerCounter
 
-  public void positionalTrackerCounter() {
+  public String positionalTrackerCounter() {
     logger.entering(this.getClass().getName(), "positionalTrackerCounter");
     // Returns the color values from the sensors
     final Color color = m_subsystem.getSensorColor();
     String nearestColor = getNearestColor(color);
-    // Color seen by the field color sensor
+    // The color the field color sensor sees 
     String fieldColor;
 
     // If our color sensor sees Red, then the field sensor should be seeing Blue
@@ -185,5 +186,6 @@ public class GetColorCommand extends CommandBase {
       fieldColor = "Green";
     }
     logger.exiting(this.getClass().getName(), "positionalTrackerCounter");
+    return fieldColor;
   }
 } // End of class
