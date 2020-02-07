@@ -19,6 +19,8 @@ public class PositionalControlTrackerCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
     private GetColorCommand getColorCommand;
     private final ColorSensorSubsystem m_subsystem;
+    // Creates an instance of the logger class
+    private Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
 
     //-------- CONSTRUCTOR --------\\
     public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
@@ -35,7 +37,9 @@ public class PositionalControlTrackerCommand extends CommandBase {
 
     @Override
     public void execute() {
+        logger.entering(this.getClass().getName(), "execute");
         getColorCommand.rotationalTrackerCounter();
+        logger.exiting(this.getClass().getName(), "execute");
     }
 
     // Called once the command ends or is interrupted.

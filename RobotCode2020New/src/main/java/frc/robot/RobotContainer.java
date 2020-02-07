@@ -130,7 +130,7 @@ public class RobotContainer {
     //autoCommand = new AutonomousCommand(driveSubsystem);
     //aimTurretCommand = new AimTurretCommand(turretSubsystem);
     
-    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem, aButton);
+    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorWheelSpinnerSubsystem, aButton);
 
     // Configure the button bindings
 
