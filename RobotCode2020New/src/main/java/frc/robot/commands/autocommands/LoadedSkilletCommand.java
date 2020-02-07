@@ -55,13 +55,13 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for a path to move towards Wheel of Fortune
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(0, 0, new Rotation2d(90)),
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(27.75), new Rotation2d(0)),
         List.of(
             // Pass through no interior waypoints, so this field is empty
         ),
         // End 3 meters straight ahead of where we started, still facing forward
             //***Requires future adjustments based on game field dimensions
-        new Pose2d(3, 0, new Rotation2d(90)),
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(27.75), new Rotation2d(0)),
         // Pass config
         config
 
@@ -70,15 +70,15 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory two move into shooting range for 5 W.O.F. balls
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the W.O.F. facing towards the goal, away from the W.O.F.
-        new Pose2d(0, 0, new Rotation2d(270)),
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(27.75), new Rotation2d(180)),
         // Pass this waypoint to have a more drastic curve towards the second shooting point
         List.of(
             //***Requires future adjustments based on game field dimensions
-            new Translation2d(2, 0)
+            new Translation2d(inchesToMeters(158.63), inchesToMeters(27.75))
         ),
         // End 3 meters straight ahead of where we started, still facing forward
             //***Requires future adjustments based on game field dimensions
-        new Pose2d(3, 1, new Rotation2d(90)),
+        new Pose2d(inchesToMeters(95.06), inchesToMeters(40.0), new Rotation2d(270)),
         // Pass config
         config
     );
@@ -86,14 +86,14 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
     Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing towards the field
-        new Pose2d(0, 0, new Rotation2d(90)),
+        new Pose2d(inchesToMeters(95.06), inchesToMeters(40.0), new Rotation2d(270)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
             // Pass through no interior waypoints, so this field is empty
         ),
         // Endpoint
             //***Requires future adjustments based on game field dimensions
-        new Pose2d(3, 0, new Rotation2d(90)),
+        new Pose2d(inchesToMeters(122.63), inchesToMeters(100.0), new Rotation2d(290)),
         // Pass config
         config
     );
@@ -168,4 +168,11 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
         ramseteCommand3,
         new WaitCommand(2));
   }
+
+  public double inchesToMeters(double inches) {
+      double meters = inches / 39.37;
+      return meters;
+  }
+
 }
+
