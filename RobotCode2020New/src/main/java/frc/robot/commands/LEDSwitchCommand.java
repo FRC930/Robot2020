@@ -8,22 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.LEDSubsystem;
 
 /**
- * An example command that uses an example subsystem.
+ * An cool command that uses an cooler subsystem.
  */
-public class LEDRunShooter extends SequentialCommandGroup {
+public class LEDSwitchCommand extends SequentialCommandGroup {
 
-    public LEDRunShooter(LEDSubsystem ledSubsystem)
+    public LEDSwitchCommand(LEDSubsystem ledSubsystem)
     {
         addRequirements(ledSubsystem);
-
-        addCommands(new LEDIdleFlash(ledSubsystem, 0),
-                    new WaitCommand(1),
-                    new LEDIdleFlash(ledSubsystem, 1),
-                    new WaitCommand(1)
-                    );
     }
 }

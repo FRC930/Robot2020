@@ -22,10 +22,6 @@ import frc.robot.subsystems.LEDSubsystem;
  */
 public class GreenLEDCommand extends CommandBase {
     private LEDSubsystem m_ledSubsystem;
-    private AddressableLED m_leds;
-    private AddressableLEDBuffer m_ledsBuffer;
-
-    static private int flashType;
 
     public GreenLEDCommand(LEDSubsystem ledSubsystem)
     {
