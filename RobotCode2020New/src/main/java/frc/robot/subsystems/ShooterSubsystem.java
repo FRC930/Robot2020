@@ -105,6 +105,11 @@ public class ShooterSubsystem extends SubsystemBase {
         return true;
     }
 
+    public double getSpeed()
+    {
+        return motorLead.getEncoder().getVelocity();
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("LeftRPM", motorLead.getEncoder().getVelocity());

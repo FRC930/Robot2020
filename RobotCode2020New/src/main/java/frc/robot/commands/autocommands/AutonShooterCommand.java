@@ -36,7 +36,7 @@ public class AutonShooterCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // m_ShooterSubsystem.setSpeed(m_Speed);
+
     }
 
     // Called once the command ends or is interrupted.

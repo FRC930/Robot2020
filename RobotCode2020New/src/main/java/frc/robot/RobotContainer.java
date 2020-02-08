@@ -264,6 +264,11 @@ public class RobotContainer {
       //Drive command binds
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
+      shootButton.whileActiveOnce(new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem));
+      shootButton.whenReleased(new StopTowerCommand(towerSubsystem));
+      //shootButton.whenPressed();
+      //shootButton.whenReleased();
+
     } else {  //If we're using the Xbox controller
 
       //--Buttons and triggers
