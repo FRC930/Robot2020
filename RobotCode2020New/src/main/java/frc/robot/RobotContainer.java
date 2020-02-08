@@ -284,15 +284,10 @@ public class RobotContainer {
     //--Buttons
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
-    AxisTrigger turretAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RIGHT_Y);
-
     //--Command binds
 
     //Toggle intake
     intakeAxisTrigger.toggleWhenActive(intakeCommand).cancelWhenActive(intakeStopCommand);
-
-    //Turn turret
-    
 
   } // end of method configureCodriverBindings()
   
