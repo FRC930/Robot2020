@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +70,7 @@ public class LimelightSubsystem extends SubsystemBase {
   public LimelightSubsystem() {
     
     logger = Logger.getLogger(LimelightSubsystem.class.getName());
-    logger.setLevel(Level.INFO);
+    logger.setLevel(Constants.LOG_LEVEL);
 
   }  
   //-------- METHODS --------\\
@@ -81,7 +82,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     horizontalOffset = limelightTable.getEntry("tx").getDouble(0.12345);
 
-    logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
+    logger.log(Constants.LOG_LEVEL, "Horizontal Offset = " + horizontalOffset);
 
     logger.exiting(getClass().getName(), "getHorizontalOffset()");
 
@@ -102,9 +103,9 @@ public class LimelightSubsystem extends SubsystemBase {
     error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
     distanceAndError = estDistance + error;
 
-    logger.log(Level.FINE, "Estimated distance = " + estDistance);
-    logger.log(Level.FINE, "Error = " + error);
-    logger.log(Level.FINE, "estDistance + error = " + distanceAndError);
+    logger.log(Constants.LOG_LEVEL, "Estimated distance = " + estDistance);
+    logger.log(Constants.LOG_LEVEL, "Error = " + error);
+    logger.log(Constants.LOG_LEVEL, "estDistance + error = " + distanceAndError);
 
     logger.exiting(getClass().getName(), "getDistance()");
 
@@ -118,7 +119,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     validTarget = limelightTable.getEntry("tv").getBoolean(false);
 
-    logger.log(Level.FINE, "Valid Target?: " + validTarget);
+    logger.log(Constants.LOG_LEVEL, "Valid Target?: " + validTarget);
 
     logger.exiting(getClass().getName(), "getValidTargets()");
 
@@ -133,7 +134,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     verticleOffset = limelightTable.getEntry("ty").getDouble(0.12345);
 
-    logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
+    logger.log(Constants.LOG_LEVEL, "Verticle Offset = " + verticleOffset);
 
     logger.exiting(getClass().getName(), "getVerticleOffset()");
 

@@ -5,25 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.colorwheelcommands.rotationalcontrolcommands;
+package frc.robot.commands.colorwheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ColorWheelSpinnerSubsystem;
 import java.util.logging.*;
 
-public class RotationalControlSpinnerCommand extends CommandBase {
+public class ColorWheelSpinnerCommand extends CommandBase {
 
     //-------- CONSTANTS --------\\
+    
     // Creates an instance of the RotationalControlSubsystem subsystem
     private final ColorWheelSpinnerSubsystem m_subsystem;
     // Creates an instance of the logger class
-    private Logger logger = Logger.getLogger(RotationalControlSpinnerCommand.class.getName());
+    private Logger logger = Logger.getLogger(ColorWheelSpinnerCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
 
     private final double SPEED = 0.5;
 
-    public RotationalControlSpinnerCommand(ColorWheelSpinnerSubsystem subsystem) {
+    public ColorWheelSpinnerCommand(ColorWheelSpinnerSubsystem subsystem) {
         m_subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
@@ -42,7 +44,7 @@ public class RotationalControlSpinnerCommand extends CommandBase {
     public void execute() {
         logger.entering(this.getClass().getName(), "execute");
         // Gets the SparkMax values from the RotationalControlSubsystem subsystem        
-        logger.log(Level.FINE, "(spinning)");
+        logger.log(Constants.LOG_LEVEL, "(spinning)");
         logger.exiting(this.getClass().getName(), "execute");
     }
 

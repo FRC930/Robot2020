@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -57,7 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
         //solenoid = new Solenoid(0);
         
         logger = Logger.getLogger(ShooterSubsystem.class.getName());
-        logger.setLevel(Level.INFO); 
+        logger.setLevel(Constants.LOG_LEVEL); 
     }
 
     public void setSpeed(double speed) {
@@ -69,7 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
             this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
             //motorLead.set(speed);
         }
-        logger.log(Level.FINE, "Set shooter speed to " + speed);
+        logger.log(Constants.LOG_LEVEL, "Set shooter speed to " + speed);
 
         logger.exiting(getClass().getName(), "setSpeed()");
     }

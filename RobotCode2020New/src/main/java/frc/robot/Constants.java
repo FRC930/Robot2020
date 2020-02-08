@@ -67,9 +67,6 @@ public final class Constants {
         public static final int CODRIVE_AXIS_RT = 3;
         
         public static final double TRIGGER_PRESSED_THRESHOLD = 0.4;
-
-        // Being used in Robot Container and Rotational Control Kill Switch
-        public static final int XB_A = 1;
         // JOYSTICK Controller Values-----------------------------]
         
         // DRIVETRAIN Constants --------------------------------]
@@ -100,7 +97,7 @@ public final class Constants {
     //[--------------------UTILITIES--------------------]
 
     // Sets the global logger level
-    public static final Level LOG_LEVEL = Level.INFO;
+    public static final Level LOG_LEVEL = Level.FINE;
 
     //[--------------------UTILITIES--------------------]
   
