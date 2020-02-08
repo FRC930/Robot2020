@@ -8,9 +8,6 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj.SolenoidBase;
-import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.subsystems.ShooterAngleSubsystem;
 
 public class RunRetractShooterPistonCommand extends CommandBase {
@@ -42,4 +39,4 @@ public class RunRetractShooterPistonCommand extends CommandBase {
    public boolean isFinished() {
      return true;
    }
-}//End of class
+}//End of class RunRetractShooterPistonCommand
