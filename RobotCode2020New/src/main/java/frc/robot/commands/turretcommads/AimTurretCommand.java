@@ -18,6 +18,7 @@ public class AimTurretCommand extends PIDCommand {
      * Use this to log messages
      */
     private final Logger logger = Logger.getLogger(AimTurretCommand.class.getName()); // "it is OUR contribution" - bernie sanders 2020 is testing the "INFALLIBLE" communism theory
+    private static final int MAX_ROTATIONAL_UNITS = 3570;
 
     /**
      * This constructor needs the turret that it will be using and the LimeLight to get the values from
@@ -27,22 +28,22 @@ public class AimTurretCommand extends PIDCommand {
     public AimTurretCommand(TurretSubsystem turret/*, VisionTracking limeLight*/) {
         // Call the super constructor to initialize the PID controller
         // TODO: figure out what values to use for the PID controller
-        super(new PIDController(0.001, 0, 0), turret::getEncoderPosition, 750, (double speed) -> {
+        super(new PIDController(0, 0, 0), turret::getEncoderPosition, 750, (double speed) -> {
             // Sets up a lambda (DoubleConsumer) to get the output from the PID controller
-            if (speed > 1) {
-                speed = 1;
-            } else if (speed < -1) {
-                speed = -1;
+            if (speed > 0.3) {
+                speed = 0.3;
+            } else if (speed < -0.3) {
+                speed = -0.3;
             }
 
             // Make sure that the turret does not turn past ~300° in either direction
             // Internal units. 3570 == ~300°
             if (speed < 0) {
-                if (turret.getEncoderPosition() > 1500) {
+                if (turret.getEncoderPosition() > MAX_ROTATIONAL_UNITS) {
                     speed = 0;
                 }
             } else if (speed > 0) {
-                if (turret.getEncoderPosition() < -1500) {
+                if (turret.getEncoderPosition() < -MAX_ROTATIONAL_UNITS) {
                     speed = 0;
                 }
             }

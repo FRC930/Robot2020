@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -25,7 +26,7 @@ public class TurretSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
 
     private final int TURRET_MOTOR_ID = 5;
-    private final int ENCODER_ROTATION_LIMIT = 1500;
+    private final int ENCODER_ROTATION_LIMIT = 5000;
 
     //-------- DECLARATIONS --------\\
 
@@ -59,6 +60,8 @@ public class TurretSubsystem extends SubsystemBase {
                 speed = 0;
             }
         }
+
+        SmartDashboard.putNumber("Turret Encoder value", this.mc.getSelectedSensorPosition());
 
         this.mc.set(ControlMode.PercentOutput, this.speed);
         this.logger.log(Level.INFO, "Set speed to " + this.speed);
