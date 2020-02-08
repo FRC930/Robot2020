@@ -11,7 +11,7 @@ import frc.robot.commands.compressorcommands.*;
 import frc.robot.commands.drivecommands.*;
 import frc.robot.commands.hoppercommands.*;
 import frc.robot.commands.intakecommands.*;
-import frc.robot.commands.ledcommands.*;
+//import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.*;
 import frc.robot.commands.towercommands.*;
 import frc.robot.commands.turretcommads.*;
@@ -113,7 +113,7 @@ public class RobotContainer {
   private final IntakePistonSubsystem intakePistons;
   
   //--LED subsystems
-  private final LEDSubsystem ledSubsystem;
+  //private final LEDSubsystem ledSubsystem;
 
   //--Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
@@ -184,7 +184,7 @@ public class RobotContainer {
     hopperSubsystem = new HopperSubsystem();
     intakeMotors = new IntakeMotorSubsystem();
     intakePistons = new IntakePistonSubsystem();
-    ledSubsystem = new LEDSubsystem();
+    //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
     shooterSubsystem = new ShooterSubsystem();
     towerSubsystem = new TowerSubsystem();
