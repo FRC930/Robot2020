@@ -11,14 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.SolenoidBase;
 import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.subsystems.ShooterAngleSubsystem;
 
 public class MoveShooterCommand extends CommandBase {
 
-
-    public boolean get(boolean isSolenoidOn) {
-        return isSolenoidOn ;
-    }
-    
           
     // Called when the command is initially scheduled.
   @Override
