@@ -7,7 +7,7 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.autocommands;
+package frc.robot.commands.autocommands.paths;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 

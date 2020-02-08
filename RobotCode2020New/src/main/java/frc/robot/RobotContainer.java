@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.commands.autocommands.*;
+import frc.robot.commands.autocommands.paths.*;
 
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
 import frc.robot.commands.colorwheelcommands.*;
@@ -303,6 +304,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    //TODO: Get shuffleboard data, use switch case to select the path selected
     return autoCommand;
     // Run path following command, then stop at the end.
   }

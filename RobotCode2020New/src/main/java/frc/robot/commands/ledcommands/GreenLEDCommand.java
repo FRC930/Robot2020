@@ -13,17 +13,14 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class AutonShooterCommand extends CommandBase {
+public class GreenLEDCommand extends CommandBase {
 
-    private ShooterSubsystem m_ShooterSubsystem;
-    private double m_Speed;
+    private LEDSubsystem ledSubsystem;
 
-    public AutonShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
+    public GreenLEDCommand(LEDSubsystem lSubsystem) 
     {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
-
-        m_Speed = speed;
+        ledSubsystem = lSubsystem;
+        addRequirements(ledSubsystem);
     }
 
     // Called when the command is initially scheduled.
@@ -31,7 +28,6 @@ public class AutonShooterCommand extends CommandBase {
     public void initialize() 
     {
         //Hopper Start
-        m_ShooterSubsystem.setSpeed(m_Speed);
         //Tower Start
     }
 
