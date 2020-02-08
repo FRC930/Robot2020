@@ -159,12 +159,42 @@ public class GetColorCommand extends CommandBase {
   } // End of rotationalTrackerCounter
 
   public String positionalTrackerCounter() {
+    // TODO: Color skipping
+    
     logger.entering(this.getClass().getName(), "positionalTrackerCounter");
     // Returns the color values from the sensors
     final Color color = m_subsystem.getSensorColor();
     String nearestColor = getNearestColor(color);
     // The color the field color sensor sees 
-    String fieldColor;
+    String fieldColor = "Unknown";
+
+    // When red is being seen and is being spun counter-clockwise, make sure that the next color doesn't output yellow
+    if (lastColor.equals("Red") && nearestColor.equals("Yellow") && direction == COUNTER_CLOCKWISE){
+      //Overrides what is seen from the sensor
+      logger.log(Level.FINE, "discarding yellow (counter-clockwise)");       
+      return null;
+    }
+
+    // When blue is being seen and is being spun counter-clockwise, make sure that the next color doesn't output green
+    if (lastColor.equals("Blue") && nearestColor.equals("Green") && direction == COUNTER_CLOCKWISE){
+      //Overrides what is seen from the sensor
+      logger.log(Level.FINE, "discarding green (counter-clockwise)");
+      return null;
+    }
+
+    // When green is being seen and is being spun clockwise, make sure that the next color doesn't output yellow
+    if (lastColor.equals("Green") && nearestColor.equals("Yellow") && direction == CLOCKWISE){
+      //Overrides what is seen from the sensor
+      logger.log(Level.FINE, "discarding yellow (clockwise)");       
+      return null;
+    }
+
+    // When yellow is being seen and is being spun clockwise, make sure that the next color doesn't output green
+    if (lastColor.equals("Yellow") && nearestColor.equals("Green") && direction == CLOCKWISE){
+      //Overrides what is seen from the sensor
+      logger.log(Level.FINE, "discarding green (clockwise)");       
+      return null;
+    }
 
     // If our color sensor sees Red, then the field sensor should be seeing Blue
     if (nearestColor.equals("Red")){
@@ -172,18 +202,22 @@ public class GetColorCommand extends CommandBase {
     }
 
     // If our color sensor sees Green, then the field sensor should be seeing Yellow
-    if (nearestColor.equals("Green")){
+    else if (nearestColor.equals("Green")){
       fieldColor = "Yellow";
     }
 
     // If our color sensor sees Blue, then the field sensor should be seeing Red
-    if (nearestColor.equals("Blue")){
+    else if (nearestColor.equals("Blue")){
       fieldColor = "Red";
     }
 
     // If our color sensor sees Yellow, then the field sensor should be seeing Green
-    if (nearestColor.equals("Yellow")){
+    else if (nearestColor.equals("Yellow")){
       fieldColor = "Green";
+    }
+    
+    else {
+      fieldColor = "Unknown";
     }
     logger.exiting(this.getClass().getName(), "positionalTrackerCounter");
     return fieldColor;
