@@ -5,45 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.autocommands;
+package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterPistonSubsystem;
+import edu.wpi.first.wpilibj.SolenoidBase;
+import edu.wpi.first.wpilibj.Solenoid;
 
+public class AngleShooterCommand extends CommandBase {
 
-public class AutonShooterCommand extends CommandBase {
+    private ShooterPistonSubsystem solenoidSubsystem;
 
-    private ShooterSubsystem m_ShooterSubsystem;
-    private double m_Speed;
-
-    public AutonShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
+    public AngleShooterCommand()
     {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
 
-        m_Speed = speed;
     }
-
+            
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() 
-    {
-        //Hopper Start
-        m_ShooterSubsystem.setSpeed(m_Speed);
-        //Tower Start
+    public void initialize() {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) 
-    {
-        
+    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.
@@ -51,4 +42,4 @@ public class AutonShooterCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-}
+}//End of class

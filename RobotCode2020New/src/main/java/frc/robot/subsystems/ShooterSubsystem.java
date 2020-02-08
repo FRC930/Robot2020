@@ -60,7 +60,7 @@ public class ShooterSubsystem extends SubsystemBase {
         this.pidcontroller = motorLead.getPIDController();
         //this.pidcontroller.setFF(PID_FF);
         this.pidcontroller.setOutputRange(0, 1);
-        //this.pidcontroller.setP(PID_P);
+        this.pidcontroller.setP(PID_P);
         //this.pidcontroller.setD(PID_D);
         motor2.follow(motorLead, true);
         
@@ -77,7 +77,7 @@ public class ShooterSubsystem extends SubsystemBase {
         if(speed <= 1.0 && speed >= 0.0) {
             // Set the speed in percent output * the max RPM of the NEO.
             this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-            motorLead.set(speed);
+            //motorLead.set(speed);
         }
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
