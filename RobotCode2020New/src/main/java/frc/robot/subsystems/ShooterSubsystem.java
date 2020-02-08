@@ -40,7 +40,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //private final Solenoid solenoid;
 
     public ShooterSubsystem() {
-        this(new CANSparkMax(7, MotorType.kBrushless), new CANSparkMax(9, MotorType.kBrushless)); //new CANSparkMax(2, MotorType.kBrushless), new CANSparkMax(3, MotorType.kBrushless));
+        this(new CANSparkMax(9, MotorType.kBrushless), new CANSparkMax(7, MotorType.kBrushless)); //new CANSparkMax(2, MotorType.kBrushless), new CANSparkMax(3, MotorType.kBrushless));
     }
     
     public ShooterSubsystem(CANSparkMax lMotor, CANSparkMax rMotor) {

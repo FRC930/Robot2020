@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LEDSubsystem;
 
@@ -39,6 +40,7 @@ public class AllianceLEDCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+<<<<<<< HEAD
         if (counter >= 25) {
             if (DriverStation.getInstance().getAlliance() == Alliance.Red) {
                 if (ledPosition == 0) {
@@ -77,12 +79,39 @@ public class AllianceLEDCommand extends CommandBase {
                     } else if ((i % 3) == 0 && ledPosition == 1) {
                         buffer.setRGB(i, 0, 0, 255);
                         ledPosition = 0;
+=======
+        SmartDashboard.putNumber("Counter", counter);
+        if (counter >= 25) {
+            m_ledSubsystem.resetLEDs();
+            if (DriverStation.getInstance().getAlliance() == Alliance.Red) {
+                if (ledPosition == 0) {
+                    for (int i = 0; i < buffer.getLength(); i += 2) {
+                        buffer.setRGB(i, 255, 0, 0);
+                        ledPosition = 1;
+                    }
+                } else if (ledPosition == 1) {
+                    for (int i = 1; i < buffer.getLength(); i += 2) {
+                        buffer.setRGB(i, 225, 140, 0);
+                        ledPosition = 2;
                     }
                 }
-
-                m_ledSubsystem.updateBuffer(buffer);
-                counter = 0;
+            } else if (DriverStation.getInstance().getAlliance() == Alliance.Blue) {
+                if (ledPosition == 0) {
+                    for (int i = 0; i < buffer.getLength(); i += 2) {
+                        buffer.setRGB(i, 0, 0, 255);
+                    }
+                    ledPosition = 1;
+                } else if (ledPosition == 1) {
+                    for (int i = 1; i < buffer.getLength(); i += 2) {
+                        buffer.setRGB(i, 0, 140, 225);
+>>>>>>> 54c37822faf1acda4a490b15af285c81654ec2c9
+                    }
+                    ledPosition = 0;
+                }
             }
+            
+            m_ledSubsystem.updateBuffer(buffer);
+            counter = 0;
         }
 
         counter++;
