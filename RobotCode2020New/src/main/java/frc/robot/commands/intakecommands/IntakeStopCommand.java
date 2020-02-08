@@ -7,15 +7,12 @@
 
 package frc.robot.commands.intakecommands;
 
-import frc.robot.Constants;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.IntakePistonSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Joystick;
 import static frc.robot.subsystems.IntakePistonSubsystem.*;
 
 
