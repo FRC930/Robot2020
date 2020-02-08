@@ -9,6 +9,7 @@ package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterAngleSubsystem;
+import frc.robot.subsystems.ShooterAngleSubsystem.SolenoidValues;
 
 public class RunRetractShooterPistonCommand extends CommandBase {
 
@@ -26,7 +27,7 @@ public class RunRetractShooterPistonCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_ShooterAngleSubsystem.set(false);
+      m_ShooterAngleSubsystem.set(SolenoidValues.RETRACT);
   }
 
   // Called once the command ends or is interrupted.

@@ -45,18 +45,26 @@ public class ShooterAngleSubsystem extends SubsystemBase {
   //-------- CONSTRUCTOR --------\\
 
   public ShooterAngleSubsystem(){
+
     ShooterPiston = new Solenoid(SOLENOID_CHANNEL);
+
   }
-    //-------- METHODS --------\\ 
-    //Sets the value of the piston   
-    public void set(boolean state) {
-    ShooterPiston.set(state);
+
+  //-------- METHODS --------\\ 
+
+  //Sets the value of the piston   
+  public void set(SolenoidValues state) {
+
+    ShooterPiston.set(state.getSolenoidState());
     this.logger.log(Level.FINE,"setPistonValue");
+
   }
   //returns the value of the piston, TRUE = On or up, FALSE = Off or down
   public boolean get(){
+
     this.logger.log(Level.FINE,"getPistonValue: " + (ShooterPiston.get() ? "True" : "False"));
     return ShooterPiston.get();
+
   }
 
   @Override

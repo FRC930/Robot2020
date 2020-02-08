@@ -134,7 +134,7 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getDistance()");
 
         return distanceAndError;
-    } // end of method getDistance()
+    }
 
     // whether the limelight sees a target or not :)
     public boolean getValidTargets() {
@@ -147,7 +147,7 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getValidTargets()");
 
         return validTarget;
-    } // end of method getValidTargets()
+    }
 
     // this returns the verticle offset between the limelights crosshair and the target crosshair :)
     public double getVerticleOffset() {
@@ -160,7 +160,7 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getVerticleOffset()");
 
         return verticleOffset;
-    } // end of method getVerticleOffset()
+    }
 
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
@@ -172,11 +172,13 @@ public class LimelightSubsystem extends SubsystemBase {
 
         logger.log(Level.FINE, "Pipeline: " + pipeline);
         logger.exiting(getClass().getName(), "setPipeline()");
-    } // end of method setPipeline()
+    }
 
     @Override
     public void periodic() {    
+
         limelightTable.getEntry("tx").getDouble(989);
+
     }
 
 } // end of class LimelightSubsystem
