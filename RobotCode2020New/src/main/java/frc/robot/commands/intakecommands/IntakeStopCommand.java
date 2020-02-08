@@ -16,29 +16,26 @@ import frc.robot.subsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.IntakePistonSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
-import static frc.robot.subsystems.IntakePistonSubsystem.INTAKE_PISTONS_DOWN;
+import static frc.robot.subsystems.IntakePistonSubsystem.*;
 
 
-public class IntakeCommand extends CommandBase {
-  
-  private final Logger logger = Logger.getLogger (IntakeCommand.class.getName());
+public class IntakeStopCommand extends CommandBase {
 
+  private final Logger logger = Logger.getLogger(IntakeStopCommand.class.getName());
   //-------- CONSTANTS --------\\
 
   //-------- DECLARATIONS --------\\
-
-  private final IntakePistonSubsystem intakePistons;
-  private final IntakeMotorSubsystem intakeMotors;
+  private final IntakePistonSubsystem intakePistonsSubsystem;
+  private final IntakeMotorSubsystem intakeMotorsSubsystem;
 
   //-------- CONSTRUCTOR --------\\
 
-  public IntakeCommand(IntakePistonSubsystem iPistons, IntakeMotorSubsystem iMotors) {
-    intakePistons = iPistons;
-    intakeMotors = iMotors;
-    logger.log(Level.FINE,"starting intake command");
+  public IntakeStopCommand (final IntakePistonSubsystem iPistonsSubsystem, final IntakeMotorSubsystem iMotorSubsystem) {
+    intakePistonsSubsystem = iPistonsSubsystem;
+    intakeMotorsSubsystem = iMotorSubsystem;
+    logger.log(Level.FINE,"starting intake stop command");
 
-
-    addRequirements(iPistons, iMotors);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(iPistonsSubsystem, iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
@@ -46,18 +43,18 @@ public class IntakeCommand extends CommandBase {
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-     //System.out.println("intakeCommandExecute" + coDriver.getRawAxis(3));TODO: init
-     intakePistons.setIntakePiston(INTAKE_PISTONS_DOWN);
-     intakeMotors.setMotorSpeed(0.8);
-     logger.log(Level.FINE,"starting intake"); 
+    intakePistonsSubsystem.setIntakePiston(INTAKE_PISTONS_UP);
+    intakeMotorsSubsystem.setMotorSpeed(0.0);
+    logger.log(Level.FINE,"stoping intake");
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() { 
-  } 
+  public void execute() {
+       
+}
   
   @Override   // Called once the command ends or is interrupted.
-  public void end(boolean interrupted) {
+  public void end(final boolean interrupted) {
   }
 
   
@@ -66,6 +63,6 @@ public class IntakeCommand extends CommandBase {
     return true;
   }
   
-  //-------- METHODS --------\\
 
+  //-------- METHODS --------\\
 } //End of class IntakeCommand

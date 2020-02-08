@@ -1,9 +1,11 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+
+//-------- IMPORTS --------\\
 
 package frc.robot.subsystems;
 
@@ -15,6 +17,8 @@ import frc.robot.utilities.SmootherStack;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+//-------- SUBSYSTEM CLASS --------\\
 
 public class LimelightSubsystem extends SubsystemBase {
 
@@ -40,8 +44,6 @@ public class LimelightSubsystem extends SubsystemBase {
     // default limelight return values
     public final double DEFAULT_HORIZ_ANGLE_OFFSET = -100;
     public final double DEFAULT_VERT_ANGLE_OFFSET = -200;
-
-    // --Ports
 
     // -------- DECLARATIONS --------\\
 
@@ -84,18 +86,16 @@ public class LimelightSubsystem extends SubsystemBase {
         }
     }
 
-    // subsystem constructor
-    public LimelightSubsystem() {
+    //-------- CONSTRUCTOR --------\\
 
+    public LimelightSubsystem() {
         logger = Logger.getLogger(LimelightSubsystem.class.getName());
         logger.setLevel(Level.INFO);
-
     }
 
     // -------- METHODS --------\\
 
-    // this returns the horizontal angle between the limelights crosshair and the
-    // target crosshair :)
+    // this returns the horizontal angle between the limelights crosshair and the target crosshair :)
     public double getHorizontalOffset() {
 
         logger.entering(getClass().getName(), "getHorizontalOffset()");
@@ -105,11 +105,9 @@ public class LimelightSubsystem extends SubsystemBase {
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
         logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
-
         logger.exiting(getClass().getName(), "getHorizontalOffset()");
 
         return horizontalOffset;
-
     }
 
     // the distance between the robot and the goal :)
@@ -133,12 +131,10 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.log(Level.FINE, "Estimated distance = " + estDistance);
         logger.log(Level.FINE, "Error = " + error);
         logger.log(Level.FINE, "estDistance + error = " + distanceAndError);
-
         logger.exiting(getClass().getName(), "getDistance()");
 
         return distanceAndError;
-
-    }
+    } // end of method getDistance()
 
     // whether the limelight sees a target or not :)
     public boolean getValidTargets() {
@@ -148,15 +144,12 @@ public class LimelightSubsystem extends SubsystemBase {
         validTarget = limelightTable.getEntry("tv").getDouble(989) > 0.0 ? true : false;
 
         logger.log(Level.FINE, "Valid Target?: " + validTarget);
-
         logger.exiting(getClass().getName(), "getValidTargets()");
 
         return validTarget;
+    } // end of method getValidTargets()
 
-    }
-
-    // this returns the verticle offset between the limelights crosshair and the
-    // target crosshair :)
+    // this returns the verticle offset between the limelights crosshair and the target crosshair :)
     public double getVerticleOffset() {
 
         logger.entering(getClass().getName(), "getVerticleOffset()");
@@ -164,12 +157,10 @@ public class LimelightSubsystem extends SubsystemBase {
         verticleOffset = limelightTable.getEntry("ty").getDouble(DEFAULT_VERT_ANGLE_OFFSET);
 
         logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
-
         logger.exiting(getClass().getName(), "getVerticleOffset()");
 
         return verticleOffset;
-
-    }
+    } // end of method getVerticleOffset()
 
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
@@ -180,16 +171,12 @@ public class LimelightSubsystem extends SubsystemBase {
         limelightTable.getEntry("pipeline").setNumber(pipeline.getPipeline());
 
         logger.log(Level.FINE, "Pipeline: " + pipeline);
-
         logger.exiting(getClass().getName(), "setPipeline()");
-
-    }
+    } // end of method setPipeline()
 
     @Override
-    public void periodic() {
-        
+    public void periodic() {    
         limelightTable.getEntry("tx").getDouble(989);
-
     }
 
-} // end of class
+} // end of class LimelightSubsystem

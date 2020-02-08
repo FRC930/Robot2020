@@ -5,26 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.shootercommands;
 
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class DoneCommand extends CommandBase {
-    private LEDDone isDone;
-    private boolean reset;
+public class StopShooterCommand extends CommandBase {
+    private ShooterSubsystem m_ShooterSubsystem;
 
-    public DoneCommand(LEDDone isDone, boolean reset)
+    public StopShooterCommand(ShooterSubsystem shooterSubsystem) 
     {
-        this.isDone = isDone;
-        this.reset = reset;
+        m_ShooterSubsystem = shooterSubsystem;
+        addRequirements(m_ShooterSubsystem);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize()
+    public void initialize() 
     {
 
     }
@@ -33,28 +33,19 @@ public class DoneCommand extends CommandBase {
     @Override
     public void execute() 
     {
-        if(reset)
-        {
-            isDone.isDone = false;
-        }
-        else
-        {
-            isDone.isDone = true;
-        }
-        System.out.println("Executed:" + isDone.isDone);
+        m_ShooterSubsystem.stop();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) 
     {
-        
+
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        System.out.println("Finished:" + isDone.isDone);
         return true;
     }
 }
