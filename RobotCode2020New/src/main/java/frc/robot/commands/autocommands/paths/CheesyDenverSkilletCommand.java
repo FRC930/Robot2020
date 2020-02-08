@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.autocommands;
+package frc.robot.commands.autocommands.paths;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 
@@ -32,7 +32,7 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
   DriveSubsystem m_drive;
-  public LoadedSkilletCommand(DriveSubsystem subsystem) {
+  public CheesyDenverSkilletCommand(DriveSubsystem subsystem) {
     m_drive = subsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -52,48 +52,46 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
 
     // -------- Trajectories -------- \\
 
-    // Generates a trajectory for a path to move towards Wheel of Fortune
+    // All measurements are hand-calculated based on field diagrams and general sketches
+        // Reference https://drive.google.com/open?id=1lzL53Y3nWV6dWDt5XFEnVk34D3QuE3gg for detailed diagram drawing
+        
+    // Generates a trajectory for a path to move towards Wheel of  and ball pickup
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(90)),
-        List.of(
-            // Pass through no interior waypoints, so this field is empty
-        ),
+        new Pose2d(inchesToMeters(0), inchesToMeters(27.75), new Rotation2d(0)),
+        List.of(),
         // End 3 meters straight ahead of where we started, still facing forward
-            //***Requires future adjustments based on game field dimensions
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(90)),
+        new Pose2d(inchesToMeters(130.0), inchesToMeters(27.75), new Rotation2d(0)),
         // Pass config
         config
 
     );
 
-    // Generates a trajectory two move into shooting range for 5 W.O.F. balls
+    // Generates a trajectory to move back into shooting position on center line
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
-        // Start at the W.O.F. facing towards the goal, away from the W.O.F.
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(270)),
+        // Start at the W.O.F. facing towards the center line
+        new Pose2d(inchesToMeters(130.0), inchesToMeters(27.75), new Rotation2d(135)),
         // Pass this waypoint to have a more drastic curve towards the second shooting point
-        List.of(
-            //***Requires future adjustments based on game field dimensions
-            new Translation2d(inchesToMeters(0), inchesToMeters(0))
-        ),
-        // End 3 meters straight ahead of where we started, still facing forward
-            //***Requires future adjustments based on game field dimensions
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(90)),
+        List.of(),
+        // End half way within the field, near the initiation line
+        new Pose2d(inchesToMeters(20.0), inchesToMeters(161.12), new Rotation2d(0)),
         // Pass config
         config
     );
 
-    // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
+    // Generates a trajectory for moving towards the center square for 3 ball pickup and shoot
     Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing towards the field
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(90)),
+        // Start at center of field just behind intiation line
+        new Pose2d(inchesToMeters(20.0), inchesToMeters(161.25), new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
-            // Pass through no interior waypoints, so this field is empty
+            // Move to first of three balls first to grab balls
+            new Translation2d(inchesToMeters(107.83), inchesToMeters(145.2)),
+            new Translation2d(inchesToMeters(114.17), inchesToMeters(160.5))
         ),
         // Endpoint
             //***Requires future adjustments based on game field dimensions
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(90)),
+        new Pose2d(inchesToMeters(120.51), inchesToMeters(175.8), new Rotation2d(0)),
         // Pass config
         config
     );
@@ -152,12 +150,8 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
         m_drive
     );
     
-    /* Wait 3 seconds to theoretically shoot 3 balls, run ramseteCommand1 
-    to move forward towards the wheel of fortune and move over the five balls 
-    along that path, wait for a second, run ramseteCommand2 to move back into
-    shooting range, wait 5 seconds to shoot 5 balls, run ramseteCommand3 to
-    move to the center square and grab two balls along that path, then wait to
-    shoot final two balls
+    /* 
+    Path Explanation
     */
 
     addCommands(new WaitCommand(3),
