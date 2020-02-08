@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -8,39 +8,44 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-/**
- * An example command that uses an example subsystem.
- */
-public class BlueLEDCommand extends CommandBase {
-    private LEDSubsystem m_ledSubsystem;
 
-    public BlueLEDCommand(LEDSubsystem ledSubsystem)
+public class AutonShooterCommand extends CommandBase {
+
+    private ShooterSubsystem m_ShooterSubsystem;
+    private double m_Speed;
+
+    public AutonShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
     {
-        m_ledSubsystem = ledSubsystem;
-        addRequirements(m_ledSubsystem);
+        m_ShooterSubsystem = shooterSubsystem;
+        addRequirements(m_ShooterSubsystem);
+
+        m_Speed = speed;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() 
     {
-        m_ledSubsystem.setLEDs(0, 0, 255);
+        //Hopper Start
+        m_ShooterSubsystem.setSpeed(m_Speed);
+        //Tower Start
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() 
-    {
-
+    public void execute() {
+        // m_ShooterSubsystem.setSpeed(m_Speed);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) 
     {
-
+        
     }
 
     // Returns true when the command should end.

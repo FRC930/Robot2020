@@ -60,7 +60,7 @@ public class RobotContainer {
 
     // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-    //private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+    private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
 
     //Pass in port, and length
     private final LEDSubsystem m_LedSubsystem = new LEDSubsystem(0, 60);
@@ -113,8 +113,8 @@ public class RobotContainer {
       final JoystickButton start_buttonDriver = new JoystickButton(driver, 8);
       
       
-      //a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.5));
-      //b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
+      a_buttonDriver.whenPressed(new RunShooterCommand(m_ShooterSubsystem, 0.8));
+      b_buttonDriver.whenPressed(new StopShooter(m_ShooterSubsystem));
       //a_buttonDriver.whenPressed(new LEDTest(m_LedSubsystem));
 
       //y_buttonDriver.whenPressed(new RedLEDCommand(m_LedSubsystem));
