@@ -25,10 +25,6 @@ public class BlueLEDCommand extends CommandBase {
     private AddressableLED m_leds;
     private AddressableLEDBuffer m_ledsBuffer;
 
-    static private int flashType;
-
-    private int counter;
-
     public BlueLEDCommand(LEDSubsystem ledSubsystem)
     {
         m_ledSubsystem = ledSubsystem;
@@ -40,14 +36,13 @@ public class BlueLEDCommand extends CommandBase {
     public void initialize() 
     {
         m_ledSubsystem.setLEDs(0, 0, 255);
-        counter = 0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() 
     {
-        counter++;
+
     }
 
     // Called once the command ends or is interrupted.
@@ -60,6 +55,6 @@ public class BlueLEDCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return counter > 200;
+        return true;
     }
 }

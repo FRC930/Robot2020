@@ -21,12 +21,15 @@ public class DriveCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
   private final DriveSubsystem driveSubsystem;
   private final Joystick m_driveStick;
+  private int driverTurninAxis;
+  private int driverThrottleAxis;
 
   //-------- CONSTRUCTOR --------\\
 
-  public DriveCommand(DriveSubsystem dSubsystem, Joystick driverStick) {
+  public DriveCommand(DriveSubsystem dSubsystem, Joystick driverStick, int turningAxis, int throttleAxis) {
     driveSubsystem = dSubsystem;
     m_driveStick = driverStick;
+    setTurningAndThrottleAxis(turningAxis, throttleAxis);
     addRequirements(dSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   } 
   //-------- COMMANDBASE METHODS --------\\
@@ -37,7 +40,7 @@ public class DriveCommand extends CommandBase {
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {  
     //System.out.println("COMMAND");
-    run(m_driveStick.getRawAxis(Constants.DRIVE_AXIS_RIGHT_X), m_driveStick.getRawAxis(Constants.DRIVE_AXIS_LEFT_Y));
+    run(m_driveStick.getRawAxis(driverTurninAxis), m_driveStick.getRawAxis(driverThrottleAxis));
   }
   @Override   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
@@ -54,6 +57,11 @@ public class DriveCommand extends CommandBase {
   */
 
   //-------- METHODS --------\\
+
+  public void setTurningAndThrottleAxis(int turningAxis, int throttleAxis){
+    driverTurninAxis = turningAxis;
+    driverThrottleAxis = throttleAxis;
+  }
   private void run(double stickX, double stickY) {
         
     // Cubing values to create smoother function

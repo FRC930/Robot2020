@@ -19,61 +19,22 @@ import java.util.logging.*;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    
-    // AUTO code values---------------------------------------[
-    
-    // AUTO code values---------------------------------------]
 
-    // JOYSTICK Controller Values-----------------------------[
-        public static final int DRIVER_CONTROLLER_ID = 0;
-        public static final int CODRIVER_CONTROLLER_ID = 1;
-    
-        public static final int DRIVE_BUTTON_A = 3;
-        public static final int DRIVE_BUTTON_B = 2;
-        public static final int DRIVE_BUTTON_X = 4;
-        public static final int DRIVE_BUTTON_Y = 1;
-        public static final int DRIVE_BUTTON_LB = 5;
-        public static final int DRIVE_BUTTON_RB = 6;
-        public static final int DRIVE_BUTTON_BACK = 9;
-        public static final int DRIVE_BUTTON_START = 10;
-        public static final int DRIVE_BUTTON_LEFT_STICK = 11;
-        public static final int DRIVE_BUTTON_RIGHT_STICK = 12;
-    
-        public static final int DRIVE_AXIS_LEFT_X = 0;
-        public static final int DRIVE_AXIS_LEFT_Y = 1;
-        public static final int DRIVE_AXIS_RIGHT_X = 2;
-        public static final int DRIVE_AXIS_RIGHT_Y = 3;
-        
-        public static final int DRIVE_AXIS_LT = 7;
-        public static final int DRIVE_AXIS_RT = 8;
+    //[-------------------PORTS--------------------------]
 
-        public static final int CODRIVE_BUTTON_A = 1;
-        public static final int CODRIVE_BUTTON_B = 2;
-        public static final int CODRIVE_BUTTON_X = 3;
-        public static final int CODRIVE_BUTTON_Y = 4;
-        public static final int CODRIVE_BUTTON_LB = 5;
-        public static final int CODRIVE_BUTTON_RB = 6;
-        public static final int CODRIVE_BUTTON_BACK = 7;
-        public static final int CODRIVE_BUTTON_START = 8;
-        public static final int CODRIVE_BUTTON_LEFT_STICK = 9;
-        public static final int CODRIVE_BUTTON_RIGHT_STICK = 10;
+    public static final int HOPPER_MOTOR_PORT = 3;
+    public static final int TOWER_MOTOR_PORT = 4;
     
-        public static final int CODRIVE_AXIS_LEFT_X = 0;
-        public static final int CODRIVE_AXIS_LEFT_Y = 1;
-        public static final int CODRIVE_AXIS_RIGHT_X = 4;
-        public static final int CODRIVE_AXIS_RIGHT_Y = 5;
-        
-        public static final int CODRIVE_AXIS_LT = 2;
-        public static final int CODRIVE_AXIS_RT = 3;
-        
-        public static final double TRIGGER_PRESSED_THRESHOLD = 0.4;
+    //[-------------------PORTS--------------------------]
 
-        // Being used in Robot Container and Rotational Control Kill Switch
-        public static final int XB_A = 1;
-        // JOYSTICK Controller Values-----------------------------]
-        
-        // DRIVETRAIN Constants --------------------------------]
-    
+    //[-------------------HOPPER--------------------------]
+
+    public static final double HOPPER_DEFAULT_SPEED = 0.2;
+    public static final double HOPPER_SHOOTING_SPEED = 0.8;
+    public static final double TOWER_SPEED = 0.75;
+
+    //[-------------------HOPPER--------------------------]
+
     //[--------------------AUTO--------------------------]
     public static final double KSVOLTS = 0.22;//0.22
     public static final double KVVOLT = 0.289; // seconds per meter 0.289
@@ -87,6 +48,7 @@ public final class Constants {
     public static final double KTRACKWIDTH = 0.69; //in meters
     public static final double KPDRIVEVEL = 0;
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
+
 
     //[-------------------AUTO--------------------------]
         

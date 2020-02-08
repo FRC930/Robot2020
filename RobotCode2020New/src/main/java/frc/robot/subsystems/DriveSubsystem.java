@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -159,6 +160,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     //System.out.println(yaw);
+
     // This method will be called once per scheduler run
     driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
     right1.getRPMRight(right1));
