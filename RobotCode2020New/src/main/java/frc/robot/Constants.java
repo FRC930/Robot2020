@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
     
+<<<<<<< HEAD
     // AUTO code values---------------------------------------[
     public static final double KSVOLTS = 0.22;
 
@@ -27,13 +28,31 @@ public final class Constants {
     public static final double KMAXSPEED = 1; //in meters per second
     public static final double KMAXACCELERATION = 3; //in meters per seconds squared
     
+=======
+    //[-------------------PORTS--------------------------]
+
+    //[-------------------HOPPER--------------------------]
+
+    public static final double HOPPER_DEFAULT_SPEED = 0.2;
+    public static final double HOPPER_SHOOTING_SPEED = 0.8;
+    public static final double TOWER_SPEED = 0.75;
+
+    //[-------------------HOPPER--------------------------]
+
+    //[--------------------AUTO--------------------------]
+    public static final double KSVOLTS = 0.22;//0.22
+    public static final double KVVOLT = 0.289; // seconds per meter 0.289
+    public static final double KAVOLT = 0.06; //this is in seconds squared per meter 0.06
+    public static final double KMAXSPEED = 2; //in meters per second
+    public static final double KMAXACCELERATION = 1; //in meters per seconds squared
+>>>>>>> origin/Nathan_Subteam
     //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;
     
     //Track width of our robot
     public static final double KTRACKWIDTH = 0.69; //in meters
-    public static final double KPDRIVEVEL = 1;
+    public static final double KPDRIVEVEL = 0;
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
 
@@ -84,11 +103,16 @@ public final class Constants {
         
         // DRIVETRAIN Constants --------------------------------]
     
+<<<<<<< HEAD
         //public static final double DRIVE_DEADBAND_JOYSTICK = 0.1;
         //cubbed deadband so it is super low 
         public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
         //turning is made smoother
         public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
+=======
+    public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
+    public static final double DRIVE_TURNING_MULTIPLIER = 0.5;
+>>>>>>> origin/Nathan_Subteam
         
         // DRIVETRAIN Constants --------------------------------]
 }
