@@ -5,37 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
+package frc.robot.commands.colorwheelcommands.rotationalcontrolcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ColorSensorSubsystem;
-import frc.robot.commands.colorwheelcommands.GetColorCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.logging.*;
 
-public class PositionalControlTrackerCommand extends CommandBase {
+public class RotationalControlSpinnerKillSwitchCommand extends CommandBase{
 
     //-------- CONSTANTS --------\\
-
+    private Logger logger = Logger.getLogger(RotationalControlSpinnerKillSwitchCommand.class.getName());
     //-------- DECLARATIONS --------\\
-    private GetColorCommand getColorCommand;
-    private final ColorSensorSubsystem m_subsystem;
+    // Refers to the instance of the button in the RobotContainer
+    JoystickButton aButton;
 
     //-------- CONSTRUCTOR --------\\
-    public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
-        m_subsystem = subsystem;
-        // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+
+    public RotationalControlSpinnerKillSwitchCommand(JoystickButton aButton) {
+        // Makes a reference of the A button from the RobotContainer
+        this.aButton = aButton;
     }
-
-    //-------- METHODS --------\\
-
+    
+    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
     }
 
     @Override
     public void execute() {
-        getColorCommand.rotationalTrackerCounter();
     }
 
     // Called once the command ends or is interrupted.
@@ -46,6 +43,11 @@ public class PositionalControlTrackerCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        // Kills the color wheel spinner early when the A button is let go
+        logger.entering(this.getClass().getName(), "isFinished");
+        // Logs when the kill switch activates
+        logger.log(Level.FINE, "Kill Switch!");
+        logger.exiting(this.getClass().getName(), "isFinished");
+        return !aButton.get();
     }
-}
+} // End of class

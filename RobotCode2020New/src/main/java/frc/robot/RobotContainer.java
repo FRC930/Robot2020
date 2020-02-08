@@ -1,30 +1,38 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+//-------- IMPORTS --------\\
 
 package frc.robot;
+
+//--Command imports 
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.autocommands.paths.SouthBySouthWestSkilletCommand;
+import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
+import frc.robot.commands.colorwheelcommands.*;
+import frc.robot.commands.compressorcommands.*;
+import frc.robot.commands.drivecommands.*;
+import frc.robot.commands.hoppercommands.*;
+import frc.robot.commands.intakecommands.*;
+import frc.robot.commands.ledcommands.*;
+import frc.robot.commands.shootercommands.*;
+import frc.robot.commands.towercommands.*;
+import frc.robot.commands.turretcommads.*;
+
+//--Subsystem imports
+import frc.robot.subsystems.*;
+
+//--Trigger imports
+import frc.robot.triggers.*;  
+
+//--Utility imports
+import frc.robot.utilities.*;
+
+//--Other imports
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ExampleCommand;
-//import frc.robot.commands.AutonomousCommand;
+//-------- CLASS RobotContainer --------\\
 
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-
-import java.util.List;
-
-
-/**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ColorSensorSubsystem m_colorSensorSubsystem = new ColorSensorSubsystem();
@@ -122,7 +130,7 @@ public class RobotContainer {
   //-------- COMMANDS --------\\
 
   //--Auton commands
-  private final AutonomousCommand autoCommand;
+  private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
   
   //--Color wheel commands
   //TODO: Add color commands here
@@ -185,11 +193,11 @@ public class RobotContainer {
     //--Commands
 
     //auto
-    autoCommand = new AutonomousCommand(driveSubsystem);
+    southBySouthWestSkilletCommand = new SouthBySouthWestSkilletCommand(driveSubsystem);
 
     //colorwheel
     //TODO: Add color wheel commmands down here
-    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem, aButton);
+    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorWheelSpinnerSubsystem);
 
     //compressor
     compressorOnCommand = new CompressorOnCommand(compressorSubsystem);
@@ -229,23 +237,64 @@ public class RobotContainer {
 
   //-------- METHODS --------\\
 
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
-    beginRunCommands();
-  }
+    configureDriverBindings(); 
+    configureCodriverBindings();
+  } //end of method configureButtonBindings()
+
+  private void configureDriverBindings() {    //TODO: Bind controls to commands
+    if (usingGamecube) {  //If we're using the gamecube controller
+
+      //--Buttons and triggers
+
+      //B Button
+      JoystickButton rotationalButton = new JoystickButton(driverController, GC_A);
+      //A Button
+      JoystickButton positionalButton = new JoystickButton(driverController, GC_B);
+      //L Button
+      JoystickButton toggleEndgame = new JoystickButton(driverController, GC_L);
+      //ZL Button
+      JoystickButton toggleShootButton = new JoystickButton(driverController, GC_ZL);
+      //ZR Button
+      JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+
+      //--Command binds
+
+    } else {  //If we're using the Xbox controller
+
+      //--Buttons and triggers
+      AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
+
+      //--Command binds
+
+    } //end of if statement usingGamecube
+    
+  } // end of method configureDriverBindings()
+
+  private void configureCodriverBindings() { 
+    //--Buttons
+    AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
+
+    //--Command binds
+
+    //Toggle intake
+    intakeAxisTrigger.toggleWhenActive(intakeCommand).cancelWhenActive(intakeStopCommand);
+
+  } // end of method configureCodriverBindings()
+  
   private void beginRunCommands() {
-      
-    //CommandScheduler.getInstance().setDefaultCommand(m_drive, new RunCommand(() -> {
-    //   m_drive.run(driverJoystick.getRawAxis(Constants.AXIS_RIGHT_X), driverJoystick.getRawAxis(Constants.AXIS_LEFT_Y));
-    //}
-    // , m_drive));
-    CommandScheduler.getInstance().setDefaultCommand(m_drive, driveCommand);
-  }
+
+    //--The instance of the scheduler
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+
+    //--Setting default commands
+
+    scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
+    scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
+  } // end of method beginRunCommands()
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -253,10 +302,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    System.out.println("Command");
-    //return autoCommand;
-    return null;
-    //return ramseteCommand1.andThen(() ->  ramseteCommand2.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+    return southBySouthWestSkilletCommand;
     // Run path following command, then stop at the end.
   }
-}
+
+} //end of class RobotContainer

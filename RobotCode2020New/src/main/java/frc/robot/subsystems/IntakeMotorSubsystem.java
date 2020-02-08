@@ -27,11 +27,11 @@ public class IntakeMotorSubsystem extends SubsystemBase {
 
     private final Logger logger = Logger.getLogger(IntakeMotorSubsystem.class.getName());
     private TalonSRX intakeMotorController; 
-
+    private final int  INTAKE_TALONSRX_ID = 6;
     //-------- CONSTRUCTOR --------\\
 
     public IntakeMotorSubsystem() {
-        intakeMotorController = new TalonSRX(Constants.INTAKE_TALONSRX_ID);
+        intakeMotorController = new TalonSRX(INTAKE_TALONSRX_ID);
     }
 
     //-------- METHODS --------\\
