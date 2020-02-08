@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.LEDSubsystem;
 
 /**
- * An example command that uses an example subsystem.
+ * An cool command that uses an cooler subsystem.
  */
-public class LEDIdleFlash extends SequentialCommandGroup {
+public class LEDIdleFlash extends CommandBase {
     private LEDSubsystem m_ledSubsystem;
     private int flashType;
 
