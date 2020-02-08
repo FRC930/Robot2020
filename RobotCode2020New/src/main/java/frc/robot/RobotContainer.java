@@ -4,6 +4,7 @@ package frc.robot;
 
 //--Command imports 
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.autocommands.paths.AutonomousCommand;
 import frc.robot.commands.autocommands.paths.SouthBySouthWestSkilletCommand;
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
 import frc.robot.commands.colorwheelcommands.*;

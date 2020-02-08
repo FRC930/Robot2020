@@ -29,9 +29,9 @@ public final class Constants {
     //[-------------------HOPPER--------------------------]
 
     //[--------------------AUTO--------------------------]
-    public static final double KSVOLTS = 0.22;//0.22
+    public static final double KSVOLTS = 0;//0.22;//0.22
     public static final double KVVOLT = 0.289; // seconds per meter 0.289
-    public static final double KAVOLT = 0.06; //this is in seconds squared per meter 0.06
+    public static final double KAVOLT = 0;//0.06; //this is in seconds squared per meter 0.06
     public static final double KMAXSPEED = 2; //in meters per second
     public static final double KMAXACCELERATION = 1; //in meters per seconds squared
     //gyro values
@@ -40,7 +40,7 @@ public final class Constants {
     
     //Track width of our robot
     public static final double KTRACKWIDTH = 0.69; //in meters
-    public static final double KPDRIVEVEL = 0;
+    public static final double KPDRIVEVEL = 0.00003;
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
 

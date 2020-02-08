@@ -65,6 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(gyroTalon);
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     logger = Logger.getLogger(DriveSubsystem.class.getName());
+    zeroHeading();
     logger.setLevel(Level.WARNING); 
     setDriveMotors();
   }
