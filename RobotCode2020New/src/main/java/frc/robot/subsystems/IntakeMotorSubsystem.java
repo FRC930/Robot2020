@@ -9,6 +9,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,8 +18,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -31,7 +31,7 @@ public class IntakeMotorSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public IntakeMotorSubsystem() {
-        intakeMotorController = new TalonSRX(Constants.INTAKE_TALONSRX_ID);
+        intakeMotorController = new TalonSRX(Constants.INTAKE_ID);
     }
 
     //-------- METHODS --------\\

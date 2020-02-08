@@ -22,10 +22,28 @@ public final class Constants {
 
     //[-------------------IDS--------------------------]
 
-    public static final int TOWER_MOTOR_PORT = 4;
-    public static final int INTAKE_TALONSRX_ID = 6;
+    public static final int DRIVE_RIGHT_FRONT_ID = 1;
+    public static final int DRIVE_RIGHT_BACK_ID = 2;
+    public static final int DRIVE_LEFT_FRONT_ID = 3;
+    public static final int DRIVE_LEFT_BACK_ID = 4;
+
+    public static final int TURRET_ID = 5;
+    public static final int INTAKE_ID = 6;
+
+    public static final int SHOOTER_LEAD_ID = 7;
+    public static final int SHOOTER_SLAVE_ID = 8;
+
+    public static final int HOPPER_ID = 9;
+    public static final int TOWER_ID = 10;
+    public static final int KICKER_ID = 11;
     
     //[-------------------IDS--------------------------]
+
+    //[-------------------DRIVE------------------------]
+
+    public static final double MOTOR_RAMP_RATE = 0.5;
+
+    //[-------------------DRIVE------------------------]
 
     //[-------------------HOPPER--------------------------]
 

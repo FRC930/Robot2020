@@ -9,6 +9,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,9 +36,6 @@ public class ShooterSubsystem extends SubsystemBase {
     //PID Feed-Forward Gain
     private final double PID_FF = 0.0002;
 
-    private final int LEAD_MOTOR_ID = 7;
-    private final int SLAVE_MOTOR_ID = 9;
-
     //-------- DECLARATIONS --------\\
 
     private final Logger logger = Logger.getLogger(ShooterSubsystem.class.getName());
@@ -54,8 +53,8 @@ public class ShooterSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
     
     public ShooterSubsystem() {
-        this.motorLead = new CANSparkMax(LEAD_MOTOR_ID, MotorType.kBrushless);
-        this.motor2 = new CANSparkMax(SLAVE_MOTOR_ID, MotorType.kBrushless);
+        this.motorLead = new CANSparkMax(Constants.SHOOTER_LEAD_ID, MotorType.kBrushless);
+        this.motor2 = new CANSparkMax(Constants.SHOOTER_SLAVE_ID, MotorType.kBrushless);
         
         this.pidcontroller = motorLead.getPIDController();
         //this.pidcontroller.setFF(PID_FF);

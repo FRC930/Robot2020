@@ -30,13 +30,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
-  private final int RIGHT_FRONT_MOTOR_ID = 1;
-  private final int RIGHT_BACK_MOTOR_ID = 2;
-  private final int LEFT_FRONT_MOTOR_ID = 3;
-  private final int LEFT_BACK_MOTOR_ID = 4;
-
-  private final double MOTOR_RAMP_RATE = 0.5;
-
   //-------- DECLARATIONS --------\\
 
   //Encoders on the drivetrain
@@ -67,7 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
   //-------- CONSTRUCTOR --------\\
 
   public DriveSubsystem() {
-    gyroTalon = new TalonSRX(Constants.INTAKE_TALONSRX_ID);
+    gyroTalon = new TalonSRX(Constants.INTAKE_ID);
     gyro = new PigeonIMU(gyroTalon);
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     
@@ -78,18 +71,18 @@ public class DriveSubsystem extends SubsystemBase {
 
   private void setDriveMotors() {
 
-    right1 = new TalonFXSpeedController(RIGHT_FRONT_MOTOR_ID);
-    right2 = new TalonFXSpeedController(RIGHT_BACK_MOTOR_ID);
-    left1 = new TalonFXSpeedController(LEFT_FRONT_MOTOR_ID);
-    left2 = new TalonFXSpeedController(LEFT_BACK_MOTOR_ID);
+    right1 = new TalonFXSpeedController(Constants.DRIVE_RIGHT_FRONT_ID);
+    right2 = new TalonFXSpeedController(Constants.DRIVE_RIGHT_BACK_ID);
+    left1 = new TalonFXSpeedController(Constants.DRIVE_LEFT_FRONT_ID);
+    left2 = new TalonFXSpeedController(Constants.DRIVE_LEFT_BACK_ID);
 
     // Mirror primary motor controllers on each side
     left2.follow(left1);
     right2.follow(right1);
 
     //Sets the ramp rate of the robot, this will need to be configued
-    left1.configOpenloopRamp(MOTOR_RAMP_RATE);
-    right1.configOpenloopRamp(MOTOR_RAMP_RATE);
+    left1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
+    right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
 
     //Sets up the differntial drive
     drive = new DifferentialDrive(right1, left1);
