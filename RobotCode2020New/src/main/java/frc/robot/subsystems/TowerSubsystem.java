@@ -33,7 +33,6 @@ public class TowerSubsystem extends SubsystemBase {
     private VictorSPX towerMotor;
 
     //-------- CONSTRUCTOR --------\\
-
     public TowerSubsystem() {
         towerMotor = new VictorSPX(Constants.TOWER_ID);  
         logger.setLevel(Level.FINE);
@@ -49,7 +48,7 @@ public class TowerSubsystem extends SubsystemBase {
         towerMotor.set(ControlMode.PercentOutput, speed);
         logger.exiting (this.getClass().getName(), "setSpeed");
     }
-
+        
     // returns the speed from the tower motor
     public double getSpeed(){ 
         logger.entering(this.getClass().getName(),"getSpeed");
@@ -63,5 +62,6 @@ public class TowerSubsystem extends SubsystemBase {
     public void stopMotor() {
         towerMotor.set(ControlMode.PercentOutput, 0);
     }
+
 
 } //end of class TowerSubsystem

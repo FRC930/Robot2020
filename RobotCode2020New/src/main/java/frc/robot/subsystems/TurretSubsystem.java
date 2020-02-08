@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -31,46 +32,45 @@ public class TurretSubsystem extends SubsystemBase {
     //-------- DECLARATIONS --------\\
 
     private Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
-    // The current speed of the motor
-    private double speed;
     // The motor controller that will control the turret
-    private TalonSRX mc;
+    private TalonSRX turretMotor;
     
     //-------- CONSTRUCTOR --------\\
     
     public TurretSubsystem() {
-        this.speed = 0;
-        this.mc = new TalonSRX(Constants.TURRET_ID);
-        this.mc.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        this.mc.setSelectedSensorPosition(0);
+        this.turretMotor = new TalonSRX(Constants.TURRET_ID);
+        this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        this.turretMotor.setSelectedSensorPosition(0);
         this.logger.log(Level.INFO, "Starting TurretSubsystem");
     }
 
     //-------- METHODS --------\\
 
-    public void setSpeed(double motorSpeed) {
-        this.speed = -motorSpeed;
+    public void setSpeed(double speed) {
+        speed = -speed;
         // TODO: Figure out the position needed for 380° of rotation
         if (speed < 0) {
-            if (this.mc.getSelectedSensorPosition() > ENCODER_ROTATION_LIMIT) {   
+            if (this.turretMotor.getSelectedSensorPosition() > ENCODER_ROTATION_LIMIT) {   
                 speed = 0;
             }
         } else if (speed > 0) {
-            if (this.mc.getSelectedSensorPosition() < -ENCODER_ROTATION_LIMIT) { 
+            if (this.turretMotor.getSelectedSensorPosition() < -ENCODER_ROTATION_LIMIT) { 
                 speed = 0;
             }
         }
 
-        this.mc.set(ControlMode.PercentOutput, this.speed);
-        this.logger.log(Level.INFO, "Set speed to " + this.speed);
+        SmartDashboard.putNumber("Turret Encoder value", getEncoderPosition());
+
+        this.turretMotor.set(ControlMode.PercentOutput, speed);
+        this.logger.log(Level.INFO, "Set speed to " + speed);
     }
 
     public double getSpeed() {
-        return this.speed;
+        return turretMotor.getMotorOutputPercent();
     }
 
     public int getEncoderPosition() {
-        return this.mc.getSelectedSensorPosition();
+        return this.turretMotor.getSelectedSensorPosition();
     }
     
 } // end of class TurretSubsystem
