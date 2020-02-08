@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //-------- SUBSYSTEM CLASS --------\\
 
-public class TowerSubsystem extends SubsystemBase {
+public class KickerSubsystem extends SubsystemBase {
   
     //-------- CONSTANTS --------\\
 
@@ -30,11 +30,12 @@ public class TowerSubsystem extends SubsystemBase {
 
     // VictorSPX is a motor controller that makes the conveor belt  
     //Take's the power cell up to the shooter
-    private VictorSPX towerMotor;
+    private VictorSPX kickerMotor;  
 
     //-------- CONSTRUCTOR --------\\
-    public TowerSubsystem() {
-        towerMotor = new VictorSPX(Constants.TOWER_ID);  
+
+    public KickerSubsystem() {
+        kickerMotor = new VictorSPX(Constants.KICKER_ID);  
         logger.setLevel(Level.FINE);
     }   
     
@@ -45,23 +46,22 @@ public class TowerSubsystem extends SubsystemBase {
         logger.entering(this.getClass().getName(), "setSpeed");
         logger.log(Level.INFO, "motorSpeed: " + speed);
 
-        towerMotor.set(ControlMode.PercentOutput, speed);
+        kickerMotor.set(ControlMode.PercentOutput, speed);
         logger.exiting (this.getClass().getName(), "setSpeed");
     }
-        
+
     // returns the speed from the tower motor
     public double getSpeed(){ 
         logger.entering(this.getClass().getName(),"getSpeed");
-        logger.log(Level.INFO, "motorSpeed: " + towerMotor.getMotorOutputPercent());
+        logger.log(Level.INFO, "motorSpeed: " + kickerMotor.getMotorOutputPercent());
         logger.exiting (this.getClass().getName(),"getSpeed");
         
-        return towerMotor.getMotorOutputPercent();
+        return kickerMotor.getMotorOutputPercent();
     }
 
     //stops the motor
     public void stopMotor() {
-        towerMotor.set(ControlMode.PercentOutput, 0);
+        kickerMotor.set(ControlMode.PercentOutput, 0);
     }
 
-
-} //end of class TowerSubsystem
+} //end of class KickerSubsystem

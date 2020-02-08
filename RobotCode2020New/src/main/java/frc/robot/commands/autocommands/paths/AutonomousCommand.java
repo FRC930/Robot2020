@@ -9,7 +9,7 @@
 
 //TODO: Move constants in here :)
 
-package frc.robot.commands.autocommands;
+package frc.robot.commands.autocommands.paths;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
+//import edu.wpi.first.wpilibj.geometry.Translation2d;
 
 import edu.wpi.first.wpilibj2.command.*;
 

@@ -28,7 +28,7 @@ public class AimTurretCommand extends PIDCommand {
     public AimTurretCommand(TurretSubsystem turret/*, VisionTracking limeLight*/) {
         // Call the super constructor to initialize the PID controller
         // TODO: figure out what values to use for the PID controller
-        super(new PIDController(0, 0, 0), turret::getEncoderPosition, 750, (double speed) -> {
+        super(new PIDController(0.001, 0, 0), turret::getEncoderPosition, 0, (double speed) -> {
             // Sets up a lambda (DoubleConsumer) to get the output from the PID controller
             if (speed > 0.3) {
                 speed = 0.3;

@@ -9,6 +9,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,8 +27,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final int TURRET_MOTOR_ID = 5;
-    private final int ENCODER_ROTATION_LIMIT = 5000;
+    private final int ENCODER_ROTATION_LIMIT = 1500;
 
     //-------- DECLARATIONS --------\\
 
@@ -37,7 +38,7 @@ public class TurretSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
     
     public TurretSubsystem() {
-        this.turretMotor = new TalonSRX(TURRET_MOTOR_ID);
+        this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         this.turretMotor.setSelectedSensorPosition(0);
         this.logger.log(Level.INFO, "Starting TurretSubsystem");

@@ -9,6 +9,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,8 +25,6 @@ public class HopperSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private static final int HOPPER_MOTOR_PORT = 3;
-
     //-------- DECLARATIONS --------\\
 
     // VictorSPX is a motor controller that rotates the hopper, containing the power cells. Works like a nerf hellraiser loader  
@@ -37,7 +37,7 @@ public class HopperSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public HopperSubsystem() {
-        HopperMotor = new VictorSPX(HOPPER_MOTOR_PORT);
+        HopperMotor = new VictorSPX(Constants.HOPPER_ID);
     }
 
     //-------- METHODS --------\\

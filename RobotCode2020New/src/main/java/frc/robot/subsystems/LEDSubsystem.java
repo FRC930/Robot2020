@@ -30,13 +30,27 @@ public class LEDSubsystem extends SubsystemBase {
 
     public LEDSubsystem() {
         leds.setLength(ledsBuffer.getLength());
-        leds.setData(ledsBuffer);
+        setLEDs(0, 0, 0);
         leds.start();
 
         doneLoop = false;
     }
 
     //-------- METHODS --------\\
+    
+    public void updateBuffer(AddressableLEDBuffer buffer)
+    {
+        this.ledsBuffer = buffer;
+        leds.setData(ledsBuffer);
+    }
+
+    public void resetLEDs()
+    {
+        for(int i = 0; i < ledsBuffer.getLength(); i++)
+            this.ledsBuffer.setRGB(i, 0, 0, 0);
+
+        leds.setData(ledsBuffer);
+    }
 
     public void setLEDs(int r, int g, int b) {
         for(int i = 0; i < ledsBuffer.getLength(); i++) {

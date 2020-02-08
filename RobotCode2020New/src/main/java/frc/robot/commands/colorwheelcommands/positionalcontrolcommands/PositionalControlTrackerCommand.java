@@ -10,17 +10,19 @@ package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensorSubsystem;
 import frc.robot.commands.colorwheelcommands.GetColorCommand;
-import java.util.logging.*;
+//import java.util.logging.*;
 
 public class PositionalControlTrackerCommand extends CommandBase {
 
     //-------- CONSTANTS --------\\
 
     //-------- DECLARATIONS --------\\
+
     private GetColorCommand getColorCommand;
     private final ColorSensorSubsystem m_subsystem;
 
     //-------- CONSTRUCTOR --------\\
+
     public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
         m_subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.

@@ -5,19 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.ledcommands;
+package frc.robot.commands.autocommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class GreenLEDCommand extends CommandBase {
 
-    private LEDSubsystem ledSubsystem;
+public class AutonShooterCommand extends CommandBase {
 
-    public GreenLEDCommand(LEDSubsystem lSubsystem) 
+    private ShooterSubsystem m_ShooterSubsystem;
+    private double m_Speed;
+
+    public AutonShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
     {
-        ledSubsystem = lSubsystem;
-        addRequirements(ledSubsystem);
+        m_ShooterSubsystem = shooterSubsystem;
+        addRequirements(m_ShooterSubsystem);
+
+        m_Speed = speed;
     }
 
     // Called when the command is initially scheduled.
@@ -25,6 +29,7 @@ public class GreenLEDCommand extends CommandBase {
     public void initialize() 
     {
         //Hopper Start
+        m_ShooterSubsystem.setSpeed(m_Speed);
         //Tower Start
     }
 
