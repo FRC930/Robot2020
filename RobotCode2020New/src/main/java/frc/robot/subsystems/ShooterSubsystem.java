@@ -35,7 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final double PID_FF = 0.0002;
 
     private final int LEAD_MOTOR_ID = 7;
-    private final int SLAVE_MOTOR_ID = 9;
+    private final int SLAVE_MOTOR_ID = 8;
 
     //-------- DECLARATIONS --------\\
 
