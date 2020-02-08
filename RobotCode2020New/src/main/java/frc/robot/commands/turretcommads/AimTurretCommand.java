@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.TurretSubsystem;
 
 /**
@@ -56,7 +57,7 @@ public class AimTurretCommand extends PIDCommand {
         // ttttttttttttttttttttttthhhhhhhhhhhhhhhhhheeeeeeeeeee aaaaaaaaaaaaaaaacccccccccccccccceeeeeeeeeeeeppppppppptttttttttttttttttttaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbblllllllllllllllllllleeeeeeeeeee eeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrooooooooooorrrrrrrrrrrrrrrrrr - a VERY awesome comment by your bois, Alex and Josh
         this.getController().setTolerance(1);
 
-        logger.log(Level.FINE, "Starting turret PID controller");
+        logger.log(Constants.LOG_LEVEL, "Starting turret PID controller");
 
         // Add the needed subsystems to the class requirements
         addRequirements(/*limeLight, */turret);

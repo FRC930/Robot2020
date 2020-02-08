@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.autocommands.*;
+import frc.robot.commands.colorwheelcommands.positionalcontrolcommands.PositionalControlCommandGroup;
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
 import frc.robot.commands.drivecommands.*;
 import frc.robot.commands.turretcommads.*;
@@ -57,8 +58,7 @@ public class RobotContainer {
   private final int XB_AXIS_LT = 2;
   private final int XB_AXIS_RT = 3;
 
-  //A button is being used in multiple places, so it is in the constants class
-  //public static final int XB_A = 1;
+  public static final int XB_A = 1;
   public static final int XB_B = 2;
   public static final int XB_X = 3;
   public static final int XB_Y = 4;
@@ -96,10 +96,10 @@ public class RobotContainer {
   //private final AimTurretCommand aimTurretCommand;
   //private final DriveCommand driveCommand;
   private final RotationalControlCommandGroup rotationalControlCommandGroup;
+  private final PositionalControlCommandGroup positionalControlCommandGroup;
   //private final AutonomousCommand autoCommand;
   private Joystick driverJoystick;
   private Joystick coDriverJoystick;
-  private JoystickButton aButton;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -112,7 +112,6 @@ public class RobotContainer {
     //Controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-    aButton = new JoystickButton(driverController, Constants.XB_A);
 
     //Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
@@ -130,7 +129,8 @@ public class RobotContainer {
     //autoCommand = new AutonomousCommand(driveSubsystem);
     //aimTurretCommand = new AimTurretCommand(turretSubsystem);
     
-    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorWheelSpinnerSubsystem, aButton);
+    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem);
+    positionalControlCommandGroup = new PositionalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem);
 
     // Configure the button bindings
 
@@ -146,7 +146,6 @@ public class RobotContainer {
     
     configureDriverBindings();
     configureCodriverBindings();
-    aButton.whenPressed(rotationalControlCommandGroup);
   }
 
   private void configureDriverBindings() {
@@ -159,6 +158,15 @@ public class RobotContainer {
 
     //--Buttons
     AxisTrigger intakeButton = new AxisTrigger(coDriverController, XB_AXIS_RT);
+    //A Button
+    JoystickButton rotationalButton = new JoystickButton(driverController, XB_A);
+    //B Button
+    JoystickButton positionalButton = new JoystickButton(driverController, XB_B);
+
+    //Rotational control command binds
+    rotationalButton.whileActiveOnce(rotationalControlCommandGroup);
+    //Positional control command binds
+    positionalButton.whileActiveOnce(positionalControlCommandGroup);
 
     //--Command binds
     //intakeButton.whenPressed(intake::run);

@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import java.util.logging.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -18,9 +20,11 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
 
     //private TalonSRX talon;
     private CANSparkMax spark1;
+    private CANSparkMax spark2;
 
     //--- Ports
     private final int COLOR_WHEEL_PORT = 7;
+    private final int COLOR_WHEEL_PORT2 = 9;
     //-------- DECLARATIONS --------\\
 
     // Creates an instance of the logger class
@@ -31,6 +35,8 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
     public ColorWheelSpinnerSubsystem(){
         //talon = new TalonSRX(COLOR_WHEEL_PORT);
         spark1 = new CANSparkMax(COLOR_WHEEL_PORT, MotorType.kBrushless);
+        spark2 = new CANSparkMax(COLOR_WHEEL_PORT2, MotorType.kBrushless);
+        spark2.follow(spark1, true);
     }
 
     //-------- METHODS --------\\
@@ -50,7 +56,7 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
         spark1.set(speed);
         //spark2.set(-speed);
         // Logs the speed from the motor controller
-        logger.log(Level.FINE, "Motor Speed: " + getMotorSpeed());
+        logger.log(Constants.LOG_LEVEL, "Motor Speed: " + getMotorSpeed());
         logger.exiting(this.getClass().getName(), "setMotorSpeed");
     }
 } // End of class
