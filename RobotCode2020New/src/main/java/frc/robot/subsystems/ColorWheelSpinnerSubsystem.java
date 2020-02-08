@@ -1,34 +1,43 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//-------- IMPORTS --------\\
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import java.util.logging.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import java.util.logging.*;
+
+//-------- SUBSYSTEM CLASS --------\\
 
 public class ColorWheelSpinnerSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    //private TalonSRX talon;
-    private CANSparkMax spark1;
-
-    //--- Ports
+    //TODO: Change this port ID accordingly
     private final int COLOR_WHEEL_PORT = 7;
+
     //-------- DECLARATIONS --------\\
 
     // Creates an instance of the logger class
     private Logger logger = Logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
 
+    //TODO: Change this motor controller, based on what's on the robot
+    //private TalonSRX talon;
+    private CANSparkMax spark1;
+
     //-------- CONSTRUCTOR --------\\
 
     public ColorWheelSpinnerSubsystem(){
+        //TODO: Change this instantiation based on the new motor controller
         //talon = new TalonSRX(COLOR_WHEEL_PORT);
         spark1 = new CANSparkMax(COLOR_WHEEL_PORT, MotorType.kBrushless);
     }
@@ -53,4 +62,5 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
         logger.log(Level.FINE, "Motor Speed: " + getMotorSpeed());
         logger.exiting(this.getClass().getName(), "setMotorSpeed");
     }
-} // End of class
+    
+} // End of class ColorWheelSpinnerSubsystem

@@ -22,14 +22,18 @@ import frc.robot.subsystems.LEDSubsystem;
  */
 public class LEDIdleFlash extends SequentialCommandGroup {
     private LEDSubsystem m_ledSubsystem;
+    private AddressableLED m_leds;
+    private AddressableLEDBuffer m_ledsBuffer;
 
-    private int flashType;
+    static private int flashType;
 
-    public LEDIdleFlash(LEDSubsystem ledSubsystem, int flashType)
+    public LEDIdleFlash(LEDSubsystem ledSubsystem, AddressableLED leds, AddressableLEDBuffer ledsBuffer, int flashType)
     {
         m_ledSubsystem = ledSubsystem;
         addRequirements(m_ledSubsystem);
 
+        m_leds = leds;
+        m_ledsBuffer = ledsBuffer;
         this.flashType = flashType;
     }
 
@@ -37,26 +41,43 @@ public class LEDIdleFlash extends SequentialCommandGroup {
     @Override
     public void initialize() 
     {
-        switch(flashType){
-            case 0:
-                m_ledSubsystem.setLEDs(255, 70, 0);
-                SmartDashboard.putNumber("ledSet", 0);
-            break;
-            case 1:
-                m_ledSubsystem.setLEDs(0, 0, 0);
-                SmartDashboard.putNumber("ledSet", 1);
-            break;
-            default:
-                m_ledSubsystem.setLEDs(0, 0, 0);
-            break;
-        }
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() 
     {
-
+        switch(flashType){
+            case 0:
+                for(int i = 0; i < m_ledsBuffer.getLength(); i++)
+                {
+                    m_ledsBuffer.setRGB(i, 255, 150, 0);
+                    //addCommands(new WaitCommand(1));
+                    m_leds.setData(m_ledsBuffer);
+                }
+                SmartDashboard.putNumber("ledSet", 0);
+                flashType = 1;
+            break;
+            case 1:
+                for(int i = 0; i < m_ledsBuffer.getLength(); i++)
+                {
+                    m_ledsBuffer.setRGB(i, 0, 0, 0);
+                    //addCommands(new WaitCommand(1));
+                    m_leds.setData(m_ledsBuffer);
+                }
+                SmartDashboard.putNumber("ledSet", 1);
+                flashType = 0;
+            break;
+            default:
+                for(int i = 0; i < m_ledsBuffer.getLength(); i++)
+                {
+                    m_ledsBuffer.setRGB(i, 0, 0, 0);
+                }
+                m_leds.setData(m_ledsBuffer);
+                SmartDashboard.putNumber("ledSet", -1);
+            break;
+        }
     }
 
     // Called once the command ends or is interrupted.

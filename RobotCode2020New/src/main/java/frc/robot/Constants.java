@@ -6,9 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import java.util.logging.*;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -19,11 +17,6 @@ import java.util.logging.*;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-    //[-------------------PORTS--------------------------]
-
-    public static final int HOPPER_MOTOR_PORT = 3;
-    public static final int TOWER_MOTOR_PORT = 4;
     
     //[-------------------PORTS--------------------------]
 
@@ -44,26 +37,62 @@ public final class Constants {
     //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;
+    
     //Track width of our robot
     public static final double KTRACKWIDTH = 0.69; //in meters
     public static final double KPDRIVEVEL = 0;
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
+    // AUTO code values---------------------------------------]
 
-
-    //[-------------------AUTO--------------------------]
+    // JOYSTICK Controller Values-----------------------------[
+        public static final int DRIVER_CONTROLLER_ID = 0;
+        public static final int CODRIVER_CONTROLLER_ID = 1;
+    
+        public static final int DRIVE_BUTTON_A = 3;
+        public static final int DRIVE_BUTTON_B = 2;
+        public static final int DRIVE_BUTTON_X = 4;
+        public static final int DRIVE_BUTTON_Y = 1;
+        public static final int DRIVE_BUTTON_LB = 5;
+        public static final int DRIVE_BUTTON_RB = 6;
+        public static final int DRIVE_BUTTON_BACK = 9;
+        public static final int DRIVE_BUTTON_START = 10;
+        public static final int DRIVE_BUTTON_LEFT_STICK = 11;
+        public static final int DRIVE_BUTTON_RIGHT_STICK = 12;
+    
+        public static final int DRIVE_AXIS_LEFT_X = 0;
+        public static final int DRIVE_AXIS_LEFT_Y = 1;
+        public static final int DRIVE_AXIS_RIGHT_X = 2;
+        public static final int DRIVE_AXIS_RIGHT_Y = 3;
         
-    //[------------------DRIVETRAIN---------------------]
+        public static final int DRIVE_AXIS_LT = 7;
+        public static final int DRIVE_AXIS_RT = 8;
+
+        public static final int CODRIVE_BUTTON_A = 1;
+        public static final int CODRIVE_BUTTON_B = 2;
+        public static final int CODRIVE_BUTTON_X = 3;
+        public static final int CODRIVE_BUTTON_Y = 4;
+        public static final int CODRIVE_BUTTON_LB = 5;
+        public static final int CODRIVE_BUTTON_RB = 6;
+        public static final int CODRIVE_BUTTON_BACK = 7;
+        public static final int CODRIVE_BUTTON_START = 8;
+        public static final int CODRIVE_BUTTON_LEFT_STICK = 9;
+        public static final int CODRIVE_BUTTON_RIGHT_STICK = 10;
+    
+        public static final int CODRIVE_AXIS_LEFT_X = 0;
+        public static final int CODRIVE_AXIS_LEFT_Y = 1;
+        public static final int CODRIVE_AXIS_RIGHT_X = 4;
+        public static final int CODRIVE_AXIS_RIGHT_Y = 5;
+        
+        public static final int CODRIVE_AXIS_LT = 2;
+        public static final int CODRIVE_AXIS_RT = 3;
+        
+        public static final double TRIGGER_PRESSED_THRESHOLD = 0.4;
+        // JOYSTICK Controller Values-----------------------------]
+        
+        // DRIVETRAIN Constants --------------------------------]
     
     public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
     public static final double DRIVE_TURNING_MULTIPLIER = 0.5;
         
-    //[------------------DRIVETRAIN---------------------]
-  
-    //[--------------------UTILITIES--------------------]
-
-    // Sets the global logger level
-    public static final Level LOG_LEVEL = Level.INFO;
-
-    //[--------------------UTILITIES--------------------]
-  
-} //End of Constants.java
+        // DRIVETRAIN Constants --------------------------------]
+}

@@ -9,36 +9,24 @@ package frc.robot.commands.intakecommands;
 
 import frc.robot.Constants;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import frc.robot.subsystems.IntakeMotorSubsystem;
-import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Joystick;
-import static frc.robot.subsystems.IntakePistonSubsystem.INTAKE_PISTONS_DOWN;
 
 
 public class IntakeCommand extends CommandBase {
-  
-  private final Logger logger = Logger.getLogger (IntakeCommand.class.getName());
 
   //-------- CONSTANTS --------\\
 
   //-------- DECLARATIONS --------\\
 
-  private final IntakePistonSubsystem intakePistons;
-  private final IntakeMotorSubsystem intakeMotors;
+  private final IntakeSubsystem intakeSubsystem;
 
   //-------- CONSTRUCTOR --------\\
 
-  public IntakeCommand(IntakePistonSubsystem iPistons, IntakeMotorSubsystem iMotors) {
-    intakePistons = iPistons;
-    intakeMotors = iMotors;
-    logger.log(Level.FINE,"starting intake command");
+  public IntakeCommand(IntakeSubsystem iSubsystem) {
+    intakeSubsystem = iSubsystem;
 
-
-    addRequirements(iPistons, iMotors);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(iSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
@@ -46,16 +34,12 @@ public class IntakeCommand extends CommandBase {
   
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-     //System.out.println("intakeCommandExecute" + coDriver.getRawAxis(3));TODO: init
-     intakePistons.setIntakePiston(INTAKE_PISTONS_DOWN);
-     intakeMotors.setMotorSpeed(0.8);
-     logger.log(Level.FINE,"starting intake");
- 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() { 
-  } 
+  public void execute() {  
+  }
+
   
   @Override   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
@@ -69,4 +53,5 @@ public class IntakeCommand extends CommandBase {
   
 
   //-------- METHODS --------\\
+
 } //End of class IntakeCommand
