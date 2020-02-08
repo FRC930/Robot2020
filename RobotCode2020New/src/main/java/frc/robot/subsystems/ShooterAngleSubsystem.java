@@ -29,7 +29,7 @@ public class ShooterAngleSubsystem extends SubsystemBase {
   
   public enum SolenoidValues {
     
-    EXTENDED(true), RETRACTED(false);
+    EXTEND(true), RETRACT(false);
 
     private final boolean solenoidState;
 
@@ -49,7 +49,7 @@ public class ShooterAngleSubsystem extends SubsystemBase {
   }
     //-------- METHODS --------\\ 
     //Sets the value of the piston   
-    public void set(boolean state){
+    public void set(boolean state) {
     ShooterPiston.set(state);
     this.logger.log(Level.FINE,"setPistonValue");
   }
