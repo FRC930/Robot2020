@@ -57,7 +57,7 @@ public class AutonomousCommand extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 1 meters straight ahead of where we started, facing forward
-        new Pose2d(1, -1, new Rotation2d(0)),
+        new Pose2d(1, 0, new Rotation2d(0)),
         // Pass config
         config);
     RamseteCommand ramseteCommand1 = new RamseteCommand(
@@ -81,7 +81,7 @@ public class AutonomousCommand extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(2, 1, new Rotation2d(0)),
+        new Pose2d(2, 0, new Rotation2d(0)),
         // Pass config
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
@@ -99,6 +99,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
         drive::tankDriveVolts,
         drive
     );
-    addCommands(ramseteCommand1,new WaitCommand(5), ramseteCommand2);
+    addCommands(ramseteCommand1/*,new WaitCommand(5), ramseteCommand2*/);
   }
 }

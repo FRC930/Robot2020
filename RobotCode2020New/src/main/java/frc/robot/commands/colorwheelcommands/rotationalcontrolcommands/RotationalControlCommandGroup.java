@@ -22,7 +22,7 @@ public class RotationalControlCommandGroup extends ParallelRaceGroup{
         // Telling the command to run these commands in parallel
         addCommands(
             // Tracks how many times the color has changed. 24 color changes = 3 rotations of the color wheel
-            new RotationalControlTrackerCommand(colorSensor),
+            new RotationalControlTrackerCommand(),
             // Spins the color wheel with a motor
             new RotationalControlSpinnerCommand(colorWheelSpinner),
             // Stops the tracker and the spinner early when the A button isn't being held

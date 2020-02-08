@@ -13,6 +13,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
 
+
 public class DriveCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
@@ -35,7 +36,7 @@ public class DriveCommand extends CommandBase {
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {  
-    System.out.println("COMMAND");
+    //System.out.println("COMMAND");
     run(m_driveStick.getRawAxis(Constants.DRIVE_AXIS_RIGHT_X), m_driveStick.getRawAxis(Constants.DRIVE_AXIS_LEFT_Y));
   }
   @Override   // Called once the command ends or is interrupted.
