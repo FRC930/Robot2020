@@ -32,9 +32,6 @@ public class TowerSubsystem extends SubsystemBase {
     //Take's the power cell up to the shooter
     public VictorSPX TowerMotor;
 
-    //TODO: Remove this and use the getSpeed method from VictorSPX class
-    private double speed;
-
     //-------- CONSTRUCTOR --------\\
     public TowerSubsystem() {
         TowerMotor = new VictorSPX(TOWER_MOTOR_PORT);
@@ -47,25 +44,24 @@ public class TowerSubsystem extends SubsystemBase {
         logger.entering(this.getClass().getName(), "setSpeed");
         logger.log(Level.INFO, "motorSpeed: "+ speed );
 
-        this.speed = speed;
-
         TowerMotor.set(ControlMode.PercentOutput, speed);
         logger.exiting (this.getClass().getName(), "setSpeed");
     }
-
+        
     // returns the speed from the tower motor
     public double getSpeed(){ 
         logger.entering(this.getClass().getName(),"getSpeed");
-        logger.log(Level.INFO, "motorSpeed: " + speed);
+        logger.log(Level.INFO, "motorSpeed: " + TowerMotor.getMotorOutputPercent());
         logger.exiting (this.getClass().getName(),"getSpeed");
         
-        return this.speed;
+        return TowerMotor.getMotorOutputPercent();
+    
     }
 
     //stops the motor
     public void stopMotor() {
-        this.speed = 0;
         TowerMotor.set(ControlMode.PercentOutput, 0);
     }
+
 
 } //end of class TowerSubsystem
