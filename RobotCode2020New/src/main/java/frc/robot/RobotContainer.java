@@ -4,9 +4,9 @@
 package frc.robot;
 
 //--Command imports 
-import edu.wpi.first.wpilibj2.command.*;
+//import edu.wpi.first.wpilibj2.command.*;
 
-import frc.robot.commands.autocommands.*;
+//import frc.robot.commands.autocommands.*;
 import frc.robot.commands.autocommands.paths.*;
 
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
@@ -16,7 +16,7 @@ import frc.robot.commands.drivecommands.*;
 import frc.robot.commands.hoppercommands.*;
 import frc.robot.commands.intakecommands.*;
 import frc.robot.commands.kickercommands.*;
-import frc.robot.commands.ledcommands.*;
+//import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.*;
 import frc.robot.commands.towercommands.*;
 import frc.robot.commands.turretcommads.*;
