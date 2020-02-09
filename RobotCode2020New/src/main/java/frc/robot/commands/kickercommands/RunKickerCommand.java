@@ -7,39 +7,39 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.hoppercommands;
+package frc.robot.commands.kickercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.Constants;
-
+ 
 //-------- COMMAND CLASS --------\\
 
-public class HopperDefaultCommand extends CommandBase {
+public class RunKickerCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
-    private HopperSubsystem m_HopperSubsystem;
-
+    private KickerSubsystem kickerSubsystem;
+    
     //-------- CONSTRUCTOR --------\\
 
-    public HopperDefaultCommand(HopperSubsystem HopperSubsystem) {
-        m_HopperSubsystem = HopperSubsystem;
-        addRequirements(m_HopperSubsystem);
+    public RunKickerCommand(KickerSubsystem kSubsystem){
+        kickerSubsystem = kSubsystem;
+        addRequirements(kickerSubsystem);
     }
 
-    //-------- METHODS --------\\    
-
+    //-------- METHODS --------\\
+    
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {   
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
+    public void execute() {
     }
 
     // Called once the command ends or is interrupted.
@@ -50,6 +50,6 @@ public class HopperDefaultCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
-} //end of class HopperDefaultCommand
+} // end of class RunKickerCommand

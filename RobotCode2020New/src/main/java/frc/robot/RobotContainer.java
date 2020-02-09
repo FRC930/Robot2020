@@ -37,6 +37,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class RobotContainer {
 
+  //TODO: boolean for manual mode
+
   //-------- CONSTANTS --------\\
 
   //--Gamecube button map
@@ -104,6 +106,9 @@ public class RobotContainer {
   //--Drive subsystem
   private final DriveSubsystem driveSubsystem;
 
+  //--Gyro subsystem
+  private final GyroSubsystem gyroSubsystem;
+
   //--Hopper subsystem
   private final HopperSubsystem hopperSubsystem;
  
@@ -112,7 +117,7 @@ public class RobotContainer {
   private final IntakePistonSubsystem intakePistons;
   
   //--LED subsystems
-  private final LEDSubsystem ledSubsystem;
+  //private final LEDSubsystem ledSubsystem;
 
   //--Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
@@ -161,6 +166,8 @@ public class RobotContainer {
 
   //--Turret commands
   private final AimTurretCommand aimTurretCommand;
+
+  private final JoystickTurret joystickTurret;
   
   //-------- CONSTRUCTOR ---------\\
 
@@ -176,10 +183,11 @@ public class RobotContainer {
 
     compressorSubsystem = new CompresserSubsystem();
     driveSubsystem = new DriveSubsystem();
+    gyroSubsystem = new GyroSubsystem();
     hopperSubsystem = new HopperSubsystem();
     intakeMotors = new IntakeMotorSubsystem();
     intakePistons = new IntakePistonSubsystem();
-    ledSubsystem = new LEDSubsystem();
+    //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
     shooterSubsystem = new ShooterSubsystem();
     towerSubsystem = new TowerSubsystem();
@@ -224,6 +232,8 @@ public class RobotContainer {
 
     //turret
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
+
+    joystickTurret = new JoystickTurret(turretSubsystem, coDriverController);
 
     //--Bindings
     configureButtonBindings();  //Configures buttons for drive team
@@ -298,9 +308,10 @@ public class RobotContainer {
     CommandScheduler scheduler = CommandScheduler.getInstance();
 
     //--Setting default commands
-    scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
+    //scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
+    scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
     scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
 
   } // end of method beginRunCommands()

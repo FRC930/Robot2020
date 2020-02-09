@@ -9,6 +9,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -54,8 +56,8 @@ public class ShooterSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
     
     public ShooterSubsystem() {
-        this.motorLead = new CANSparkMax(LEAD_MOTOR_ID, MotorType.kBrushless);
-        this.motor2 = new CANSparkMax(SLAVE_MOTOR_ID, MotorType.kBrushless);
+        this.motorLead = new CANSparkMax(Constants.SHOOTER_LEAD_ID, MotorType.kBrushless);
+        this.motor2 = new CANSparkMax(Constants.SHOOTER_SLAVE_ID, MotorType.kBrushless);
         
         this.pidcontroller = motorLead.getPIDController();
         //this.pidcontroller.setFF(PID_FF);

@@ -15,12 +15,12 @@ import java.util.List;
 /**
  * FIFOStack
  */
-public class FIFOStack {
+public class SmootherStack {
     private List<Double> values = new ArrayList<>();
     private int length;
     private double sumValues = 0;
 
-    public FIFOStack(int numOfValues) {
+    public SmootherStack(int numOfValues) {
         this.length = numOfValues;
     }
 
