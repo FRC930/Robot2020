@@ -7,34 +7,36 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.kickercommands;
+package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ShooterSubsystem;
 
-import frc.robot.subsystems.KickerSubsystem;
-import frc.robot.Constants;
- 
 //-------- COMMAND CLASS --------\\
 
-public class RunKickerCommand extends CommandBase {
+public class ManualFlywheelCommand extends CommandBase {
+
+    //-------- CONSTANTS --------\\
+
+    private final double SPEED = 0.25;
 
     //-------- DECLARATIONS --------\\
 
-    private KickerSubsystem kickerSubsystem;
-    
+    private ShooterSubsystem m_ShooterSubsystem;
+
     //-------- CONSTRUCTOR --------\\
 
-    public RunKickerCommand(KickerSubsystem kSubsystem){
-        kickerSubsystem = kSubsystem;
-        addRequirements(kickerSubsystem);
+    public ManualFlywheelCommand(ShooterSubsystem shooterSubsystem) {
+        m_ShooterSubsystem = shooterSubsystem;
+        addRequirements(m_ShooterSubsystem);
     }
 
     //-------- METHODS --------\\
-    
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+        m_ShooterSubsystem.setSpeed(SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +47,6 @@ public class RunKickerCommand extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        kickerSubsystem.setSpeed(0.0);
     }
 
     // Returns true when the command should end.
@@ -53,4 +54,4 @@ public class RunKickerCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-} // end of class RunKickerCommand
+} // end of class ManualFlywheelCommand

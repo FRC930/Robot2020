@@ -15,6 +15,7 @@ import frc.robot.commands.compressorcommands.*;
 import frc.robot.commands.drivecommands.*;
 import frc.robot.commands.hoppercommands.*;
 import frc.robot.commands.intakecommands.*;
+import frc.robot.commands.kickercommands.*;
 import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.*;
 import frc.robot.commands.towercommands.*;
@@ -31,6 +32,7 @@ import frc.robot.triggers.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 //-------- CLASS RobotContainer --------\\
@@ -116,6 +118,9 @@ public class RobotContainer {
   private final IntakeMotorSubsystem intakeMotors;
   private final IntakePistonSubsystem intakePistons;
   
+  //--Kicker subsystem
+  private final KickerSubsystem kickerSubsystem;
+
   //--LED subsystems
   //private final LEDSubsystem ledSubsystem;
 
@@ -138,6 +143,7 @@ public class RobotContainer {
   
   //--Color wheel commands
   private final RotationalControlCommandGroup rotationalControlCommandGroup;
+  private final ColorWheelSpinnerCommand colorWheelSpinnerCommand;
   
   //--Compressor commands
   private final CompressorOnCommand compressorOnCommand;
@@ -154,11 +160,15 @@ public class RobotContainer {
   private final IntakeCommand intakeCommand;
   private final IntakeStopCommand intakeStopCommand;
 
+  //--Kicker commands
+  private final RunKickerCommand runKickerCommand;
+  private final StopKickerCommand stopKickerCommand;
   //--LED commands
   //TODO: Add LED commands here
 
   //--Shooter commands
   private final RunShooterCommand runShooterCommand;
+  private final ManualFlywheelCommand manualFlywheelCommand;
 
   //--Tower coommands
   private final RunTowerCommand runTowerCommand;
@@ -187,6 +197,7 @@ public class RobotContainer {
     hopperSubsystem = new HopperSubsystem();
     intakeMotors = new IntakeMotorSubsystem();
     intakePistons = new IntakePistonSubsystem();
+    kickerSubsystem = new KickerSubsystem();
     //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
     shooterSubsystem = new ShooterSubsystem();
@@ -200,6 +211,7 @@ public class RobotContainer {
 
     //colorwheel
     rotationalControlCommandGroup = new RotationalControlCommandGroup(colorWheelSpinnerSubsystem);
+    colorWheelSpinnerCommand = new ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem);
 
     //compressor
     compressorOnCommand = new CompressorOnCommand(compressorSubsystem);
@@ -208,10 +220,6 @@ public class RobotContainer {
     //drive
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
     
-    //private final LEDSwitchCommand m_SwitchCommand = new LEDSwitchCommand(m_LedSubsystem);
-    
-
-    // private LEDDone isLEDDone = new LEDDone();
     //hopper
     runHopperCommand = new RunHopperCommand(hopperSubsystem);
     hopperDefaultCommand = new HopperDefaultCommand(hopperSubsystem);
@@ -220,11 +228,16 @@ public class RobotContainer {
     intakeCommand = new IntakeCommand(intakePistons, intakeMotors);
     intakeStopCommand = new IntakeStopCommand(intakePistons, intakeMotors);
 
+    //kicker
+    runKickerCommand = new RunKickerCommand(kickerSubsystem);
+    stopKickerCommand = new StopKickerCommand(kickerSubsystem);
+
     //leds
     //TODO: Add LED commands here
 
     //shooter
     runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.3);
+    manualFlywheelCommand = new ManualFlywheelCommand(shooterSubsystem);
 
     //tower
     runTowerCommand = new RunTowerCommand(towerSubsystem);
@@ -246,25 +259,32 @@ public class RobotContainer {
   //-------- METHODS --------\\
 
   private void configureButtonBindings() {
-    configureDriverBindings(); 
-    configureCodriverBindings();
+
+    //This trigger is dedicated to the coDriver. It turns the robot's controls into
+    //Manual mode, which is mainly only used for debugging purposes only
+    ManualModeTrigger manualModeTrigger = new ManualModeTrigger(coDriverController, XB_BACK);
+
+    configureDriverBindings(manualModeTrigger); 
+    configureCodriverBindings(manualModeTrigger);
   } //end of method configureButtonBindings()
 
-  private void configureDriverBindings() {    //TODO: Bind controls to commands
+  private void configureDriverBindings(ManualModeTrigger manualModeTrigger) {    //TODO: Bind controls to commands
     if (usingGamecube) {  //If we're using the gamecube controller
 
-      //--Buttons and triggers
+      //---- BUTTONS AND TRIGGERS (DRIVE) ----\\
 
-      //B Button
-      JoystickButton rotationalButton = new JoystickButton(driverController, GC_A);
+
+      //--Buttons and Triggers
+
       //A Button
+      JoystickButton rotationalButton = new JoystickButton(driverController, GC_A);
+      //B Button
       JoystickButton positionalButton = new JoystickButton(driverController, GC_B);
       //L Button
       JoystickButton toggleEndgame = new JoystickButton(driverController, GC_L);
-      //ZL Button
-      JoystickButton toggleShootButton = new JoystickButton(driverController, GC_ZL);
       //ZR Button
       JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+
 
       //--Command binds
 
@@ -277,6 +297,37 @@ public class RobotContainer {
       //shootButton.whileActiveOnce(new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem));
       //shootButton.whenReleased(new StopTowerCommand(towerSubsystem));
       shootButton.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
+
+
+      //---- BUTTONS AND TRIGGERS (MANUAL) ----\\
+
+
+      //--Buttons and Triggers
+
+      //A Button
+      Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(manualModeTrigger);
+      //B Button
+      Trigger manualHopperButton = new JoystickButton(driverController, GC_B).and(manualModeTrigger);
+      //X Button 
+      Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(manualModeTrigger);
+      //Y Button
+      Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(manualModeTrigger);
+      //ZR Button
+      Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(manualModeTrigger);
+
+
+      //--Command binds
+
+      //manual color wheel spinner
+      manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
+      //manual hopper spinning
+      manualHopperButton.whenActive(runHopperCommand);
+      //manual kicker spinning
+      manualKickerButton.whenActive(runKickerCommand);
+      //manual tower spinning
+      manualTowerEndgame.whenActive(runTowerCommand);
+      //manual flywheel spinning
+      manualFlywheelButton.whenActive(manualFlywheelCommand);
 
     } else {  //If we're using the Xbox controller
 
@@ -291,7 +342,7 @@ public class RobotContainer {
     
   } // end of method configureDriverBindings()
 
-  private void configureCodriverBindings() { 
+  private void configureCodriverBindings(ManualModeTrigger manualModeTrigger) { 
     //--Buttons
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
