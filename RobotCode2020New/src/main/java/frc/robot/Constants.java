@@ -45,13 +45,14 @@ public final class Constants {
 
     //[-------------------DRIVE------------------------]
 
-    //[-------------------HOPPER--------------------------]
+    //[-------------------SPEEDS--------------------------]
 
     public static final double HOPPER_DEFAULT_SPEED = 0.2;
     public static final double HOPPER_SHOOTING_SPEED = 0.8;
     public static final double TOWER_SPEED = 0.75;
+    public static final double KICKER_SPEED = 0.75;
 
-    //[-------------------HOPPER--------------------------]
+    //[-------------------SPEEDS--------------------------]
 
     //[--------------------AUTO--------------------------]
 
