@@ -90,7 +90,7 @@ public class RobotContainer {
 
   //-------- DECLARATIONS --------\\
 
-  private boolean usingGamecube = true;
+  private boolean usingGamecube = false;
   private Joystick driverController;
   private Joystick coDriverController;
 
@@ -158,7 +158,7 @@ public class RobotContainer {
   //TODO: Add LED commands here
 
   //--Shooter commands
-  //TODO: Add shooting commands here
+  private final RunShooterCommand runShooterCommand;
 
   //--Tower coommands
   private final RunTowerCommand runTowerCommand;
@@ -224,7 +224,7 @@ public class RobotContainer {
     //TODO: Add LED commands here
 
     //shooter
-    //TODO: Add shooter commands here
+    runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.3);
 
     //tower
     runTowerCommand = new RunTowerCommand(towerSubsystem);
@@ -274,13 +274,19 @@ public class RobotContainer {
       //Drive command binds
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
+      //shootButton.whileActiveOnce(new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem));
+      //shootButton.whenReleased(new StopTowerCommand(towerSubsystem));
+      shootButton.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
+
     } else {  //If we're using the Xbox controller
 
       //--Buttons and triggers
       AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
-
+      JoystickButton shoot = new JoystickButton(driverController, 1);
       //--Command binds
 
+      shootButton.whenActive(new RunShooterCommand(shooterSubsystem, 0.8));
+      shoot.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
     } //end of if statement usingGamecube
     
   } // end of method configureDriverBindings()
@@ -306,6 +312,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
     scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
+    scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
 
   } // end of method beginRunCommands()
 

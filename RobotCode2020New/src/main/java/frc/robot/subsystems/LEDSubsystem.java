@@ -18,11 +18,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LEDSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
+    private final int PORT = 0;
+    private final int LEDS = 60;
 
     //-------- DECLARATIONS --------\\
 
-    private AddressableLEDBuffer ledsBuffer;
-    private AddressableLED leds;
+    private AddressableLEDBuffer ledsBuffer = new AddressableLEDBuffer(LEDS);
+    private AddressableLED leds = new AddressableLED(PORT);
 
     private boolean doneLoop;
 

@@ -29,12 +29,48 @@ public class LEDIdleFlash extends CommandBase {
     public void initialize() {
         switch(flashType){
             case 0:
-                m_ledSubsystem.setLEDs(255, 70, 0);
+                m_ledSubsystem.setLEDs(255, 85, 0);
                 SmartDashboard.putNumber("ledSet", 0);
             break;
             case 1:
                 m_ledSubsystem.setLEDs(0, 0, 0);
                 SmartDashboard.putNumber("ledSet", 1);
+            break;
+            case 2:
+                m_ledSubsystem.setLEDs(225,225,225);
+                SmartDashboard.putNumber("ledSet", 2);
+            break;
+            case 3:
+                m_ledSubsystem.setLEDs(0,70,170);
+                SmartDashboard.putNumber("ledSet", 3);
+            break;
+            case 4:
+                m_ledSubsystem.setLEDs(225,225,0);
+                SmartDashboard.putNumber("ledSet", 4);
+            break;
+            case 5:
+                m_ledSubsystem.setLEDs(200,0,0);
+                SmartDashboard.putNumber("ledSet", 5);
+            break;
+            case 6:
+                m_ledSubsystem.setLEDs(0,225,0);
+                SmartDashboard.putNumber("ledSet", 6);
+            break;
+            case 7:
+                m_ledSubsystem.setLEDs(130,0,230);
+                SmartDashboard.putNumber("ledSet", 7);
+            break;
+            case 8:
+                m_ledSubsystem.setLEDs(225,90,160);
+                SmartDashboard.putNumber("ledSet", 8);
+            break;
+            case 9:
+                m_ledSubsystem.setLEDs(0,225,255);
+                SmartDashboard.putNumber("ledSet", 9);
+            break;
+            case 10:
+                m_ledSubsystem.setLEDs(5,200,90);
+                SmartDashboard.putNumber("ledSet", 10);
             break;
             default:
                 m_ledSubsystem.setLEDs(0, 0, 0);
