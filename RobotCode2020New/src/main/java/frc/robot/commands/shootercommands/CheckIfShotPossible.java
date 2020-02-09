@@ -19,7 +19,7 @@ public class CheckIfShotPossible extends CommandBase{
     
     @Override
     public boolean isFinished() {
-        this.type = math.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
+        this.type = math.calculateShotType(limeLight.getHorizontalOffset(), limeLight.getDistance());
         if (this.type != ShotType.BEST) {
             return false;
         } else {
