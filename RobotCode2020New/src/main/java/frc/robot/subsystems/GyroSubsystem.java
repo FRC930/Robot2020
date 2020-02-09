@@ -20,7 +20,7 @@ public class GyroSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public GyroSubsystem() {
-        gyroTalon = new TalonSRX(Constants.INTAKE_TALONSRX_ID);
+        gyroTalon = new TalonSRX(Constants.INTAKE_ID);
         gyro = new PigeonIMU(gyroTalon);
     }
 

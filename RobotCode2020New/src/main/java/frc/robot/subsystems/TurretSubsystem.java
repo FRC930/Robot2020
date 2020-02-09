@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +28,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final int ENCODER_ROTATION_LIMIT = 1500;
+    private final int ENCODER_ROTATION_LIMIT = 15000;
 
     //-------- DECLARATIONS --------\\
 
@@ -39,7 +40,7 @@ public class TurretSubsystem extends SubsystemBase {
     
     public TurretSubsystem() {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
-        this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
         this.turretMotor.setSelectedSensorPosition(0);
         this.logger.log(Level.INFO, "Starting TurretSubsystem");
     }
@@ -47,9 +48,9 @@ public class TurretSubsystem extends SubsystemBase {
     //-------- METHODS --------\\
 
     public void setSpeed(double speed) {
-        speed = -speed;
+        //speed = -speed;
         // TODO: Figure out the position needed for 380° of rotation
-        if (speed < 0) {
+        /*if (speed < 0) {
             if (this.turretMotor.getSelectedSensorPosition() > ENCODER_ROTATION_LIMIT) {   
                 speed = 0;
             }
@@ -57,7 +58,11 @@ public class TurretSubsystem extends SubsystemBase {
             if (this.turretMotor.getSelectedSensorPosition() < -ENCODER_ROTATION_LIMIT) { 
                 speed = 0;
             }
-        }
+        }*/
+
+        /*if(Math.abs(this.turretMotor.getSelectedSensorPosition()) > ENCODER_ROTATION_LIMIT) {
+            speed = 0;
+        }*/
 
         SmartDashboard.putNumber("Turret Encoder value", getEncoderPosition());
 
