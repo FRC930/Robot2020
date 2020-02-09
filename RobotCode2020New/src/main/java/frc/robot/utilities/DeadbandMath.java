@@ -127,21 +127,21 @@ public class DeadbandMath {
         //Figure out if the point is in the "best" zone.
         double yOfLine2 = LINE_2_M * distanceFromCenter + LINE_2_B;
         double yOfLine3 = LINE_3_M * distanceFromCenter + LINE_3_B;
-        System.out.println("Line 2 Y: " + yOfLine2 + "- Line 3 Y: " + yOfLine3);
+        logger.log(Level.INFO, "Line 2 Y: " + yOfLine2 + "- Line 3 Y: " + yOfLine3);
         if (distanceFromWall >= yOfLine2 && distanceFromWall >= yOfLine3) {
             shotType = ShotType.BEST;
         } else { 
             //
             //Figure out if we are in the left hand 'maybe' zone.
             double yOfLine1 = LINE_1_M * distanceFromCenter + LINE_1_B;
-            System.out.println("Line 1 Y: " + yOfLine1);
+            logger.log(Level.INFO, "Line 1 Y: " + yOfLine1);
             if (distanceFromWall >= yOfLine1 && distanceFromWall < yOfLine2) {
                 shotType = ShotType.MAYBE;
             } else {
                 //
                 //Figure out if we are in the right hand 'maybe' zone.
                 double yOfLine4 = LINE_4_M * distanceFromCenter + LINE_4_B;
-                System.out.println("Line 4 Y: " + yOfLine4);
+                logger.log(Level.INFO, "Line 4 Y: " + yOfLine4);
                 if (distanceFromWall >= yOfLine4 && distanceFromWall < yOfLine3) {
                     shotType = ShotType.MAYBE;
                 } else {
@@ -170,16 +170,12 @@ public class DeadbandMath {
     private double calculateTargetSize(double distanceFromCenter, double distanceFromWall) {
         logger.entering(this.getClass().getName(), "calculateTargetSize");
         double targetArea = 0;
-        if (distanceFromCenter >= 0) {
-            targetArea = Math.sqrt(Math.pow((OUTER_RING_RADIUS+(((OUTER_RING_RADIUS*distanceFromCenter/distanceFromWall)+((-OUTER_RING_RADIUS*distanceFromWall)/(-OUTER_RING_RADIUS+distanceFromWall)))/
-            ((-distanceFromCenter/distanceFromWall)-(distanceFromWall/(-OUTER_RING_RADIUS+distanceFromCenter))))), 2)+
-            Math.pow(((distanceFromWall/(distanceFromCenter-OUTER_RING_RADIUS))*(OUTER_RING_RADIUS+(((OUTER_RING_RADIUS*distanceFromCenter/distanceFromWall)+((-OUTER_RING_RADIUS*distanceFromWall)/(-OUTER_RING_RADIUS+distanceFromWall)))/
-            ((-distanceFromCenter/distanceFromWall)-(distanceFromWall/(-OUTER_RING_RADIUS+distanceFromCenter)))))+((-distanceFromWall*OUTER_RING_RADIUS)/(distanceFromCenter-OUTER_RING_RADIUS))), 2));
+        if (distanceFromCenter <= 0) { 
+            targetArea = Math.sqrt(Math.pow(OUTER_RING_RADIUS + ((((OUTER_RING_RADIUS * distanceFromCenter)/ distanceFromWall) + (-OUTER_RING_RADIUS * distanceFromWall)/(-OUTER_RING_RADIUS + distanceFromCenter))/((-distanceFromCenter/distanceFromWall) - (distanceFromWall/(-OUTER_RING_RADIUS + distanceFromCenter)))), 2) +
+            Math.pow(((distanceFromWall / (distanceFromCenter - OUTER_RING_RADIUS)) * ((((OUTER_RING_RADIUS * distanceFromCenter)/distanceFromWall) + ((-OUTER_RING_RADIUS * distanceFromWall)/(-OUTER_RING_RADIUS + distanceFromCenter)))/(-(distanceFromCenter/distanceFromWall) - (distanceFromWall/(-OUTER_RING_RADIUS + distanceFromCenter))))) + ((-distanceFromWall * OUTER_RING_RADIUS)/(distanceFromCenter - OUTER_RING_RADIUS)), 2));
         } else {
-            targetArea = Math.sqrt(Math.pow((-OUTER_RING_RADIUS+(((-OUTER_RING_RADIUS*distanceFromCenter/distanceFromWall)+((OUTER_RING_RADIUS*distanceFromWall)/(OUTER_RING_RADIUS+distanceFromWall)))/
-            ((-distanceFromCenter/distanceFromWall)-(distanceFromWall/(OUTER_RING_RADIUS+distanceFromCenter))))), 2)+
-            Math.pow(((distanceFromWall/(distanceFromCenter+OUTER_RING_RADIUS))*(-OUTER_RING_RADIUS+(((-OUTER_RING_RADIUS*distanceFromCenter/distanceFromWall)+((OUTER_RING_RADIUS*distanceFromWall)/(OUTER_RING_RADIUS+distanceFromWall)))/
-            ((-distanceFromCenter/distanceFromWall)-(distanceFromWall/(OUTER_RING_RADIUS+distanceFromCenter)))))+((-distanceFromWall*-OUTER_RING_RADIUS)/(distanceFromCenter+OUTER_RING_RADIUS))), 2));
+            targetArea = Math.sqrt(Math.pow(-OUTER_RING_RADIUS + ((((-OUTER_RING_RADIUS * distanceFromCenter)/ distanceFromWall) + (OUTER_RING_RADIUS * distanceFromWall)/(OUTER_RING_RADIUS + distanceFromCenter))/((-distanceFromCenter/distanceFromWall) - (distanceFromWall/(OUTER_RING_RADIUS + distanceFromCenter)))), 2) +
+            Math.pow(((distanceFromWall / (distanceFromCenter + OUTER_RING_RADIUS)) * ((((-OUTER_RING_RADIUS * distanceFromCenter)/distanceFromWall) + ((OUTER_RING_RADIUS * distanceFromWall)/(OUTER_RING_RADIUS + distanceFromCenter)))/(-(distanceFromCenter/distanceFromWall) - (distanceFromWall/(OUTER_RING_RADIUS + distanceFromCenter))))) + ((-distanceFromWall * -OUTER_RING_RADIUS)/(distanceFromCenter + OUTER_RING_RADIUS)), 2));
         }
         logger.log(Level.INFO, "Calculated Target Area: " + targetArea);
         logger.exiting(this.getClass().getName(), "calculateTargetSize");
