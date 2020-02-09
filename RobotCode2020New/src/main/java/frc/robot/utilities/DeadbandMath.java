@@ -102,6 +102,7 @@ public class DeadbandMath {
                     shotType = ShotType.MISS;
                 }
             }
+        }
         logger.log(Level.INFO, "Final ShotType: " + shotType);
         logger.exiting(this.getClass().getName(), "calculateShotType");
         return shotType;
