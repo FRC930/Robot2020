@@ -6,9 +6,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-/*                                                  NOT DEALING WITH THIS
+
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.commands.colorwheelcommands.GetColorCommand;
+import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.RotationalControlTrackerCommand;
 import frc.robot.subsystems.ColorSensorSubsystem;
 
 import com.revrobotics.ColorSensorV3;
@@ -16,15 +16,15 @@ import com.revrobotics.ColorSensorV3;
 import org.junit.Test;
 
 
-public class GetColorTest {
+public class RotationalControlTrackerCommandTest {
 
     ColorSensorSubsystem subsystem = mock(ColorSensorSubsystem.class);
-    GetColorCommand thing = new GetColorCommand(subsystem);
+    RotationalControlTrackerCommand rotationalControlTrackerCommand = new RotationalControlTrackerCommand(subsystem);
 
     @Test
     public void getNearestColorTest() {
-        //all color tests need to run inistialized
-        thing.initialize();
+        //all color tests need to run initalized
+        rotationalControlTrackerCommand.initialize();
 
         //Color wheel order and makes some colors to test
         Color blueColor = new Color(0.143, 0.427, 0.429); //field color = red   //blue = 0.999 added
@@ -34,40 +34,38 @@ public class GetColorTest {
 
         //when class getSensorColor() gets called in ColorSensorSubsystem.class, makes it return blue for the test
         when(subsystem.getSensorColor()).thenReturn(blueColor);
-        String outputString = thing.positionalTrackerCounter(); //uses getSensorColor()'s returned color to find Field color
-        assertEquals("Red", outputString); //checking blue's field color to Red
+        String outputString = rotationalControlTrackerCommand.getNearestColor(blueColor); //uses getSensorColor()'s returned color to find Field color
+        assertEquals("Blue", outputString); //checking blue's field color to Red
 
         when(subsystem.getSensorColor()).thenReturn(redColor);
-        outputString = thing.positionalTrackerCounter();
-        assertEquals("Blue", outputString);
+        outputString = rotationalControlTrackerCommand.getNearestColor(redColor);
+        assertEquals("Red", outputString);
 
         when(subsystem.getSensorColor()).thenReturn(greenColor);
-        outputString = thing.positionalTrackerCounter();
-        assertEquals("Yellow", outputString);
+        outputString = rotationalControlTrackerCommand.getNearestColor(greenColor);
+        assertEquals("Green", outputString);
 
         when(subsystem.getSensorColor()).thenReturn(yellowColor);
-        outputString = thing.positionalTrackerCounter();
-        assertEquals("Green", outputString);
+        outputString = rotationalControlTrackerCommand.getNearestColor(yellowColor);
+        assertEquals("Yellow", outputString);
 
         Color blackColor = new Color(0, 0, 0);
 
         when(subsystem.getSensorColor()).thenReturn(blackColor);
-        outputString = thing.positionalTrackerCounter();
+        outputString = rotationalControlTrackerCommand.getNearestColor(blackColor);
         assertEquals("Unknown", outputString);
 
-        Color whiteColor = new Color(1, 1, 1);
+        Color whiteColor = new Color(1.0, 1.0, 1.0);
 
         when(subsystem.getSensorColor()).thenReturn(whiteColor);
-        outputString = thing.positionalTrackerCounter();
+        outputString = rotationalControlTrackerCommand.getNearestColor(whiteColor);
         assertEquals("Unknown", outputString);
     }
-
-    @Test
-    public void rotationalTrackerCounterTest() {
-        thing.initialize();
-
-		for(int i = 0;i < 25;i++) {
-        }
-    }
+    
+    /*@Test
+    public void isFinishedMethodTest() {
+        rotationalControlTrackerCommand.isFinished();
+        boolean complete = rotationalControlTrackerCommand.isFinished();
+        assertTrue(complete);
+    }*/
 }
-*/

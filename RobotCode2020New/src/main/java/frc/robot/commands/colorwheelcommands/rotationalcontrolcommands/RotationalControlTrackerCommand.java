@@ -135,18 +135,15 @@ public class RotationalControlTrackerCommand extends CommandBase {
     // Stops the code when the color has changed 24 times (3 rotations)
     return colorCounter > 24;
   }
-  private String getNearestColor(Color c) {
+
+  public String getNearestColor(Color c) {
     logger.entering(this.getClass().getName(), "getNearestColor");
     // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
     // Creates a ColorMatch object that finds and manages distance/difference between colors
     ColorMatchResult match = colorMatch.matchClosestColor(c);
     String colorOutput;
     // Checks the values and matches it to one of the colors below
-    if (match.color == kWhite) {
-      colorOutput = "Unknown";
-    }
-
-    else if (match.color == kBlueTarget) {
+    if (match.color == kBlueTarget) {
       colorOutput = "Blue";
     }
     
@@ -162,6 +159,10 @@ public class RotationalControlTrackerCommand extends CommandBase {
       colorOutput = "Yellow";
     }
     
+    else if (match.color == kWhite) {
+      colorOutput = "Unknown";
+    }
+
     else {
       colorOutput = "Unknown";
     }

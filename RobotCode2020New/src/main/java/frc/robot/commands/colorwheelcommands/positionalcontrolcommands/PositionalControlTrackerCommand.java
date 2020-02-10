@@ -151,7 +151,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
       return (fieldColor == "Green");
     }
 
-    private String getNearestColor(Color c) {
+    public String getNearestColor(Color c) {
       logger.entering(this.getClass().getName(), "getNearestColor");
       // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
       // Creates a ColorMatch object that finds and manages distance/difference between colors
