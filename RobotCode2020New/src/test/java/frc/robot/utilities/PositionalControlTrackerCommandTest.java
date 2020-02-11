@@ -61,11 +61,4 @@ public class PositionalControlTrackerCommandTest {
         outputString = positionalControlTrackerCommand.getNearestColor(whiteColor);
         assertEquals("Unknown", outputString);
     }
-    
-    /*@Test
-    public void isFinishedMethodTest() {
-        rotationalControlTrackerCommand.isFinished();
-        boolean complete = rotationalControlTrackerCommand.isFinished();
-        assertTrue(complete);
-    }*/
 }
