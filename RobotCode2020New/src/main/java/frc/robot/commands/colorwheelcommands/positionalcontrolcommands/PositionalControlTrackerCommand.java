@@ -7,6 +7,10 @@
 
 package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -44,6 +48,9 @@ public class PositionalControlTrackerCommand extends CommandBase {
     private boolean direction;
     // Creates an instance of the logger class
     private Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
+    // Color from Shuffleboard
+    private ShuffleboardTab tab = Shuffleboard.getTab("Driver Station");
+    private NetworkTableEntry fmsColor = tab.add("FMS Color", "Blue").getEntry();
 
     //-------- CONSTRUCTOR --------\\
     public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
@@ -72,7 +79,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
       logger.entering(this.getClass().getName(), "execute");
       // Returns the color values from the sensors
       final Color color = m_subsystem.getSensorColor();
-      //
+      // The color that we are currently seen
       String nearestColor = getNearestColor(color);
       // The color the field color sensor sees
       fieldColor = "Unknown";
@@ -184,5 +191,32 @@ public class PositionalControlTrackerCommand extends CommandBase {
       logger.exiting(this.getClass().getName(), "getNearestColor");
       // Returns the name of the color being seen by the sensor
       return colorOutput;
+    }
+
+    private String fmsColorOutput(){
+      String gameData;
+      gameData = DriverStation.getInstance().getGameSpecificMessage();
+      
+      if(gameData.length() > 0){
+        switch (gameData.charAt(0))
+        {
+          case 'B' :
+            //Blue case code
+            break;
+          case 'G' :
+            //Green case code
+            break;
+          case 'R' :
+            //Red case code
+            break;
+          case 'Y' :
+            //Yellow case code
+            break;
+          default :
+            //This is corrupt data
+            break;
+        }
+      }
+      //return 
     }
 }
