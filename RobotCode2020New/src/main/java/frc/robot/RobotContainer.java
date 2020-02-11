@@ -15,6 +15,8 @@ import frc.robot.commands.compressorcommands.*;
 import frc.robot.commands.drivecommands.*;
 import frc.robot.commands.hoppercommands.*;
 
+import frc.robot.commands.controlcommands.*;
+
 import frc.robot.commands.intakecommands.*;
 import frc.robot.commands.intakecommands.intakemotorcommands.*;
 import frc.robot.commands.intakecommands.intakepistoncommands.*;
@@ -29,15 +31,17 @@ import frc.robot.commands.turretcommads.*;
 import frc.robot.subsystems.*;
 
 //--Trigger imports
-import frc.robot.triggers.*;  
-
+import frc.robot.triggers.*;
 
 //--Other imports
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+
 
 //-------- CLASS RobotContainer --------\\
 
@@ -77,7 +81,7 @@ public class RobotContainer {
   private final int XB_AXIS_RT = 3;
 
   //A button is being used in multiple places, so it is in the constants class
-  //public static final int XB_A = 1;
+  public static final int XB_A = 1;
   public static final int XB_B = 2;
   public static final int XB_X = 3;
   public static final int XB_Y = 4;
@@ -153,6 +157,9 @@ public class RobotContainer {
   private final CompressorOnCommand compressorOnCommand;
   private final CompressorOffCommand compressorOffCommand;
 
+  //--Control commands
+  private final ToggleManualCommand toggleManualCommand;
+
   //--Drive commands
   private final DriveCommand driveCommand;
 
@@ -221,6 +228,9 @@ public class RobotContainer {
     compressorOnCommand = new CompressorOnCommand(compressorSubsystem);
     compressorOffCommand = new CompressorOffCommand(compressorSubsystem);
 
+    //control
+    toggleManualCommand = new ToggleManualCommand();
+
     //drive
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
     
@@ -267,13 +277,17 @@ public class RobotContainer {
 
     //This trigger is dedicated to the coDriver. It turns the robot's controls into
     //Manual mode, which is mainly only used for debugging purposes only
-    ManualModeTrigger manualModeTrigger = new ManualModeTrigger(coDriverController, XB_BACK);
+    JoystickButton manualModeButton = new JoystickButton(coDriverController, XB_BACK);
+    manualModeButton.whileActiveOnce(toggleManualCommand);
 
-    configureDriverBindings(manualModeTrigger); 
-    configureCodriverBindings(manualModeTrigger);
+    configureDriverBindings(); 
+    configureCodriverBindings();
   } //end of method configureButtonBindings()
 
-  private void configureDriverBindings(ManualModeTrigger manualModeTrigger) {    //TODO: Bind controls to commands
+  private void configureDriverBindings() {    //TODO: Bind controls to commands
+
+    ManualModeTrigger inManualMode = new ManualModeTrigger();
+
     if (usingGamecube) {  //If we're using the gamecube controller
 
       //---- BUTTONS AND TRIGGERS (DRIVE) ----\\
@@ -306,19 +320,19 @@ public class RobotContainer {
 
       //---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
-
+      
       //--Buttons and Triggers
 
       //A Button
-      Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(manualModeTrigger);
+      Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(inManualMode);
       //B Button
-      Trigger manualHopperButton = new JoystickButton(driverController, GC_B).and(manualModeTrigger);
+      Trigger manualHopperButton = new JoystickButton(driverController, GC_B).and(inManualMode);
       //X Button 
-      Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(manualModeTrigger);
+      Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(inManualMode);
       //Y Button
-      Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(manualModeTrigger);
+      Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(inManualMode);
       //ZR Button
-      Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(manualModeTrigger);
+      Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualMode);
 
 
 
@@ -349,7 +363,8 @@ public class RobotContainer {
     
   } // end of method configureDriverBindings()
 
-  private void configureCodriverBindings(ManualModeTrigger manualModeTrigger) { 
+  private void configureCodriverBindings() { 
+
     //--Buttons
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
