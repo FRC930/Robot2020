@@ -46,7 +46,7 @@ public class KickerSubsystem extends SubsystemBase {
         logger.entering(this.getClass().getName(), "setSpeed");
         logger.log(Level.INFO, "motorSpeed: " + speed);
 
-        kickerMotor.set(ControlMode.PercentOutput, speed);
+        kickerMotor.set(ControlMode.PercentOutput, -speed);
         logger.exiting (this.getClass().getName(), "setSpeed");
     }
 

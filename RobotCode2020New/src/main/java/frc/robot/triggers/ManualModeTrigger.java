@@ -13,6 +13,7 @@ import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //-------- TRIGGER CLASS --------\\
 
@@ -52,6 +53,7 @@ public class ManualModeTrigger extends Trigger {
 
     boolean buttonDown = this.joystick.getRawButton(buttonNumber);
 
+    SmartDashboard.putBoolean("Safety", inManualMode);
     if (buttonDown && !inManualMode) {
       inManualMode = true;
     } else if (buttonDown && inManualMode) {

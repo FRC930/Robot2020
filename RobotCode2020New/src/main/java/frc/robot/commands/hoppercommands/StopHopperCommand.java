@@ -12,20 +12,19 @@ package frc.robot.commands.hoppercommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
- 
-public class RunHopperCommand extends CommandBase {
+
+public class StopHopperCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-    
+
     //-------- CONSTRUCTOR --------\\
 
-    public RunHopperCommand(HopperSubsystem HopperSubsystem){
-        m_HopperSubsystem = HopperSubsystem;
+    public StopHopperCommand(HopperSubsystem hopperSubsystem) {
+        m_HopperSubsystem = hopperSubsystem;
         addRequirements(m_HopperSubsystem);
     }
 
@@ -34,18 +33,17 @@ public class RunHopperCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_SHOOTING_SPEED);
+        m_HopperSubsystem.setSpeed(0.0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {    
+    public void execute() {   
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        //m_HopperSubsystem.setSpeed(0.0);
     }
 
     // Returns true when the command should end.
@@ -53,4 +51,4 @@ public class RunHopperCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-} // end of class RunHopperCommand
+} // end of class StopTowerCommand

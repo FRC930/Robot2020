@@ -92,7 +92,7 @@ public class RobotContainer {
 
   //-------- DECLARATIONS --------\\
 
-  private boolean usingGamecube = false;
+  private boolean usingGamecube = true;
   private Joystick driverController;
   private Joystick coDriverController;
 
@@ -155,6 +155,7 @@ public class RobotContainer {
   //--Hopper commands
   private final RunHopperCommand runHopperCommand;
   private final HopperDefaultCommand hopperDefaultCommand;
+  private final StopHopperCommand stopHopperCommand;
 
   //--Intake commands
   private final IntakeCommand intakeCommand;
@@ -223,6 +224,7 @@ public class RobotContainer {
     //hopper
     runHopperCommand = new RunHopperCommand(hopperSubsystem);
     hopperDefaultCommand = new HopperDefaultCommand(hopperSubsystem);
+    stopHopperCommand = new StopHopperCommand(hopperSubsystem);
 
     //intake
     intakeCommand = new IntakeCommand(intakePistons, intakeMotors);
@@ -252,7 +254,7 @@ public class RobotContainer {
     configureButtonBindings();  //Configures buttons for drive team
 
     //--Default commands
-    beginRunCommands();         //Sets the default command
+    //beginRunCommands();         //Sets the default command
     
   } //end of constructor RobotContainer()
 
@@ -307,13 +309,15 @@ public class RobotContainer {
       //A Button
       Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(manualModeTrigger);
       //B Button
-      Trigger manualHopperButton = new JoystickButton(driverController, GC_B).and(manualModeTrigger);
+      Trigger manualHopperButton = new JoystickButton(driverController, GC_B);//.and(manualModeTrigger);
       //X Button 
-      Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(manualModeTrigger);
+      Trigger manualKickerButton = new JoystickButton(driverController, GC_X);//.and(manualModeTrigger);
       //Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(manualModeTrigger);
       //ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(manualModeTrigger);
+
+
 
 
       //--Command binds
@@ -321,9 +325,9 @@ public class RobotContainer {
       //manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       //manual hopper spinning
-      manualHopperButton.whenActive(runHopperCommand);
+      manualHopperButton.whenActive(runHopperCommand).whenInactive(stopHopperCommand);
       //manual kicker spinning
-      manualKickerButton.whenActive(runKickerCommand);
+      manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       //manual tower spinning
       manualTowerEndgame.whenActive(runTowerCommand);
       //manual flywheel spinning
