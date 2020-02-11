@@ -55,7 +55,7 @@ public class RotationalControlTrackerCommandTest {
         outputString = rotationalControlTrackerCommand.getNearestColor(blackColor);
         assertEquals("Unknown", outputString);
 
-        Color whiteColor = new Color(1.0, 1.0, 1.0);
+        Color whiteColor = new Color(0.333, 0.333, 0.333);
 
         when(subsystem.getSensorColor()).thenReturn(whiteColor);
         outputString = rotationalControlTrackerCommand.getNearestColor(whiteColor);

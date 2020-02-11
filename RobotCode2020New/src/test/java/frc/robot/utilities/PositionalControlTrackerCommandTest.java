@@ -55,11 +55,11 @@ public class PositionalControlTrackerCommandTest {
         outputString = positionalControlTrackerCommand.getNearestColor(blackColor);
         assertEquals("Unknown", outputString);
 
-        /*Color whiteColor = new Color(1.0, 1.0, 1.0);
+        Color whiteColor = new Color(0.333, 0.333, 0.333);
 
         when(subsystem.getSensorColor()).thenReturn(whiteColor);
         outputString = positionalControlTrackerCommand.getNearestColor(whiteColor);
-        assertEquals("Unknown", outputString);*/
+        assertEquals("Unknown", outputString);
     }
     
     /*@Test
