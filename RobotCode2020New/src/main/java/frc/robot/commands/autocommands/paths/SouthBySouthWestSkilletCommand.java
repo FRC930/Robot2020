@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
@@ -25,14 +26,16 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
+import frc.robot.commands.autocommands.paths.Spin;
 import java.util.List;
 public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
   DriveSubsystem m_drive;
+  Spin spin;
   public SouthBySouthWestSkilletCommand(DriveSubsystem subsystem) {
-    m_drive = subsystem;
+    m_drive = subsystem; 
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -55,11 +58,23 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at initiation line
         new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        List.of( 
+            // Midpoints
+        ),
+        // End infront of the rendezvous point. Simply move forward 48 inches = 4 feet
+        new Pose2d(1, 1, new Rotation2d(0)),
+        // Pass config
+        config
+
+    );
+    Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+        // Start at initiation line
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(270))),
         List.of(
             // Midpoints
         ),
         // End infront of the rendezvous point. Simply move forward 48 inches = 4 feet
-        new Pose2d(inchesToMeters(48.0), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(2, 0, new Rotation2d()),
         // Pass config
         config
 
@@ -88,12 +103,28 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
         m_drive::tankDriveVolts,
         m_drive 
     );
-    
+    RamseteCommand ramseteCommand2 = new RamseteCommand(
+      trajectory2,
+      m_drive::getPose,
+      new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
+      new SimpleMotorFeedforward(Constants.KSVOLTS,
+                                 Constants.KVVOLT,
+                                 Constants.KAVOLT),
+      Constants.KDRIVEKINEMATICS,
+      m_drive::getWheelSpeeds,
+      // pid info***
+      new PIDController(Constants.KPDRIVEVEL, 0, 0),
+      new PIDController(Constants.KPDRIVEVEL, 0, 0),
+      // RamseteCommand passes volts to the callback
+      m_drive::tankDriveVolts,
+      m_drive 
+  );
+  Spin spin = new Spin(m_drive);
     /* 
     Robot in autonomous moves forward off of initiation line
     */
 
-    addCommands(ramseteCommand1);
+    addCommands(spin /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
 
   }
 
@@ -101,6 +132,5 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
       double meters = inches / 39.37;
       return meters;
   }
-
 }
 

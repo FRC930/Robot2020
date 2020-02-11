@@ -16,15 +16,16 @@ import frc.robot.subsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.IntakePistonSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
-import static frc.robot.subsystems.IntakePistonSubsystem.INTAKE_PISTONS_DOWN;
+
 
 
 public class IntakeCommand extends CommandBase {
   
   private final Logger logger = Logger.getLogger (IntakeCommand.class.getName());
-
+  
+  
   //-------- CONSTANTS --------\\
-
+  public final boolean INTAKE_PISTONS_DOWN = true; 
   //-------- DECLARATIONS --------\\
 
   private final IntakePistonSubsystem intakePistons;

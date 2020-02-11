@@ -23,7 +23,7 @@ public class IntakeStopCommand extends CommandBase {
 
   private final Logger logger = Logger.getLogger(IntakeStopCommand.class.getName());
   //-------- CONSTANTS --------\\
-
+  public final boolean INTAKE_PISTONS_UP = false; 
   //-------- DECLARATIONS --------\\
   private final IntakePistonSubsystem intakePistonsSubsystem;
   private final IntakeMotorSubsystem intakeMotorsSubsystem;

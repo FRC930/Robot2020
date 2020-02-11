@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.*;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utilities.TalonFXSpeedController;
 import java.util.logging.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -50,6 +51,7 @@ public class DriveSubsystem extends SubsystemBase {
   private TalonFXSpeedController left2;
   private DifferentialDrive drive;
   private Logger logger;
+  private SmartDashboard smartDashboard;
   // private CANSparkMax left1;
   // private CANSparkMax left2;
   // private CANSparkMax left3;
@@ -138,9 +140,15 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    //System.out.println("MOVING: " + leftVolts + " " + rightVolts);
+    logger.entering(this.getClass().getName(), "tankDriveVolts()");
+    
+    logger.log(Level.WARNING, "MOVING: " + leftVolts + " " + rightVolts);
+
+    System.out.println();
     right1.setVoltage(rightVolts);
     left1.setVoltage(-leftVolts);
+    logger.exiting(this.getClass().getName(), "tankDriveVolts()");
+    
   }
 
   public double getAverageEncoderDistance() {
@@ -161,10 +169,12 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     //System.out.println(yaw);
-
+    logger.entering(this.getClass().getName(), "periodic()");
     // This method will be called once per scheduler run
     driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
     right1.getRPMRight(right1));
+    logger.log(Level.WARNING, "yaw " + values[0]);
+    logger.exiting(this.getClass().getName(), "periodic()");
     //System.out.println("RIGHT: " + right1.getRPMRight(right1));
     
   }

@@ -11,6 +11,7 @@ package frc.robot.utilities;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -27,6 +28,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 */
 public class TalonFXSpeedController extends TalonFX implements SpeedController {
     private Logger logger;
+    private SmartDashboard smartDashboard;
 
     /*
      * constructor.
@@ -103,14 +105,14 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
 
     public double getRPMLeft(TalonFXSpeedController left1) {
         double rotationML;
-        rotationML = -left1.getSelectedSensorPosition() /(0.1016 * Math.PI/2048);
+        rotationML = -left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+        //smartDashboard.get
         return rotationML;
     }
 
     public double getRPMRight(TalonFXSpeedController right1) {
         double rotationMR;
-        rotationMR = right1.getSelectedSensorPosition() /(0.1016 * Math.PI/2048);
-        //2048
+        rotationMR = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
         return rotationMR;
     }
 

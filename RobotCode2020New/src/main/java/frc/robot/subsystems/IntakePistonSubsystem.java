@@ -24,8 +24,7 @@ public class IntakePistonSubsystem extends SubsystemBase {
     private final int LEFT_PISTON_ID = 0;
     private final int RIGHT_PISTON_ID = 1;
 
-    public static final boolean INTAKE_PISTONS_UP = false; 
-    public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP; 
+   
 
     //-------- DECLARATIONS --------\\
 
