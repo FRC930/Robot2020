@@ -30,7 +30,6 @@ public class RotationalControlTrackerCommand extends CommandBase {
   private final boolean CLOCKWISE = true;
   private final boolean COUNTER_CLOCKWISE = false;
   // Sets the values of each color to its corresponding values
-  private final Color kWhite = new Color(0.333, 0.333, 0.333);
   private final Color kBlueTarget = new Color(0.143, 0.427, 0.429);
   private final Color kGreenTarget = new Color(0.197, 0.561, 0.240);
   private final Color kRedTarget = new Color(0.561, 0.232, 0.114);
@@ -68,7 +67,6 @@ public class RotationalControlTrackerCommand extends CommandBase {
     direction = COUNTER_CLOCKWISE;
     lastColor = "";
     colorCounter = 0;
-    colorMatch.addColorMatch(kWhite);
     colorMatch.addColorMatch(kYellowTarget);
     colorMatch.addColorMatch(kBlueTarget);
     colorMatch.addColorMatch(kGreenTarget);
@@ -157,10 +155,6 @@ public class RotationalControlTrackerCommand extends CommandBase {
     
     else if (match.color == kYellowTarget) {
       colorOutput = "Yellow";
-    }
-    
-    else if (match.color == kWhite) {
-      colorOutput = "Unknown";
     }
 
     else {
