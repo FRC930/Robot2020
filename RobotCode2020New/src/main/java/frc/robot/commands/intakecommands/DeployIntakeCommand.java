@@ -1,9 +1,11 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+
+//-------- IMPORTS --------\\
 
 package frc.robot.commands.intakecommands;
 
@@ -13,45 +15,49 @@ import java.util.logging.Logger;
 import frc.robot.subsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.IntakePistonSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.subsystems.IntakePistonSubsystem.*;
 
+import frc.robot.Constants;
 
-public class IntakeStopCommand extends CommandBase {
+//-------- COMMAND CLASS --------\\
 
-  private final Logger logger = Logger.getLogger(IntakeStopCommand.class.getName());
+public class DeployIntakeCommand extends CommandBase {
+
   //-------- CONSTANTS --------\\
 
+  private final Logger logger = Logger.getLogger(DeployIntakeCommand.class.getName());
+
   //-------- DECLARATIONS --------\\
-  private final IntakePistonSubsystem intakePistonsSubsystem;
-  private final IntakeMotorSubsystem intakeMotorsSubsystem;
+
+  private final IntakePistonSubsystem intakePistons;
+  private final IntakeMotorSubsystem intakeMotors;
 
   //-------- CONSTRUCTOR --------\\
 
-  public IntakeStopCommand (final IntakePistonSubsystem iPistonsSubsystem, final IntakeMotorSubsystem iMotorSubsystem) {
-    intakePistonsSubsystem = iPistonsSubsystem;
-    intakeMotorsSubsystem = iMotorSubsystem;
-    logger.log(Level.FINE,"starting intake stop command");
+  public DeployIntakeCommand(IntakePistonSubsystem iPistons, IntakeMotorSubsystem iMotors) {
+    intakePistons = iPistons;
+    intakeMotors = iMotors;
 
-    addRequirements(iPistonsSubsystem, iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
+    logger.log(Level.FINE, "Initializing the DeployIntakeCommand...");
+
+    addRequirements(iPistons, iMotors);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
 
-  
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-    intakePistonsSubsystem.setIntakePiston(INTAKE_PISTONS_UP);
-    intakeMotorsSubsystem.setMotorSpeed(0.0);
-    logger.log(Level.FINE,"stoping intake");
+     intakePistons.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
+     intakeMotors.setMotorSpeed(Constants.INTAKE_SPEED);
+
+     logger.log(Level.FINE, "Deploying the intake (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() {
-       
-}
+  public void execute() { 
+  } 
   
   @Override   // Called once the command ends or is interrupted.
-  public void end(final boolean interrupted) {
+  public void end(boolean interrupted) {
   }
 
   
@@ -59,7 +65,5 @@ public class IntakeStopCommand extends CommandBase {
   public boolean isFinished() {
     return true;
   }
-  
 
-  //-------- METHODS --------\\
-} //End of class IntakeCommand
+} //End of class DeployIntakeCommand

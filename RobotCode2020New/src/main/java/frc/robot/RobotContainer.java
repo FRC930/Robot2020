@@ -14,7 +14,11 @@ import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.compressorcommands.*;
 import frc.robot.commands.drivecommands.*;
 import frc.robot.commands.hoppercommands.*;
+
 import frc.robot.commands.intakecommands.*;
+import frc.robot.commands.intakecommands.intakemotorcommands.*;
+import frc.robot.commands.intakecommands.intakepistoncommands.*;
+
 import frc.robot.commands.kickercommands.*;
 //import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.*;
@@ -158,8 +162,8 @@ public class RobotContainer {
   private final StopHopperCommand stopHopperCommand;
 
   //--Intake commands
-  private final IntakeCommand intakeCommand;
-  private final IntakeStopCommand intakeStopCommand;
+  private final DeployIntakeCommand deployIntakeCommand;
+  private final ReturnIntakeCommand returnIntakeCommand;
 
   //--Kicker commands
   private final RunKickerCommand runKickerCommand;
@@ -177,7 +181,6 @@ public class RobotContainer {
 
   //--Turret commands
   private final AimTurretCommand aimTurretCommand;
-
   private final JoystickTurret joystickTurret;
   
   //-------- CONSTRUCTOR ---------\\
@@ -227,8 +230,8 @@ public class RobotContainer {
     stopHopperCommand = new StopHopperCommand(hopperSubsystem);
 
     //intake
-    intakeCommand = new IntakeCommand(intakePistons, intakeMotors);
-    intakeStopCommand = new IntakeStopCommand(intakePistons, intakeMotors);
+    deployIntakeCommand = new DeployIntakeCommand(intakePistons, intakeMotors);
+    returnIntakeCommand = new ReturnIntakeCommand(intakePistons, intakeMotors);
 
     //kicker
     runKickerCommand = new RunKickerCommand(kickerSubsystem);
@@ -309,9 +312,9 @@ public class RobotContainer {
       //A Button
       Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(manualModeTrigger);
       //B Button
-      Trigger manualHopperButton = new JoystickButton(driverController, GC_B);//.and(manualModeTrigger);
+      Trigger manualHopperButton = new JoystickButton(driverController, GC_B).and(manualModeTrigger);
       //X Button 
-      Trigger manualKickerButton = new JoystickButton(driverController, GC_X);//.and(manualModeTrigger);
+      Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(manualModeTrigger);
       //Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(manualModeTrigger);
       //ZR Button
@@ -353,7 +356,7 @@ public class RobotContainer {
     //--Command binds
 
     //Toggle intake
-    intakeAxisTrigger.toggleWhenActive(intakeCommand).cancelWhenActive(intakeStopCommand);
+    intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).cancelWhenActive(returnIntakeCommand);
 
   } // end of method configureCodriverBindings()
   

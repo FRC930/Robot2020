@@ -60,6 +60,7 @@ public class ManualModeTrigger extends Trigger {
       inManualMode = false;
     }
 
+    System.out.println("inManualMode: " + inManualMode);
     return inManualMode;
   }
 

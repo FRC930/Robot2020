@@ -20,7 +20,7 @@ import java.util.logging.*;
  */
 public final class Constants {
 
-    //[-------------------IDS--------------------------]
+    //[-------------------MOTOR IDS--------------------------]
 
     public static final int DRIVE_RIGHT_FRONT_ID = 1;
     public static final int DRIVE_RIGHT_BACK_ID = 2;
@@ -36,8 +36,15 @@ public final class Constants {
     public static final int HOPPER_ID = 9;
     public static final int TOWER_ID = 10;
     public static final int KICKER_ID = 11;
+
+    //[-------------------MOTOR IDS--------------------------]
+
+    //[-------------------PISTON IDS-------------------------]
+
+    public static final int INTAKE_LEFT_ID = 0;
+    public static final int INTAKE_RIGHT_ID = 1;
     
-    //[-------------------IDS--------------------------]
+    //[-------------------PISTON IDS-------------------------]
 
     //[-------------------DRIVE------------------------]
 
@@ -48,11 +55,19 @@ public final class Constants {
     //[-------------------SPEEDS--------------------------]
 
     public static final double HOPPER_DEFAULT_SPEED = 0.2;
-    public static final double HOPPER_SHOOTING_SPEED = 0.75; //0.8
+    public static final double HOPPER_SHOOTING_SPEED = 0.75;
     public static final double TOWER_SPEED = 0.75;
     public static final double KICKER_SPEED = 1.0;
+    public static final double INTAKE_SPEED = 0.8;
 
     //[-------------------SPEEDS--------------------------]
+
+    //[-------------------STATES--------------------------]
+
+    public static final boolean INTAKE_PISTONS_UP = false; 
+    public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP; 
+    
+    //[-------------------STATES--------------------------]
 
     //[--------------------AUTO--------------------------]
 
