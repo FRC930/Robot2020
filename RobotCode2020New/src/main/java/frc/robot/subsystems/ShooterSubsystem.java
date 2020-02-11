@@ -30,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
 
     //PID Derivitive Gain
-    private final double PID_D = 0.004;
+    private final double PID_D = -0.002;
     //PID Proportional Gain
     private final double PID_P = 0.0004;
     //PID Feed-Forward Gain
@@ -43,7 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private final Logger logger = Logger.getLogger(ShooterSubsystem.class.getName());
 
-    // motor controllers for the 775 motors on the shooter
+    // motor controllers for the NEO motors on the shooter
     private final CANSparkMax motorLead;
     private final CANSparkMax motor2;
 
@@ -64,7 +64,7 @@ public class ShooterSubsystem extends SubsystemBase {
         this.pidcontroller.setOutputRange(0, 1);
         this.pidcontroller.setP(PID_P);
         //this.pidcontroller.setD(PID_D);
-        motor2.follow(motorLead, true);
+        motor2.follow(motorLead);
         
         //solenoid = new Solenoid(0);
         
@@ -76,11 +76,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setSpeed(double speed) {
         logger.entering(this.getClass().getName(), "setSpeed()");
 
-        if(speed <= 1.0 && speed >= 0.0) {
-            // Set the speed in percent output * the max RPM of the NEO.
-            this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-            //motorLead.set(speed);
-        }
+        this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
+        //motorLead.set(speed);
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
         logger.exiting(getClass().getName(), "setSpeed()");

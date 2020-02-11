@@ -14,14 +14,13 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
-public class RunShooterCommand extends CommandBase {
+public class RunDefaultShooter extends CommandBase {
 
-  private ShooterSubsystem m_ShooterSubsystem;
-  private double m_Speed;
+    private ShooterSubsystem m_ShooterSubsystem;
+    private double m_Speed;
 
-  public RunShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
+    public RunDefaultShooter(ShooterSubsystem shooterSubsystem, double speed) 
   {
-    System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
     m_ShooterSubsystem = shooterSubsystem;
     addRequirements(m_ShooterSubsystem);
 
@@ -31,7 +30,7 @@ public class RunShooterCommand extends CommandBase {
   @Override
   public void initialize() 
   {
-    m_ShooterSubsystem.setSpeed(m_Speed);
+    m_ShooterSubsystem.setSpeed(0.3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,13 +44,5 @@ public class RunShooterCommand extends CommandBase {
   }
 
   // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    System.out.println("isAtSpeed(): " + isAtSpeed());
-    return false;
-  }
 
-  private boolean isAtSpeed() {
-    return this.m_ShooterSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_ShooterSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
-  }
 }

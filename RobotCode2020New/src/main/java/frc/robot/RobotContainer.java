@@ -6,7 +6,6 @@ package frc.robot;
 //--Command imports 
 import edu.wpi.first.wpilibj2.command.*;
 
-import frc.robot.commands.autocommands.*;
 import frc.robot.commands.autocommands.paths.*;
 
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
@@ -125,11 +124,14 @@ public class RobotContainer {
   //--Shooter subsystem
   private final ShooterSubsystem shooterSubsystem;
 
-  //--Turret subsystem
+  //--Tower subsystem
   private final TowerSubsystem towerSubsystem;
 
   //--Turret subsystem
   private final TurretSubsystem turretSubsystem;
+
+  //--Kicker Subsystem
+  private final KickerSubsystem kickerSubsystem;
   
   //-------- COMMANDS --------\\
 
@@ -158,6 +160,7 @@ public class RobotContainer {
   //TODO: Add LED commands here
 
   //--Shooter commands
+  //private final RunDefaultShooter runDefaultShooter;
   private final RunShooterCommand runShooterCommand;
 
   //--Tower coommands
@@ -192,6 +195,7 @@ public class RobotContainer {
     shooterSubsystem = new ShooterSubsystem();
     towerSubsystem = new TowerSubsystem();
     turretSubsystem = new TurretSubsystem();
+    kickerSubsystem = new KickerSubsystem();
     
     //--Commands
 
@@ -224,7 +228,8 @@ public class RobotContainer {
     //TODO: Add LED commands here
 
     //shooter
-    runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.3);
+    //runDefaultShooter = new RunDefaultShooter(shooterSubsystem, 0.3);
+    runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.8);
 
     //tower
     runTowerCommand = new RunTowerCommand(towerSubsystem);
@@ -274,8 +279,8 @@ public class RobotContainer {
       //Drive command binds
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
-      //shootButton.whileActiveOnce(new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem));
-      //shootButton.whenReleased(new StopTowerCommand(towerSubsystem));
+      //shootButton.whileActiveOnce(new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem));
+      //shootButton.whenReleased(new ParallelCommand(new StopTowerCommand(towerSubsystem), new StopKickerCommand(kickerSubsystem)));
       shootButton.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
 
     } else {  //If we're using the Xbox controller
@@ -285,7 +290,7 @@ public class RobotContainer {
       JoystickButton shoot = new JoystickButton(driverController, 1);
       //--Command binds
 
-      shootButton.whenActive(new RunShooterCommand(shooterSubsystem, 0.8));
+      //shootButton.whenActive(new RunShooterCommand(shooterSubsystem, 0.8));
       shoot.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
     } //end of if statement usingGamecube
     
@@ -312,7 +317,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
     scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
-    scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
+    //scheduler.setDefaultCommand(shooterSubsystem, runDefaultShooter);
 
   } // end of method beginRunCommands()
 
@@ -323,7 +328,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //TODO: Get shuffleboard data, use switch case to select the path selected
-    return autoCommand;
+    return runShooterCommand;
     // Run path following command, then stop at the end.
   }
 
