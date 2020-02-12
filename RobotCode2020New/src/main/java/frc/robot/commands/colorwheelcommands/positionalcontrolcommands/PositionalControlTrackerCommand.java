@@ -73,7 +73,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
     }
 
     /**
-     * What the execute is doing is it's matching the color of the wheel received from FMS to the correct color under the field's sensor.
+     * What the execute is doing is it's matching the color of the wheel received from Shuffleboard to the correct color under the field's sensor.
      * Our robot's color sensor will see one color, but the field's sensor will see another color. For example, when our robot sees the
      * color red, the field sensor will see the color blue. Here is a link to the image of the sensor on the color wheel
      * https://drive.google.com/file/d/1TQU4u39DIl0iIE7XdlLHuZEuskAtRAx3/view
@@ -164,7 +164,6 @@ public class PositionalControlTrackerCommand extends CommandBase {
 
     public String getNearestColor(Color c) {
       logger.entering(this.getClass().getName(), "getNearestColor");
-      // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
       // Creates a ColorMatch object that finds and manages distance/difference between colors
       ColorMatchResult match = colorMatch.matchClosestColor(c);
       String colorOutput;
@@ -192,30 +191,4 @@ public class PositionalControlTrackerCommand extends CommandBase {
       // Returns the name of the color being seen by the sensor
       return colorOutput;
     }
-
-    /*private String fmsColorOutput(){
-      String gameData;
-      gameData = DriverStation.getInstance().getGameSpecificMessage();
-      if(gameData.length() > 0){
-        switch (gameData.charAt(0))
-        {
-          case 'B' :
-            //Blue case code
-            break;
-          case 'G' :
-            //Green case code
-            break;
-          case 'R' :
-            //Red case code
-            break;
-          case 'Y' :
-            //Yellow case code
-            break;
-          default :
-            //This is corrupt data
-            break;
-        }
-      }
-      //return 
-    }*/
 }
