@@ -26,6 +26,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Mid Field - Move off intiation & Initial 3
+
 public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -58,8 +62,8 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
         List.of(
             // Midpoints
         ),
-        // End 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // End 5 feet infront of initiation line
+        new Pose2d(inchesToMeters(60.0), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 

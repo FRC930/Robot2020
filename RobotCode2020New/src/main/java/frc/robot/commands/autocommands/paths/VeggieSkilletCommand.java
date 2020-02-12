@@ -26,6 +26,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Mid Field - Off Initiation Line, Drop 3 Power Cells off robot
+
 public class VeggieSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.

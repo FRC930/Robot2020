@@ -26,6 +26,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Mid Field - Off Initiation Line, No Power Cells
+
 public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -81,7 +85,8 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
         m_drive::getWheelSpeeds,
-        // pid info***
+
+        // pid***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback

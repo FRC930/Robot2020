@@ -27,6 +27,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Opponent Side - Trench 2 & Initial 3 & Rendezvous 3
+
 public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
  /**
    * Creates a new Autonomous.

@@ -27,6 +27,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Mid Field - Initial 3 & Rendezvous 3 & Trench 3
+
 public class GypsySkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.

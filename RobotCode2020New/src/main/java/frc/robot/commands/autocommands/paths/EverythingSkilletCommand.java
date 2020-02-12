@@ -27,6 +27,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Alliance Side - Initial 3 & Trench 3 + 2 & Rendezvous 2 + 3
+
 public class EverythingSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
