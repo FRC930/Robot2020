@@ -72,6 +72,12 @@ public class PositionalControlTrackerCommand extends CommandBase {
       colorMatch.addColorMatch(kRedTarget);
     }
 
+    /**
+     * What the execute is doing is it's matching the color of the wheel received from FMS to the correct color under the field's sensor.
+     * Our robot's color sensor will see one color, but the field's sensor will see another color. For example, when our robot sees the
+     * color red, the field sensor will see the color blue. Here is a link to the image of the sensor on the color wheel
+     * https://drive.google.com/file/d/1TQU4u39DIl0iIE7XdlLHuZEuskAtRAx3/view
+     */
     @Override
     public void execute() {
       logger.entering(this.getClass().getName(), "execute");
@@ -187,7 +193,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
       return colorOutput;
     }
 
-    private String fmsColorOutput(){
+    /*private String fmsColorOutput(){
       String gameData;
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       if(gameData.length() > 0){
@@ -211,5 +217,5 @@ public class PositionalControlTrackerCommand extends CommandBase {
         }
       }
       //return 
-    }
+    }*/
 }
