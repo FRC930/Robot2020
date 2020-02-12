@@ -341,7 +341,6 @@ public class RobotContainer {
 
 
 
-
       //--Command binds
 
       //manual color wheel spinner
@@ -354,6 +353,7 @@ public class RobotContainer {
       manualTowerEndgame.whenActive(runTowerCommand).whenInactive(stopTowerCommand);
       //manual flywheel spinning
       manualFlywheelButton.whenActive(runFlywheelCommand).whenInactive(stopFlywheelCommand);
+ 
       //manual 
     } else {  //If we're using the Xbox controller
 
@@ -376,7 +376,7 @@ public class RobotContainer {
     //--Command binds
 
     //Toggle intake
-    intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).cancelWhenActive(returnIntakeCommand);
+    intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
 
   } // end of method configureCodriverBindings()
   

@@ -8,6 +8,7 @@
 //-------- IMPORTS --------\\
 
 package frc.robot.triggers;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 //-------- TRIGGER CLASS --------\\
@@ -32,6 +33,7 @@ public class ManualModeTrigger extends Trigger {
    */
   @Override
   public boolean get() {
+    SmartDashboard.putBoolean("Manual Mode", IN_MANUAL_MODE);
     return IN_MANUAL_MODE;
   }
 
