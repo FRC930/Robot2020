@@ -164,9 +164,9 @@ public class RobotContainer {
   private final DriveCommand driveCommand;
 
   //--Hopper commands
-  private final RunHopperCommand runHopperCommand;
-  private final HopperDefaultCommand hopperDefaultCommand;
+  private final RunHopperCommand runHopperCommand; 
   private final StopHopperCommand stopHopperCommand;
+  private final HopperDefaultCommand hopperDefaultCommand;
 
   //--Intake commands
   private final DeployIntakeCommand deployIntakeCommand;
@@ -175,14 +175,17 @@ public class RobotContainer {
   //--Kicker commands
   private final RunKickerCommand runKickerCommand;
   private final StopKickerCommand stopKickerCommand;
+
   //--LED commands
   //TODO: Add LED commands here
 
   //--Shooter commands
   private final RunShooterCommand runShooterCommand;
-  private final ManualFlywheelCommand manualFlywheelCommand;
+    //For manual mode
+  private final RunFlywheelCommand runFlywheelCommand;
+  private final StopFlywheelCommand stopFlywheelCommand;
 
-  //--Tower coommands
+  //--Tower commands
   private final RunTowerCommand runTowerCommand;
   private final StopTowerCommand stopTowerCommand;
 
@@ -231,8 +234,9 @@ public class RobotContainer {
     //control
     toggleManualCommand = new ToggleManualCommand();
 
-    //drive
+    //drive (NOTE: This is where we bind the driver controls to the drivetrain)
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
+  
     
     //hopper
     runHopperCommand = new RunHopperCommand(hopperSubsystem);
@@ -252,7 +256,8 @@ public class RobotContainer {
 
     //shooter
     runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.3);
-    manualFlywheelCommand = new ManualFlywheelCommand(shooterSubsystem);
+    runFlywheelCommand = new RunFlywheelCommand(shooterSubsystem);
+    stopFlywheelCommand = new StopFlywheelCommand(shooterSubsystem);
 
     //tower
     runTowerCommand = new RunTowerCommand(towerSubsystem);
@@ -291,7 +296,7 @@ public class RobotContainer {
     if (usingGamecube) {  //If we're using the gamecube controller
 
       //---- BUTTONS AND TRIGGERS (DRIVE) ----\\
-
+      //NOTE: Drive controls are defined in the DriveCommand constructor
 
       //--Buttons and Triggers
 
@@ -346,10 +351,10 @@ public class RobotContainer {
       //manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       //manual tower spinning
-      manualTowerEndgame.whenActive(runTowerCommand);
+      manualTowerEndgame.whenActive(runTowerCommand).whenInactive(stopTowerCommand);
       //manual flywheel spinning
-      manualFlywheelButton.whenActive(manualFlywheelCommand);
-
+      manualFlywheelButton.whenActive(runFlywheelCommand).whenInactive(stopFlywheelCommand);
+      //manual 
     } else {  //If we're using the Xbox controller
 
       //--Buttons and triggers

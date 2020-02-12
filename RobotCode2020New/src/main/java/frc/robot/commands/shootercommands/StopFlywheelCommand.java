@@ -14,11 +14,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class ManualFlywheelCommand extends CommandBase {
+public class StopFlywheelCommand extends CommandBase {
 
     //-------- CONSTANTS --------\\
-
-    private final double SPEED = 0.25;
 
     //-------- DECLARATIONS --------\\
 
@@ -26,7 +24,7 @@ public class ManualFlywheelCommand extends CommandBase {
 
     //-------- CONSTRUCTOR --------\\
 
-    public ManualFlywheelCommand(ShooterSubsystem shooterSubsystem) {
+    public StopFlywheelCommand(ShooterSubsystem shooterSubsystem) {
         m_ShooterSubsystem = shooterSubsystem;
         addRequirements(m_ShooterSubsystem);
     }
@@ -36,7 +34,7 @@ public class ManualFlywheelCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_ShooterSubsystem.setSpeed(SPEED);
+        m_ShooterSubsystem.setSpeed(0.0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -54,4 +52,4 @@ public class ManualFlywheelCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-} // end of class ManualFlywheelCommand
+} // end of class StopFlywheelCommand
