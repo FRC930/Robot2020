@@ -160,7 +160,7 @@ public class RobotContainer {
   //TODO: Add LED commands here
 
   //--Shooter commands
-  //private final RunDefaultShooter runDefaultShooter;
+  private final RunDefaultShooter runDefaultShooter;
   private final RunShooterCommand runShooterCommand;
 
   //--Tower coommands
@@ -228,7 +228,7 @@ public class RobotContainer {
     //TODO: Add LED commands here
 
     //shooter
-    //runDefaultShooter = new RunDefaultShooter(shooterSubsystem, 0.3);
+    runDefaultShooter = new RunDefaultShooter(shooterSubsystem, 0.3);
     runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.8);
 
     //tower
@@ -287,11 +287,17 @@ public class RobotContainer {
 
       //--Buttons and triggers
       AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
-      JoystickButton shoot = new JoystickButton(driverController, 1);
+      JoystickButton shootA = new JoystickButton(driverController, 1);
+      JoystickButton shootX = new JoystickButton(driverController, 3);
+      JoystickButton shootY = new JoystickButton(driverController, 4);
+      JoystickButton shooterStop = new JoystickButton(driverController, 2);
       //--Command binds
 
       //shootButton.whenActive(new RunShooterCommand(shooterSubsystem, 0.8));
-      shoot.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
+      shootY.whenPressed(new RunShooterCommand(shooterSubsystem, 0.9));
+      shootX.whenPressed(new RunShooterCommand(shooterSubsystem, 0.7));
+      shootA.whenPressed(new RunShooterVelocityCommand(shooterSubsystem, 12));
+      shooterStop.whenPressed(new StopShooterCommand(shooterSubsystem));
     } //end of if statement usingGamecube
     
   } // end of method configureDriverBindings()
@@ -317,7 +323,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
     scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
-    //scheduler.setDefaultCommand(shooterSubsystem, runDefaultShooter);
+    scheduler.setDefaultCommand(shooterSubsystem, runDefaultShooter);
 
   } // end of method beginRunCommands()
 
@@ -328,7 +334,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //TODO: Get shuffleboard data, use switch case to select the path selected
-    return runShooterCommand;
+    return null; // runShooterCommand;
     // Run path following command, then stop at the end.
   }
 
