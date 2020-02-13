@@ -39,8 +39,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private final int LEAD_MOTOR_ID = 7;
     private final int SLAVE_MOTOR_ID = 8;
 
-    private final double SLOPE = 0.064285714;
-    private final double Y_INTERCEPT = -0.1392857;
+    private final double SLOPE = 0.06;
+    private final double Y_INTERCEPT = -0.05;
 
     // -------- DECLARATIONS --------\\
 
