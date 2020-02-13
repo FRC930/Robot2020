@@ -25,15 +25,28 @@ import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
+import frc.robot.commands.intakecommands.*;
+import frc.robot.subsystems.*;
 
 import java.util.List;
 public class AutonomousCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem m_drive;
-  public AutonomousCommand(DriveSubsystem subsystem) {
-    m_drive = subsystem;
+  DriveSubsystem drive;
+
+  IntakeCommand intakeCommand;
+  IntakeStopCommand intakeStopCommand;
+
+  IntakeMotorSubsystem intakeMotor;
+  IntakePistonSubsystem intakePiston;
+
+  public AutonomousCommand(DriveSubsystem dSubsystem, IntakeMotorSubsystem iMSubsystem, IntakePistonSubsystem iPSubsystem) {
+    drive = dSubsystem;
+    intakeMotor = iMSubsystem;
+    intakePiston = iPSubsystem;
+    intakeCommand = new IntakeCommand(intakePiston, intakeMotor);
+    intakeStopCommand = new IntakeStopCommand(intakePiston, intakeMotor);
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -61,18 +74,18 @@ public class AutonomousCommand extends SequentialCommandGroup {
         
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        m_drive::getPose,
+        drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+        drive::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        drive::tankDriveVolts,
+        drive
     );
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
@@ -85,19 +98,19 @@ public class AutonomousCommand extends SequentialCommandGroup {
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        m_drive::getPose,
+        drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+        drive::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        drive::tankDriveVolts,
+        drive
     );
-    addCommands(ramseteCommand1/*,new WaitCommand(5), ramseteCommand2*/);
+    addCommands(/*ramseteCommand1,*/intakeCommand,new WaitCommand(5), intakeStopCommand/*ramseteCommand2*/);
   }
 }

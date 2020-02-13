@@ -131,7 +131,7 @@ public class RobotContainer {
   //-------- COMMANDS --------\\
 
   //--Auton commands
-  private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
+  private final AutonomousCommand autonomousCommand;
   
   //--Color wheel commands
   //TODO: Add color commands here
@@ -194,7 +194,7 @@ public class RobotContainer {
     //--Commands
 
     //auto
-    southBySouthWestSkilletCommand = new SouthBySouthWestSkilletCommand(driveSubsystem);
+    autonomousCommand = new AutonomousCommand(driveSubsystem,intakeMotors,intakePistons);
 
     //colorwheel
     //TODO: Add color wheel commmands down here
@@ -303,7 +303,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return southBySouthWestSkilletCommand;
+    return autonomousCommand;
     // Run path following command, then stop at the end.
   }
 
