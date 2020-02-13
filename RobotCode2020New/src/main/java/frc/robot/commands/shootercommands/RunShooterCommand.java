@@ -8,7 +8,10 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
 public class RunShooterCommand extends CommandBase {
@@ -18,20 +21,21 @@ public class RunShooterCommand extends CommandBase {
 
   public RunShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
   {
-      m_ShooterSubsystem = shooterSubsystem;
-      addRequirements(m_ShooterSubsystem);
+    m_ShooterSubsystem = shooterSubsystem;
+    addRequirements(m_ShooterSubsystem);
 
-      m_Speed = speed;
+    m_Speed = speed;
   }
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() 
+  {
+    m_ShooterSubsystem.setSpeed(m_Speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterSubsystem.setSpeed(m_Speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +46,10 @@ public class RunShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return isAtSpeed();
+  }
+
+  private boolean isAtSpeed() {
+    return this.m_ShooterSubsystem.getSpeed() < this.m_Speed * 5880 + 50 || this.m_ShooterSubsystem.getSpeed() > this.m_Speed * 5880 - 50;
   }
 }

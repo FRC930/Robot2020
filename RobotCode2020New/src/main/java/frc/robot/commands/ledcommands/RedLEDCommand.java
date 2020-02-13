@@ -25,10 +25,6 @@ public class RedLEDCommand extends CommandBase {
     private AddressableLED m_leds;
     private AddressableLEDBuffer m_ledsBuffer;
 
-    static private int flashType;
-
-    private int counter;
-
     public RedLEDCommand(LEDSubsystem ledSubsystem)
     {
         m_ledSubsystem = ledSubsystem;
@@ -37,29 +33,23 @@ public class RedLEDCommand extends CommandBase {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() 
-    {
+    public void initialize() {
         m_ledSubsystem.setLEDs(255, 0, 0);
-        counter = 0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() 
-    {
-        counter++;
+    public void execute() {
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) 
-    {
-        
+    public void end(boolean interrupted) {     
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return counter > 200;
+        return true;
     }
 }

@@ -1,46 +1,50 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.shootercommands;
+//-------- IMPORTS --------\\
 
-import frc.robot.subsystems.ShooterSubsystem;
+package frc.robot.commands.kickercommands;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * An example command that uses an example subsystem.
- */
-public class StopShooter extends CommandBase {
-    private ShooterSubsystem m_ShooterSubsystem;
+import frc.robot.subsystems.KickerSubsystem;
+import frc.robot.Constants;
+ 
+//-------- COMMAND CLASS --------\\
 
-    public StopShooter(ShooterSubsystem shooterSubsystem) 
-    {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
+public class RunKickerCommand extends CommandBase {
+
+    //-------- DECLARATIONS --------\\
+
+    private KickerSubsystem kickerSubsystem;
+    
+    //-------- CONSTRUCTOR --------\\
+
+    public RunKickerCommand(KickerSubsystem kSubsystem){
+        kickerSubsystem = kSubsystem;
+        addRequirements(kickerSubsystem);
     }
 
+    //-------- METHODS --------\\
+    
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() 
-    {
-
+    public void initialize() {
+        kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() 
-    {
-        m_ShooterSubsystem.stop();
+    public void execute() {
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) 
-    {
-
+    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.
@@ -48,4 +52,4 @@ public class StopShooter extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-}
+} // end of class RunKickerCommand

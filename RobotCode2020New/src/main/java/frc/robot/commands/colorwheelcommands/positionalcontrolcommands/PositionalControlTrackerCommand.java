@@ -49,9 +49,9 @@ public class PositionalControlTrackerCommand extends CommandBase {
     private Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
     // Color from Shuffleboard
     private ShuffleboardTab tab = Shuffleboard.getTab("Driver Station");
-    private NetworkTableEntry fmsColor = tab.add("FMS Color", "Blue").getEntry();
 
     //-------- CONSTRUCTOR --------\\
+
     public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
       m_subsystem = subsystem;
       // Use addRequirements() here to declare subsystem dependencies.

@@ -1,3 +1,12 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+//-------- IMPORTS --------\\
+
 package frc.robot.utilities;
 
 /**
@@ -24,10 +33,16 @@ public class ShooterMath {
     private ShotType shotType;
 
     public ShooterMath() {
-        velocity = 0.0;
-        angle = 0.0;
-        distance = 0.0;
-        shotType = ShotType.NONE;
+        this(0, 0);
+    }
+
+    public ShooterMath(double angle, double distance) {
+        this.velocity = 0.0;
+        this.angle = 0.0;
+        this.distance = 0.0;
+        this.shotType = ShotType.NONE;
+
+        setPosition(this.angle, this.distance);
     }
 
     /**

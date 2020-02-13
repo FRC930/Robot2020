@@ -19,44 +19,30 @@ import java.util.logging.*;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    
-    // AUTO code values---------------------------------------[
-    
-    // AUTO code values---------------------------------------]
 
-    // JOYSTICK Controller Values-----------------------------[
-        public static final int DRIVER_CONTROLLER_ID = 0;
-        public static final int CODRIVER_CONTROLLER_ID = 1;
-    
-        public static final int DRIVE_BUTTON_A = 3;
-        public static final int DRIVE_BUTTON_B = 2;
-        public static final int DRIVE_BUTTON_X = 4;
-        public static final int DRIVE_BUTTON_Y = 1;
-        public static final int DRIVE_BUTTON_LB = 5;
-        public static final int DRIVE_BUTTON_RB = 6;
-        public static final int DRIVE_BUTTON_BACK = 9;
-        public static final int DRIVE_BUTTON_START = 10;
-        public static final int DRIVE_BUTTON_LEFT_STICK = 11;
-        public static final int DRIVE_BUTTON_RIGHT_STICK = 12;
-    
-        public static final int DRIVE_AXIS_LEFT_X = 0;
-        public static final int DRIVE_AXIS_LEFT_Y = 1;
-        public static final int DRIVE_AXIS_RIGHT_X = 2;
-        public static final int DRIVE_AXIS_RIGHT_Y = 3;
-        
-        public static final int DRIVE_AXIS_LT = 7;
-        public static final int DRIVE_AXIS_RT = 8;
+    //[-------------------MOTOR IDS--------------------------]
 
-        public static final int CODRIVE_BUTTON_A = 1;
-        public static final int CODRIVE_BUTTON_B = 2;
-        public static final int CODRIVE_BUTTON_X = 3;
-        public static final int CODRIVE_BUTTON_Y = 4;
-        public static final int CODRIVE_BUTTON_LB = 5;
-        public static final int CODRIVE_BUTTON_RB = 6;
-        public static final int CODRIVE_BUTTON_BACK = 7;
-        public static final int CODRIVE_BUTTON_START = 8;
-        public static final int CODRIVE_BUTTON_LEFT_STICK = 9;
-        public static final int CODRIVE_BUTTON_RIGHT_STICK = 10;
+    public static final int DRIVE_RIGHT_FRONT_ID = 1;
+    public static final int DRIVE_RIGHT_BACK_ID = 2;
+    public static final int DRIVE_LEFT_FRONT_ID = 3;
+    public static final int DRIVE_LEFT_BACK_ID = 4;
+
+    public static final int TURRET_ID = 5;
+    public static final int INTAKE_ID = 6;
+
+    public static final int SHOOTER_LEAD_ID = 7;
+    public static final int SHOOTER_SLAVE_ID = 8;
+
+    public static final int HOPPER_ID = 9;
+    public static final int TOWER_ID = 10;
+    public static final int KICKER_ID = 11;
+
+    //[-------------------MOTOR IDS--------------------------]
+
+    //[-------------------PISTON IDS-------------------------]
+
+    public static final int INTAKE_LEFT_ID = 0;
+    public static final int INTAKE_RIGHT_ID = 1;
     
         public static final int CODRIVE_AXIS_LEFT_X = 0;
         public static final int CODRIVE_AXIS_LEFT_Y = 1;
@@ -70,11 +56,36 @@ public final class Constants {
         // JOYSTICK Controller Values-----------------------------]
         
         // DRIVETRAIN Constants --------------------------------]
+    //[-------------------PISTON IDS-------------------------]
+
+    //[-------------------DRIVE------------------------]
+
+    public static final double MOTOR_RAMP_RATE = 0.5;
+
+    //[-------------------DRIVE------------------------]
+
+    //[-------------------SPEEDS--------------------------]
+
+    public static final double HOPPER_DEFAULT_SPEED = 0.2;
+    public static final double HOPPER_SHOOTING_SPEED = 0.75;
+    public static final double TOWER_SPEED = 0.75;
+    public static final double KICKER_SPEED = 1.0;
+    public static final double INTAKE_SPEED = 0.8;
+
+    //[-------------------SPEEDS--------------------------]
+
+    //[-------------------STATES--------------------------]
+
+    public static final boolean INTAKE_PISTONS_UP = false; 
+    public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP; 
     
+    //[-------------------STATES--------------------------]
+
     //[--------------------AUTO--------------------------]
-    public static final double KSVOLTS = 0.662;
-    public static final double KVVOLT = 0.106; // seconds per meter
-    public static final double KAVOLT = 0.00882; //this is in seconds squared per meter
+
+    public static final double KSVOLTS = 0.22;
+    public static final double KVVOLT = 0.289; // seconds per meter
+    public static final double KAVOLT = 0.06; //this is in seconds squared per meter
     public static final double KMAXSPEED = 1; //in meters per second
     public static final double KMAXACCELERATION = 3; //in meters per seconds squared
     //gyro values
@@ -86,13 +97,6 @@ public final class Constants {
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
 
     //[-------------------AUTO--------------------------]
-        
-    //[------------------DRIVETRAIN---------------------]
-    
-    public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
-    public static final double DRIVE_TURNING_MULTIPLIER = 0.73;
-        
-    //[------------------DRIVETRAIN---------------------]
   
     //[--------------------UTILITIES--------------------]
 
