@@ -12,10 +12,11 @@ package frc.robot.subsystems;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import frc.robot.utilities.FIFOStack;
+import frc.robot.utilities.SmootherStack;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -103,6 +104,7 @@ public class LimelightSubsystem extends SubsystemBase {
         //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
+        SmartDashboard.putNumber("horizontal offset", horizontalOffset);
 
         logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
         logger.exiting(getClass().getName(), "getHorizontalOffset()");
@@ -134,7 +136,7 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getDistance()");
 
         return distanceAndError;
-    } // end of method getDistance()
+    }
 
     // whether the limelight sees a target or not :)
     public boolean getValidTargets() {
@@ -147,7 +149,7 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getValidTargets()");
 
         return validTarget;
-    } // end of method getValidTargets()
+    }
 
     // this returns the verticle offset between the limelights crosshair and the target crosshair :)
     public double getVerticleOffset() {
@@ -160,7 +162,7 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getVerticleOffset()");
 
         return verticleOffset;
-    } // end of method getVerticleOffset()
+    }
 
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
@@ -172,11 +174,16 @@ public class LimelightSubsystem extends SubsystemBase {
 
         logger.log(Level.FINE, "Pipeline: " + pipeline);
         logger.exiting(getClass().getName(), "setPipeline()");
-    } // end of method setPipeline()
+    }
 
     @Override
     public void periodic() {    
+
         limelightTable.getEntry("tx").getDouble(989);
+        SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
+        SmartDashboard.putNumber("verical offset", getVerticleOffset());
+        SmartDashboard.putNumber("distance", getDistance());
+
     }
 
 } // end of class LimelightSubsystem

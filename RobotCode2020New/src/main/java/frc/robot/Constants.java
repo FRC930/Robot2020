@@ -17,16 +17,55 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    
-    //[-------------------PORTS--------------------------]
 
-    //[-------------------HOPPER--------------------------]
+    //[-------------------MOTOR IDS--------------------------]
+
+    public static final int DRIVE_RIGHT_FRONT_ID = 1;
+    public static final int DRIVE_RIGHT_BACK_ID = 2;
+    public static final int DRIVE_LEFT_FRONT_ID = 3;
+    public static final int DRIVE_LEFT_BACK_ID = 4;
+
+    public static final int TURRET_ID = 5;
+    public static final int INTAKE_ID = 6;
+
+    public static final int SHOOTER_LEAD_ID = 7;
+    public static final int SHOOTER_SLAVE_ID = 8;
+
+    public static final int HOPPER_ID = 9;
+    public static final int TOWER_ID = 10;
+    public static final int KICKER_ID = 11;
+
+    //[-------------------MOTOR IDS--------------------------]
+
+    //[-------------------PISTON IDS-------------------------]
+
+    public static final int INTAKE_LEFT_ID = 0;
+    public static final int INTAKE_RIGHT_ID = 1;
+    
+    //[-------------------PISTON IDS-------------------------]
+
+    //[-------------------DRIVE------------------------]
+
+    public static final double MOTOR_RAMP_RATE = 0.5;
+
+    //[-------------------DRIVE------------------------]
+
+    //[-------------------SPEEDS--------------------------]
 
     public static final double HOPPER_DEFAULT_SPEED = 0.2;
-    public static final double HOPPER_SHOOTING_SPEED = 0.8;
+    public static final double HOPPER_SHOOTING_SPEED = 0.75;
     public static final double TOWER_SPEED = 0.75;
+    public static final double KICKER_SPEED = 1.0;
+    public static final double INTAKE_SPEED = 0.8;
 
-    //[-------------------HOPPER--------------------------]
+    //[-------------------SPEEDS--------------------------]
+
+    //[-------------------STATES--------------------------]
+
+    public static final boolean INTAKE_PISTONS_UP = false; 
+    public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP; 
+    
+    //[-------------------STATES--------------------------]
 
     //[--------------------AUTO--------------------------]
     public static final double KSVOLTS = 0.073;//0.22;//0.22

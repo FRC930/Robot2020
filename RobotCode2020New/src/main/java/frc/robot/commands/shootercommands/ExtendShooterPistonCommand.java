@@ -8,18 +8,17 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj.SolenoidBase;
-import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.subsystems.ShooterAngleSubsystem;
+import frc.robot.subsystems.ShooterAngleSubsystem.SolenoidValues;
 
-public class MoveShooterCommand extends CommandBase {
+public class ExtendShooterPistonCommand extends CommandBase {
 
-
-    public boolean get(boolean isSolenoidOn) {
-        return isSolenoidOn ;
-    }
+    private ShooterAngleSubsystem m_ShooterAngleSubsystem;
     
-          
+    public ExtendShooterPistonCommand(ShooterAngleSubsystem ShooterAngleSubsystem){
+        m_ShooterAngleSubsystem = ShooterAngleSubsystem;
+        addRequirements(m_ShooterAngleSubsystem);
+    }
     // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -28,6 +27,7 @@ public class MoveShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_ShooterAngleSubsystem.set(SolenoidValues.EXTEND);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,4 +40,4 @@ public class MoveShooterCommand extends CommandBase {
    public boolean isFinished() {
      return true;
    }
-}//End of class
+}//End of class ExtendShooterPistonCommand

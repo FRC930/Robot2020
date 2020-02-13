@@ -1,43 +1,43 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
+//-------- IMPORTS --------\\
+
+package frc.robot.commands.kickercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ColorSensorSubsystem;
-import frc.robot.commands.colorwheelcommands.GetColorCommand;
-//import java.util.logging.*;
+import frc.robot.subsystems.KickerSubsystem;
 
-public class PositionalControlTrackerCommand extends CommandBase {
+//-------- COMMAND CLASS --------\\
 
-    //-------- CONSTANTS --------\\
+public class StopKickerCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
-    private GetColorCommand getColorCommand;
-    private final ColorSensorSubsystem m_subsystem;
+    private KickerSubsystem kickerSubsystem;
 
     //-------- CONSTRUCTOR --------\\
 
-    public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
-        m_subsystem = subsystem;
-        // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+    public StopKickerCommand(KickerSubsystem kSubsystem) {
+        kickerSubsystem = kSubsystem;
+        addRequirements(kickerSubsystem);
     }
 
     //-------- METHODS --------\\
 
+    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        kickerSubsystem.stopMotor();
     }
 
+    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        getColorCommand.rotationalTrackerCounter();
     }
 
     // Called once the command ends or is interrupted.
@@ -48,6 +48,6 @@ public class PositionalControlTrackerCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
-}
+} // end of class StopKickerCommand

@@ -24,10 +24,16 @@ public class ShooterMath {
     private ShotType shotType;
 
     public ShooterMath() {
-        velocity = 0.0;
-        angle = 0.0;
-        distance = 0.0;
-        shotType = ShotType.NONE;
+        this(0, 0);
+    }
+
+    public ShooterMath(double angle, double distance) {
+        this.velocity = 0.0;
+        this.angle = 0.0;
+        this.distance = 0.0;
+        this.shotType = ShotType.NONE;
+
+        setPosition(this.angle, this.distance);
     }
 
     /**

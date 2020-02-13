@@ -35,8 +35,8 @@ public class AutonomousCommand extends SequentialCommandGroup {
    */
   DriveSubsystem drive;
 
-  IntakeCommand intakeCommand;
-  IntakeStopCommand intakeStopCommand;
+  DeployIntakeCommand deployIntakeCommand;
+  ReturnIntakeCommand returnIntakeCommand;
 
   IntakeMotorSubsystem intakeMotor;
   IntakePistonSubsystem intakePiston;
@@ -45,8 +45,8 @@ public class AutonomousCommand extends SequentialCommandGroup {
     drive = dSubsystem;
     intakeMotor = iMSubsystem;
     intakePiston = iPSubsystem;
-    intakeCommand = new IntakeCommand(intakePiston, intakeMotor);
-    intakeStopCommand = new IntakeStopCommand(intakePiston, intakeMotor);
+    deployIntakeCommand = new DeployIntakeCommand(intakePiston, intakeMotor);
+    returnIntakeCommand = new ReturnIntakeCommand(intakePiston, intakeMotor);
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -111,6 +111,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
         drive::tankDriveVolts,
         drive
     );
-    addCommands(/*ramseteCommand1,*/intakeCommand,new WaitCommand(5), intakeStopCommand/*ramseteCommand2*/);
+    addCommands(/*ramseteCommand1,*/deployIntakeCommand,new WaitCommand(5), returnIntakeCommand/*ramseteCommand2*/);
   }
 }

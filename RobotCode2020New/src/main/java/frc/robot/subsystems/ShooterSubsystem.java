@@ -9,6 +9,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final double PID_FF = 0.0002;
 
     private final int LEAD_MOTOR_ID = 7;
-    private final int SLAVE_MOTOR_ID = 9;
+    private final int SLAVE_MOTOR_ID = 8;
 
     //-------- DECLARATIONS --------\\
 
@@ -54,16 +56,15 @@ public class ShooterSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
     
     public ShooterSubsystem() {
-        this.motorLead = new CANSparkMax(LEAD_MOTOR_ID, MotorType.kBrushless);
-        this.motor2 = new CANSparkMax(SLAVE_MOTOR_ID, MotorType.kBrushless);
+        this.motorLead = new CANSparkMax(Constants.SHOOTER_LEAD_ID, MotorType.kBrushless);
+        this.motor2 = new CANSparkMax(Constants.SHOOTER_SLAVE_ID, MotorType.kBrushless);
         
         this.pidcontroller = motorLead.getPIDController();
-        this.pidcontroller.setFF(PID_FF);
+        //this.pidcontroller.setFF(PID_FF);
         this.pidcontroller.setOutputRange(0, 1);
         this.pidcontroller.setP(PID_P);
         //this.pidcontroller.setD(PID_D);
-
-        motor2.follow(motorLead);
+        motor2.follow(motorLead, true);
         
         //solenoid = new Solenoid(0);
         
@@ -73,7 +74,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //-------- METHODS --------\\
 
     public void setSpeed(double speed) {
-        logger.entering(getClass().getName(), "setSpeed()");
+        logger.entering(this.getClass().getName(), "setSpeed()");
 
         if(speed <= 1.0 && speed >= 0.0) {
             // Set the speed in percent output * the max RPM of the NEO.
@@ -104,6 +105,11 @@ public class ShooterSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getAngle()");
         //return solenoid.get();
         return true;
+    }
+
+    public double getSpeed()
+    {
+        return motorLead.getEncoder().getVelocity();
     }
 
     @Override

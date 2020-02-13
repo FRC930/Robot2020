@@ -34,6 +34,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
+import frc.robot.Constants;
+
 public class DriveSubsystem extends SubsystemBase {
 
   // -------- CONSTANTS --------\\
@@ -63,7 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
   // -------- CONSTRUCTOR --------\\
 
   public DriveSubsystem() {
-    gyroTalon = new TalonSRX(6);
+    gyroTalon = new TalonSRX(Constants.INTAKE_ID);
     gyro = new PigeonIMU(gyroTalon);
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     logger = Logger.getLogger(DriveSubsystem.class.getName());
@@ -74,20 +76,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   // -------- METHODS --------\\
   private void setDriveMotors() {
-    right1 = new TalonFXSpeedController(1);
-    right2 = new TalonFXSpeedController(2);
-    left1 = new TalonFXSpeedController(3);
-    left2 = new TalonFXSpeedController(4);
+
+    right1 = new TalonFXSpeedController(Constants.DRIVE_RIGHT_FRONT_ID);
+    right2 = new TalonFXSpeedController(Constants.DRIVE_RIGHT_BACK_ID);
+    left1 = new TalonFXSpeedController(Constants.DRIVE_LEFT_FRONT_ID);
+    left2 = new TalonFXSpeedController(Constants.DRIVE_LEFT_BACK_ID);
+
     // Mirror primary motor controllers on each side
     left2.follow(left1);
     // left3.follow(left1);
     right2.follow(right1);
-    left1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    right1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    // right3.follow(right1);
-    left1.configOpenloopRamp(0.5);
-    right1.configOpenloopRamp(0.5);
-    left1.resetEncoders(right1, left1);
+
+    //Sets the ramp rate of the robot, this will need to be configued
+    left1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
+    right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
+
+    //Sets up the differntial drive
     drive = new DifferentialDrive(right1, left1);
   }
 

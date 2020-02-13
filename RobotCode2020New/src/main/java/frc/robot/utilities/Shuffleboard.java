@@ -5,10 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.utilities;
 
 public class Shuffleboard {
-   
+
+
     
-} //end of class 
+} //end of class Shuffleboard
     

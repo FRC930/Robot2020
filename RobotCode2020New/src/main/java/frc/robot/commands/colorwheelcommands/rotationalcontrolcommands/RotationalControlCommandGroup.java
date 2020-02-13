@@ -11,6 +11,7 @@ package frc.robot.commands.colorwheelcommands.rotationalcontrolcommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 
+import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.subsystems.ColorWheelSpinnerSubsystem;
 
 //-------- COMMAND CLASS --------\\
@@ -26,7 +27,7 @@ public class RotationalControlCommandGroup extends ParallelRaceGroup {
             // Tracks how many times the color has changed. 24 color changes = 3 rotations of the color wheel
             new RotationalControlTrackerCommand(),
             // Spins the color wheel with a motor
-            new RotationalControlSpinnerCommand(colorWheelSpinner));
+            new ColorWheelSpinnerCommand(colorWheelSpinner));
     }
 
 } // end of class RotationalControlCommandGroup
