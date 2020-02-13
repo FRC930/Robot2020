@@ -82,7 +82,7 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
             // No waypoints
         ),
         // End at location of first trench run ball, facing rendezvous balls
-        new Pose2d(inchesToMeters(36.0), inchesToMeters(-12.0), new Rotation2d(Math.toRadians(270))),
+        new Pose2d(inchesToMeters(48.0), inchesToMeters(-12.0), new Rotation2d(Math.toRadians(270))),
         // Pass config
         config
     );
