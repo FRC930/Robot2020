@@ -16,8 +16,14 @@ import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -27,19 +33,25 @@ public class TurretSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final int ENCODER_ROTATION_LIMIT = 1500;
+    private final double ENCODER_ROTATION_LIMIT = 0.2639;
 
     //-------- DECLARATIONS --------\\
 
     private Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
     // The motor controller that will control the turret
     private TalonSRX turretMotor;
+    // private CANSparkMax turretMotor;
+    // private CANEncoder turretEncoder;
+     //private DutyCycleEncoder encoder;
     
     //-------- CONSTRUCTOR --------\\
     
     public TurretSubsystem() {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
-        this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        //this.turretEncoder = this.turretMotor.getEncoder();
+        //this.encoder = new DutyCycleEncoder(0);
+        //this.encoder.reset();
+        this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
         this.turretMotor.setSelectedSensorPosition(0);
         this.logger.log(Level.INFO, "Starting TurretSubsystem");
     }
@@ -47,9 +59,12 @@ public class TurretSubsystem extends SubsystemBase {
     //-------- METHODS --------\\
 
     public void setSpeed(double speed) {
-        speed = -speed;
+        //speed = -speed;
         // TODO: Figure out the position needed for 380° of rotation
-        if (speed < 0) {
+
+        // 0.25/180 = x/190
+
+        /*if (speed < 0) {
             if (this.turretMotor.getSelectedSensorPosition() > ENCODER_ROTATION_LIMIT) {   
                 speed = 0;
             }
@@ -57,7 +72,11 @@ public class TurretSubsystem extends SubsystemBase {
             if (this.turretMotor.getSelectedSensorPosition() < -ENCODER_ROTATION_LIMIT) { 
                 speed = 0;
             }
-        }
+        }*/
+
+        /*if(Math.abs(this.turretMotor.getSelectedSensorPosition()) > ENCODER_ROTATION_LIMIT) {
+            speed = 0;
+        }*/
 
         SmartDashboard.putNumber("Turret Encoder value", getEncoderPosition());
 
@@ -69,8 +88,8 @@ public class TurretSubsystem extends SubsystemBase {
         return turretMotor.getMotorOutputPercent();
     }
 
-    public int getEncoderPosition() {
-        return this.turretMotor.getSelectedSensorPosition();
+    public double getEncoderPosition() {
+        return this.turretMotor.getSelectedSensorPosition();//this.encoder.get();
     }
     
 } // end of class TurretSubsystem

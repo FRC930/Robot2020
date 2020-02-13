@@ -191,6 +191,7 @@ public class RobotContainer {
 
   //--Turret commands
   private final AimTurretCommand aimTurretCommand;
+  private final AutoAimTurretCommand autoAimTurretCommand;
   private final JoystickTurret joystickTurret;
   
   //-------- CONSTRUCTOR ---------\\
@@ -265,7 +266,7 @@ public class RobotContainer {
 
     //turret
     aimTurretCommand = new AimTurretCommand(turretSubsystem);   
-
+    autoAimTurretCommand = new AutoAimTurretCommand(limelightSubsystem, turretSubsystem);
     joystickTurret = new JoystickTurret(turretSubsystem, coDriverController);
 
     //--Bindings
@@ -389,7 +390,7 @@ public class RobotContainer {
     //scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
-    scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
+    scheduler.setDefaultCommand(turretSubsystem, autoAimTurretCommand);
     scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
 
   } // end of method beginRunCommands()
