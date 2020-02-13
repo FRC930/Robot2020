@@ -15,42 +15,46 @@ import edu.wpi.first.wpilibj.Solenoid;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import frc.robot.Constants;
+
 //-------- SUBSYSTEM CLASS --------\\
 
 public class IntakePistonSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final int LEFT_PISTON_ID = 0;
-    private final int RIGHT_PISTON_ID = 1;
-
-    public static final boolean INTAKE_PISTONS_UP = false; 
-    public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP; 
+    private final Logger logger = Logger.getLogger(IntakePistonSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
-
-    private final Logger logger = Logger.getLogger (IntakePistonSubsystem.class.getName());
 
     private Solenoid intakePistonRight;
     private Solenoid intakePistonLeft;
    
     //-------- CONSTRUCTOR --------\\
 
-    public IntakePistonSubsystem(){
-        intakePistonRight = new Solenoid(RIGHT_PISTON_ID);
-        intakePistonLeft = new Solenoid(LEFT_PISTON_ID);
+    public IntakePistonSubsystem() {
+        intakePistonRight = new Solenoid(Constants.INTAKE_RIGHT_ID);
+        intakePistonLeft = new Solenoid(Constants.INTAKE_LEFT_ID);
     }
 
     //-------- METHODS --------\\
     
-    public void setIntakePiston(boolean state) {
+    public void setIntakePistonState(boolean state) {
         intakePistonLeft.set(state);
         intakePistonRight.set(state);
-        logger.log(Level.FINE,"setIntakePiston");
+        
+        logger.log(Level.FINE,"setIntakePistonState: " + state);
+    }
+
+    public boolean getIntakePistonState() {
+        logger.log(Level.FINE,"getIntakePistonState: " + (intakePistonLeft.get() && intakePistonRight.get()));
+
+        return (intakePistonLeft.get() && intakePistonRight.get());
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
     }
+    
 } // end of class IntakePistonSubsystem

@@ -16,6 +16,7 @@ import frc.robot.utilities.SmootherStack;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -103,6 +104,7 @@ public class LimelightSubsystem extends SubsystemBase {
         //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
+        SmartDashboard.putNumber("horizontal offset", horizontalOffset);
 
         logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
         logger.exiting(getClass().getName(), "getHorizontalOffset()");
@@ -178,6 +180,9 @@ public class LimelightSubsystem extends SubsystemBase {
     public void periodic() {    
 
         limelightTable.getEntry("tx").getDouble(989);
+        SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
+        SmartDashboard.putNumber("verical offset", getVerticleOffset());
+        SmartDashboard.putNumber("distance", getDistance());
 
     }
 

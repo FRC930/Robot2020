@@ -32,6 +32,7 @@ public class JoystickTurret extends CommandBase {
             }
         }*/
         turret.setSpeed(speed);
+        System.out.println("running manual turret");
         //SmartDashboard.putNumber("TurretRotation", turret.getEncoderPosition());
     }
 

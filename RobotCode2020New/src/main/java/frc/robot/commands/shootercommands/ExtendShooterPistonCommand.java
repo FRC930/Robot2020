@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterAngleSubsystem;
 import frc.robot.subsystems.ShooterAngleSubsystem.SolenoidValues;
 
-public class RunExtendShooterPistonCommand extends CommandBase {
+public class ExtendShooterPistonCommand extends CommandBase {
 
     private ShooterAngleSubsystem m_ShooterAngleSubsystem;
     
-    public RunExtendShooterPistonCommand(ShooterAngleSubsystem ShooterAngleSubsystem){
+    public ExtendShooterPistonCommand(ShooterAngleSubsystem ShooterAngleSubsystem){
         m_ShooterAngleSubsystem = ShooterAngleSubsystem;
         addRequirements(m_ShooterAngleSubsystem);
     }
@@ -40,4 +40,4 @@ public class RunExtendShooterPistonCommand extends CommandBase {
    public boolean isFinished() {
      return true;
    }
-}//End of class RunExtendShooterPistonCommand
+}//End of class ExtendShooterPistonCommand

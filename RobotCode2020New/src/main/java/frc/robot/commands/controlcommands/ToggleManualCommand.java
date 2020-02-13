@@ -7,39 +7,36 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.hoppercommands;
+package frc.robot.commands.controlcommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.Constants;
+import static frc.robot.triggers.ManualModeTrigger.IN_MANUAL_MODE;
 
 //-------- COMMAND CLASS --------\\
 
-public class HopperDefaultCommand extends CommandBase {
+public class ToggleManualCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
-
-    private HopperSubsystem m_HopperSubsystem;
-
+    
     //-------- CONSTRUCTOR --------\\
 
-    public HopperDefaultCommand(HopperSubsystem HopperSubsystem) {
-        m_HopperSubsystem = HopperSubsystem;
-        addRequirements(m_HopperSubsystem);
+    public ToggleManualCommand() {
     }
 
-    //-------- METHODS --------\\    
-
+    //-------- METHODS --------\\
+    
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        SmartDashboard.putBoolean("Safety", IN_MANUAL_MODE);
+        IN_MANUAL_MODE = !IN_MANUAL_MODE;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {   
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
+    public void execute() {  
     }
 
     // Called once the command ends or is interrupted.
@@ -50,6 +47,6 @@ public class HopperDefaultCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
-} //end of class HopperDefaultCommand
+} // end of class ToggleManualCommand

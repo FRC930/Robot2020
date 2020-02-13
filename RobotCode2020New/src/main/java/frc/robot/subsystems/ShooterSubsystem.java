@@ -36,6 +36,9 @@ public class ShooterSubsystem extends SubsystemBase {
     //PID Feed-Forward Gain
     private final double PID_FF = 0.0002;
 
+    private final int LEAD_MOTOR_ID = 7;
+    private final int SLAVE_MOTOR_ID = 8;
+
     //-------- DECLARATIONS --------\\
 
     private final Logger logger = Logger.getLogger(ShooterSubsystem.class.getName());
@@ -59,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
         this.pidcontroller = motorLead.getPIDController();
         //this.pidcontroller.setFF(PID_FF);
         this.pidcontroller.setOutputRange(0, 1);
-        //this.pidcontroller.setP(PID_P);
+        this.pidcontroller.setP(PID_P);
         //this.pidcontroller.setD(PID_D);
         motor2.follow(motorLead, true);
         
@@ -76,7 +79,7 @@ public class ShooterSubsystem extends SubsystemBase {
         if(speed <= 1.0 && speed >= 0.0) {
             // Set the speed in percent output * the max RPM of the NEO.
             this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-            motorLead.set(speed);
+            //motorLead.set(speed);
         }
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
@@ -102,6 +105,11 @@ public class ShooterSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getAngle()");
         //return solenoid.get();
         return true;
+    }
+
+    public double getSpeed()
+    {
+        return motorLead.getEncoder().getVelocity();
     }
 
     @Override
