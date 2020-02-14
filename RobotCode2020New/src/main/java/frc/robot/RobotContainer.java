@@ -241,10 +241,10 @@ public class RobotContainer {
     saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand);
     autonomousCommand = new AutonomousCommand(driveSubsystem, gyroSubsystem);
     
+    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem,colorWheelSpinnerSubsystem);
 
     //colorwheel
     //TODO: Add color wheel commmands down here
-    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorWheelSpinnerSubsystem);
     colorWheelSpinnerCommand = new ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem);
 
     //compressor
