@@ -22,8 +22,6 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
@@ -41,35 +39,16 @@ public class DriveSubsystem extends SubsystemBase {
   // -------- CONSTANTS --------\\
 
   // -------- DECLARATIONS --------\\
-  private Encoder rightEncoder;
-  private Encoder leftEncoder;
-  private TalonSRX gyroTalon;
-  private PigeonIMU gyro;
-  private double values[] = new double[3]; // put to other declerations
-  private DifferentialDriveOdometry driveOdometry;
   private TalonFXSpeedController right1;
   private TalonFXSpeedController right2;
   private TalonFXSpeedController left1;
   private TalonFXSpeedController left2;
   private DifferentialDrive drive;
   private Logger logger;
-  private SmartDashboard smartDashboard;
-  // private CANSparkMax left1;
-  // private CANSparkMax left2;
-  // private CANSparkMax left3;
-  // private DifferentialDrive m_drive;
-  // private CANSparkMax right1;
-  // private CANSparkMax right2;
-  // private CANSparkMax right3;
-
   // -------- CONSTRUCTOR --------\\
 
   public DriveSubsystem() {
-    gyroTalon = new TalonSRX(Constants.INTAKE_ID);
-    gyro = new PigeonIMU(gyroTalon);
-    driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     logger = Logger.getLogger(DriveSubsystem.class.getName());
-    zeroHeading();
     logger.setLevel(Level.WARNING); 
     setDriveMotors();
   }
@@ -97,7 +76,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Given Arcade value arguments and sends to motor controllers
   public void runAt(double leftSpeed, double rightSpeed) {
-    gyro.getYawPitchRoll(values);
     logger.entering(this.getClass().getName(), "runAt()");
     
     logger.log(Level.WARNING, "runing " + "left encoder " + left1.getRPMLeft(left1) + "right encoder " + right1.getRPMRight(right1));
@@ -117,30 +95,11 @@ public class DriveSubsystem extends SubsystemBase {
   public double getRightSpeed() {
     return right1.getMotorOutputPercent();
   }
-
-  public Pose2d getPose() {
-  return driveOdometry.getPoseMeters();
-  }
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(left1.getRPMLeft(left1), right1.getRPMRight(right1));
   }
-
-  public double getHeading() {
-    gyro.getYawPitchRoll(values);
-    return Math.IEEEremainder(values[0], 360);
-  }
-  public double getYaw(){
-    gyro.getYawPitchRoll(values);
-    return values[0];
-    }
   public void resetOdometry(Pose2d pose) {
-    driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
-  }
-
-  public void zeroHeading(){
-    gyro.setYaw(0.0);
-    gyro.setYawToCompass();
-    gyro.setFusedHeading(0.0);
+    //driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -175,9 +134,7 @@ public class DriveSubsystem extends SubsystemBase {
     //System.out.println(yaw);
     logger.entering(this.getClass().getName(), "periodic()");
     // This method will be called once per scheduler run
-    driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
-    right1.getRPMRight(right1));
-    logger.log(Level.WARNING, "yaw " + values[0]);
+    //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
     logger.exiting(this.getClass().getName(), "periodic()");
     //System.out.println("RIGHT: " + right1.getRPMRight(right1));
     

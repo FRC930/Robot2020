@@ -34,19 +34,18 @@ public class AutonomousCommand extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
   DriveSubsystem drive;
+  GyroSubsystem gyroSubsystem;
 
   DeployIntakeCommand deployIntakeCommand;
   ReturnIntakeCommand returnIntakeCommand;
 
   IntakeMotorSubsystem intakeMotor;
   IntakePistonSubsystem intakePiston;
+  
 
-  public AutonomousCommand(DriveSubsystem dSubsystem, IntakeMotorSubsystem iMSubsystem, IntakePistonSubsystem iPSubsystem) {
+  public AutonomousCommand(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem) {
     drive = dSubsystem;
-    intakeMotor = iMSubsystem;
-    intakePiston = iPSubsystem;
-    deployIntakeCommand = new DeployIntakeCommand(intakePiston, intakeMotor);
-    returnIntakeCommand = new ReturnIntakeCommand(intakePiston, intakeMotor);
+    gyroSubsystem = gSubsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -68,13 +67,13 @@ public class AutonomousCommand extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 1 meters straight ahead of where we started, facing forward
-        new Pose2d(1, 0, new Rotation2d(0)),
+        new Pose2d(2, 0, new Rotation2d(0)),
         // Pass config
         config);
         
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        drive::getPose,
+        gyroSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -93,12 +92,12 @@ public class AutonomousCommand extends SequentialCommandGroup {
         List.of(),
         //new Translation2d(1, 2)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(2, 0, new Rotation2d(0)),
+        new Pose2d(-2, 0, new Rotation2d(0)),
         // Pass config
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        drive::getPose,
+        gyroSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -111,6 +110,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
         drive::tankDriveVolts,
         drive
     );
-    addCommands(/*ramseteCommand1,*/deployIntakeCommand,new WaitCommand(5), returnIntakeCommand/*ramseteCommand2*/);
+    addCommands(ramseteCommand1, new Spin(drive, gyroSubsystem));
   }
 }

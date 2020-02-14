@@ -21,6 +21,7 @@ public class JoystickTurret extends CommandBase {
 
     @Override
     public void execute() {
+        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         double speed = Math.pow(this.driver.getRawAxis(0), 3);
         /*if (speed < 0) {
             if (turret.getEncoderPosition() > 1500) {

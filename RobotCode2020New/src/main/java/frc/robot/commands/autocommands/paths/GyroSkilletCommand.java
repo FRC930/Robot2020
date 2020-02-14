@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
@@ -31,9 +32,11 @@ public class GyroSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem m_drive;
-  public GyroSkilletCommand(DriveSubsystem subsystem) {
-    m_drive = subsystem;
+  DriveSubsystem driveSubsystem;
+  GyroSubsystem gyroSubsystem;
+  public GyroSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
+    driveSubsystem = dSubsystem;
+    gyroSubsystem = gSubsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -72,18 +75,18 @@ public class GyroSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        m_drive::getPose,
+        gyroSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+        driveSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        driveSubsystem::tankDriveVolts,
+        driveSubsystem
     );
     
     /* 

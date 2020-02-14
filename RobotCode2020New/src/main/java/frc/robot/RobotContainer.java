@@ -155,6 +155,7 @@ public class RobotContainer {
   //-------- COMMANDS --------\\
 
   //--Auton commands
+  private final SaltAndPepperSkillet saltAndPepperSkillet;
   private final AutonomousCommand autonomousCommand;
   
   //--Color wheel commands
@@ -232,9 +233,14 @@ public class RobotContainer {
     turretSubsystem = new TurretSubsystem();
     
     //--Commands
-
+    
+    //intake
+    deployIntakeCommand = new DeployIntakeCommand(intakePistons, intakeMotors);
+    returnIntakeCommand = new ReturnIntakeCommand(intakePistons, intakeMotors);
     //auto
-    autonomousCommand = new AutonomousCommand(driveSubsystem,intakeMotors,intakePistons);
+    saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand);
+    autonomousCommand = new AutonomousCommand(driveSubsystem, gyroSubsystem);
+    
 
     //colorwheel
     //TODO: Add color wheel commmands down here
@@ -256,10 +262,6 @@ public class RobotContainer {
     runHopperCommand = new RunHopperCommand(hopperSubsystem);
     hopperDefaultCommand = new HopperDefaultCommand(hopperSubsystem);
     stopHopperCommand = new StopHopperCommand(hopperSubsystem);
-
-    //intake
-    deployIntakeCommand = new DeployIntakeCommand(intakePistons, intakeMotors);
-    returnIntakeCommand = new ReturnIntakeCommand(intakePistons, intakeMotors);
 
     //kicker
     runKickerCommand = new RunKickerCommand(kickerSubsystem);
@@ -301,6 +303,7 @@ public class RobotContainer {
 
     configureDriverBindings(); 
     configureCodriverBindings();
+    beginRunCommands();
   } //end of method configureButtonBindings()
 
   private void configureDriverBindings() {    //TODO: Bind controls to commands
@@ -403,8 +406,8 @@ public class RobotContainer {
     //scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
-    scheduler.setDefaultCommand(turretSubsystem, autoAimTurretCommand);
-    scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
+    scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
+    //scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
 
   } // end of method beginRunCommands()
 

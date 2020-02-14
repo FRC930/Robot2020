@@ -1,11 +1,18 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.autocommands.paths;
+
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.intakecommands.DeployIntakeCommand;
+import frc.robot.commands.intakecommands.ReturnIntakeCommand;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.commands.intakecommands.*;
+import edu.wpi.first.wpilibj.controller.PIDController;
+
+import java.util.List;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 
@@ -16,35 +23,29 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
+
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.controller.PIDController;
-
-import edu.wpi.first.wpilibj2.command.*;
-
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
+public class SaltAndPepperSkillet extends SequentialCommandGroup {
+    private DriveSubsystem driveSubsystem;
+    private GyroSubsystem gyroSubsystem;
+    private DeployIntakeCommand deployIntakeCommand;
+    private ReturnIntakeCommand returnIntakeCommand;
+    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){
+        
+        driveSubsystem = dSubsystem;
+        gyroSubsystem = gSubsystem;
+        deployIntakeCommand = DICommand;
+        returnIntakeCommand = RICommand;
 
-import java.util.List;
-public class PeachtreeSkilletCommand extends SequentialCommandGroup {
-  /**
-   * Creates a new Autonomous.
-   */
-  DriveSubsystem driveSubsystem;
-  GyroSubsystem gyroSubsystem;
-  public PeachtreeSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
-    var autoVoltageConstraint =
+        var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
             Constants.KVVOLT,
             Constants.KAVOLT),
             Constants.KDRIVEKINEMATICS,10);
-    
     // Configurate the values of all trajectories for max velocity and acceleration
     TrajectoryConfig config =
       new TrajectoryConfig(Constants.KMAXSPEED,
@@ -58,20 +59,24 @@ public class PeachtreeSkilletCommand extends SequentialCommandGroup {
 
     // Generates a trajectory 
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
-        // Start 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
-        List.of(
+        // Start at initiation line
+        new Pose2d(0, 0, new Rotation2d(0)),
+        List.of( 
             // Midpoints
         ),
-        // End 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // End infront of the rendezvous point. Simply move forward 48 inches = 4 feet
+        new Pose2d(2, 0, new Rotation2d(0)),
         // Pass config
         config
 
     );
 
+
     // -------- RAMSETE Commands -------- \\
+
     // Creates a command that can be added to the command scheduler in the sequential command
+    // The Ramsete Controller is a trajectory tracker that is built in to WPILib.
+    // This tracker can be used to accurately track trajectories with correction for minor disturbances.
     
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
@@ -83,25 +88,15 @@ public class PeachtreeSkilletCommand extends SequentialCommandGroup {
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
         driveSubsystem::getWheelSpeeds,
+        // pid info***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
         driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        driveSubsystem 
     );
-    
-    /* 
-    Path Explanation
-    */
-
-    addCommands(ramseteCommand1);
-
-  }
-
-  public double inchesToMeters(double inches) {
-      double meters = inches / 39.37;
-      return meters;
-  }
-
+        //ParallelRaceGroup DeployIntakeAndDriveParrellelCommand = new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand);
+        
+        addCommands(deployIntakeCommand,ramseteCommand1,new WaitCommand(1),returnIntakeCommand);
+    }
 }
-

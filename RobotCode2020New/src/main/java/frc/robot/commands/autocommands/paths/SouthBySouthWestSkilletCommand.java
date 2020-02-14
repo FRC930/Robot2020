@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import frc.robot.commands.autocommands.paths.Spin;
@@ -32,10 +33,12 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem m_drive;
+  GyroSubsystem gyroSubsystem;
+  DriveSubsystem driveSubsystem;
   Spin spin;
-  public SouthBySouthWestSkilletCommand(DriveSubsystem subsystem) {
-    m_drive = subsystem; 
+  public SouthBySouthWestSkilletCommand(DriveSubsystem subsystem,GyroSubsystem gSubsystem) {
+    driveSubsystem = subsystem; 
+    gyroSubsystem = gSubsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -89,37 +92,37 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        m_drive::getPose,
+        gyroSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+        driveSubsystem::getWheelSpeeds,
         // pid info***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive 
+        driveSubsystem::tankDriveVolts,
+        driveSubsystem 
     );
     RamseteCommand ramseteCommand2 = new RamseteCommand(
       trajectory2,
-      m_drive::getPose,
+      gyroSubsystem::getPose,
       new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
       new SimpleMotorFeedforward(Constants.KSVOLTS,
                                  Constants.KVVOLT,
                                  Constants.KAVOLT),
       Constants.KDRIVEKINEMATICS,
-      m_drive::getWheelSpeeds,
+      driveSubsystem::getWheelSpeeds,
       // pid info***
       new PIDController(Constants.KPDRIVEVEL, 0, 0),
       new PIDController(Constants.KPDRIVEVEL, 0, 0),
       // RamseteCommand passes volts to the callback
-      m_drive::tankDriveVolts,
-      m_drive 
+      driveSubsystem::tankDriveVolts,
+      driveSubsystem 
   );
-  Spin spin = new Spin(m_drive);
+  Spin spin = new Spin(driveSubsystem,gyroSubsystem);
     /* 
     Robot in autonomous moves forward off of initiation line
     */
