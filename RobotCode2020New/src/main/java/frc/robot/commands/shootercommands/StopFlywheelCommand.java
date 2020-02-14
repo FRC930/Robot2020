@@ -26,6 +26,7 @@ public class StopFlywheelCommand extends CommandBase {
     @Override
     public void initialize() 
     {
+        //Stop the flywheel, automatically returning to default.
         m_FlywheelSubsystem.stop();
     }
 

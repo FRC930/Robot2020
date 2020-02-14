@@ -18,6 +18,8 @@ public class RunFlywheelVelocityCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
+        // Set velocity in m/s of ball to shoot from shooter.
         m_FlywheelSubsystem.setVelocity(m_Speed);
     }
 

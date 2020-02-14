@@ -26,6 +26,7 @@ public class ShootPowerCellCommand extends ParallelRaceGroup {
             HopperSubsystem hopperSubsystem, KickerSubsystem kickerSubsystem, LimelightSubsystem limeLight) {
         addRequirements(flywheelSubsystem, towerSubsystem, hopperSubsystem, limeLight);
 
+        //Run all required commands in order so we can shoot.
         addCommands(new CheckIfShotPossible(limeLight),
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(new RunFlywheelCommand(flywheelSubsystem,

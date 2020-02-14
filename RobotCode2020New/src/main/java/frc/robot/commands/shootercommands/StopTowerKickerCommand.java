@@ -22,6 +22,7 @@ public class StopTowerKickerCommand extends ParallelCommandGroup{
     {
         addRequirements(towerSubsystem, kickerSubsystem);
 
+        //Stop the tower and kicker, the other subsystems will run at a default speed.
         addCommands(new ParallelCommandGroup(new StopTowerCommand(towerSubsystem), 
                                              new StopKickerCommand(kickerSubsystem)));
     }

@@ -27,6 +27,7 @@ public class RunFlywheelCommand extends CommandBase {
   @Override
   public void initialize() 
   {
+    //Run the flywheel at a certain speed
     m_FlywheelSubsystem.setSpeed(m_Speed);
   }
 
