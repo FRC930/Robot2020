@@ -14,7 +14,7 @@ package frc.robot.utilities;
  */
 public class ShooterMath {
 
-    // All measurements are in meters
+    //All measurements are in meters
     private final double BALL_RADIUS = 0.0889;
     private final double GOAL_HEIGHT_OUTER_LOW = 2.11455;
     private final double GOAL_HEIGHT_OUTER_TOP = 2.87655;
@@ -25,24 +25,43 @@ public class ShooterMath {
     private final double START_HEIGHT = 0; // Change for robot
     private final double GRAVITY = 9.8;
 
-    // Distance is only assigned to, but is kept just in case we want to
-    // add more functionality later
+    //Flag for singleton
+    private static ShooterMath lastInstance = null;
+
+    //Variables stored for later use.
+    //Distance is only assigned to, but is kept just in case we want to
+    //add more functionality later.
     private double angle;
     private double distance;
     private double velocity;
-    private ShotType shotType;
+    private ShotOutcome shotOutcome;
 
-    public ShooterMath() {
+    private ShooterMath() {
         this(0, 0);
     }
 
-    public ShooterMath(double angle, double distance) {
+    private ShooterMath(double angle, double distance) {
         this.velocity = 0.0;
         this.angle = 0.0;
         this.distance = 0.0;
-        this.shotType = ShotType.NONE;
+        this.shotOutcome = ShotOutcome.NONE;
 
         setPosition(this.angle, this.distance);
+    }
+
+    //Methods to get instance from singleton
+    public static ShooterMath getInstance() {
+        if (lastInstance == null) {
+            lastInstance = new ShooterMath();
+        }
+        return lastInstance;
+    }
+
+    public static ShooterMath getInstance(double angle, double distance) {
+        if (lastInstance == null) {
+            lastInstance = new ShooterMath(angle, distance);
+        }
+        return lastInstance;
     }
 
     /**
@@ -53,13 +72,13 @@ public class ShooterMath {
      * 
      * @param angle    is the current angle of the shooter, angles inputed as
      *                 degrees, converted to radians
-     * @param distance is the distance away from the wall, in meters
+     * @param distance is the distance away from the goal, in meters
      */
     public void setPosition(double angle, double distance) {
         this.angle = Math.toRadians(angle);
         this.distance = distance;
-        this.calculateVelocity(this.angle, distance);
-        this.calculateTrajectory(this.angle, distance);
+        this.calculateVelocity(this.angle, this.distance);
+        this.calculateTrajectory(this.angle, this.distance);
     }
 
     /**
@@ -75,10 +94,10 @@ public class ShooterMath {
     /**
      * Returns whether the inner shot is possible
      * 
-     * @return {@link #willMakeInner} set in {@link #calculateTrajectory}
+     * @return {@link #shotOutcome} set in {@link #calculateTrajectory}
      */
-    public ShotType getPossibleShot() {
-        return this.shotType;
+    public ShotOutcome getPossibleShot() {
+        return this.shotOutcome;
     }
 
     /**
@@ -115,13 +134,13 @@ public class ShooterMath {
         double tAtInnerWallHit = (INNER_GOAL_FROM_WALL + distance) / xVelocity;
         double yAtInnerWallHit = calculateY(yVelocity, tAtInnerWallHit);
         if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS && velocity != -1.0) {
-            shotType = ShotType.OUTER;
+            shotOutcome = shotOutcome.OUTER;
             if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS
                     && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
-                shotType = ShotType.INNER;
+                shotOutcome = shotOutcome.INNER;
             }
         } else {
-            shotType = ShotType.NONE;
+            shotOutcome = shotOutcome.NONE;
         }
     }
 
@@ -139,12 +158,12 @@ public class ShooterMath {
         return START_HEIGHT + yVelocity * time - 0.5 * GRAVITY * time * time;
     }
 
-    public static enum ShotType {
-        NONE(0), INNER(1), OUTER(2);
+    public static enum ShotOutcome {
+        NONE(0), OUTER(1), INNER(2);
 
         private int type;
 
-        private ShotType(int type) {
+        private ShotOutcome(int type) {
             this.type = type;
         }
     }

@@ -6,22 +6,22 @@ import frc.robot.utilities.DeadbandMath;
 import frc.robot.utilities.DeadbandMath.DeadbandZone;
 import frc.robot.utilities.DeadbandMath.ShotChance;
 import frc.robot.utilities.ShooterMath;
-import frc.robot.utilities.ShooterMath.ShotType;
+import frc.robot.utilities.ShooterMath.ShotOutcome;;
 
 /**
  * CheckIfShotPossible
  */
 public class CheckIfShotPossible extends CommandBase{
     private DeadbandMath deadbandMath = DeadbandMath.getInstance();
-    private ShooterMath shooterMath = new ShooterMath();
+    private ShooterMath shooterMath = ShooterMath.getInstance();
     private LimelightSubsystem limeLight;
-    private ShotType shotType;
+    private ShotOutcome shotOutcome;
     private DeadbandZone deadbandZone;
     private ShotChance shotChance;
 
     public CheckIfShotPossible(LimelightSubsystem limeLight) {
         this.limeLight = limeLight;
-        shotType = null;
+        shotOutcome = null;
         deadbandZone = null;
         shotChance = null;
     }
@@ -30,18 +30,18 @@ public class CheckIfShotPossible extends CommandBase{
     public boolean isFinished() {
 
         //Set the shot type to the shooter.
-        this.shotType = shooterMath.(limeLight.getHorizontalOffset(), limeLight.getDistance());
-
+        shooterMath.setPosition(, limeLight.getDistance()); //NEEDS UPDATABLE SHOOTER ANGLES FOR FIRST VALUE
+        this.shotOutcome = shooterMath.getPossibleShot();
         
         deadbandMath.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
         this.deadbandZone = deadbandMath.getDeadbandZone();
         this.shotChance = deadbandMath.getShotChance();
 
-        // Return true if the shot type is best. We are not shooting at maybe or lower.
-        if (this.type != ShotType.BEST) {
-            return false;
-        } else {
+        // Return true if the shot types is best. We are not shooting at maybe or lower.
+        if (this.shotOutcome == ShotOutcome.INNER && this.deadbandZone == DeadbandZone.GREEN && this.shotChance == ShotChance.HIGH) {
             return true;
+        } else {
+            return false;
         }
     }
 }
