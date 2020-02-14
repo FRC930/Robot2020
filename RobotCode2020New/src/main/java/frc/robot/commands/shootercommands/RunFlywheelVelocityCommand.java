@@ -1,16 +1,16 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-public class RunShooterVelocityCommand extends CommandBase {
+public class RunFlywheelVelocityCommand extends CommandBase {
 
-    private ShooterSubsystem m_ShooterSubsystem;
+    private FlywheelSubsystem m_FlywheelSubsystem;
     private double m_Speed;
 
-    public RunShooterVelocityCommand(ShooterSubsystem shooterSubsystem, double speed) {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
+    public RunFlywheelVelocityCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
+        m_FlywheelSubsystem = flywheelSubsystem;
+        addRequirements(m_FlywheelSubsystem);
 
         m_Speed = speed;
     }
@@ -18,7 +18,7 @@ public class RunShooterVelocityCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_ShooterSubsystem.setVelocity(m_Speed);
+        m_FlywheelSubsystem.setVelocity(m_Speed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

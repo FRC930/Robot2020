@@ -2,7 +2,8 @@ package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.FlywheelAngleSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.utilities.ShooterMath;
 
 /**
@@ -12,14 +13,18 @@ import frc.robot.utilities.ShooterMath;
  * calculations returned from the math class
  * </p>
  */
-public class ShooterVelocityCommand extends CommandBase {
+public class FlywheelVelocityCommand extends CommandBase {
 
-    private ShooterSubsystem m_ShooterSubsystem;
+    private FlywheelAngleSubsystem m_FlywheelAngleSubsystem;
+    FlywheelSubsystem m_FlywheelSubsystem;
     private ShooterMath math = new ShooterMath();
 
-    public ShooterVelocityCommand(ShooterSubsystem shooterSubsystem, boolean solenoidStatus) {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
+    public FlywheelVelocityCommand(FlywheelAngleSubsystem flywheelAngleSubsystem, FlywheelSubsystem flywheelSubsystem,
+            boolean solenoidStatus) {
+        m_FlywheelAngleSubsystem = flywheelAngleSubsystem;
+        m_FlywheelSubsystem = flywheelSubsystem;
+        
+        addRequirements(m_FlywheelAngleSubsystem, m_FlywheelSubsystem);
     }
 
     // Called when the command is initially scheduled.
@@ -30,12 +35,13 @@ public class ShooterVelocityCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // ShooterSubsystem get angle
+        // FlywheelSubsystem get angle
         // Limelight get distance
         // TODO: Get the distance and angle
-        this.math.setPosition(/* ShooterSubsystem angle */ m_ShooterSubsystem.getAngle() ? 45 : 60,
-                /* Limelight distance */ 0);
-        CommandScheduler.getInstance().schedule(new RunShooterCommand(m_ShooterSubsystem, this.math.getVelocity()));
+        this.math.setPosition(/* FlywheelSubsystem angle */ m_FlywheelAngleSubsystem.get() ? 45 : 60, /* Limelight distance */ 0);
+
+        //TODO: Change how this is actually running.
+        CommandScheduler.getInstance().schedule(new RunFlywheelCommand(m_FlywheelSubsystem, this.math.getVelocity()));
     }
 
     // Called once the command ends or is interrupted.

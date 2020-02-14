@@ -25,26 +25,23 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //-------- SUBSYSTEM CLASS --------\\
 
-public class ShooterSubsystem extends SubsystemBase {
+public class FlywheelSubsystem extends SubsystemBase {
 
     // -------- CONSTANTS --------\\
 
     // PID Derivitive Gain
-    private final double PID_D = 0.003;
+    private final double PID_D = 0.02;
     // PID Proportional Gain
-    private final double PID_P = 0.0007;
+    private final double PID_P = 0.0001;
     // PID Feed-Forward Gain
-    private final double PID_FF = 0.0002;
-
-    private final int LEAD_MOTOR_ID = 7;
-    private final int SLAVE_MOTOR_ID = 8;
+    private final double PID_FF = 0.00025;
 
     private final double SLOPE = 0.06;
     private final double Y_INTERCEPT = -0.05;
 
     // -------- DECLARATIONS --------\\
 
-    private final Logger logger = Logger.getLogger(ShooterSubsystem.class.getName());
+    private final Logger logger = Logger.getLogger(FlywheelSubsystem.class.getName());
 
     // motor controllers for the NEO motors on the shooter
     private final CANSparkMax motorLead;
@@ -59,18 +56,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // -------- CONSTRUCTOR --------\\
 
-    public ShooterSubsystem() {
+    public FlywheelSubsystem() {
+
+        // Motor declaration
         this.motorLead = new CANSparkMax(Constants.SHOOTER_LEAD_ID, MotorType.kBrushless);
         this.motor2 = new CANSparkMax(Constants.SHOOTER_SLAVE_ID, MotorType.kBrushless);
 
-        this.pidcontroller = motorLead.getPIDController();
-        this.pidcontroller.setFF(PID_FF);
-        this.pidcontroller.setOutputRange(0, 1);
-        this.pidcontroller.setP(PID_P);
-        this.pidcontroller.setD(PID_D);
-        motor2.follow(motorLead, true);
+        // Setting our PID values
+        //this.pidcontroller = motorLead.getPIDController();
+        //this.pidcontroller.setFF(PID_FF);
+        //this.pidcontroller.setOutputRange(0, 1);
+        //this.pidcontroller.setP(PID_P);
+        //this.pidcontroller.setD(PID_D);
 
-        // solenoid = new Solenoid(0);
+        // Follow lead reverse speed
+        motor2.follow(motorLead, true);
 
         logger.setLevel(Level.INFO);
     }
@@ -80,8 +80,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setSpeed(double speed) {
         logger.entering(this.getClass().getName(), "setSpeed()");
 
-        this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-        // motorLead.set(speed);
+        //SmartDashboard.putNumber("motorSpeed", speed);
+        // Set PID to speed up flywheel
+        //this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
+        motorLead.set(speed * 5880 * PID_FF);
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
         logger.exiting(getClass().getName(), "setSpeed()");
@@ -93,23 +95,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void stop() {
         logger.entering(getClass().getName(), "stop()");
-        motorLead.set(0.0);
+
+        // Set motors to stop without PID to allow them to coast down
+        //motorLead.set(0.0);
+
         logger.exiting(getClass().getName(), "stop()");
-    }
-
-    // TODO: Uncomment solenoid code
-    public void angleChange(boolean solenoidStatus) {
-        logger.entering(getClass().getName(), "angleChange()");
-        // solenoid.set(true);
-        logger.exiting(getClass().getName(), "angleChange()");
-    }
-
-    // TODO: Uncomment solenoid code
-    public boolean getAngle() {
-        logger.entering(getClass().getName(), "getAngle()");
-        logger.exiting(getClass().getName(), "getAngle()");
-        // return solenoid.get();
-        return true;
     }
 
     public double getSpeed() {
@@ -122,7 +112,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("LeftRPM", motorLead.getEncoder().getVelocity());
-        SmartDashboard.putNumber("RightRPM", motor2.getEncoder().getVelocity());
+        SmartDashboard.putNumber("LeftRPM", getSpeed());
+        SmartDashboard.putNumber("RightRPM", getSpeed());
+        SmartDashboard.putNumber("AppliedOutput", motorLead.getAppliedOutput());
     }
 } // end of class ShooterSubsystem

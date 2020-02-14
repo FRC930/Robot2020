@@ -8,19 +8,18 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 
 
-public class RunShooterCommand extends CommandBase {
+public class RunFlywheelCommand extends CommandBase {
 
-  private ShooterSubsystem m_ShooterSubsystem;
+  private FlywheelSubsystem m_FlywheelSubsystem;
   private double m_Speed;
 
-  public RunShooterCommand(ShooterSubsystem shooterSubsystem, double speed) 
+  public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) 
   {
-    System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-    m_ShooterSubsystem = shooterSubsystem;
-    addRequirements(m_ShooterSubsystem);
+    m_FlywheelSubsystem = flywheelSubsystem;
+    addRequirements(m_FlywheelSubsystem);
 
     m_Speed = speed;
   }
@@ -28,7 +27,7 @@ public class RunShooterCommand extends CommandBase {
   @Override
   public void initialize() 
   {
-    m_ShooterSubsystem.setSpeed(m_Speed);
+    m_FlywheelSubsystem.setSpeed(m_Speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,11 +43,11 @@ public class RunShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("isAtSpeed(): " + isAtSpeed());
+    //System.out.println("isAtSpeed(): " + isAtSpeed());
     return false;
   }
 
   private boolean isAtSpeed() {
-    return this.m_ShooterSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_ShooterSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
+    return this.m_FlywheelSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_FlywheelSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
   }
 }

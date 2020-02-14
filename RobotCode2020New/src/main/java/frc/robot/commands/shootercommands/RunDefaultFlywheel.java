@@ -8,19 +8,16 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-public class RunDefaultShooter extends CommandBase {
+public class RunDefaultFlywheel extends CommandBase {
 
-    private ShooterSubsystem m_ShooterSubsystem;
+    private FlywheelSubsystem m_FlywheelSubsystem;
     private double m_Speed;
 
-    public RunDefaultShooter(ShooterSubsystem shooterSubsystem, double speed) {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
+    public RunDefaultFlywheel(FlywheelSubsystem flywheelSubsystem, double speed) {
+        m_FlywheelSubsystem = flywheelSubsystem;
+        addRequirements(m_FlywheelSubsystem);
 
         m_Speed = speed;
     }
@@ -28,24 +25,25 @@ public class RunDefaultShooter extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        // if (m_FlywheelSubsystem.getPercentOutput() > m_Speed) {
+        //     //m_ShooterSubsystem.stop();
+        // } else {
+        //     m_FlywheelSubsystem.setSpeed(m_Speed);
+        // }
 
+        //Set flywheel to default speed.
+        m_FlywheelSubsystem.setSpeed(m_Speed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (m_ShooterSubsystem.getPercentOutput() > 0.3) {
-            //m_ShooterSubsystem.stop();
-        } else {
-            m_ShooterSubsystem.setSpeed(0.3);
-        }
+
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
     }
-
-    // Returns true when the command should end.
 
 }

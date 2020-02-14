@@ -7,26 +7,26 @@
 
 package frc.robot.commands.shootercommands;
 
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class StopShooterCommand extends CommandBase {
-    private ShooterSubsystem m_ShooterSubsystem;
+public class StopFlywheelCommand extends CommandBase {
+    private FlywheelSubsystem m_FlywheelSubsystem;
 
-    public StopShooterCommand(ShooterSubsystem shooterSubsystem) 
+    public StopFlywheelCommand(FlywheelSubsystem flywheelSubsystem) 
     {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
+        m_FlywheelSubsystem = flywheelSubsystem;
+        addRequirements(m_FlywheelSubsystem);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() 
     {
-        m_ShooterSubsystem.stop();
+        m_FlywheelSubsystem.stop();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

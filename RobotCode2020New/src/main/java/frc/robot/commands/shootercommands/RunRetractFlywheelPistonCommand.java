@@ -8,17 +8,17 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterAngleSubsystem;
-import frc.robot.subsystems.ShooterAngleSubsystem.SolenoidValues;
+import frc.robot.subsystems.FlywheelAngleSubsystem;
+import frc.robot.subsystems.FlywheelAngleSubsystem.SolenoidValues;
 
-public class RunExtendShooterPistonCommand extends CommandBase {
+public class RunRetractFlywheelPistonCommand extends CommandBase {
 
-    private ShooterAngleSubsystem m_ShooterAngleSubsystem;
-    
-    public RunExtendShooterPistonCommand(ShooterAngleSubsystem ShooterAngleSubsystem){
-        m_ShooterAngleSubsystem = ShooterAngleSubsystem;
-        addRequirements(m_ShooterAngleSubsystem);
-    }
+  private FlywheelAngleSubsystem m_FlywheelAngleSubsystem;
+
+  public RunRetractFlywheelPistonCommand(FlywheelAngleSubsystem FlywheelAngleSubsystem) {
+        m_FlywheelAngleSubsystem = FlywheelAngleSubsystem;
+        addRequirements(m_FlywheelAngleSubsystem);
+    }       
     // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -27,7 +27,7 @@ public class RunExtendShooterPistonCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterAngleSubsystem.set(SolenoidValues.EXTEND);
+      m_FlywheelAngleSubsystem.set(SolenoidValues.RETRACT);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,4 +40,4 @@ public class RunExtendShooterPistonCommand extends CommandBase {
    public boolean isFinished() {
      return true;
    }
-}//End of class RunExtendShooterPistonCommand
+}//End of class RunRetractShooterPistonCommand

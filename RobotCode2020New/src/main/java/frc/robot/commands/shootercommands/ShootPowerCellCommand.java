@@ -16,19 +16,19 @@ import frc.robot.commands.towercommands.RunTowerCommand;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.utilities.ShooterMath;
 
 public class ShootPowerCellCommand extends ParallelRaceGroup {
 
-    public ShootPowerCellCommand(ShooterSubsystem shooterSubsystem, TowerSubsystem towerSubsystem,
+    public ShootPowerCellCommand(FlywheelSubsystem flywheelSubsystem, TowerSubsystem towerSubsystem,
             HopperSubsystem hopperSubsystem, KickerSubsystem kickerSubsystem, LimelightSubsystem limeLight) {
-        addRequirements(shooterSubsystem, towerSubsystem, hopperSubsystem, limeLight);
+        addRequirements(flywheelSubsystem, towerSubsystem, hopperSubsystem, limeLight);
 
         addCommands(new CheckIfShotPossible(limeLight),
                 new SequentialCommandGroup(
-                        new ParallelCommandGroup(new RunShooterCommand(shooterSubsystem,
+                        new ParallelCommandGroup(new RunFlywheelCommand(flywheelSubsystem,
                                                         new ShooterMath(limeLight.getHorizontalOffset(), limeLight.getDistance()).getVelocity()),
                                                  new RunHopperCommand(hopperSubsystem)),
                         new ParallelCommandGroup(new RunTowerCommand(towerSubsystem), 

@@ -23,8 +23,7 @@ import frc.robot.commands.turretcommads.*;
 import frc.robot.subsystems.*;
 
 //--Trigger imports
-import frc.robot.triggers.*;  
-
+import frc.robot.triggers.*;
 
 //--Other imports
 import edu.wpi.first.wpilibj2.command.Command;
@@ -121,8 +120,8 @@ public class RobotContainer {
   //--Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
 
-  //--Shooter subsystem
-  private final ShooterSubsystem shooterSubsystem;
+  //--Flywheel subsystem
+  private final FlywheelSubsystem flywheelSubsystem;
 
   //--Tower subsystem
   private final TowerSubsystem towerSubsystem;
@@ -159,9 +158,9 @@ public class RobotContainer {
   //--LED commands
   //TODO: Add LED commands here
 
-  //--Shooter commands
-  private final RunDefaultShooter runDefaultShooter;
-  private final RunShooterCommand runShooterCommand;
+  //--Flywheel commands
+  private final RunDefaultFlywheel runDefaultFlywheel;
+  private final RunFlywheelCommand runFlywheelCommand;
 
   //--Tower coommands
   private final RunTowerCommand runTowerCommand;
@@ -192,7 +191,7 @@ public class RobotContainer {
     intakePistons = new IntakePistonSubsystem();
     //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
-    shooterSubsystem = new ShooterSubsystem();
+    flywheelSubsystem = new FlywheelSubsystem();
     towerSubsystem = new TowerSubsystem();
     turretSubsystem = new TurretSubsystem();
     kickerSubsystem = new KickerSubsystem();
@@ -227,9 +226,9 @@ public class RobotContainer {
     //leds
     //TODO: Add LED commands here
 
-    //shooter
-    runDefaultShooter = new RunDefaultShooter(shooterSubsystem, 0.3);
-    runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.8);
+    //Flywheel
+    runDefaultFlywheel = new RunDefaultFlywheel(flywheelSubsystem, 0.7);
+    runFlywheelCommand = new RunFlywheelCommand(flywheelSubsystem, 0.8);
 
     //tower
     runTowerCommand = new RunTowerCommand(towerSubsystem);
@@ -279,9 +278,10 @@ public class RobotContainer {
       //Drive command binds
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
-      //shootButton.whileActiveOnce(new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem));
-      //shootButton.whenReleased(new ParallelCommand(new StopTowerCommand(towerSubsystem), new StopKickerCommand(kickerSubsystem)));
-      shootButton.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
+      //Shooter command binds
+      shootButton.whileActiveOnce(new ShootPowerCellCommand(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem));
+      shootButton.whenReleased(new StopTowerKickerCommand(towerSubsystem, kickerSubsystem));
+      //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
 
     } else {  //If we're using the Xbox controller
 
@@ -290,14 +290,14 @@ public class RobotContainer {
       JoystickButton shootA = new JoystickButton(driverController, 1);
       JoystickButton shootX = new JoystickButton(driverController, 3);
       JoystickButton shootY = new JoystickButton(driverController, 4);
-      JoystickButton shooterStop = new JoystickButton(driverController, 2);
+      JoystickButton flywheelStop = new JoystickButton(driverController, 2);
       //--Command binds
 
-      //shootButton.whenActive(new RunShooterCommand(shooterSubsystem, 0.8));
-      shootY.whenPressed(new RunShooterCommand(shooterSubsystem, 0.9));
-      shootX.whenPressed(new RunShooterCommand(shooterSubsystem, 0.7));
-      shootA.whenPressed(new RunShooterVelocityCommand(shooterSubsystem, 12));
-      shooterStop.whenPressed(new StopShooterCommand(shooterSubsystem));
+      //shootButton.whenActive(new RunFlywheelCommand(flywheelSubsystem, 0.8));
+      shootY.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.9));
+      shootX.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.7));
+      shootA.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.7));
+      flywheelStop.whenPressed(new StopFlywheelCommand(flywheelSubsystem));
     } //end of if statement usingGamecube
     
   } // end of method configureDriverBindings()
@@ -323,7 +323,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
     scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
-    scheduler.setDefaultCommand(shooterSubsystem, runDefaultShooter);
+    scheduler.setDefaultCommand(flywheelSubsystem, runDefaultFlywheel);
 
   } // end of method beginRunCommands()
 
@@ -334,7 +334,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //TODO: Get shuffleboard data, use switch case to select the path selected
-    return null; // runShooterCommand;
+    return null; // runFlywheelCommand;
     // Run path following command, then stop at the end.
   }
 
