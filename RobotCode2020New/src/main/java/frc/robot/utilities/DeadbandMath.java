@@ -10,8 +10,9 @@
 package frc.robot.utilities;
 
 import java.util.logging.*;
+
 /**
- * Shooter Subsystem
+ * DeadbandMath
  */
 public class DeadbandMath {
     
@@ -33,152 +34,197 @@ public class DeadbandMath {
     private final double LINE_3_B = (DISTANCE_TO_INNER * -COMP_OUTER_RADIUS) / (COMP_OUTER_RADIUS - COMP_INNER_RADIUS);
     private final double LINE_4_M = DISTANCE_TO_INNER / (COMP_OUTER_RADIUS + COMP_INNER_RADIUS);
     private final double LINE_4_B = (DISTANCE_TO_INNER * -COMP_OUTER_RADIUS) / (COMP_OUTER_RADIUS + COMP_INNER_RADIUS);
+    private final double MIN_HIGH_TARGET_SIZE = 0.545;
+    private final double MIN_LOW_TARGET_SIZE = BALL_RADIUS * 2;
+
+    //Enum states saved after setPosition
+    private DeadbandZone deadbandZone;
+    private ShotChance shotChance;
+
+    //Static flag for singleton
+    private static DeadbandMath lastInstance = null;
 
     //Constructs logger
     private Logger logger = Logger.getLogger(getClass().toString());
     
     //Class constructor - sets logger lever
-    public DeadbandMath() {
-        logger.setLevel(Level.FINER);
+    private DeadbandMath() {
+        logger.setLevel(Level.FINE);
+        deadbandZone = null;
+        shotChance = null;
     }
 
-    //Enum for various outcomes
-    public static enum ShotType {
-        ERROR(-1), MISS(0), MAYBE(1), BEST(2);
+    //Enum for deadband zones
+    public static enum DeadbandZone {
+        ERROR(-1), RED(0), YELLOW(1), GREEN(2);
 
         private int type;
 
-        private ShotType(int type) {
+        private DeadbandZone(int type) {
             this.type = type;
         }
     }
 
+    //Enum for calculated target size
+    public static enum ShotChance {
+        ERROR(-1), MISS(0), LOW(1), HIGH(2);
+
+        private int type;
+
+        private ShotChance(int type) {
+            this.type = type;
+        }
+    }
+
+    //Method to get an instance of DeadbandMath
+    public static DeadbandMath getInstance() {
+        if (lastInstance == null) {
+            lastInstance = new DeadbandMath();
+        }
+        return lastInstance;
+    }
+
     /**
-     * Use this to set the position of the robot and return the calculated shotType.
+     * Use this to set the position of the robot on a coordinate system and stores calculated enum states.
      * <p>
-     * The method {@link #calculateDeadbandZone} and {@link #calculateTargetSize} is called in this method also
+     *  The method {@link #calculateDeadbandZone} and {@link #calculateShotChance} are called in this method also
      * 
      * @param angle     is the current angle from a line perpendicular to the wall/goal,
      *                  in degrees.
      * @param distanceFromGoal  is the distance away from the goal, in meters.
-     * 
-     * @return {@link #shotType} set in {@link #calculateDeadbandZone} and {@link #calculateTargetSize}.
      */
-    public ShotType calculateShotType(double angle, double distanceFromGoal) {
-        logger.entering(this.getClass().getName(), "calculateShotType");
+    public void setPosition(double angle, double distanceFromGoal) {
+        logger.entering(this.getClass().getName(), "setPosition");
         //Sets placeholder variables
-        ShotType shotType = null;
-        double targetArea = 0;
-        //Determines if values cannot be worked with and puts in logger.
+        double robotX = 0;
+        double robotY = 0;
+        //Determines if values cannot be worked with and is inputed in logger, sets enums and returns.
         if (Math.abs(angle) >= 90 || distanceFromGoal <= 0) {
             logger.log(Level.WARNING, "The input values given are out of bounds.");
             logger.log(Level.WARNING, "Max Angle: 89 degrees - Given: " + angle + " || Minimum Distance: 0.0001 m - Given: " + distanceFromGoal);
-            shotType = ShotType.ERROR;
+            deadbandZone = DeadbandZone.ERROR;
+            shotChance = ShotChance.ERROR;
         } else {
             //Finds X and Y of robot.
-            final double robotX = Math.sin(Math.toRadians(angle)) * distanceFromGoal;
-            final double robotY = Math.cos(Math.toRadians(angle)) * distanceFromGoal;
+            robotX = Math.sin(Math.toRadians(angle)) * distanceFromGoal;
+            robotY = Math.cos(Math.toRadians(angle)) * distanceFromGoal;
             logger.log(Level.INFO, "Robot X: " + robotX + " || Robot Y: " + robotY);
-            //Finds if X and Y are out of the field and puts in logger.
+            //Finds if X and Y are out of the field and is inputed in logger, sets enums and returns.
             if (robotY > MAX_DISTANCE_FROM_GOAL || robotY <= 0 || 
-            robotX >= MAX_DISTANCE_FROM_MIDLINE_RIGHT || 
-            robotX <= -MAX_DISTANCE_FROM_MIDLINE_LEFT) {
+                    robotX >= MAX_DISTANCE_FROM_MIDLINE_RIGHT || 
+                    robotX <= -MAX_DISTANCE_FROM_MIDLINE_LEFT) {
                 logger.log(Level.WARNING, "The values given are out of bounds.");
-                logger.log(Level.WARNING, "Robot Y: " + robotY + " - Max: " + MAX_DISTANCE_FROM_GOAL + " - Min: " + 0.0001 + " || Robot X: " 
-                + robotX + " - Max: " + MAX_DISTANCE_FROM_MIDLINE_RIGHT + " - Min: " + -MAX_DISTANCE_FROM_MIDLINE_LEFT);
-                shotType = ShotType.ERROR;
-            } else{
-                //Refers to Deadband and TargetSize for calculations.
-                shotType = calculateDeadbandZone(robotX, robotY);
-                targetArea = calculateTargetSize(robotX, robotY);
-                logger.log(Level.INFO, "Calculated Deadband Zone: " + shotType);
-                logger.log(Level.INFO, "Calculated Target Size: " + targetArea);
-                //Relates the two sets of calculations.
-                if (shotType == ShotType.BEST && targetArea >= 0.545) {
-                    shotType = ShotType.BEST;
-                } else if ((shotType == ShotType.BEST || shotType == ShotType.MAYBE ) && targetArea >= BALL_RADIUS * 2) {
-                    shotType = ShotType.MAYBE;
-                } else {
-                    shotType = ShotType.MISS;
-                }
+                logger.log(Level.WARNING, "Robot Y: " + robotY + " - Max: " + MAX_DISTANCE_FROM_GOAL + " - Min: " + 0.0001 + " || Robot X: " + 
+                    robotX + " - Max: " + MAX_DISTANCE_FROM_MIDLINE_RIGHT + " - Min: " + -MAX_DISTANCE_FROM_MIDLINE_LEFT);
+                deadbandZone = DeadbandZone.ERROR;
+                shotChance = ShotChance.ERROR;
+            } else {
+                //Calls methods to calculate enum states
+                calculateDeadbandZone(robotX, robotY);
+                calculateShotChance(robotX, robotY);
             }
-        }
-        logger.log(Level.INFO, "Final ShotType: " + shotType);
-        logger.exiting(this.getClass().getName(), "calculateShotType");
-        return shotType;
+        }   
+        logger.log(Level.INFO, "deadbandZone: " + deadbandZone + " || shotChance: " + shotChance);
+        logger.exiting(this.getClass().getName(), "setPosition");
     }
 
     /**
-     * Calculate the area the robot is in using the distances calculated in
-     * {@link #calculateShotType}.
+     * Returns DeadbandZone calculated in {@link #calculateDeadBandZone}.
+     * 
+     * @return deadbandZone
+     */
+    public DeadbandZone getDeadbandZone() {
+        logger.entering(this.getClass().getName(), "getDeadbandZone");
+        logger.log(Level.INFO, "deadbandZone: " + deadbandZone);
+        logger.exiting(this.getClass().getName(), "getDeadbandZone");
+        return deadbandZone;
+    }
+
+    /**
+     * Returns ShotChance calculated in {@link #calculateShotChance}.
+     * 
+     * @return shotChance
+     */
+    public ShotChance getShotChance() {
+        logger.entering(this.getClass().getName(), "getShotChance");
+        logger.log(Level.INFO, "shotChance: " + shotChance);
+        logger.exiting(this.getClass().getName(), "getShotChance");
+        return shotChance;
+    }
+
+    /**
+     * Calculate the deadband zone the robot is in using the coordinates calculated in
+     * {@link #setPosition}.
      * <p>
      * This method will calculate the chance of making a shot in the inner goal.
      * 
-     * @param distanceFromCenter is the current distance from a line perpendicular to the goal.
-     * @param distanceFromWall is the current distance from the wall.
+     * @param robotX is the current distance from a line perpendicular to the goal.
      * 
-     * @return {@link #shotType}
+     * @param robotY is the current distance from the wall.
      */
-    private ShotType calculateDeadbandZone(double distanceFromCenter, double distanceFromWall) {
+    private void calculateDeadbandZone(double robotX, double robotY) {
         logger.entering(this.getClass().getName(), "calculateDeadbandZone");
-        //Placeholder for calculated shotType
-        ShotType shotType = null;
         //
-        //Figure out if the point is in the "best" zone.
-        double yOfLine2 = LINE_2_M * distanceFromCenter + LINE_2_B;
-        double yOfLine3 = LINE_3_M * distanceFromCenter + LINE_3_B;
+        //Figure out if the point is in the "GREEN" zone.
+        double yOfLine2 = LINE_2_M * robotX + LINE_2_B;
+        double yOfLine3 = LINE_3_M * robotX + LINE_3_B;
         logger.log(Level.INFO, "Line 2 Y: " + yOfLine2 + "- Line 3 Y: " + yOfLine3);
-        if (distanceFromWall >= yOfLine2 && distanceFromWall >= yOfLine3) {
-            shotType = ShotType.BEST;
+        if (robotY >= yOfLine2 && robotY >= yOfLine3) {
+            deadbandZone = DeadbandZone.GREEN;
         } else { 
             //
-            //Figure out if we are in the left hand 'maybe' zone.
-            double yOfLine1 = LINE_1_M * distanceFromCenter + LINE_1_B;
+            //Figure out if we are in the left hand 'YELLOW' zone.
+            double yOfLine1 = LINE_1_M * robotX + LINE_1_B;
             logger.log(Level.INFO, "Line 1 Y: " + yOfLine1);
-            if (distanceFromWall >= yOfLine1 && distanceFromWall < yOfLine2) {
-                shotType = ShotType.MAYBE;
+            if (robotY >= yOfLine1 && robotY < yOfLine2) {
+                deadbandZone = DeadbandZone.YELLOW;
             } else {
                 //
-                //Figure out if we are in the right hand 'maybe' zone.
-                double yOfLine4 = LINE_4_M * distanceFromCenter + LINE_4_B;
+                //Figure out if we are in the right hand 'YELLOW' zone.
+                double yOfLine4 = LINE_4_M * robotX + LINE_4_B;
                 logger.log(Level.INFO, "Line 4 Y: " + yOfLine4);
-                if (distanceFromWall >= yOfLine4 && distanceFromWall < yOfLine3) {
-                    shotType = ShotType.MAYBE;
+                if (robotY >= yOfLine4 && robotY < yOfLine3) {
+                    deadbandZone = DeadbandZone.YELLOW;
                 } else {
                     //
                     //Since it is not in any other zone, it is a miss.
-                    shotType = ShotType.MISS;
+                    deadbandZone = DeadbandZone.RED;
                 }
             }
         }
-        logger.log(Level.INFO, "Calculated ShotType: " + shotType);
+        logger.log(Level.INFO, "Calculated DeadbandZone: " + deadbandZone);
         logger.exiting(this.getClass().getName(), "calculateDeadbandZone");
-        return shotType;
     }
 
     /**
      * Calculate the relative area of the target using the distances calculated in
-     * {@link #calculateShotType}.
+     * {@link #setPosition}.
      * <p>
-     * This method will calculate the relative size of the Outer Ring at a certain location.
+     * This method will calculate the relative size of the Outer Ring at a certain location and convert into an enum state.
      * 
-     * @param distanceFromCenter is the current distance from a line perpendicular to the goal.
-     * @param distanceFromWall is the current distance from the wall.
+     * @param robotX is the current distance from a line perpendicular to the goal.
      * 
-     * @return {@link #targetArea}
+     * @param robotY is the current distance from the wall.
      */
-    private double calculateTargetSize(double distanceFromCenter, double distanceFromWall) {
-        logger.entering(this.getClass().getName(), "calculateTargetSize");
+    private void calculateShotChance(double robotX, double robotY) {
+        logger.entering(this.getClass().getName(), "calculateShotChance");
         double targetArea = 0;
-        if (distanceFromCenter <= 0) { 
-            targetArea = Math.sqrt(Math.pow(OUTER_RING_RADIUS + ((((OUTER_RING_RADIUS * distanceFromCenter)/ distanceFromWall) + (-OUTER_RING_RADIUS * distanceFromWall)/(-OUTER_RING_RADIUS + distanceFromCenter))/((-distanceFromCenter/distanceFromWall) - (distanceFromWall/(-OUTER_RING_RADIUS + distanceFromCenter)))), 2) +
-            Math.pow(((distanceFromWall / (distanceFromCenter - OUTER_RING_RADIUS)) * ((((OUTER_RING_RADIUS * distanceFromCenter)/distanceFromWall) + ((-OUTER_RING_RADIUS * distanceFromWall)/(-OUTER_RING_RADIUS + distanceFromCenter)))/(-(distanceFromCenter/distanceFromWall) - (distanceFromWall/(-OUTER_RING_RADIUS + distanceFromCenter))))) + ((-distanceFromWall * OUTER_RING_RADIUS)/(distanceFromCenter - OUTER_RING_RADIUS)), 2));
+        if (robotX <= 0) { 
+            targetArea = Math.sqrt(Math.pow(OUTER_RING_RADIUS + ((((OUTER_RING_RADIUS * robotX)/ robotY) + (-OUTER_RING_RADIUS * robotY)/(-OUTER_RING_RADIUS + robotX))/((-robotX/robotY) - (robotY/(-OUTER_RING_RADIUS + robotX)))), 2) +
+            Math.pow(((robotY / (robotX - OUTER_RING_RADIUS)) * ((((OUTER_RING_RADIUS * robotX)/robotY) + ((-OUTER_RING_RADIUS * robotY)/(-OUTER_RING_RADIUS + robotX)))/(-(robotX/robotY) - (robotY/(-OUTER_RING_RADIUS + robotX))))) + ((-robotY * OUTER_RING_RADIUS)/(robotX - OUTER_RING_RADIUS)), 2));
         } else {
-            targetArea = Math.sqrt(Math.pow(-OUTER_RING_RADIUS + ((((-OUTER_RING_RADIUS * distanceFromCenter)/ distanceFromWall) + (OUTER_RING_RADIUS * distanceFromWall)/(OUTER_RING_RADIUS + distanceFromCenter))/((-distanceFromCenter/distanceFromWall) - (distanceFromWall/(OUTER_RING_RADIUS + distanceFromCenter)))), 2) +
-            Math.pow(((distanceFromWall / (distanceFromCenter + OUTER_RING_RADIUS)) * ((((-OUTER_RING_RADIUS * distanceFromCenter)/distanceFromWall) + ((OUTER_RING_RADIUS * distanceFromWall)/(OUTER_RING_RADIUS + distanceFromCenter)))/(-(distanceFromCenter/distanceFromWall) - (distanceFromWall/(OUTER_RING_RADIUS + distanceFromCenter))))) + ((-distanceFromWall * -OUTER_RING_RADIUS)/(distanceFromCenter + OUTER_RING_RADIUS)), 2));
+            targetArea = Math.sqrt(Math.pow(-OUTER_RING_RADIUS + ((((-OUTER_RING_RADIUS * robotX)/ robotY) + (OUTER_RING_RADIUS * robotY)/(OUTER_RING_RADIUS + robotX))/((-robotX/robotY) - (robotY/(OUTER_RING_RADIUS + robotX)))), 2) +
+            Math.pow(((robotY / (robotX + OUTER_RING_RADIUS)) * ((((-OUTER_RING_RADIUS * robotX)/robotY) + ((OUTER_RING_RADIUS * robotY)/(OUTER_RING_RADIUS + robotX)))/(-(robotX/robotY) - (robotY/(OUTER_RING_RADIUS + robotX))))) + ((-robotY * -OUTER_RING_RADIUS)/(robotX + OUTER_RING_RADIUS)), 2));
         }
         logger.log(Level.INFO, "Calculated Target Area: " + targetArea);
-        logger.exiting(this.getClass().getName(), "calculateTargetSize");
-        return targetArea;
+        if (targetArea >= MIN_HIGH_TARGET_SIZE) {
+            shotChance = ShotChance.HIGH;
+        } else if (targetArea >= MIN_LOW_TARGET_SIZE) {
+            shotChance = ShotChance.LOW;
+        } else {
+            shotChance = ShotChance.MISS;
+        }
+        logger.log(Level.INFO, "Calculated ShotChance: " + shotChance);
+        logger.exiting(this.getClass().getName(), "calculateShotChance");
     }
 }
