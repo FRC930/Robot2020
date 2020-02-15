@@ -21,6 +21,7 @@ import frc.robot.commands.intakecommands.intakemotorcommands.*;
 import frc.robot.commands.intakecommands.intakepistoncommands.*;
 
 import frc.robot.commands.kickercommands.*;
+import frc.robot.commands.limelightcommands.*;
 //import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.*;
 import frc.robot.commands.towercommands.*;
@@ -186,6 +187,9 @@ public class RobotContainer {
   //--LED commands
   //TODO: Add LED commands here
 
+  //--Limelighht commands
+  private final SetPipelineCommand setPipelineCommand;
+
   //--Shooter commands
   private final RunShooterCommand runShooterCommand;
     //For manual mode
@@ -262,6 +266,9 @@ public class RobotContainer {
 
     //leds
     //TODO: Add LED commands here
+
+    //limelight
+    setPipelineCommand = new SetPipelineCommand(limelightSubsystem);
 
     //shooter
     runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.3);
@@ -410,9 +417,11 @@ public class RobotContainer {
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
       //scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
+      scheduler.setDefaultCommand(limelightSubsystem, setPipelineCommand);
     } else {
       scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, shooterSubsystem, kickerSubsystem, towerSubsystem);
       scheduler.setDefaultCommand(turretSubsystem, joystickTurret); 
+      scheduler.setDefaultCommand(limelightSubsystem, setPipelineCommand);
     }
 
   } // end of method beginRunCommands()

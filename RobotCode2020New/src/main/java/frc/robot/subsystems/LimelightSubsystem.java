@@ -43,8 +43,9 @@ public class LimelightSubsystem extends SubsystemBase {
     public final double ERROR_EQ_INTERCEPT = -0.37613082;
 
     // default limelight return values
-    public final double DEFAULT_HORIZ_ANGLE_OFFSET = -100;
-    public final double DEFAULT_VERT_ANGLE_OFFSET = -200;
+    private final double DEFAULT_HORIZ_ANGLE_OFFSET = -100;
+    private final double DEFAULT_VERT_ANGLE_OFFSET = -200;
+    private final double DEFAULT_VALID_TARGET = -1;
 
     // -------- DECLARATIONS --------\\
 
@@ -60,21 +61,18 @@ public class LimelightSubsystem extends SubsystemBase {
     // ty Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     private double verticleOffset;
 
-    // ta Target Area (0% of image to 100% of image)
-    private double percentOfImage;
-
-    // ts Skew or rotation (-90 degrees to 0 degrees)
-    private double skew;
-
     // logger
     private Logger logger;
+
+    // represents the Limelight's current pipeline
+    private LimelightPipelines currentPipeline;
 
     //private FIFOStack smoother = new FIFOStack(10);
 
     // enum for the different limelight pipelines
     public enum LimelightPipelines {
 
-        CLOSE_PIPELINE(0), MID_PIPELINE(1), FAR_PIPELINE(2);
+        NO_ZOOM(0), ZOOM_2X(1);
 
         private final int pipelineNumber;
 
@@ -91,7 +89,6 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public LimelightSubsystem() {
         logger = Logger.getLogger(LimelightSubsystem.class.getName());
-        logger.setLevel(Level.INFO);
     }
 
     // -------- METHODS --------\\
@@ -104,7 +101,6 @@ public class LimelightSubsystem extends SubsystemBase {
         //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
-        SmartDashboard.putNumber("horizontal offset", horizontalOffset);
 
         logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
         logger.exiting(getClass().getName(), "getHorizontalOffset()");
@@ -143,7 +139,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
         logger.entering(getClass().getName(), "getValidTargets()");
 
-        validTarget = limelightTable.getEntry("tv").getDouble(989) > 0.0 ? true : false;
+        validTarget = limelightTable.getEntry("tv").getDouble(DEFAULT_VALID_TARGET) > 0.0 ? true : false;
 
         logger.log(Level.FINE, "Valid Target?: " + validTarget);
         logger.exiting(getClass().getName(), "getValidTargets()");
@@ -171,18 +167,34 @@ public class LimelightSubsystem extends SubsystemBase {
 
         // sets the pipeline to the associated number of the pipeline enum
         limelightTable.getEntry("pipeline").setNumber(pipeline.getPipeline());
+        currentPipeline = pipeline;
 
         logger.log(Level.FINE, "Pipeline: " + pipeline);
         logger.exiting(getClass().getName(), "setPipeline()");
     }
 
+    // returns the Limelight's pipeline
+    public String getPipeline() {
+
+        String pipelineName = "error";
+
+        if(currentPipeline.getPipeline() == 0) {
+            pipelineName = "no zoom";
+        } else if(currentPipeline.getPipeline() == 1) {
+            pipelineName = "2x zoom";
+        }
+
+        return pipelineName;
+    }
+
     @Override
     public void periodic() {    
 
-        limelightTable.getEntry("tx").getDouble(989);
         SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
         SmartDashboard.putNumber("verical offset", getVerticleOffset());
+        SmartDashboard.putBoolean("valid targets", getValidTargets());
         SmartDashboard.putNumber("distance", getDistance());
+        SmartDashboard.putString("pipeline", getPipeline());
 
     }
 
