@@ -4,11 +4,6 @@ package frc.robot;
 
 //--Command imports 
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.commands.autocommands.paths.AutonomousCommand;
-import frc.robot.commands.autocommands.paths.SouthBySouthWestSkilletCommand;
-//import edu.wpi.first.wpilibj2.command.*;
-
-//import frc.robot.commands.autocommands.*;
 import frc.robot.commands.autocommands.paths.*;
 
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
@@ -36,24 +31,15 @@ import frc.robot.triggers.*;
 import frc.robot.utilities.*;
 
 //--Other imports
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-
 
 //-------- CLASS RobotContainer --------\\
 
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ColorSensorSubsystem m_colorSensorSubsystem = new ColorSensorSubsystem();
-  private final DriveSubsystem m_drive = new DriveSubsystem();
-
-  //TODO: boolean for manual mode
 
   //-------- CONSTANTS --------\\
 
@@ -123,6 +109,12 @@ public class RobotContainer {
   //--Drive subsystem
   private final DriveSubsystem driveSubsystem;
 
+  //--Flywheel piston subsystem
+  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
+
+  //--Flywheel subsystem
+  private final FlywheelSubsystem flywheelSubsystem;
+
   //--Gyro subsystem
   private final GyroSubsystem gyroSubsystem;
 
@@ -130,8 +122,8 @@ public class RobotContainer {
   private final HopperSubsystem hopperSubsystem;
  
   //--Intake subsystems
-  private final IntakeMotorSubsystem intakeMotors;
-  //private final IntakePistonSubsystem intakePistons;
+  private final IntakeMotorSubsystem intakeMotorSubsystem;
+  private final IntakePistonSubsystem intakePistonSubsystem;
   
   //--Kicker subsystem
   private final KickerSubsystem kickerSubsystem;
@@ -141,9 +133,6 @@ public class RobotContainer {
 
   //--Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
-
-  //--Flywheel subsystem
-  private final FlywheelSubsystem flywheelSubsystem;
 
   //--Tower subsystem
   private final TowerSubsystem towerSubsystem;
@@ -192,9 +181,6 @@ public class RobotContainer {
   private final RunFlywheelCommand runFlywheelCommand;
   private final StopFlywheelCommand stopFlywheelCommand;
 
-  //--Shooter flywheel
-  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
-
   //--Tower commands
   private final RunTowerCommand runTowerCommand;
   private final StopTowerCommand stopTowerCommand;
@@ -222,8 +208,8 @@ public class RobotContainer {
     driveSubsystem = new DriveSubsystem();
     gyroSubsystem = new GyroSubsystem();
     hopperSubsystem = new HopperSubsystem();
-    intakeMotors = new IntakeMotorSubsystem();
-    //intakePistons = new IntakePistonSubsystem();
+    intakeMotorSubsystem = new IntakeMotorSubsystem();
+    intakePistonSubsystem = new IntakePistonSubsystem();
     kickerSubsystem = new KickerSubsystem();
     //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
@@ -237,8 +223,8 @@ public class RobotContainer {
     //--Commands
     
     //intake
-    deployIntakeCommand = new DeployIntakeCommand(/*intakePistons,*/ intakeMotors);
-    returnIntakeCommand = new ReturnIntakeCommand(/*intakePistons,*/ intakeMotors);
+    deployIntakeCommand = new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
+    returnIntakeCommand = new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
 
     //auto
     saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand);

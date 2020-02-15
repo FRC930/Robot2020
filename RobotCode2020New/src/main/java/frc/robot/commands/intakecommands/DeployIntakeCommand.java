@@ -28,28 +28,28 @@ public class DeployIntakeCommand extends CommandBase {
 
   //-------- DECLARATIONS --------\\
 
-  //private final IntakePistonSubsystem intakePistons;
-  private final IntakeMotorSubsystem intakeMotors;
+  private IntakePistonSubsystem intakePistonSubsystem;
+  private IntakeMotorSubsystem intakeMotorSubsystem;
 
   //-------- CONSTRUCTOR --------\\
 
-  public DeployIntakeCommand(/*IntakePistonSubsystem iPistons,*/ IntakeMotorSubsystem iMotors) {
-    //intakePistons = iPistons;
-    intakeMotors = iMotors;
+  public DeployIntakeCommand(IntakePistonSubsystem intakePistonSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+    this.intakePistonSubsystem = intakePistonSubsystem;
+    this.intakeMotorSubsystem = intakeMotorSubsystem;
 
     logger.log(Level.FINE, "Initializing the DeployIntakeCommand...");
 
-    addRequirements(/*iPistons,*/ iMotors);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intakePistonSubsystem, intakeMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
 
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-     //intakePistons.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
-     intakeMotors.setMotorSpeed(Constants.INTAKE_SPEED);
+    intakePistonSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
+    intakeMotorSubsystem.setMotorSpeed(Constants.INTAKE_SPEED);
 
-     logger.log(Level.FINE, "Deploying the intake (command)..."); 
+    logger.log(Level.FINE, "Deploying the intake (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
