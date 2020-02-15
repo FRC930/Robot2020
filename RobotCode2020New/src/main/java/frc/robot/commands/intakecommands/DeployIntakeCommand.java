@@ -28,25 +28,25 @@ public class DeployIntakeCommand extends CommandBase {
 
   //-------- DECLARATIONS --------\\
 
-  private final IntakePistonSubsystem intakePistons;
+  //private final IntakePistonSubsystem intakePistons;
   private final IntakeMotorSubsystem intakeMotors;
 
   //-------- CONSTRUCTOR --------\\
 
-  public DeployIntakeCommand(IntakePistonSubsystem iPistons, IntakeMotorSubsystem iMotors) {
-    intakePistons = iPistons;
+  public DeployIntakeCommand(/*IntakePistonSubsystem iPistons,*/ IntakeMotorSubsystem iMotors) {
+    //intakePistons = iPistons;
     intakeMotors = iMotors;
 
     logger.log(Level.FINE, "Initializing the DeployIntakeCommand...");
 
-    addRequirements(iPistons, iMotors);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(/*iPistons,*/ iMotors);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
 
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-     intakePistons.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
+     //intakePistons.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
      intakeMotors.setMotorSpeed(Constants.INTAKE_SPEED);
 
      logger.log(Level.FINE, "Deploying the intake (command)..."); 

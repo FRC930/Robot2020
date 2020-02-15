@@ -1,33 +1,45 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//-------- IMPORTS --------\\
+
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterAngleSubsystem;
-import frc.robot.subsystems.ShooterAngleSubsystem.SolenoidValues;
+
+import frc.robot.subsystems.ShooterPistonSubsystem;
+import frc.robot.subsystems.ShooterPistonSubsystem.SolenoidValues;
+
+//-------- COMMAND CLASS --------\\
 
 public class ExtendShooterPistonCommand extends CommandBase {
 
-    private ShooterAngleSubsystem m_ShooterAngleSubsystem;
+  //-------- DECLARATIONS --------\\
+
+  private ShooterPistonSubsystem shooterPistonSubsystem;
     
-    public ExtendShooterPistonCommand(ShooterAngleSubsystem ShooterAngleSubsystem){
-        m_ShooterAngleSubsystem = ShooterAngleSubsystem;
-        addRequirements(m_ShooterAngleSubsystem);
-    }
-    // Called when the command is initially scheduled.
+  //-------- CONSTRUCTOR --------\\
+  
+  public ExtendShooterPistonCommand(ShooterPistonSubsystem m_shooterPistonSubsystem){
+    shooterPistonSubsystem = m_shooterPistonSubsystem;
+    addRequirements(shooterPistonSubsystem);
+  }
+
+  //-------- COMMANDBASE METHODS --------\\
+
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooterPistonSubsystem.set(SolenoidValues.EXTEND);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterAngleSubsystem.set(SolenoidValues.EXTEND);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,4 +52,5 @@ public class ExtendShooterPistonCommand extends CommandBase {
    public boolean isFinished() {
      return true;
    }
-}//End of class ExtendShooterPistonCommand
+
+} // end of class ExtendShooterPistonCommand

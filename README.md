@@ -1,15 +1,20 @@
 # Robot2020
+2020 Robot Code Repository
 
-2020 Robot Code Repository for Infinite Recharge. 
-
-# Ocampo's side
-
-Limelight code
-
-# Kitzman's side
-
-Autonomous code
-
-# Jabroni's side
-
-Shooter code
+# Ocampo's Team
+ - Limelight
+ - Turret
+ - Shooter Angle Toggle
+ - Hopper, Kicker, Tower
+ 
+ # Kitzman's Team
+ - Autonomous
+ - Drive
+ - Shuffleboard
+ - Intake
+ 
+ # Jambretz's Team
+ - Shooter
+ - Shooter Calculations
+ - Deadband
+ - LEDs

@@ -10,7 +10,7 @@ package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensorSubsystem;
 import frc.robot.commands.colorwheelcommands.GetColorCommand;
-//import java.util.logging.*;
+import java.util.logging.*;
 
 public class PositionalControlTrackerCommand extends CommandBase {
 
@@ -20,6 +20,8 @@ public class PositionalControlTrackerCommand extends CommandBase {
 
     private GetColorCommand getColorCommand;
     private final ColorSensorSubsystem m_subsystem;
+    // Creates an instance of the logger class
+    private Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
 
     //-------- CONSTRUCTOR --------\\
 
@@ -37,7 +39,8 @@ public class PositionalControlTrackerCommand extends CommandBase {
 
     @Override
     public void execute() {
-        getColorCommand.rotationalTrackerCounter();
+        logger.entering(this.getClass().getName(), "execute");
+        logger.exiting(this.getClass().getName(), "execute");
     }
 
     // Called once the command ends or is interrupted.

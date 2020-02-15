@@ -52,4 +52,5 @@ public class StopFlywheelCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
+    
 } // end of class StopFlywheelCommand
