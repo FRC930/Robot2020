@@ -35,15 +35,13 @@ public class SaltAndPepperSkillet extends SequentialCommandGroup {
     private GyroSubsystem gyroSubsystem;
     private DeployIntakeCommand deployIntakeCommand;
     private ReturnIntakeCommand returnIntakeCommand;
-    private ShootPowerCellCommand shootPowerCellCommand;
-    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommand SPCCommand){
-        
+    //private ShootPowerCellCommand shootPowerCellCommand;
+    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem/*, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommand SPCCommand*/){
         driveSubsystem = dSubsystem;
         gyroSubsystem = gSubsystem;
-        deployIntakeCommand = DICommand;
-        returnIntakeCommand = RICommand;
-        shootPowerCellCommand = SPCCommand;
-
+        //deployIntakeCommand = DICommand;
+        //returnIntakeCommand = RICommand;
+        //shootPowerCellCommand = SPCCommand;
         var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -58,26 +56,28 @@ public class SaltAndPepperSkillet extends SequentialCommandGroup {
       .setKinematics(Constants.KDRIVEKINEMATICS)
       // Apply the voltage constraint
       .addConstraint(autoVoltageConstraint);
-
     // -------- Trajectories -------- \\
-
     // Generates a trajectory 
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at initiation line
         new Pose2d(0, 0, new Rotation2d(0)),
         List.of( 
             // Midpoints
+            new Translation2d(inchesToMeters(12.5), inchesToMeters(-1)),
+            new Translation2d(inchesToMeters(27.5), inchesToMeters(-1)),
+            new Translation2d(inchesToMeters(52.5), inchesToMeters(-1)),
+            new Translation2d(inchesToMeters(67.5), inchesToMeters(-2)),
+            new Translation2d(inchesToMeters(75), inchesToMeters(-3)),
+            new Translation2d(inchesToMeters(90), inchesToMeters(-7)),
+            new Translation2d(inchesToMeters(100), inchesToMeters(-13)),
+            new Translation2d(inchesToMeters(110), inchesToMeters(-24))
         ),
         // End infront of the rendezvous point. Simply move forward 48 inches = 4 feet
-        new Pose2d(2, 0, new Rotation2d(0)),
+        new Pose2d(inchesToMeters(122.5), inchesToMeters(-40), new Rotation2d(Math.toRadians(270))),
         // Pass config
         config
-
     );
-
-
     // -------- RAMSETE Commands -------- \\
-
     // Creates a command that can be added to the command scheduler in the sequential command
     // The Ramsete Controller is a trajectory tracker that is built in to WPILib.
     // This tracker can be used to accurately track trajectories with correction for minor disturbances.
@@ -100,7 +100,9 @@ public class SaltAndPepperSkillet extends SequentialCommandGroup {
         driveSubsystem 
     );
         //ParallelRaceGroup DeployIntakeAndDriveParrellelCommand = new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand);
-        
-        addCommands(deployIntakeCommand,ramseteCommand1,new WaitCommand(1),returnIntakeCommand);
+        addCommands(/*deployIntakeCommand,*/ramseteCommand1/*,new WaitCommand(1),returnIntakeCommand*/);
+    }
+    private double inchesToMeters(double inch){
+        return inch/39.3701;
     }
 }

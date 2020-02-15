@@ -25,10 +25,11 @@ public class ShootPowerCellCommand extends ParallelRaceGroup {
         addRequirements(shooterSubsystem, towerSubsystem, hopperSubsystem, limeLight);
 
         addCommands(new CheckIfShotPossible(limeLight),
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(new RunShooterCommand(shooterSubsystem,
-                                new ShooterMath(limeLight.getHorizontalOffset(), limeLight.getDistance()).getVelocity()),
-                                new RunHopperCommand(hopperSubsystem)),
-                        new RunTowerCommand(towerSubsystem)));
+                new SequentialCommandGroup(new ParallelCommandGroup(new RunShooterCommand(shooterSubsystem,
+                                                                                          new ShooterMath(limeLight.getHorizontalOffset(), 
+                                                                                          limeLight.getDistance()).getVelocity()), 
+                                           new RunHopperCommand(hopperSubsystem)), 
+                                           new RunTowerCommand(towerSubsystem))
+                                          );
     }
 }

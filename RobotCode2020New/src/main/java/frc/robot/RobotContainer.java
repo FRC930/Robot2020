@@ -131,7 +131,7 @@ public class RobotContainer {
  
   //--Intake subsystems
   private final IntakeMotorSubsystem intakeMotors;
-  //private final IntakePistonSubsystem intakePistons;
+  private final IntakePistonSubsystem intakePistons;
   
   //--Kicker subsystem
   private final KickerSubsystem kickerSubsystem;
@@ -188,7 +188,7 @@ public class RobotContainer {
 
   //--Shooter commands
   private final RunShooterCommand runShooterCommand;
-  private final ShootPowerCellCommand shootPowerCellCommand;
+  //private final ShootPowerCellCommand shootPowerCellCommand;
     //For manual mode
   private final RunFlywheelCommand runFlywheelCommand;
   private final StopFlywheelCommand stopFlywheelCommand;
@@ -221,7 +221,7 @@ public class RobotContainer {
     gyroSubsystem = new GyroSubsystem();
     hopperSubsystem = new HopperSubsystem();
     intakeMotors = new IntakeMotorSubsystem();
-    //intakePistons = new IntakePistonSubsystem();
+    intakePistons = new IntakePistonSubsystem();
     kickerSubsystem = new KickerSubsystem();
     //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
@@ -230,12 +230,12 @@ public class RobotContainer {
     turretSubsystem = new TurretSubsystem();
     
     //--Commands
-    shootPowerCellCommand = new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem);
+    //shootPowerCellCommand = new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem);
     //intake
-    deployIntakeCommand = new DeployIntakeCommand(/*intakePistons,*/ intakeMotors);
-    returnIntakeCommand = new ReturnIntakeCommand(/*intakePistons,*/ intakeMotors);
+    deployIntakeCommand = new DeployIntakeCommand(intakePistons, intakeMotors);
+    returnIntakeCommand = new ReturnIntakeCommand(intakePistons, intakeMotors);
     //auto
-    saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand,shootPowerCellCommand);
+    saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem/*,deployIntakeCommand,returnIntakeCommand,shootPowerCellCommand*/);
     autonomousCommand = new AutonomousCommand(driveSubsystem, gyroSubsystem);
     
     rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem,colorWheelSpinnerSubsystem);
@@ -421,7 +421,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autonomousCommand;
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+    scheduler.setDefaultCommand(turretSubsystem, autoAimTurretCommand);
+    return saltAndPepperSkillet;
     // Run path following command, then stop at the end.
   }
 
