@@ -123,6 +123,9 @@ public class RobotContainer {
   //--Flywheel subsystem
   private final FlywheelSubsystem flywheelSubsystem;
 
+  //--Flywheel Angle Subsystem
+  private final FlywheelAngleSubsystem flywheelAngleSubsystem;
+
   //--Tower subsystem
   private final TowerSubsystem towerSubsystem;
 
@@ -195,6 +198,7 @@ public class RobotContainer {
     towerSubsystem = new TowerSubsystem();
     turretSubsystem = new TurretSubsystem();
     kickerSubsystem = new KickerSubsystem();
+    flywheelAngleSubsystem = new FlywheelAngleSubsystem();
     
     //--Commands
 
@@ -279,7 +283,7 @@ public class RobotContainer {
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
       //Shooter command binds
-      shootButton.whileActiveOnce(new ShootPowerCellCommand(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem));
+      shootButton.whileActiveOnce(new ShootPowerCellCommand(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelAngleSubsystem));
       shootButton.whenReleased(new StopTowerKickerCommand(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
 

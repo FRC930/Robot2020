@@ -45,7 +45,7 @@ public class RunFlywheelCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     //System.out.println("isAtSpeed(): " + isAtSpeed());
-    return false;
+    return isAtSpeed();
   }
 
   private boolean isAtSpeed() {

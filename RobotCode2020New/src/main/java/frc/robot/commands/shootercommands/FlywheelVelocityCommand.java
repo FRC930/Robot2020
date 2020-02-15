@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.FlywheelAngleSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.utilities.ShooterMath;
 
 /**
@@ -16,13 +17,16 @@ import frc.robot.utilities.ShooterMath;
 public class FlywheelVelocityCommand extends CommandBase {
 
     private FlywheelAngleSubsystem m_FlywheelAngleSubsystem;
-    FlywheelSubsystem m_FlywheelSubsystem;
+    private FlywheelSubsystem m_FlywheelSubsystem;
+    private LimelightSubsystem m_LimelightSubsystem;
     private ShooterMath math = ShooterMath.getInstance();
 
     public FlywheelVelocityCommand(FlywheelAngleSubsystem flywheelAngleSubsystem, FlywheelSubsystem flywheelSubsystem,
-            boolean solenoidStatus) {
+            boolean solenoidStatus, LimelightSubsystem limelightSubsystem)
+    {
         m_FlywheelAngleSubsystem = flywheelAngleSubsystem;
         m_FlywheelSubsystem = flywheelSubsystem;
+        m_LimelightSubsystem = limelightSubsystem;
         
         addRequirements(m_FlywheelAngleSubsystem, m_FlywheelSubsystem);
     }
@@ -37,11 +41,7 @@ public class FlywheelVelocityCommand extends CommandBase {
     public void execute() {
         // FlywheelSubsystem get angle
         // Limelight get distance
-        // TODO: Get the distance and angle
-        this.math.setPosition(/* FlywheelSubsystem angle */ m_FlywheelAngleSubsystem.get() ? 45 : 60, /* Limelight distance */ 0);
-
-        //TODO: Change how this is actually running.
-        CommandScheduler.getInstance().schedule(new RunFlywheelCommand(m_FlywheelSubsystem, this.math.getVelocity()));
+        this.math.setPosition(m_FlywheelAngleSubsystem.get() ? 31.4 : 39, m_LimelightSubsystem.getDistance());
     }
 
     // Called once the command ends or is interrupted.

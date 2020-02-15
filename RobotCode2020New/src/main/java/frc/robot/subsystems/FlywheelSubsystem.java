@@ -83,21 +83,24 @@ public class FlywheelSubsystem extends SubsystemBase {
         //SmartDashboard.putNumber("motorSpeed", speed);
         // Set PID to speed up flywheel
         //this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-        motorLead.set(speed * 5880 * PID_FF);
+        if((speed * 5880 * PID_FF) <= 0.9)
+        {
+            motorLead.set(speed * 5880 * PID_FF);
+        }
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
         logger.exiting(getClass().getName(), "setSpeed()");
     } // end of method setSpeed()
 
     public void setVelocity(double metersPerSecond) {
-        this.setSpeed(this.SLOPE * metersPerSecond - this.Y_INTERCEPT);
+        this.setSpeed((this.SLOPE * metersPerSecond) - this.Y_INTERCEPT);
     }
 
     public void stop() {
         logger.entering(getClass().getName(), "stop()");
 
         // Set motors to stop without PID to allow them to coast down
-        //motorLead.set(0.0);
+        motorLead.set(0.0);
 
         logger.exiting(getClass().getName(), "stop()");
     }
