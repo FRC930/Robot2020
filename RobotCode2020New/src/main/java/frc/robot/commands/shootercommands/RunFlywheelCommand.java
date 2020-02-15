@@ -54,4 +54,5 @@ public class RunFlywheelCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
+    
 } // end of class RunFlywheelCommand

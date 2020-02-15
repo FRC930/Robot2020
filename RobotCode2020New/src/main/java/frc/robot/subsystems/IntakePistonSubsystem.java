@@ -27,29 +27,26 @@ public class IntakePistonSubsystem extends SubsystemBase {
 
     //-------- DECLARATIONS --------\\
 
-    private Solenoid intakePistonRight;
-    private Solenoid intakePistonLeft;
+    private Solenoid intakePistonController;
    
     //-------- CONSTRUCTOR --------\\
 
     public IntakePistonSubsystem() {
-        intakePistonRight = new Solenoid(Constants.INTAKE_RIGHT_ID);
-        intakePistonLeft = new Solenoid(Constants.INTAKE_LEFT_ID);
+        intakePistonController = new Solenoid(Constants.INTAKE_SOLENOID_ID);
     }
 
     //-------- METHODS --------\\
     
     public void setIntakePistonState(boolean state) {
-        intakePistonLeft.set(state);
-        intakePistonRight.set(state);
+        intakePistonController.set(state);
         
         logger.log(Level.FINE,"setIntakePistonState: " + state);
     }
 
     public boolean getIntakePistonState() {
-        logger.log(Level.FINE,"getIntakePistonState: " + (intakePistonLeft.get() && intakePistonRight.get()));
+        logger.log(Level.FINE,"getIntakePistonState: " + intakePistonController.get());
 
-        return (intakePistonLeft.get() && intakePistonRight.get());
+        return intakePistonController.get();
     }
 
     @Override
