@@ -35,13 +35,13 @@ public class SaltAndPepperSkillet extends SequentialCommandGroup {
     private GyroSubsystem gyroSubsystem;
     private DeployIntakeCommand deployIntakeCommand;
     private ReturnIntakeCommand returnIntakeCommand;
-    //private ShootPowerCellCommand shootPowerCellCommand;
-    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem/*, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommand SPCCommand*/){
+    private ShootPowerCellCommand shootPowerCellCommand;
+    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommand SPCCommand){
         driveSubsystem = dSubsystem;
         gyroSubsystem = gSubsystem;
-        //deployIntakeCommand = DICommand;
-        //returnIntakeCommand = RICommand;
-        //shootPowerCellCommand = SPCCommand;
+        deployIntakeCommand = DICommand;
+        returnIntakeCommand = RICommand;
+        shootPowerCellCommand = SPCCommand;
         var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -99,8 +99,8 @@ public class SaltAndPepperSkillet extends SequentialCommandGroup {
         driveSubsystem::tankDriveVolts,
         driveSubsystem 
     );
-        //ParallelRaceGroup DeployIntakeAndDriveParrellelCommand = new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand);
-        addCommands(/*deployIntakeCommand,*/ramseteCommand1/*,new WaitCommand(1),returnIntakeCommand*/);
+        ParallelRaceGroup DeployIntakeAndDriveParrellelCommand = new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand);
+        addCommands(DeployIntakeAndDriveParrellelCommand,new WaitCommand(1),returnIntakeCommand,shootPowerCellCommand);
     }
     private double inchesToMeters(double inch){
         return inch/39.3701;

@@ -139,6 +139,8 @@ public class RobotContainer {
 
   //--Turret subsystem
   private final TurretSubsystem turretSubsystem;
+
+  
   
   //-------- COMMANDS --------\\
 
@@ -175,6 +177,7 @@ public class RobotContainer {
   //TODO: Add LED commands here
 
   //--Shooter commands
+  ShootPowerCellCommand shootPowerCellCommand;
   //--Flywheel commands
   private final RunDefaultFlywheel runDefaultFlywheel;
   //For manual mode
@@ -221,13 +224,13 @@ public class RobotContainer {
 
     
     //--Commands
-    //shootPowerCellCommand = new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem);
+    shootPowerCellCommand = new ShootPowerCellCommand(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem);
     //intake
     deployIntakeCommand = new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
     returnIntakeCommand = new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
 
     //auto
-    saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem/*,deployIntakeCommand,returnIntakeCommand,shootPowerCellCommand*/);
+    saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand,shootPowerCellCommand);
     autonomousCommand = new AutonomousCommand(driveSubsystem, gyroSubsystem);
     
     rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem,colorWheelSpinnerSubsystem);
