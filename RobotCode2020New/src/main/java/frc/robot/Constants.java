@@ -46,6 +46,12 @@ public final class Constants {
     
     //[-------------------PISTON IDS-------------------------]
 
+    //[-------------------PORT IDS---------------------------]
+
+    public static final int ENCODER_PORT_ID = 0;
+
+    //[-------------------PORT IDS---------------------------]
+
     //[-------------------DRIVE------------------------]
 
     public static final double MOTOR_RAMP_RATE = 0.5;
@@ -61,6 +67,12 @@ public final class Constants {
     public static final double INTAKE_SPEED = 0.8;
 
     //[-------------------SPEEDS--------------------------]
+
+    //[-------------------LIMITS--------------------------]
+
+    public static final double ENCODER_ROTATION_LIMIT = 0.2639;
+
+    //[-------------------LIMITS--------------------------]
 
     //[-------------------STATES--------------------------]
 
