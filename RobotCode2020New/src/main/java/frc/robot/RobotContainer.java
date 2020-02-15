@@ -132,7 +132,7 @@ public class RobotContainer {
  
   //--Intake subsystems
   private final IntakeMotorSubsystem intakeMotors;
-  private final IntakePistonSubsystem intakePistons;
+  //private final IntakePistonSubsystem intakePistons;
   
   //--Kicker subsystem
   private final KickerSubsystem kickerSubsystem;
@@ -224,7 +224,7 @@ public class RobotContainer {
     gyroSubsystem = new GyroSubsystem();
     hopperSubsystem = new HopperSubsystem();
     intakeMotors = new IntakeMotorSubsystem();
-    intakePistons = new IntakePistonSubsystem();
+    //intakePistons = new IntakePistonSubsystem();
     kickerSubsystem = new KickerSubsystem();
     //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
@@ -235,8 +235,8 @@ public class RobotContainer {
     //--Commands
     
     //intake
-    deployIntakeCommand = new DeployIntakeCommand(intakePistons, intakeMotors);
-    returnIntakeCommand = new ReturnIntakeCommand(intakePistons, intakeMotors);
+    deployIntakeCommand = new DeployIntakeCommand(/*intakePistons,*/ intakeMotors);
+    returnIntakeCommand = new ReturnIntakeCommand(/*intakePistons,*/ intakeMotors);
     //auto
     saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand);
     autonomousCommand = new AutonomousCommand(driveSubsystem, gyroSubsystem);
@@ -333,7 +333,7 @@ public class RobotContainer {
       rotationalButton.whileActiveOnce(rotationalControlCommandGroup);
 
       //Drive command binds
-      driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
+      driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //shootButton.whileActiveOnce(new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem));
       //shootButton.whenReleased(new StopTowerCommand(towerSubsystem));
@@ -388,12 +388,12 @@ public class RobotContainer {
   private void configureCodriverBindings() { 
 
     //--Buttons
-    AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
-
+    //AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
+    JoystickButton a = new JoystickButton(coDriverController, 1);
     //--Command binds
 
     //Toggle intake
-    intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
+    a.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
 
   } // end of method configureCodriverBindings()
   

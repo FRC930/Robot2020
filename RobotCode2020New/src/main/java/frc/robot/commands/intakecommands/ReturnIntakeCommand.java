@@ -28,25 +28,25 @@ public class ReturnIntakeCommand extends CommandBase {
 
   //-------- DECLARATIONS --------\\
 
-  private final IntakePistonSubsystem intakePistonsSubsystem;
+  //private final IntakePistonSubsystem intakePistonsSubsystem;
   private final IntakeMotorSubsystem intakeMotorsSubsystem;
 
   //-------- CONSTRUCTOR --------\\
 
-  public ReturnIntakeCommand(IntakePistonSubsystem iPistonsSubsystem, IntakeMotorSubsystem iMotorSubsystem) {
-    intakePistonsSubsystem = iPistonsSubsystem;
+  public ReturnIntakeCommand(/*IntakePistonSubsystem iPistonsSubsystem,*/ IntakeMotorSubsystem iMotorSubsystem) {
+    //intakePistonsSubsystem = iPistonsSubsystem;
     intakeMotorsSubsystem = iMotorSubsystem;
 
     logger.log(Level.FINE, "Initializing the ReturnIntakeCommand...");
 
-    addRequirements(iPistonsSubsystem, iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(/*iPistonsSubsystem,*/ iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
 
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
-    intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
+    //intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
     intakeMotorsSubsystem.setMotorSpeed(0.0);
 
     logger.log(Level.FINE, "Returning the intake (command)...");
