@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//TODO: Uncomment PID stuff and configure it
+
 //-------- IMPORTS --------\\
 
 package frc.robot.subsystems;
@@ -12,15 +14,12 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.revrobotics.CANPIDController;
+//import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -30,9 +29,9 @@ public class FlywheelSubsystem extends SubsystemBase {
     // -------- CONSTANTS --------\\
 
     // PID Derivitive Gain
-    private final double PID_D = 0.02;
+    //private final double PID_D = 0.02;
     // PID Proportional Gain
-    private final double PID_P = 0.0001;
+    //private final double PID_P = 0.0001;
     // PID Feed-Forward Gain
     private final double PID_FF = 0.00025;
 
@@ -47,12 +46,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     private final CANSparkMax motorLead;
     private final CANSparkMax motor2;
 
-    private CANPIDController pidcontroller;
-
-    // TODO: Uncomment once this is added
-    // solenoid dedicated to moving the turret up and down to have a close and far
-    // range
-    // private final Solenoid solenoid;
+    //private CANPIDController pidcontroller;
 
     // -------- CONSTRUCTOR --------\\
 
@@ -62,6 +56,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         this.motorLead = new CANSparkMax(Constants.SHOOTER_LEAD_ID, MotorType.kBrushless);
         this.motor2 = new CANSparkMax(Constants.SHOOTER_SLAVE_ID, MotorType.kBrushless);
 
+        //TODO: Config PID
         // Setting our PID values
         // this.pidcontroller = motorLead.getPIDController();
         // this.pidcontroller.setFF(PID_FF);
@@ -80,13 +75,9 @@ public class FlywheelSubsystem extends SubsystemBase {
     public void setSpeed(double speed) {
         logger.entering(this.getClass().getName(), "setSpeed()");
 
-        // SmartDashboard.putNumber("motorSpeed", speed);
         // Set PID to speed up flywheel
         // this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-        // motorLead.set(speed * 5880 * PID_FF); TODO: Uncomment me
-        System.out.println("I AM SETTING DA SPEED BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB to " + speed);
-        SmartDashboard.putNumber("Speed", speed);
-        motorLead.set(speed);
+        motorLead.set(speed * 5880 * PID_FF);
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
         logger.exiting(getClass().getName(), "setSpeed()");
@@ -101,7 +92,6 @@ public class FlywheelSubsystem extends SubsystemBase {
 
         // Set motors to stop without PID to allow them to coast down
         motorLead.set(0.0);
-        System.out.println("Stopping Motors");
 
         logger.exiting(getClass().getName(), "stop()");
     }
@@ -116,8 +106,11 @@ public class FlywheelSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //TODO: This should be outputted by Shuffleboard stuff
+        /*
         SmartDashboard.putNumber("LeftRPM", getSpeed());
         SmartDashboard.putNumber("RightRPM", getSpeed());
         SmartDashboard.putNumber("AppliedOutput", motorLead.getAppliedOutput());
+        */
     }
 } // end of class ShooterSubsystem

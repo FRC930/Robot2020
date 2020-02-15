@@ -1,25 +1,40 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+//-------- IMPORTS --------\\
+
 package frc.robot.commands.turretcommads;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TurretSubsystem;
 
-/**
- * TurretSpeedCommand is a temporary speed controller
- */
-public class StopTurretCommand extends CommandBase {
-    private TurretSubsystem turret;
+//-------- COMMAND CLASS --------\\
 
-    public StopTurretCommand(TurretSubsystem turret) {
-        this.turret = turret;
+public class StopTurretCommand extends CommandBase {
+
+    //-------- DECLARATIONS --------\\
+
+    private TurretSubsystem turretSubsystem;
+
+    //-------- CONSTRUCTOR --------\\
+
+    public StopTurretCommand(TurretSubsystem turretSubsystem) {
+        this.turretSubsystem = turretSubsystem;
     }
+
+    //-------- METHODS --------\\
 
     @Override
     public void execute() {
-        turret.setSpeed(0);
+        turretSubsystem.setSpeed(0.0);
     }
 
     @Override
     public boolean isFinished() {
         return true;
     }
-}
+} // end of class StopTurretCommand

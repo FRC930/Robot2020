@@ -1,4 +1,4 @@
-package frc.robot.commands.autocommands.paths;
+package frc.robot.commands.autocommands.actioncommands;
 
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.GyroSubsystem;;
 
-public class Spin extends CommandBase {
+public class SpinCommand extends CommandBase {
     private DriveSubsystem driveSubsystem;
     private GyroSubsystem gyroSubsystem;
 
-    public Spin(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
+    public SpinCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
         driveSubsystem = dSubsystem;
         gyroSubsystem = gSubsystem;
     }

@@ -24,15 +24,15 @@ public class TowerSubsystem extends SubsystemBase {
   
     //-------- CONSTANTS --------\\
 
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
     //-------- DECLARATIONS --------\\
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
-    // VictorSPX is a motor controller that makes the conveor belt  
-    //Take's the power cell up to the shooter
+    // VictorSPX is a motor controller that makes the conveor belt  Take's the power cell up to the shooter
     private VictorSPX towerMotor;
 
     //-------- CONSTRUCTOR --------\\
+
     public TowerSubsystem() {
         towerMotor = new VictorSPX(Constants.TOWER_ID);  
         logger.setLevel(Level.FINE);
@@ -46,6 +46,7 @@ public class TowerSubsystem extends SubsystemBase {
         logger.log(Level.INFO, "motorSpeed: " + -speed);
 
         towerMotor.set(ControlMode.PercentOutput, -speed);
+
         logger.exiting (this.getClass().getName(), "setSpeed");
     }
         
@@ -60,8 +61,7 @@ public class TowerSubsystem extends SubsystemBase {
 
     //stops the motor
     public void stopMotor() {
-        towerMotor.set(ControlMode.PercentOutput, 0);
+        towerMotor.set(ControlMode.PercentOutput, 0.0);
     }
-
 
 } //end of class TowerSubsystem

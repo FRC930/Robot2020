@@ -15,21 +15,21 @@ import edu.wpi.first.wpilibj.Compressor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import frc.robot.Constants;
+
 //-------- SUBSYSTEM CLASS --------\\
 
 public class CompresserSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    // this is the port number for the compressor
-    private final int COMPRESSOR_PORT = 0;
-        //values for turning on and off the compressor
+    //values for turning on and off the compressor
     private final boolean COMPRESSOR_ON = true;
     private final boolean COMPRESSOR_OFF = false;
 
-    //-------- DECLARATIONS --------\\
-
     private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
+
+    //-------- DECLARATIONS --------\\
 
     //creates a objest of the compressor class
     private Compressor compressorUtility;
@@ -38,22 +38,19 @@ public class CompresserSubsystem extends SubsystemBase {
 
     //this is the contstructer for the compressor
     public CompresserSubsystem() {
-        //TODO: Uncomment this
-        //compressorUtility = new Compressor(COMPRESSOR_PORT);  
+        compressorUtility = new Compressor(Constants.COMPRESSOR_PORT);  
     }
 
     //-------- METHODS --------\\
     
     //turns compresser eather on and off
     public void turnCompressorOn() {
-        //TODO: Uncomment this
-        //compressorUtility.setClosedLoopControl(COMPRESSOR_ON);
+        compressorUtility.setClosedLoopControl(COMPRESSOR_ON);
         logger.log(Level.FINE,"turning compresser on");
     }
 
     public void turnCompressorOff(){
-        //TODO: Uncomment this
-        // compressorUtility.setClosedLoopControl(COMPRESSOR_OFF);
+        compressorUtility.setClosedLoopControl(COMPRESSOR_OFF);
         logger.log(Level.FINE,"turning compresser off");
     }
 

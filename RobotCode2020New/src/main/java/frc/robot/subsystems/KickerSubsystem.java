@@ -24,12 +24,11 @@ public class KickerSubsystem extends SubsystemBase {
   
     //-------- CONSTANTS --------\\
 
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
     //-------- DECLARATIONS --------\\
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
-    // VictorSPX is a motor controller that makes the conveor belt  
-    //Take's the power cell up to the shooter
+    // VictorSPX is a motor controller that makes the conveor belt  Take's the power cell up to the shooter
     private VictorSPX kickerMotor;  
 
     //-------- CONSTRUCTOR --------\\
@@ -47,6 +46,7 @@ public class KickerSubsystem extends SubsystemBase {
         logger.log(Level.INFO, "motorSpeed: " + speed);
 
         kickerMotor.set(ControlMode.PercentOutput, speed);
+
         logger.exiting (this.getClass().getName(), "setSpeed");
     }
 
@@ -61,7 +61,7 @@ public class KickerSubsystem extends SubsystemBase {
 
     //stops the motor
     public void stopMotor() {
-        kickerMotor.set(ControlMode.PercentOutput, 0);
+        kickerMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
 } //end of class KickerSubsystem

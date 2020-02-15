@@ -19,13 +19,13 @@ public class StopTowerCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
-    private TowerSubsystem m_TowerSubsystem;
+    private TowerSubsystem towerSubsystem;
 
     //-------- CONSTRUCTOR --------\\
 
-    public StopTowerCommand(TowerSubsystem TowerSubsystem) {
-        m_TowerSubsystem = TowerSubsystem;
-        addRequirements(m_TowerSubsystem);
+    public StopTowerCommand(TowerSubsystem towerSubsystem) {
+        this.towerSubsystem = towerSubsystem;
+        addRequirements(towerSubsystem);
     }
 
     //-------- METHODS --------\\
@@ -33,7 +33,7 @@ public class StopTowerCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_TowerSubsystem.stopMotor();
+        towerSubsystem.stopMotor();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
