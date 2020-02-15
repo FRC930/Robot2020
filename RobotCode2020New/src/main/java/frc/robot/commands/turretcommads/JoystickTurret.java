@@ -22,15 +22,7 @@ public class JoystickTurret extends CommandBase {
     @Override
     public void execute() {
         double speed = Math.pow(this.driver.getRawAxis(0), 3);
-        /*if (speed < 0) {
-            if (turret.getEncoderPosition() > 1500) {
-                speed = 0;
-            }
-        } else if (speed > 0) {
-            if (turret.getEncoderPosition() < -1500) {
-                speed = 0;
-            }
-        }*/
+       
         turret.setSpeed(speed);
         System.out.println("running manual turret");
         //SmartDashboard.putNumber("TurretRotation", turret.getEncoderPosition());
