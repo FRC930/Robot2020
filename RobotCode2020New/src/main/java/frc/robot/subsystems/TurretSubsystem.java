@@ -34,6 +34,8 @@ public class TurretSubsystem extends SubsystemBase {
     // The motor controller that will control the turret
     private TalonSRX turretMotor;
     private DutyCycleEncoder encoder;
+
+    private final double DEGREE_CONVERSION_NUMBER = .0013889;
     
     //-------- CONSTRUCTOR --------\\
     
@@ -50,7 +52,6 @@ public class TurretSubsystem extends SubsystemBase {
     //-------- METHODS --------\\
 
     public void setSpeed(double speed) {
-        // 0.25/180 = x/190
 
         if(Math.abs(getEncoderPosition()) > Constants.ENCODER_ROTATION_LIMIT) {
             speed = 0;
@@ -66,9 +67,13 @@ public class TurretSubsystem extends SubsystemBase {
         return turretMotor.getMotorOutputPercent();
     }
 
+    public double unitsToDegrees(double units) {
+        return this.encoder.get() / DEGREE_CONVERSION_NUMBER;
+    }
+
     public double getEncoderPosition() {
         //return this.turretMotor.getSelectedSensorPosition();
-        return this.encoder.get();
+        return unitsToDegrees(this.encoder.get());
     }
     
 } // end of class TurretSubsystem

@@ -68,7 +68,7 @@ public final class Constants {
 
     //[-------------------LIMITS--------------------------]
 
-    public static final double ENCODER_ROTATION_LIMIT = 0.2639;
+    public static final double ENCODER_ROTATION_LIMIT = 190;
 
     //[-------------------LIMITS--------------------------]
 
