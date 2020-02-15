@@ -67,4 +67,10 @@ public class GyroSubsystem extends SubsystemBase {
         gyro.setYaw(0.0);
         gyro.setFusedHeading(0.0);
     }
+
+    @Override
+    public void periodic() {
+      //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
+      
+    }
 } // end of subsystem

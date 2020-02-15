@@ -63,16 +63,16 @@ public class FlywheelSubsystem extends SubsystemBase {
         this.motor2 = new CANSparkMax(Constants.SHOOTER_SLAVE_ID, MotorType.kBrushless);
 
         // Setting our PID values
-        //this.pidcontroller = motorLead.getPIDController();
-        //this.pidcontroller.setFF(PID_FF);
-        //this.pidcontroller.setOutputRange(0, 1);
-        //this.pidcontroller.setP(PID_P);
-        //this.pidcontroller.setD(PID_D);
+        // this.pidcontroller = motorLead.getPIDController();
+        // this.pidcontroller.setFF(PID_FF);
+        // this.pidcontroller.setOutputRange(0, 1);
+        // this.pidcontroller.setP(PID_P);
+        // this.pidcontroller.setD(PID_D);
 
         // Follow lead reverse speed
         motor2.follow(motorLead, true);
 
-        logger.setLevel(Level.INFO);
+        logger.setLevel(Level.FINEST);
     }
 
     // -------- METHODS --------\\
@@ -80,10 +80,13 @@ public class FlywheelSubsystem extends SubsystemBase {
     public void setSpeed(double speed) {
         logger.entering(this.getClass().getName(), "setSpeed()");
 
-        //SmartDashboard.putNumber("motorSpeed", speed);
+        // SmartDashboard.putNumber("motorSpeed", speed);
         // Set PID to speed up flywheel
-        //this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-        motorLead.set(speed * 5880 * PID_FF);
+        // this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
+        // motorLead.set(speed * 5880 * PID_FF); TODO: Uncomment me
+        System.out.println("I AM SETTING DA SPEED BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB to " + speed);
+        SmartDashboard.putNumber("Speed", speed);
+        motorLead.set(speed);
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
         logger.exiting(getClass().getName(), "setSpeed()");
@@ -97,7 +100,8 @@ public class FlywheelSubsystem extends SubsystemBase {
         logger.entering(getClass().getName(), "stop()");
 
         // Set motors to stop without PID to allow them to coast down
-        //motorLead.set(0.0);
+        motorLead.set(0.0);
+        System.out.println("Stopping Motors");
 
         logger.exiting(getClass().getName(), "stop()");
     }

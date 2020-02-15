@@ -34,12 +34,12 @@ public class HopperDefaultCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {   
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
+    public void execute() {       
     }
 
     // Called once the command ends or is interrupted.

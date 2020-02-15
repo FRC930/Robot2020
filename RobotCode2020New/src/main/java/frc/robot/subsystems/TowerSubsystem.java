@@ -43,9 +43,9 @@ public class TowerSubsystem extends SubsystemBase {
     //sets the speed to the tower motor 
     public void setSpeed(double speed){
         logger.entering(this.getClass().getName(), "setSpeed");
-        logger.log(Level.INFO, "motorSpeed: " + speed);
+        logger.log(Level.INFO, "motorSpeed: " + -speed);
 
-        towerMotor.set(ControlMode.PercentOutput, speed);
+        towerMotor.set(ControlMode.PercentOutput, -speed);
         logger.exiting (this.getClass().getName(), "setSpeed");
     }
         

@@ -23,7 +23,7 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
 
     //TODO: Change this port ID accordingly
-    private final int COLOR_WHEEL_PORT = 7;
+    private final int COLOR_WHEEL_PORT = 0;
 
     //-------- DECLARATIONS --------\\
 

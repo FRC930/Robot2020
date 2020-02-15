@@ -13,13 +13,11 @@ import frc.robot.subsystems.FlywheelSubsystem;
 public class RunDefaultFlywheel extends CommandBase {
 
     private FlywheelSubsystem m_FlywheelSubsystem;
-    private double m_Speed;
+    private final double m_Speed = 0.3;
 
-    public RunDefaultFlywheel(FlywheelSubsystem flywheelSubsystem, double speed) {
+    public RunDefaultFlywheel(FlywheelSubsystem flywheelSubsystem) {
         m_FlywheelSubsystem = flywheelSubsystem;
         addRequirements(m_FlywheelSubsystem);
-
-        m_Speed = speed;
     }
 
     // Called when the command is initially scheduled.
@@ -44,6 +42,11 @@ public class RunDefaultFlywheel extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 
 }

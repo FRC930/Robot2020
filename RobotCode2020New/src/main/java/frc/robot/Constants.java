@@ -28,8 +28,8 @@ public final class Constants {
     public static final int TURRET_ID = 5;
     public static final int INTAKE_ID = 6;
 
-    public static final int SHOOTER_LEAD_ID = 7;
-    public static final int SHOOTER_SLAVE_ID = 8;
+    public static final int SHOOTER_LEAD_ID = 8;
+    public static final int SHOOTER_SLAVE_ID = 7;
 
     public static final int HOPPER_ID = 9;
     public static final int TOWER_ID = 10;
@@ -52,7 +52,7 @@ public final class Constants {
 
     //[-------------------SPEEDS--------------------------]
 
-    public static final double HOPPER_DEFAULT_SPEED = 0.2;
+    public static final double HOPPER_DEFAULT_SPEED = 0.4;
     public static final double HOPPER_SHOOTING_SPEED = 0.75;
     public static final double TOWER_SPEED = 0.75;
     public static final double KICKER_SPEED = 1.0;
@@ -135,5 +135,5 @@ public final class Constants {
         
         // DRIVETRAIN Constants --------------------------------]
 
-        public static final Level LOG_LEVEL = Level.FINE;
+        public static final Level LOG_LEVEL = Level.OFF; //Level.FINE
 }

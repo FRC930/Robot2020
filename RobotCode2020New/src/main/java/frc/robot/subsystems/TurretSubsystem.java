@@ -42,17 +42,17 @@ public class TurretSubsystem extends SubsystemBase {
     private TalonSRX turretMotor;
     // private CANSparkMax turretMotor;
     // private CANEncoder turretEncoder;
-     //private DutyCycleEncoder encoder;
+     private DutyCycleEncoder encoder;
     
     //-------- CONSTRUCTOR --------\\
     
     public TurretSubsystem() {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         //this.turretEncoder = this.turretMotor.getEncoder();
-        //this.encoder = new DutyCycleEncoder(0);
-        //this.encoder.reset();
-        this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
-        this.turretMotor.setSelectedSensorPosition(0);
+        this.encoder = new DutyCycleEncoder(0);
+        this.encoder.reset();
+        // this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
+        // this.turretMotor.setSelectedSensorPosition(0);
         this.logger.log(Level.INFO, "Starting TurretSubsystem");
     }
 
@@ -79,7 +79,7 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public double getEncoderPosition() {
-        return this.turretMotor.getSelectedSensorPosition();//this.encoder.get();
+        return this.encoder.get();//this.turretMotor.getSelectedSensorPosition();//this.encoder.get();
     }
     
 } // end of class TurretSubsystem
