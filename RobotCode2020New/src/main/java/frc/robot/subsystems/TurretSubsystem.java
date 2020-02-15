@@ -64,16 +64,6 @@ public class TurretSubsystem extends SubsystemBase {
 
         // 0.25/180 = x/190
 
-        /*if (speed < 0) {
-            if (this.turretMotor.getSelectedSensorPosition() > ENCODER_ROTATION_LIMIT) {   
-                speed = 0;
-            }
-        } else if (speed > 0) {
-            if (this.turretMotor.getSelectedSensorPosition() < -ENCODER_ROTATION_LIMIT) { 
-                speed = 0;
-            }
-        }*/
-
         /*if(Math.abs(this.turretMotor.getSelectedSensorPosition()) > ENCODER_ROTATION_LIMIT) {
             speed = 0;
         }*/
