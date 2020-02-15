@@ -28,18 +28,18 @@ public class ReturnIntakeCommand extends CommandBase {
 
   //-------- DECLARATIONS --------\\
 
-  private final IntakePistonSubsystem intakePistonsSubsystem;
-  private final IntakeMotorSubsystem intakeMotorsSubsystem;
+  private IntakePistonSubsystem intakePistonsSubsystem;
+  private IntakeMotorSubsystem intakeMotorsSubsystem;
 
   //-------- CONSTRUCTOR --------\\
 
-  public ReturnIntakeCommand(IntakePistonSubsystem iPistonsSubsystem, IntakeMotorSubsystem iMotorSubsystem) {
-    intakePistonsSubsystem = iPistonsSubsystem;
-    intakeMotorsSubsystem = iMotorSubsystem;
+  public ReturnIntakeCommand(IntakePistonSubsystem intakePistonsSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
+    this.intakePistonsSubsystem = intakePistonsSubsystem;
+    this.intakeMotorsSubsystem = intakeMotorSubsystem;
 
     logger.log(Level.FINE, "Initializing the ReturnIntakeCommand...");
 
-    addRequirements(/*iPistonsSubsystem,*/ iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intakePistonsSubsystem, intakeMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\

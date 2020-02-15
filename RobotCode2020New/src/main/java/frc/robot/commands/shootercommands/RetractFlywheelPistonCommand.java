@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -10,29 +10,34 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.FlywheelSubsystem;
 
-public class RunFlywheelCommand extends CommandBase {
+import frc.robot.subsystems.FlywheelPistonSubsystem;
+import frc.robot.subsystems.FlywheelPistonSubsystem.SolenoidValues;
 
-  private FlywheelSubsystem m_FlywheelSubsystem;
-  private double m_Speed;
+public class RetractFlywheelPistonCommand extends CommandBase {
 
-  public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
-    m_FlywheelSubsystem = flywheelSubsystem;
-    addRequirements(m_FlywheelSubsystem);
-    m_Speed = speed;
-  }
+  //-------- DECLARATIONS --------\\
+
+  private FlywheelPistonSubsystem flywheelPistonSubsystem;
+
+  //-------- CONSTRUCTOR --------\\
+    
+  public RetractFlywheelPistonCommand(FlywheelPistonSubsystem flywheelPistonSubsystem){
+    this.flywheelPistonSubsystem = flywheelPistonSubsystem;
+    addRequirements(flywheelPistonSubsystem);
+  }  
+  
+  //-------- COMMANDBASE METHODS --------\\
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //Run the flywheel at a certain speed
-    m_FlywheelSubsystem.setSpeed(m_Speed);
+    flywheelPistonSubsystem.set(SolenoidValues.RETRACT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() { 
   }
 
   // Called once the command ends or is interrupted.
@@ -43,12 +48,7 @@ public class RunFlywheelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isAtSpeed();
+    return true;
   }
 
-  private boolean isAtSpeed() {
-    return this.m_FlywheelSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_FlywheelSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
-  }
-
-} // end of command class RunFlywheelCommand
-
+} // end of class RetractFlywheelPistonCommand

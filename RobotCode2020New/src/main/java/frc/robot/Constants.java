@@ -39,9 +39,9 @@ public final class Constants {
 
     //[-------------------PISTON IDS-------------------------]
 
-    public static final int INTAKE_LEFT_ID = 0;
-    public static final int INTAKE_RIGHT_ID = 1;
-    
+    public static final int INTAKE_SOLENOID_ID = 0;
+    public static final int SHOOTER_SOLENOID_ID = 1;
+
     //[-------------------PISTON IDS-------------------------]
 
     //[-------------------DRIVE------------------------]
