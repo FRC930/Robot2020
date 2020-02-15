@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="frc.robot.utilities.ShooterMathTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-02-15T19:23:04" hostname="LAPTOP-K8SVGFJ2" time="0.005">
+<testsuite name="frc.robot.utilities.ShooterMathTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-02-15T19:40:28" hostname="LAPTOP-K8SVGFJ2" time="0.007">
   <properties/>
   <testcase name="testneg1_8" classname="frc.robot.utilities.ShooterMathTest" time="0.003"/>
   <testcase name="test0_8" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
@@ -7,10 +7,10 @@
   <testcase name="test25_0" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
   <testcase name="test40_3" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
   <testcase name="test40_8" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
-  <testcase name="test90_8" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
+  <testcase name="test90_8" classname="frc.robot.utilities.ShooterMathTest" time="0.001"/>
   <testcase name="test91_8" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
   <testcase name="test25_100" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
-  <testcase name="test25_neg1" classname="frc.robot.utilities.ShooterMathTest" time="0.0"/>
+  <testcase name="test25_neg1" classname="frc.robot.utilities.ShooterMathTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
