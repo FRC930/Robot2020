@@ -10,49 +10,45 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-
-//-------- COMMAND CLASS --------\\
+import frc.robot.subsystems.FlywheelSubsystem;
 
 public class RunFlywheelCommand extends CommandBase {
 
-    //-------- CONSTANTS --------\\
+  private FlywheelSubsystem m_FlywheelSubsystem;
+  private double m_Speed;
 
-    private final double SPEED = 0.5;
+  public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
+    m_FlywheelSubsystem = flywheelSubsystem;
+    addRequirements(m_FlywheelSubsystem);
+    m_Speed = speed;
+  }
 
-    //-------- DECLARATIONS --------\\
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    //Run the flywheel at a certain speed
+    m_FlywheelSubsystem.setSpeed(m_Speed);
+  }
 
-    private ShooterSubsystem m_ShooterSubsystem;
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+  }
 
-    //-------- CONSTRUCTOR --------\\
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+  }
 
-    public RunFlywheelCommand(ShooterSubsystem shooterSubsystem) {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
-    }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return isAtSpeed();
+  }
 
-    //-------- METHODS --------\\
+  private boolean isAtSpeed() {
+    return this.m_FlywheelSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_FlywheelSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
+  }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        m_ShooterSubsystem.setSpeed(SPEED);
-    }
+} // end of command class RunFlywheelCommand
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
-    
-} // end of class RunFlywheelCommand

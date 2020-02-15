@@ -11,33 +11,26 @@ package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.ShooterPistonSubsystem;
-import frc.robot.subsystems.ShooterPistonSubsystem.SolenoidValues;
+import frc.robot.subsystems.FlywheelPistonSubsystem;
+import frc.robot.subsystems.FlywheelPistonSubsystem.SolenoidValues;
 
-public class RetractShooterPistonCommand extends CommandBase {
+public class ExtendFlywheelPistonCommand extends CommandBase {
 
-  //-------- DECLARATIONS --------\\
+  private FlywheelPistonSubsystem flywheelAngleSubsystem;
 
-  private ShooterPistonSubsystem shooterPistonSubsystem;
-
-  //-------- CONSTRUCTOR --------\\
-    
-  public RetractShooterPistonCommand(ShooterPistonSubsystem m_shooterAngleSubsystem){
-    shooterPistonSubsystem = m_shooterAngleSubsystem;
-    addRequirements(shooterPistonSubsystem);
-  }  
-  
-  //-------- COMMANDBASE METHODS --------\\
-
-  // Called when the command is initially scheduled.
+  public ExtendFlywheelPistonCommand(FlywheelPistonSubsystem flywheelAngleSubsystem) {
+    this.flywheelAngleSubsystem = flywheelAngleSubsystem;
+    addRequirements(flywheelAngleSubsystem);
+  }
+    // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterPistonSubsystem.set(SolenoidValues.RETRACT);
+    flywheelAngleSubsystem.set(SolenoidValues.EXTEND);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() { 
+  public void execute() {
   }
 
   // Called once the command ends or is interrupted.
@@ -45,10 +38,10 @@ public class RetractShooterPistonCommand extends CommandBase {
   public void end(boolean interrupted) {
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return true;
-  }
+   // Returns true when the command should end.
+   @Override
+   public boolean isFinished() {
+     return true;
+   }
 
-} // end of class RetractShooterPistonCommand
+} // end of class ExtendFlywheelPistonCommand

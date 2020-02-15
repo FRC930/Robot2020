@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -15,18 +15,18 @@ import java.util.logging.Logger;
 
 import frc.robot.Constants;
 
-public class ShooterPistonSubsystem extends SubsystemBase {
+public class FlywheelPistonSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(ShooterPistonSubsystem.class.getName());
+  private final Logger logger = Logger.getLogger(FlywheelPistonSubsystem.class.getName());
 
   //-------- DECLARATIONS --------\\
 
-  private Solenoid ShooterPiston;
+  private Solenoid FlywheelPiston;
 
   public enum SolenoidValues {
-    
+
     EXTEND(true), RETRACT(false);
 
     private final boolean solenoidState;
@@ -40,29 +40,29 @@ public class ShooterPistonSubsystem extends SubsystemBase {
     }
   }
 
-  //-------- CONSTRUCTOR --------\\
+  // -------- CONSTRUCTOR --------\\
 
-  public ShooterPistonSubsystem(){
-    ShooterPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
+  public FlywheelPistonSubsystem() {
+    FlywheelPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
   }
 
   //-------- METHODS --------\\ 
 
   //Sets the value of the piston   
   public void set(SolenoidValues state) {
-    ShooterPiston.set(state.getSolenoidState());
+    FlywheelPiston.set(state.getSolenoidState());
     this.logger.log(Level.FINE, "setPistonValue");
 
   }
 
   //returns the value of the piston, TRUE = On or up, FALSE = Off or down
   public boolean get(){
-    this.logger.log(Level.FINE,"getPistonValue: " + (ShooterPiston.get() ? "True" : "False"));
-    return ShooterPiston.get();
+    this.logger.log(Level.FINE,"getPistonValue: " + (FlywheelPiston.get() ? "True" : "False"));
+    return FlywheelPiston.get();
   }
 
   @Override
   public void periodic() {
   }
 
-} // end of class ShooterPistonSubsystem
+} // end of class FlywheelPistonSubsystem
