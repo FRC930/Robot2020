@@ -460,4 +460,18 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
   }
 
+  //-------- METHODS FOR SHUFFLEBOARD --------\\
+
+  public boolean getUsingGamecube() {
+    return usingGamecube;
+  }
+
+  public boolean getInManual() {
+    return inManualMode;
+  }
+
+  public void setUsingGamecube(boolean usingGamecube) {
+    this.usingGamecube = usingGamecube;
+  }
+
 } // end of class RobotContainer
