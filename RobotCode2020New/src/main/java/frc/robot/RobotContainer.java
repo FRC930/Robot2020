@@ -8,7 +8,10 @@ import frc.robot.commands.autocommands.paths.AutonomousCommand;
 import frc.robot.commands.autocommands.paths.SouthBySouthWestSkilletCommand;
 //import edu.wpi.first.wpilibj2.command.*;
 
+<<<<<<< HEAD
 //import frc.robot.commands.autocommands.*;
+=======
+>>>>>>> origin/Kyles_Subteam
 import frc.robot.commands.autocommands.paths.*;
 
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
@@ -30,10 +33,14 @@ import frc.robot.commands.turretcommads.*;
 import frc.robot.subsystems.*;
 
 //--Trigger imports
+<<<<<<< HEAD
 import frc.robot.triggers.*;  
 
 //--Utility imports
 import frc.robot.utilities.*;
+=======
+import frc.robot.triggers.*;
+>>>>>>> origin/Kyles_Subteam
 
 //--Other imports
 import edu.wpi.first.wpilibj2.command.Command;
@@ -142,14 +149,17 @@ public class RobotContainer {
   //--Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
 
-  //--Shooter subsystem
-  private final ShooterSubsystem shooterSubsystem;
+  //--Flywheel subsystem
+  private final FlywheelSubsystem flywheelSubsystem;
 
-  //--Turret subsystem
+  //--Tower subsystem
   private final TowerSubsystem towerSubsystem;
 
   //--Turret subsystem
   private final TurretSubsystem turretSubsystem;
+
+  //--Kicker Subsystem
+  private final KickerSubsystem kickerSubsystem;
   
   //-------- COMMANDS --------\\
 
@@ -186,11 +196,17 @@ public class RobotContainer {
   //--LED commands
   //TODO: Add LED commands here
 
+<<<<<<< HEAD
   //--Shooter commands
   private final RunShooterCommand runShooterCommand;
     //For manual mode
   private final RunFlywheelCommand runFlywheelCommand;
   private final StopFlywheelCommand stopFlywheelCommand;
+=======
+  //--Flywheel commands
+  private final RunDefaultFlywheel runDefaultFlywheel;
+  private final RunFlywheelCommand runFlywheelCommand;
+>>>>>>> origin/Kyles_Subteam
 
   //--Tower commands
   private final RunTowerCommand runTowerCommand;
@@ -224,9 +240,10 @@ public class RobotContainer {
     kickerSubsystem = new KickerSubsystem();
     //ledSubsystem = new LEDSubsystem();
     limelightSubsystem = new LimelightSubsystem();
-    shooterSubsystem = new ShooterSubsystem();
+    flywheelSubsystem = new FlywheelSubsystem();
     towerSubsystem = new TowerSubsystem();
     turretSubsystem = new TurretSubsystem();
+    kickerSubsystem = new KickerSubsystem();
     
     //--Commands
     
@@ -263,10 +280,16 @@ public class RobotContainer {
     //leds
     //TODO: Add LED commands here
 
+<<<<<<< HEAD
     //shooter
     runShooterCommand = new RunShooterCommand(shooterSubsystem, 0.3);
     runFlywheelCommand = new RunFlywheelCommand(shooterSubsystem);
     stopFlywheelCommand = new StopFlywheelCommand(shooterSubsystem);
+=======
+    //Flywheel
+    runDefaultFlywheel = new RunDefaultFlywheel(flywheelSubsystem, 0.7);
+    runFlywheelCommand = new RunFlywheelCommand(flywheelSubsystem, 0.8);
+>>>>>>> origin/Kyles_Subteam
 
     //tower
     runTowerCommand = new RunTowerCommand(towerSubsystem);
@@ -336,9 +359,18 @@ public class RobotContainer {
       //Positional control command bind
       //positionalButton.whileActiveOnce(positionalControlCommandGroup); //TODO: Uncomment me!
       //Drive command binds
+<<<<<<< HEAD
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
       //Shoot button
       shootButton.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
+=======
+      driveCommand.setTurningAndThrottleAxis(GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
+
+      //Shooter command binds
+      shootButton.whileActiveOnce(new ShootPowerCellCommand(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem));
+      shootButton.whenReleased(new StopTowerKickerCommand(towerSubsystem, kickerSubsystem));
+      //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
+>>>>>>> origin/Kyles_Subteam
 
 
       //---- BUTTONS AND TRIGGERS (MANUAL) ----\\
@@ -377,11 +409,17 @@ public class RobotContainer {
 
       //--Buttons and triggers
       AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
-      JoystickButton shoot = new JoystickButton(driverController, 1);
+      JoystickButton shootA = new JoystickButton(driverController, 1);
+      JoystickButton shootX = new JoystickButton(driverController, 3);
+      JoystickButton shootY = new JoystickButton(driverController, 4);
+      JoystickButton flywheelStop = new JoystickButton(driverController, 2);
       //--Command binds
 
-      shootButton.whenActive(new RunShooterCommand(shooterSubsystem, 0.8));
-      shoot.whenPressed(new RunShooterCommand(shooterSubsystem, 0.8));
+      //shootButton.whenActive(new RunFlywheelCommand(flywheelSubsystem, 0.8));
+      shootY.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.9));
+      shootX.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.7));
+      shootA.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.7));
+      flywheelStop.whenPressed(new StopFlywheelCommand(flywheelSubsystem));
     } //end of if statement usingGamecube
     
   } // end of method configureDriverBindings()
@@ -403,6 +441,7 @@ public class RobotContainer {
     //--The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
 
+<<<<<<< HEAD
     if (inManualMode) {   
       scheduler.unregisterSubsystem(turretSubsystem); //Allows for automatic turrent stuff to be enabled
       //--Setting default commands
@@ -414,6 +453,14 @@ public class RobotContainer {
       scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, shooterSubsystem, kickerSubsystem, towerSubsystem);
       scheduler.setDefaultCommand(turretSubsystem, joystickTurret); 
     }
+=======
+    //--Setting default commands
+    //scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
+    scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
+    scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
+    scheduler.setDefaultCommand(flywheelSubsystem, runDefaultFlywheel);
+>>>>>>> origin/Kyles_Subteam
 
   } // end of method beginRunCommands()
 
@@ -425,7 +472,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+<<<<<<< HEAD
     return autonomousCommand;
+=======
+    //TODO: Get shuffleboard data, use switch case to select the path selected
+    return null; // runFlywheelCommand;
+>>>>>>> origin/Kyles_Subteam
     // Run path following command, then stop at the end.
   }
 

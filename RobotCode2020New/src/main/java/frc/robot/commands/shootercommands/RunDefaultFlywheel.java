@@ -1,43 +1,44 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-//-------- IMPORTS --------\\
-
 package frc.robot.commands.shootercommands;
 
-import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-//-------- COMMAND CLASS --------\\
+public class RunDefaultFlywheel extends CommandBase {
 
-public class StopShooterCommand extends CommandBase {
+    private FlywheelSubsystem m_FlywheelSubsystem;
+    private double m_Speed;
 
-    //-------- DECLARATIONS --------\\
+    public RunDefaultFlywheel(FlywheelSubsystem flywheelSubsystem, double speed) {
+        m_FlywheelSubsystem = flywheelSubsystem;
+        addRequirements(m_FlywheelSubsystem);
 
-    private ShooterSubsystem m_ShooterSubsystem;
-
-    //-------- CONSTRUCTOR --------\\
-
-    public StopShooterCommand(ShooterSubsystem shooterSubsystem) {
-        m_ShooterSubsystem = shooterSubsystem;
-        addRequirements(m_ShooterSubsystem);
+        m_Speed = speed;
     }
 
-    //-------- COMMANDBASE METHODS --------\\
-    
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_ShooterSubsystem.stop();
+        // if (m_FlywheelSubsystem.getPercentOutput() > m_Speed) {
+        //     //m_ShooterSubsystem.stop();
+        // } else {
+        //     m_FlywheelSubsystem.setSpeed(m_Speed);
+        // }
+
+        //Set flywheel to default speed.
+        m_FlywheelSubsystem.setSpeed(m_Speed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+
     }
 
     // Called once the command ends or is interrupted.
@@ -45,10 +46,4 @@ public class StopShooterCommand extends CommandBase {
     public void end(boolean interrupted) {
     }
 
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
-
-} // end of command class StopShooterCommand
+}
