@@ -23,22 +23,26 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
+import frc.robot.commands.shootercommands.ShootPowerCellCommand;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
+
 public class SaltAndPepperSkillet extends SequentialCommandGroup {
     private DriveSubsystem driveSubsystem;
     private GyroSubsystem gyroSubsystem;
     private DeployIntakeCommand deployIntakeCommand;
     private ReturnIntakeCommand returnIntakeCommand;
-    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){
+    private ShootPowerCellCommand shootPowerCellCommand;
+    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommand SPCCommand){
         
         driveSubsystem = dSubsystem;
         gyroSubsystem = gSubsystem;
         deployIntakeCommand = DICommand;
         returnIntakeCommand = RICommand;
+        shootPowerCellCommand = SPCCommand;
 
         var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(

@@ -192,6 +192,7 @@ public class RobotContainer {
 
   //--Shooter commands
   private final RunShooterCommand runShooterCommand;
+  private final ShootPowerCellCommand shootPowerCellCommand;
     //For manual mode
   private final RunFlywheelCommand runFlywheelCommand;
   private final StopFlywheelCommand stopFlywheelCommand;
@@ -233,12 +234,12 @@ public class RobotContainer {
     turretSubsystem = new TurretSubsystem();
     
     //--Commands
-    
+    shootPowerCellCommand = new ShootPowerCellCommand(shooterSubsystem, towerSubsystem, hopperSubsystem, limelightSubsystem);
     //intake
     deployIntakeCommand = new DeployIntakeCommand(/*intakePistons,*/ intakeMotors);
     returnIntakeCommand = new ReturnIntakeCommand(/*intakePistons,*/ intakeMotors);
     //auto
-    saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand);
+    saltAndPepperSkillet = new SaltAndPepperSkillet(driveSubsystem,gyroSubsystem,deployIntakeCommand,returnIntakeCommand,shootPowerCellCommand);
     autonomousCommand = new AutonomousCommand(driveSubsystem, gyroSubsystem);
     
     rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem,colorWheelSpinnerSubsystem);
