@@ -17,7 +17,7 @@ public class FlywheelVelocityCommand extends CommandBase {
 
     private FlywheelAngleSubsystem m_FlywheelAngleSubsystem;
     FlywheelSubsystem m_FlywheelSubsystem;
-    private ShooterMath math = new ShooterMath();
+    private ShooterMath math = ShooterMath.getInstance();
 
     public FlywheelVelocityCommand(FlywheelAngleSubsystem flywheelAngleSubsystem, FlywheelSubsystem flywheelSubsystem,
             boolean solenoidStatus) {
