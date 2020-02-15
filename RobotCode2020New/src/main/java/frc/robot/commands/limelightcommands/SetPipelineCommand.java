@@ -20,10 +20,13 @@ public class SetPipelineCommand extends CommandBase {
 
     private LimelightSubsystem m_LimelightSubsystem;
 
+    // distance between robot and the target
     private double distance;
 
+    // distance at which we change pipelines
     private final double DISTANCE_THRESHOLD = 10; //TODO: find this threshold, 10 is a placeholder
 
+    //-------- CONSTRUCTOR --------\\
     public SetPipelineCommand(LimelightSubsystem limelightSubsystem){
 
         m_LimelightSubsystem = new LimelightSubsystem();
@@ -40,7 +43,7 @@ public class SetPipelineCommand extends CommandBase {
         distance = m_LimelightSubsystem.getDistance();
 
         if(distance > DISTANCE_THRESHOLD) {
-            m_LimelightSubsystem.setPipeline(LimelightPipelines.ZOOM_2X);
+            m_LimelightSubsystem.setPipeline(LimelightPipelines.ZOOM);
         } else {
             m_LimelightSubsystem.setPipeline(LimelightPipelines.NO_ZOOM);
         }

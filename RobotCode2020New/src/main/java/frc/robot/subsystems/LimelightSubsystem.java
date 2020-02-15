@@ -64,7 +64,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // logger
     private Logger logger;
 
-    // represents the Limelight's current pipeline
+    // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
 
     //private FIFOStack smoother = new FIFOStack(10);
@@ -72,7 +72,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // enum for the different limelight pipelines
     public enum LimelightPipelines {
 
-        NO_ZOOM(0), ZOOM_2X(1);
+        NO_ZOOM(0), ZOOM(1);
 
         private final int pipelineNumber;
 
@@ -173,15 +173,16 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "setPipeline()");
     }
 
-    // returns the Limelight's pipeline
+    // returns the Limelight's pipeline, returns "error" if no pipeline can be found
     public String getPipeline() {
 
+        // holds the name of the current pipeline
         String pipelineName = "error";
 
         if(currentPipeline.getPipeline() == 0) {
             pipelineName = "no zoom";
         } else if(currentPipeline.getPipeline() == 1) {
-            pipelineName = "2x zoom";
+            pipelineName = "zoom";
         }
 
         return pipelineName;

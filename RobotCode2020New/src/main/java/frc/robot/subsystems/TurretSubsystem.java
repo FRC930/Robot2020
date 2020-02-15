@@ -35,6 +35,7 @@ public class TurretSubsystem extends SubsystemBase {
     private TalonSRX turretMotor;
     private DutyCycleEncoder encoder;
 
+    // constant used in the conversion from encoder units to degrees
     private final double DEGREE_CONVERSION_NUMBER = .0013889;
     
     //-------- CONSTRUCTOR --------\\
@@ -67,10 +68,12 @@ public class TurretSubsystem extends SubsystemBase {
         return turretMotor.getMotorOutputPercent();
     }
 
+    // converts encoder units to degrees
     public double unitsToDegrees(double units) {
         return this.encoder.get() / DEGREE_CONVERSION_NUMBER;
     }
 
+    // returns the current encoder position in degrees
     public double getEncoderPosition() {
         //return this.turretMotor.getSelectedSensorPosition();
         return unitsToDegrees(this.encoder.get());
