@@ -403,12 +403,17 @@ public class RobotContainer {
     //--The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
 
-    //--Setting default commands
-    //scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
-    scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-    scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
-    scheduler.setDefaultCommand(turretSubsystem, joystickTurret);
-    //scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
+    if (inManualMode) {   
+      scheduler.unregisterSubsystem(turretSubsystem); //Allows for automatic turrent stuff to be enabled
+      //--Setting default commands
+      scheduler.setDefaultCommand(turretSubsystem, aimTurretCommand);
+      scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, hopperDefaultCommand);
+      //scheduler.setDefaultCommand(shooterSubsystem, runShooterCommand);
+    } else {
+      scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, shooterSubsystem, kickerSubsystem, towerSubsystem);
+      scheduler.setDefaultCommand(turretSubsystem, joystickTurret); 
+    }
 
   } // end of method beginRunCommands()
 
