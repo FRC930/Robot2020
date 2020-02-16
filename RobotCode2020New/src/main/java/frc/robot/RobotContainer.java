@@ -448,6 +448,7 @@ public class RobotContainer {
     } else { 
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+      scheduler.setDefaultCommand(hopperSubsystem,defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 
