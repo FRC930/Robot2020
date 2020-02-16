@@ -373,6 +373,10 @@ public class RobotContainer {
       Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(inManualModeTrigger);
       // Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(inManualModeTrigger);
+      
+      JoystickButton killHopperButton = new JoystickButton(driverController, GC_HOME);
+      
+
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
       // ZL Button
@@ -392,7 +396,8 @@ public class RobotContainer {
       manualFlywheelButton.whenActive(runFlywheelCommand).whenInactive(stopFlywheelCommand);
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
-
+      CommandScheduler scheduler = CommandScheduler.getInstance();
+      killHopperButton.whenActive(() -> {scheduler.unregisterSubsystem(hopperSubsystem,kickerSubsystem,towerSubsystem);});
       // manual
     } else { // If we're using the Xbox controller
 
@@ -434,6 +439,7 @@ public class RobotContainer {
 
     // --The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
+    
 
     scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, flywheelSubsystem, kickerSubsystem, towerSubsystem);
 
@@ -442,7 +448,6 @@ public class RobotContainer {
     } else { 
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 
