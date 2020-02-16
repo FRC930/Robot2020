@@ -37,7 +37,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
         super(deviceNumber);
         System.out.println("constructor");
         logger = Logger.getLogger(TalonFXSpeedController.class.getName());
-        logger.setLevel(Level.WARNING);
+        //logger.setLevel(Level.OFF);
 
     }
 

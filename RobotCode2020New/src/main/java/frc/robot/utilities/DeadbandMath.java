@@ -40,7 +40,7 @@ public class DeadbandMath {
     
     //Class constructor - sets logger lever
     private DeadbandMath() {
-        logger.setLevel(Level.FINE);
+        //logger.setLevel(Level.FINE);
         deadbandZone = DeadbandZone.RED;
         shotChance = ShotChance.MISS;
     }

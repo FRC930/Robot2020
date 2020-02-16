@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
   // -------- CONSTRUCTOR --------\\
 
   public DriveSubsystem() {
-    logger.setLevel(Level.WARNING); 
+    //logger.setLevel(Level.OFF); 
     setDriveMotors();
   }
 
@@ -64,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Given Arcade value arguments and sends to motor controllers
   public void runAt(double leftSpeed, double rightSpeed) {
     logger.entering(this.getClass().getName(), "runAt()");
-    logger.log(Level.WARNING, "runing " + "left encoder " + left1.getRPMLeft(left1) + "right encoder " + right1.getRPMRight(right1));
+    logger.log(Level.OFF, "runing " + "left encoder " + left1.getRPMLeft(left1) + "right encoder " + right1.getRPMRight(right1));
 
     left1.set(leftSpeed);
     right1.set(rightSpeed);
@@ -90,7 +90,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     logger.entering(this.getClass().getName(), "tankDriveVolts()");
-    logger.log(Level.WARNING, "MOVING: " + leftVolts + " " + rightVolts);
+    logger.log(Level.OFF, "MOVING: " + leftVolts + " " + rightVolts);
 
     right1.setVoltage(rightVolts);
     left1.setVoltage(-leftVolts);

@@ -35,7 +35,7 @@ public class KickerSubsystem extends SubsystemBase {
 
     public KickerSubsystem() {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
-        logger.setLevel(Level.FINE);
+        //logger.setLevel(Level.FINE);
     }   
     
     //-------- METHODS --------\\

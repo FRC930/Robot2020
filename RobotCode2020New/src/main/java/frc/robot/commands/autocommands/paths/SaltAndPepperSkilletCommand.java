@@ -99,8 +99,8 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         driveSubsystem::tankDriveVolts,
         driveSubsystem 
     );
-        ParallelRaceGroup DeployIntakeAndDriveParrellelCommand = new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand);
-        addCommands(DeployIntakeAndDriveParrellelCommand,new WaitCommand(1),returnIntakeCommand);//shootPowerCellCommand);
+        //ParallelRaceGroup DeployIntakeAndDriveParrellelCommand = new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand);
+        addCommands(ramseteCommand1);//DeployIntakeAndDriveParrellelCommand,new WaitCommand(1),returnIntakeCommand);//shootPowerCellCommand);
     }
     private double inchesToMeters(double inch){
         return inch/39.3701;

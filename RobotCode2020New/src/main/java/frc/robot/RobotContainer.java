@@ -25,9 +25,10 @@ import frc.robot.commands.intakecommands.intakepistoncommands.*;
 import frc.robot.commands.kickercommands.*;
 //import frc.robot.commands.ledcommands.*;
 
-import frc.robot.commands.shootercommands.*;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.*;
 import frc.robot.commands.shootercommands.pistoncommands.*;
+import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 
 import frc.robot.commands.towercommands.*;
 
@@ -41,6 +42,8 @@ import frc.robot.triggers.*;
 
 // --Utility imports
 import frc.robot.utilities.*;
+
+import java.lang.System.Logger;
 
 // --Other imports
 import edu.wpi.first.wpilibj.Joystick;
@@ -210,7 +213,6 @@ public class RobotContainer {
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
-
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
@@ -243,7 +245,7 @@ public class RobotContainer {
 
     turretSubsystem = new TurretSubsystem();
 
-    shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
+    
 
     // --Commands
     
@@ -264,8 +266,9 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
-    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem);
     stopHopperCommand = new StopHopperCommand(hopperSubsystem);
+    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem,stopHopperCommand);
+    
 
     // kicker
     runKickerCommand = new RunKickerCommand(kickerSubsystem);
@@ -295,6 +298,7 @@ public class RobotContainer {
     //TODO: Change this to get the Shuffleboard selected command
     saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, gyroSubsystem, deployIntakeCommand, returnIntakeCommand);
 
+    shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
@@ -402,7 +406,7 @@ public class RobotContainer {
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
       CommandScheduler scheduler = CommandScheduler.getInstance();
-      killHopperButton.whenActive(() -> {scheduler.unregisterSubsystem(hopperSubsystem,kickerSubsystem,towerSubsystem);});
+      killHopperButton.whenActive(stopHopperCommand);
       // manual
     } else { // If we're using the Xbox controller
 
