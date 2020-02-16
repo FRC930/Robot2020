@@ -24,18 +24,17 @@ public class ColorSensorSubsystem extends SubsystemBase {
   //-------- CONSTANTS --------\\
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  // Creates an instance of the logger class
+  private final Logger logger = Logger.getLogger(ColorSensorSubsystem.class.getName());
 
   //-------- DECLARATIONS --------\\
-
-  // Creates an instance of the logger class
-  private Logger logger = Logger.getLogger(ColorSensorSubsystem.class.getName());
 
   // Creates the I2C color sensor
   private ColorSensorV3 Sensor;
 
   //-------- CONSTRUCTOR --------\\
 
-  public ColorSensorSubsystem(){
+  public ColorSensorSubsystem() {
     Sensor = new ColorSensorV3(i2cPort);
   }
   

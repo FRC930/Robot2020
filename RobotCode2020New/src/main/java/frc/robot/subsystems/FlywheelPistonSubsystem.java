@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 
 import frc.robot.Constants;
 
+//--------- SUBSYSTEM CLASS ---------\\
+
 public class FlywheelPistonSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\

@@ -7,9 +7,10 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.shootercommands;
+package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.FlywheelSubsystem;
 
 //-------- COMMAND CLASS --------\\
@@ -22,8 +23,7 @@ public class StopFlywheelCommand extends CommandBase {
 
     //-------- CONSTRUCTOR --------\\
 
-    public StopFlywheelCommand(FlywheelSubsystem flyWheelSubsystem) 
-    {
+    public StopFlywheelCommand(FlywheelSubsystem flyWheelSubsystem) {
         this.flyWheelSubsystem = flyWheelSubsystem;
         addRequirements(this.flyWheelSubsystem);
     }
@@ -53,8 +53,7 @@ public class StopFlywheelCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-
-    
+  
 } // end of class StopFlywheelCommand
 
 

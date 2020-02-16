@@ -27,6 +27,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
 import frc.robot.commands.intakecommands.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.autocommands.actioncommands.SpinCommand;
 
 import java.util.List;
 public class AutonomousCommand extends SequentialCommandGroup {
@@ -110,6 +111,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
         drive::tankDriveVolts,
         drive
     );
-    addCommands(ramseteCommand1, new Spin(drive, gyroSubsystem));
+    addCommands(ramseteCommand1, new SpinCommand(drive, gyroSubsystem));
   }
 }

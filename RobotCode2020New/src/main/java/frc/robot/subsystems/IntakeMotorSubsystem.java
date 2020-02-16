@@ -23,11 +23,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeMotorSubsystem extends SubsystemBase {
 
-    //-------- DECLARATIONS --------\\
+    //-------- CONSTANTS --------\\
 
     private final Logger logger = Logger.getLogger(IntakeMotorSubsystem.class.getName());
+
+    //-------- DECLARATIONS --------\\
+
     private TalonSRX intakeMotorController; 
-    private final int  INTAKE_TALONSRX_ID = 6;
+
     //-------- CONSTRUCTOR --------\\
 
     public IntakeMotorSubsystem() {

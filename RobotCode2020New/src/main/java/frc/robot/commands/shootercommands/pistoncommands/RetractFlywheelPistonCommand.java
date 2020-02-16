@@ -7,30 +7,37 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.shootercommands;
+package frc.robot.commands.shootercommands.pistoncommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.FlywheelPistonSubsystem.SolenoidValues;
 
-public class ExtendFlywheelPistonCommand extends CommandBase {
+public class RetractFlywheelPistonCommand extends CommandBase {
 
-  private FlywheelPistonSubsystem flywheelAngleSubsystem;
+  //-------- DECLARATIONS --------\\
 
-  public ExtendFlywheelPistonCommand(FlywheelPistonSubsystem flywheelAngleSubsystem) {
-    this.flywheelAngleSubsystem = flywheelAngleSubsystem;
-    addRequirements(flywheelAngleSubsystem);
-  }
-    // Called when the command is initially scheduled.
+  private FlywheelPistonSubsystem flywheelPistonSubsystem;
+
+  //-------- CONSTRUCTOR --------\\
+    
+  public RetractFlywheelPistonCommand(FlywheelPistonSubsystem flywheelPistonSubsystem){
+    this.flywheelPistonSubsystem = flywheelPistonSubsystem;
+    addRequirements(flywheelPistonSubsystem);
+  }  
+  
+  //-------- COMMANDBASE METHODS --------\\
+
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    flywheelAngleSubsystem.set(SolenoidValues.EXTEND);
+    flywheelPistonSubsystem.set(SolenoidValues.RETRACT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() { 
   }
 
   // Called once the command ends or is interrupted.
@@ -38,10 +45,10 @@ public class ExtendFlywheelPistonCommand extends CommandBase {
   public void end(boolean interrupted) {
   }
 
-   // Returns true when the command should end.
-   @Override
-   public boolean isFinished() {
-     return true;
-   }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return true;
+  }
 
-} // end of class ExtendFlywheelPistonCommand
+} // end of class RetractFlywheelPistonCommand

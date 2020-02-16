@@ -7,27 +7,34 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.shootercommands;
+package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FlywheelSubsystem;
 
+//-------- COMMANDBASE CLASS --------\\
+
 public class RunFlywheelCommand extends CommandBase {
+
+  //-------- DECLARATIONS --------\\
 
   private FlywheelSubsystem m_FlywheelSubsystem;
   private double m_Speed;
 
+  //-------- CONSTRUCTOR --------\\
+
   public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
     m_FlywheelSubsystem = flywheelSubsystem;
-    addRequirements(m_FlywheelSubsystem);
     m_Speed = speed;
+    addRequirements(m_FlywheelSubsystem);
   }
+
+  //--------- COMMANDBASE METHODS ----------\\
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //Run the flywheel at a certain speed
-    m_FlywheelSubsystem.setSpeed(m_Speed);
+    m_FlywheelSubsystem.setSpeed(m_Speed);  //Run the flywheel at a certain speed
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,6 +53,7 @@ public class RunFlywheelCommand extends CommandBase {
     return isAtSpeed();
   }
 
+  //TODO: Change 5880 and 50 to constants please
   private boolean isAtSpeed() {
     return this.m_FlywheelSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_FlywheelSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
   }

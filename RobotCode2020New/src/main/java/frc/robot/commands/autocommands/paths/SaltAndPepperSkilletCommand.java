@@ -28,12 +28,12 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
-public class SaltAndPepperSkillet extends SequentialCommandGroup {
+public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     private DriveSubsystem driveSubsystem;
     private GyroSubsystem gyroSubsystem;
     private DeployIntakeCommand deployIntakeCommand;
     private ReturnIntakeCommand returnIntakeCommand;
-    public SaltAndPepperSkillet(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){
+    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){
         
         driveSubsystem = dSubsystem;
         gyroSubsystem = gSubsystem;

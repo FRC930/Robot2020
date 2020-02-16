@@ -16,7 +16,7 @@ import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class HopperDefaultCommand extends CommandBase {
+public class DefaultHopperCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
@@ -24,7 +24,7 @@ public class HopperDefaultCommand extends CommandBase {
 
     //-------- CONSTRUCTOR --------\\
 
-    public HopperDefaultCommand(HopperSubsystem HopperSubsystem) {
+    public DefaultHopperCommand(HopperSubsystem HopperSubsystem) {
         m_HopperSubsystem = HopperSubsystem;
         addRequirements(m_HopperSubsystem);
     }
@@ -34,12 +34,12 @@ public class HopperDefaultCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {   
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
+    public void execute() {       
     }
 
     // Called once the command ends or is interrupted.
@@ -52,4 +52,4 @@ public class HopperDefaultCommand extends CommandBase {
     public boolean isFinished() {
         return false;
     }
-} //end of class HopperDefaultCommand
+} //end of class DefaultHopperCommand
