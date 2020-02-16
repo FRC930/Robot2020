@@ -19,13 +19,14 @@ import frc.robot.Constants;
 public class RunHopperCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
-
+    private boolean running = true;
     private HopperSubsystem m_HopperSubsystem;
     
     //-------- CONSTRUCTOR --------\\
 
-    public RunHopperCommand(HopperSubsystem HopperSubsystem){
+    public RunHopperCommand(HopperSubsystem HopperSubsystem,boolean state){
         m_HopperSubsystem = HopperSubsystem;
+        running = state;
         addRequirements(m_HopperSubsystem);
     }
 

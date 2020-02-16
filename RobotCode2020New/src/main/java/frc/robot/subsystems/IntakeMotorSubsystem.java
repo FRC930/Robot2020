@@ -41,7 +41,7 @@ public class IntakeMotorSubsystem extends SubsystemBase {
     
     //sets motor speed 
     public void setMotorSpeed(double speed) {
-        intakeMotorController.set(ControlMode.PercentOutput, speed);
+        intakeMotorController.set(ControlMode.PercentOutput, -speed);
         logger.log(Level.FINE,"sets motor speed");
     }
 

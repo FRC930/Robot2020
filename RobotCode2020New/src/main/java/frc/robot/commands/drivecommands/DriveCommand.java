@@ -67,7 +67,7 @@ public class DriveCommand extends CommandBase {
     // Cubing values to create smoother function
 
     stickX = -Math.pow(stickX, 3);
-    stickY = Math.pow(stickY, 3);
+    stickY = -Math.pow(stickY, 3);
 
     // Multiplies for smoothing turning
     stickX *= Constants.DRIVE_TURNING_MULTIPLIER;

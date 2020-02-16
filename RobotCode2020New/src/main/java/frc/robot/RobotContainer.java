@@ -357,11 +357,11 @@ public class RobotContainer {
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //Shooter command binds
-      /* TODO: Uncomment me when ready for Automatic Testing
+      
       shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
-      shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
-      */
+      //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
+      
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
