@@ -74,11 +74,24 @@ public class DriveSubsystem extends SubsystemBase {
     drive = new DifferentialDrive(right1, left1);
   }
 
+  public double getRPMLeft(){
+    double rotationML;
+    rotationML = -left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    //smartDashboard.get
+    return rotationML;
+  }
+  public double getRPMRight(){
+    double rotationML;
+    rotationML = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    //smartDashboard.get
+    return rotationML;
+  }
+
   // Given Arcade value arguments and sends to motor controllers
   public void runAt(double leftSpeed, double rightSpeed) {
     logger.entering(this.getClass().getName(), "runAt()");
     
-    logger.log(Level.WARNING, "runing " + "left encoder " + left1.getRPMLeft(left1) + "right encoder " + right1.getRPMRight(right1));
+    logger.log(Level.WARNING, "runing " + "left encoder " + getRPMLeft() + "right encoder " + getRPMRight());
 
     System.out.println();
     left1.set(leftSpeed);
@@ -96,7 +109,7 @@ public class DriveSubsystem extends SubsystemBase {
     return right1.getMotorOutputPercent();
   }
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(left1.getRPMLeft(left1), right1.getRPMRight(right1));
+    return new DifferentialDriveWheelSpeeds(getRPMLeft(), getRPMRight());
   }
   public void resetOdometry(Pose2d pose) {
     //driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
@@ -115,19 +128,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getAverageEncoderDistance() {
-    return (left1.getRPMLeft(left1)
-        + right1.getRPMRight(right1)) / 2.0;
-  }
-
-  public double getLeftEncoder() {
-   return left1.getRPMLeft(left1);
-  }
-  public double getRightEncoder() {
-   return right1.getRPMLeft(right1);
+    return (getRPMLeft()
+        + getRPMRight()) / 2.0;
   }
   public void setMaxOutput(double maxOutput) {
     drive.setMaxOutput(maxOutput);
   }
+  
 
   @Override
   public void periodic() {

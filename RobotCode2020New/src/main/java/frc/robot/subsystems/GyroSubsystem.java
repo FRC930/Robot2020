@@ -32,7 +32,7 @@ public class GyroSubsystem extends SubsystemBase {
     //Values, used to store the yaw, pitch, and roll (the robot's rotation)
     private double yawPitchRollValues[] = new double[3]; 
 
-    private DifferentialDriveOdometry driveOdometry;
+    public DifferentialDriveOdometry driveOdometry;
     
     //-------- CONSTRUCTOR --------\\
 
@@ -66,5 +66,10 @@ public class GyroSubsystem extends SubsystemBase {
     public void zeroHeading(){
         gyro.setYaw(0.0);
         gyro.setFusedHeading(0.0);
+    }
+    @Override
+    public void periodic() {
+      
+      
     }
 } // end of subsystem

@@ -105,4 +105,8 @@ public class SaltAndPepperSkillet extends SequentialCommandGroup {
     private double inchesToMeters(double inch){
         return inch/39.3701;
     }
+    @Override 
+    public void execute(){
+
+    }
 }
