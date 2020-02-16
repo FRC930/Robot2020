@@ -97,6 +97,6 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     );
         //ParallelRaceGroup DeployIntakeAndDriveParrellelCommand = new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand);
         
-        addCommands(deployIntakeCommand,ramseteCommand1,new WaitCommand(1),returnIntakeCommand);
+        //addCommands(deployIntakeCommand,ramseteCommand1,new WaitCommand(1),returnIntakeCommand);
     }
 }

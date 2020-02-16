@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 
     private CommandScheduler commandScheduler;
 
-    private ShuffleboardUtility shuffleboardUtility;
+    //private ShuffleboardUtility shuffleboardUtility;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        shuffleboardUtility = new ShuffleboardUtility();
+        //shuffleboardUtility = new ShuffleboardUtility();
 
         commandScheduler = CommandScheduler.getInstance();   
     }
@@ -62,8 +62,8 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
 
-        shuffleboardUtility.driveTab();
-        shuffleboardUtility.testingTab();
+        //shuffleboardUtility.driveTab();
+        //shuffleboardUtility.testingTab();
 
         commandScheduler.run();
 

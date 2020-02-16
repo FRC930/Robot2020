@@ -202,7 +202,7 @@ public class RobotContainer {
   private final StopTowerCommand stopTowerCommand;
 
   // --Turret commands
-  private final DefaultTurretCommand defaultTurretCommand;
+  //private final DefaultTurretCommand defaultTurretCommand;
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
 
   // -------- CONSTRUCTOR ---------\\
@@ -285,7 +285,7 @@ public class RobotContainer {
     stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
     // turret
-    defaultTurretCommand = new DefaultTurretCommand(limelightSubsystem, turretSubsystem);
+    //defaultTurretCommand = new DefaultTurretCommand(limelightSubsystem, turretSubsystem);
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
 
     // auto 
@@ -442,7 +442,7 @@ public class RobotContainer {
     if (inManualMode) { 
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand); 
     } else { 
-      scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
+      scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
