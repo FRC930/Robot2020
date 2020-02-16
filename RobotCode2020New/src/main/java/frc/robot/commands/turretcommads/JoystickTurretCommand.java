@@ -9,7 +9,10 @@
 
 package frc.robot.commands.turretcommads;
 
+import java.sql.Driver;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.TurretSubsystem;
@@ -39,16 +42,29 @@ public class JoystickTurretCommand extends CommandBase {
     @Override
     public void execute() {
 
-        double speed = Math.pow(coDriver.getRawAxis(coDriverAxis), 3);
+        double speed;
+        double controllerOutput;
 
-        if (speed < 0) {
-            if (turretSubsystem.getEncoderPosition() > 1500) 
-                speed = 0;     
-        } else if (speed > 0) {
-            if (turretSubsystem.getEncoderPosition() < -1500) 
-                speed = 0;      
+        controllerOutput = coDriver.getRawAxis(coDriverAxis);
+
+        if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 1.0) {
+            speed = Math.pow(coDriver.getRawAxis(coDriverAxis), 3);
+        } else {
+            speed = 0;
         }
 
+        SmartDashboard.putNumber("co driver axis", Math.abs(controllerOutput));
+        SmartDashboard.putNumber("joystick turret speed", speed);
+
+        // if (speed < 0) {
+        //     if (turretSubsystem.getEncoderPosition() > 1500) 
+        //         speed = 0;     
+        // } else if (speed > 0) {
+        //     if (turretSubsystem.getEncoderPosition() < -1500) 
+        //         speed = 0;      
+        // }
+        //System.out.println("speed from joystick turret command: " + speed);
+        //System.out.println("joystick value " + coDriver.getRawAxis(coDriverAxis));
         turretSubsystem.setSpeed(speed);
     } // end of class execute()
 

@@ -76,6 +76,14 @@ public final class Constants {
     public static final double ENCODER_ROTATION_LIMIT = 190;
 
     //[-------------------LIMITS--------------------------]
+
+    //[-------------------TURRET--------------------------]
+
+    public static final double UPPER_LIMIT = 0.75;
+    public static final double LOWER_LIMIT = 0.35;
+
+    //[-------------------TURRET--------------------------]
+
     //[-------------------ANGLES--------------------------]
 
     public static final double FLYWHEEL_LOWER_ANGLE = 31.4;
