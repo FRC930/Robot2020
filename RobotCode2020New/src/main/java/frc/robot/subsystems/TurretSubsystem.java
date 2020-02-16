@@ -37,6 +37,8 @@ public class TurretSubsystem extends SubsystemBase {
 
     // constant used in the conversion from encoder units to degrees
     private final double DEGREE_CONVERSION_NUMBER = .0013889;
+
+    private double encoderPosition;
     
     //-------- CONSTRUCTOR --------\\
     
@@ -44,7 +46,7 @@ public class TurretSubsystem extends SubsystemBase {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         //this.turretEncoder = this.turretMotor.getEncoder();
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
-        this.encoder.reset();
+        //this.encoder.reset();
         //this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
         //this.turretMotor.setSelectedSensorPosition(0);
         this.logger.log(Level.INFO, "Starting TurretSubsystem");
@@ -54,11 +56,33 @@ public class TurretSubsystem extends SubsystemBase {
 
     public void setSpeed(double speed) {
 
-        if(Math.abs(getEncoderPosition()) > Constants.ENCODER_ROTATION_LIMIT) {
-            speed = 0;
-        }
+        // if(Math.abs(getEncoderPosition()) > Constants.ENCODER_ROTATION_LIMIT) {
+        //     speed = 0;
+        // }
+        
+        encoderPosition = encoder.get();
 
-        SmartDashboard.putNumber("Turret Encoder value", getEncoderPosition());
+        if(encoderPosition > Constants.UPPER_LIMIT) {
+            if(speed > 0) {
+                speed = 0;
+            } else if(speed < -0.5) {
+                speed = -0.5;
+            }
+        } else if(encoderPosition < Constants.LOWER_LIMIT) {
+            if(speed < 0) {
+                speed = 0;
+            } else if(speed > 0.5) {
+                speed = 0.5;
+            }
+        } else {
+            if(speed > 0.5) {
+                speed = 0.5;
+            } else if(speed < -0.5) {
+                speed = -0.5;
+            }
+        }   
+
+        SmartDashboard.putNumber("Turret Encoder value", encoderPosition);
 
         this.turretMotor.set(ControlMode.PercentOutput, speed);
         this.logger.log(Level.INFO, "Set speed to " + getSpeed());

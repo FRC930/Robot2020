@@ -55,15 +55,15 @@ public class ShuffleboardUtility {
 
     //-------- CONSTRUCTOR --------\\
 
-    public ShuffleboardUtility(){
-		intakePistonsSubsystem = new IntakePistonSubsystem();
-		turretSubsystem = new TurretSubsystem();
-		flywheelSubsystem = new FlywheelSubsystem();
-		limelightSubsystem = new LimelightSubsystem();
-		towerSubsystem = new TowerSubsystem();
-        hopperSubsystem = new HopperSubsystem();
-        flywheelPistonSubsystem = new FlywheelPistonSubsystem();
+    public ShuffleboardUtility(IntakePistonSubsystem intakePistonSubsystem, FlywheelSubsystem flywheelSubsystem, LimelightSubsystem limelightSubsystem, TowerSubsystem towerSubsystem, HopperSubsystem hopperSubsystem, FlywheelPistonSubsystem flywheelPistonSubsystem, TurretSubsystem turretSubsystem){
         deadbandMath = DeadbandMath.getInstance();
+        this.intakePistonsSubsystem = intakePistonSubsystem;
+        this.flywheelSubsystem = flywheelSubsystem;
+        this.limelightSubsystem = limelightSubsystem;
+        this.towerSubsystem = towerSubsystem;
+        this.hopperSubsystem = hopperSubsystem;
+        this.flywheelPistonSubsystem = flywheelPistonSubsystem;
+        this.turretSubsystem = turretSubsystem;
     }
 
     private static ShuffleboardUtility instance = null;
@@ -74,7 +74,7 @@ public class ShuffleboardUtility {
             return instance;
         }
         else {
-            return instance = new ShuffleboardUtility();
+            return instance ;//= new ShuffleboardUtility();
         }
     }
 
