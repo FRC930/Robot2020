@@ -23,7 +23,6 @@ import frc.robot.commands.intakecommands.intakemotorcommands.*;
 import frc.robot.commands.intakecommands.intakepistoncommands.*;
 
 import frc.robot.commands.kickercommands.*;
-
 //import frc.robot.commands.ledcommands.*;
 
 import frc.robot.commands.shootercommands.*;
@@ -188,6 +187,7 @@ public class RobotContainer {
   // --LED commands
   // TODO: Add LED commands here
 
+  //--Shooter commands
   // --Flywheel commands
   private final DefaultFlywheelCommand defaultFlywheelCommand;
   private final RunFlywheelCommand runFlywheelCommand;    // For manual mode

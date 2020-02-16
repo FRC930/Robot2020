@@ -48,6 +48,12 @@ public final class Constants {
 
     //[-------------------PISTON IDS-------------------------]
 
+    //[-------------------ROBORIO PORT IDS---------------------------]
+
+    public static final int ENCODER_PORT_ID = 0;
+
+    //[-------------------ROBORIO PORT IDS---------------------------]
+
     //[-------------------DRIVE------------------------]
 
     public static final double MOTOR_RAMP_RATE = 0.5;
@@ -65,6 +71,11 @@ public final class Constants {
 
     //[-------------------SPEEDS--------------------------]
 
+    //[-------------------LIMITS--------------------------]
+
+    public static final double ENCODER_ROTATION_LIMIT = 190;
+
+    //[-------------------LIMITS--------------------------]
     //[-------------------ANGLES--------------------------]
 
     public static final double FLYWHEEL_LOWER_ANGLE = 31.4;

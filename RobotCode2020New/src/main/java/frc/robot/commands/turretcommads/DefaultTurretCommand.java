@@ -58,15 +58,15 @@ public class DefaultTurretCommand extends PIDCommand {
 
                     // Make sure that the turret does not turn past ~300° in either direction
                     // Internal units. 3570 == ~300°
-                    if (output < 0) {
-                        if (turret.getEncoderPosition() > MAX_ROTATIONAL_UNITS) {
-                            output = 0;
-                        }
-                    } else if (output > 0) {
-                        if (turret.getEncoderPosition() < -MAX_ROTATIONAL_UNITS) {
-                            output = 0;
-                        }
-                    }
+                    // if (output < 0) {
+                    //     if (turret.getEncoderPosition() > MAX_ROTATIONAL_UNITS) {
+                    //         output = 0;
+                    //     }
+                    // } else if (output > 0) {
+                    //     if (turret.getEncoderPosition() < -MAX_ROTATIONAL_UNITS) {
+                    //         output = 0;
+                    //     }
+                    // }
 
                     turret.setSpeed(output);
                 },
