@@ -35,7 +35,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
      */
     public TalonFXSpeedController(int deviceNumber) {
         super(deviceNumber);
-        System.out.println("constructor");
+        //System.out.println("constructor");
         // logger = // logger.getLogger(TalonFXSpeedController.class.getName());
         //// logger.setLevel(Level.OFF);
 
@@ -100,7 +100,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
      * pidWrite is located within SpeedController and PIDOutput class.
      */
     public void pidWrite(double output) {
-        System.out.println("pidwrite");
+        //System.out.println("pidwrite");
     }
 
     public double getRPMLeft(TalonFXSpeedController left1) {

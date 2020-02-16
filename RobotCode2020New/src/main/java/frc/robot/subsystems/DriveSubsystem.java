@@ -31,7 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
   private TalonFXSpeedController right2;
   private TalonFXSpeedController left1;
   private TalonFXSpeedController left2;
-  private DifferentialDrive drive;
+  //private DifferentialDrive drive;
   
   // -------- CONSTRUCTOR --------\\
 
@@ -58,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
 
     //Sets up the differntial drive
-    drive = new DifferentialDrive(right1, left1);
+    //drive = new DifferentialDrive(right1, left1);
   }
 
   // Given Arcade value arguments and sends to motor controllers
@@ -112,9 +112,9 @@ public class DriveSubsystem extends SubsystemBase {
     return right1.getRPMLeft(right1);
   }
 
-  public void setMaxOutput(double maxOutput) {
-    drive.setMaxOutput(maxOutput);
-  }
+  // public void setMaxOutput(double maxOutput) {
+  //   drive.setMaxOutput(maxOutput);
+  // }
 
   @Override
   public void periodic() {

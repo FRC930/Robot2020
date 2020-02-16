@@ -32,7 +32,7 @@ public class IntakePistonSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public IntakePistonSubsystem() {
-        System.out.println("YYYYY");
+        //System.out.println("YYYYY");
         intakePistonController = new Solenoid(Constants.INTAKE_SOLENOID_ID);
     }
 

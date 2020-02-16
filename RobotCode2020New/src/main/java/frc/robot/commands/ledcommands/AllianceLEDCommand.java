@@ -85,7 +85,7 @@ public class AllianceLEDCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        System.out.println("isAuton: " + DriverStation.getInstance().isAutonomous());
+        //System.out.println("isAuton: " + DriverStation.getInstance().isAutonomous());
         return !DriverStation.getInstance().isAutonomous();
     }
 }

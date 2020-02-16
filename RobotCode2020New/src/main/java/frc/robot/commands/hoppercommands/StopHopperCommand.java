@@ -40,7 +40,7 @@ public class StopHopperCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {   
-        m_HopperSubsystem.setSpeed(-0.2);
+        m_HopperSubsystem.setSpeed(-0.35);
     }
 
     // Called once the command ends or is interrupted.
