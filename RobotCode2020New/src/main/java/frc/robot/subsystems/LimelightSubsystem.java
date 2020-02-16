@@ -47,6 +47,9 @@ public class LimelightSubsystem extends SubsystemBase {
     private final double DEFAULT_VERT_ANGLE_OFFSET = -200;
     private final double DEFAULT_VALID_TARGET = -1;
 
+    // distance at which we change pipelines
+    private final double DISTANCE_THRESHOLD = 10; //TODO: find this threshold, 10 is a placeholder
+
     // -------- DECLARATIONS --------\\
 
     // network table that holds the limelight's settings
@@ -190,6 +193,12 @@ public class LimelightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {    
+
+        if(getDistance() > DISTANCE_THRESHOLD) {
+            setPipeline(LimelightPipelines.ZOOM);
+        } else {
+            setPipeline(LimelightPipelines.NO_ZOOM);
+        }
 
         SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
         SmartDashboard.putNumber("verical offset", getVerticleOffset());

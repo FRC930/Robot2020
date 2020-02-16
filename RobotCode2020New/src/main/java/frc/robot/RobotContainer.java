@@ -23,7 +23,6 @@ import frc.robot.commands.intakecommands.intakemotorcommands.*;
 import frc.robot.commands.intakecommands.intakepistoncommands.*;
 
 import frc.robot.commands.kickercommands.*;
-import frc.robot.commands.limelightcommands.*;
 //import frc.robot.commands.ledcommands.*;
 
 import frc.robot.commands.shootercommands.*;
@@ -188,9 +187,6 @@ public class RobotContainer {
   // --LED commands
   // TODO: Add LED commands here
 
-  //--Limelighht commands
-  private final SetPipelineCommand setPipelineCommand;
-
   //--Shooter commands
   // --Flywheel commands
   private final DefaultFlywheelCommand defaultFlywheelCommand;
@@ -274,9 +270,6 @@ public class RobotContainer {
 
     // leds
     // TODO: Add LED commands here
-
-    //limelight
-    setPipelineCommand = new SetPipelineCommand(limelightSubsystem);
 
     // Flywheel
     defaultFlywheelCommand = new DefaultFlywheelCommand(flywheelSubsystem);
