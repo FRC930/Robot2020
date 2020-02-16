@@ -104,6 +104,14 @@ public class FlywheelSubsystem extends SubsystemBase {
         return (motorLead.getEncoder().getVelocity() / 5880);
     }
 
+    public boolean isFlywheelActive() {
+        if(getSpeed() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void periodic() {
         //TODO: This should be outputted by Shuffleboard stuff

@@ -54,6 +54,10 @@ public class DeadbandMath {
         private DeadbandZone(int type) {
             this.type = type;
         }
+
+        public int getType() {
+            return this.type;
+        }
     }
 
     //Enum for calculated target size

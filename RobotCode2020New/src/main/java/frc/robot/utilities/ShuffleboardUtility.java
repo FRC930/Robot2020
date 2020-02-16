@@ -9,23 +9,31 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.FlywheelPistonSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
 
-public class ShuffleboardUtility {
+public class ShuffleboardUtility {	
 
 	//-------- CONSTANTS --------\\
-	
-	private final IntakePistonSubsystem intakePistonsSubsystem;
 
 	//-------- DECLARATIONS --------\\
+
+	private final TurretSubsystem turretSubsystem;
+	private final IntakePistonSubsystem intakePistonsSubsystem;
+	private final FlywheelSubsystem flywheelSubsystem;
+	private final LimelightSubsystem limelightSubsystem;
+	private final TowerSubsystem towerSubsystem;
+    private final HopperSubsystem hopperSubsystem;
+    private final DeadbandMath deadbandMath;
+    private final FlywheelPistonSubsystem flywheelPistonSubsystem;
 	
-    private boolean intakeIndicator;
-    private boolean shootIndicator;
-    private String shotType;
     private String fmsColor;
-    private double turretEncoder;
-	private double distanceFromTarget;
-	private boolean gameCubeBoolean;
-	private boolean xboxBoolean;
     private String logger;
     private String fmsColorDebug;
     private double towerSpeed;
@@ -42,13 +50,20 @@ public class ShuffleboardUtility {
 	private double targetAspectRatio;
 	private double erosionDilation;
 	private double distanceFromTargetDebugger;
-	private double horizontalOffset;
-	private double verticalOffset;
+	private double horizontalOffput;
+	private double verticalOffput;
 
     //-------- CONSTRUCTOR --------\\
 
     public ShuffleboardUtility(){
 		intakePistonsSubsystem = new IntakePistonSubsystem();
+		turretSubsystem = new TurretSubsystem();
+		flywheelSubsystem = new FlywheelSubsystem();
+		limelightSubsystem = new LimelightSubsystem();
+		towerSubsystem = new TowerSubsystem();
+        hopperSubsystem = new HopperSubsystem();
+        flywheelPistonSubsystem = new FlywheelPistonSubsystem();
+        deadbandMath = DeadbandMath.getInstance();
     }
 
     private static ShuffleboardUtility instance = null;
@@ -63,115 +78,96 @@ public class ShuffleboardUtility {
         }
     }
 
-    //----- Drive Tab -----\\
+    //------- Drive Tab -------\\
 
-	public void setIntakeIndicator(boolean intakeIndicator){
-		this.intakeIndicator = intakeIndicator;
-		SmartDashboard.putBoolean("Intaking?", intakeIndicator);
-	}
-	public void setShootIndicator(boolean shootIndicator){
-		this.shootIndicator = shootIndicator;
-		SmartDashboard.putBoolean("Shooting?", shootIndicator);
-	}
-	public void setShotType(String shotType){
-		this.shotType = shotType;
-		SmartDashboard.putString("Shot Type", shotType);
-	}
-	public String getFMSColor(){
-		fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
-		return fmsColor;
-	}
-	// public void setTurretEncoder(double turretEncoder){
-	// 	this.turretEncoder = turretEncoder;
-	// 	SmartDashboard.putNumber("Turret Encoder", turretEncoder);
-	// }
-	// public void setDistanceFromTarget(double distanceFromTarget){
-	// 	this.distanceFromTarget = distanceFromTarget;
-	// 	SmartDashboard.putNumber("Distance from Target", distanceFromTarget);
-	// }
-	// public void setDriverControllerGameCube(boolean gameCubeBoolean){
-	// 	this.gameCubeBoolean = gameCubeBoolean;
-	// 	SmartDashboard.putBoolean("GameCube", gameCubeBoolean);
-	// }
-	// public void setDriverControllerXBox(boolean xboxBoolean){
-	// 	this.xboxBoolean = xboxBoolean;
-	// 	SmartDashboard.putBoolean("Xbox", xboxBoolean);
-	// }
+	public void driveTab(){
+		SmartDashboard.putBoolean("Intaking?", intakePistonsSubsystem.getIntakePistonState());
+		SmartDashboard.putBoolean("Shooting?", flywheelSubsystem.isFlywheelActive());
+		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
+		SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
+		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
+        SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
+        SmartDashboard.putBoolean("GameCube", RobotContainer.getUsingGamecube());
+        SmartDashboard.putBoolean("Manual Mode", RobotContainer.getInManual());
+        putShotType();
+    }
+    
+	private void putShotType() {
+        String type = "";
 
-	// //----- Testing & Debugging -----\\
+        if(deadbandMath.getDeadbandZone().getType() == 0) {
+            type = "NO";
+        } else if(deadbandMath.getDeadbandZone().getType() == 1) {
+            type = "MAYBE";
+        } else if(deadbandMath.getDeadbandZone().getType() == 2) {
+            type = "YES";
+        }
 
-	// public void setLogger(String logger){
+		SmartDashboard.putString("Can we make the shot?", type);
+    }
+    
+	// public String getFMSColor(){
+	// 	fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
+	// 	return fmsColor;
+    // }
+
+	//----- Testing & Debugging -----\\
+
+	public void testingTab(){
+		SmartDashboard.putNumber("Tower Speed", towerSubsystem.getSpeed());
+        SmartDashboard.putNumber("Hopper Speed", hopperSubsystem.getSpeed());
+        SmartDashboard.putNumber("Encoder Pos", turretSubsystem.getEncoderPosition());
+        SmartDashboard.putNumber("Target Area", limelightSubsystem.getTargetArea());
+        SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
+        SmartDashboard.putNumber("Horizontal Offset", limelightSubsystem.getHorizontalOffset());
+        SmartDashboard.putNumber("Vertical Offset", limelightSubsystem.getVerticleOffset());
+        putShooterAngle();
+	}
+
+	// public void getLogger(String logger){
 	// 	this.logger = logger;
 	// 	SmartDashboard.putString("Logger", logger);
-	// }
-	// public void setFMSColorDebug(String fmsColorDebug){
-	// 	this.fmsColorDebug = fmsColorDebug;
-	// 	SmartDashboard.putString("FMS Color Debugger", fmsColorDebug);
-	// }
-	// public void setTowerSpeed (double towerSpeed){
-	// 	this.towerSpeed = towerSpeed;
-	// 	SmartDashboard.putNumber("Tower Speed", towerSpeed);
-	// }
-	// public void setHopperSpeed(double hopperSpeed){
-	// 	this.hopperSpeed = hopperSpeed;
-	// 	SmartDashboard.putNumber("Hopper Speed", hopperSpeed);
-	// }
-	// public void setShooterRPM(double shooterRPM){
-	// 	this.shooterRPM = shooterRPM;
-	// 	SmartDashboard.putNumber("RPM", shooterRPM);
-	// }
-	// public void setShooterAngle(double shooterAngle){
-	// 	this.shooterAngle = shooterAngle;
-	// 	SmartDashboard.putNumber("Angle", shooterAngle);
-	// }
-	// public void setTurretSpeed(double turretSpeed){
-	// 	this.turretSpeed = turretSpeed;
-	// 	SmartDashboard.putNumber("Turret Speed", turretSpeed);
-	// }
-	// public void setTurretEncoderPosition(double turretEncoderPosition){
-	// 	this.turretEncoderPosition = turretEncoderPosition;
-	// 	SmartDashboard.putNumber("Encoder Pos", turretEncoderPosition);
-	// }
-	// public void setLimelightHue(double hue){
-	// 	this.hue = hue;
-	// 	SmartDashboard.putNumber("Hue", hue);
-	// }
-	// public void setTargetArea(double targetArea){
-	// 	this.targetArea = targetArea;
-	// 	SmartDashboard.putNumber("Target Area", targetArea);
-	// }
-	// public void setLimelightSaturation(double saturation){
+    // }
+    
+	public void putShooterAngle(){
+
+        String angle = "";
+
+        if(flywheelPistonSubsystem.get()) {
+            angle = "low";
+        } else {
+            angle = "high";
+        }
+	
+		SmartDashboard.putString("Angle", angle);
+	}
+    
+	// public void putLimelightSaturation(double saturation){
 	// 	this.saturation = saturation;
 	// 	SmartDashboard.putNumber("Saturation", saturation);
-	// }
-	// public void setLimelightTargetFullness(double targetFullness){
+    // }
+
+    //limelight hue
+    
+	// public void putLimelightTargetFullness(double targetFullness){
 	// 	this.targetFullness = targetFullness;
 	// 	SmartDashboard.putNumber("Target Fullness", targetFullness);
-	// }
-	// public void setLimelightValue(double value){
+    // }
+    
+	// public void putLimelightValue(double value){
 	// 	this.value = value;
 	// 	SmartDashboard.putNumber("Value", value);
-	// }
-	// public void setLimelightTargetAspectRatio(double targetAspectRatio){
+    // }
+    
+	// public void putLimelightTargetAspectRatio(double targetAspectRatio){
 	// 	this.targetAspectRatio = targetAspectRatio;
 	// 	SmartDashboard.putNumber("Target Aspect Ratio", targetAspectRatio);
-	// }
-	// public void setLimelightErosionDilation(double erosionDilation){
+    // }
+    
+	// public void putLimelightErosionDilation(double erosionDilation){
 	// 	this.erosionDilation = erosionDilation;
 	// 	SmartDashboard.putNumber("Erosion & Dilation", erosionDilation);
-	// }
-	// public void setLimelightDistanceFromTargetDebugger(double distanceFromTargetDebugger){
-	// 	this.distanceFromTargetDebugger = distanceFromTargetDebugger;
-	// 	SmartDashboard.putNumber("Distance from Target", distanceFromTargetDebugger);
-	// }
-	// public void setLimelightHorizontalOffset(double horizontalOffset){
-	// 	this.horizontalOffset = horizontalOffset;
-	// 	SmartDashboard.putNumber("Horizontal Offset", horizontalOffset);
-	// }
-	// public void setLimelightVerticalOffset(double verticalOffset){
-	// 	this.verticalOffset = verticalOffset;
-	// 	SmartDashboard.putNumber("Vertical Offset", verticalOffset);
-	// }
+    // }
 
 	//-------- Autonomous --------\\
 
