@@ -77,7 +77,8 @@ public class FlywheelSubsystem extends SubsystemBase {
 
         // Set PID to speed up flywheel
         // this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
-        motorLead.set(-speed * 5880 * PID_FF);
+        //motorLead.set(-speed * 5880 * PID_FF);
+        motorLead.set(-speed);
 
         logger.log(Level.FINE, "Set shooter speed to " + speed);
         logger.exiting(getClass().getName(), "setSpeed()");
