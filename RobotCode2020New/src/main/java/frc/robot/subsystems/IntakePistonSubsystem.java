@@ -23,7 +23,7 @@ public class IntakePistonSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(IntakePistonSubsystem.class.getName());
+    // private final Logger logger = // logger.getLogger(IntakePistonSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -41,11 +41,11 @@ public class IntakePistonSubsystem extends SubsystemBase {
     public void setIntakePistonState(boolean state) {
         intakePistonController.set(state);
         
-        logger.log(Level.FINE,"setIntakePistonState: " + state);
+        // logger.log(Level.FINE,"setIntakePistonState: " + state);
     }
 
     public boolean getIntakePistonState() {
-        logger.log(Level.FINE,"getIntakePistonState: " + intakePistonController.get());
+        // logger.log(Level.FINE,"getIntakePistonState: " + intakePistonController.get());
 
         return intakePistonController.get();
     }

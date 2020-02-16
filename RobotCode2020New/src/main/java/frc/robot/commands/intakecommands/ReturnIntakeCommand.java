@@ -24,7 +24,7 @@ public class ReturnIntakeCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(ReturnIntakeCommand.class.getName());
+  // private final Logger logger = // logger.getLogger(ReturnIntakeCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 
@@ -37,7 +37,7 @@ public class ReturnIntakeCommand extends CommandBase {
     this.intakePistonsSubsystem = intakePistonsSubsystem;
     this.intakeMotorsSubsystem = intakeMotorSubsystem;
 
-    logger.log(Level.FINE, "Initializing the ReturnIntakeCommand...");
+    // logger.log(Level.FINE, "Initializing the ReturnIntakeCommand...");
 
     addRequirements(intakePistonsSubsystem, intakeMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -49,7 +49,7 @@ public class ReturnIntakeCommand extends CommandBase {
     intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
     intakeMotorsSubsystem.setMotorSpeed(0.0);
 
-    logger.log(Level.FINE, "Returning the intake (command)...");
+    // logger.log(Level.FINE, "Returning the intake (command)...");
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.

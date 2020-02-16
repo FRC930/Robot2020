@@ -40,7 +40,7 @@ public class FlywheelSubsystem extends SubsystemBase {
 
     // -------- DECLARATIONS --------\\
 
-    private final Logger logger = Logger.getLogger(FlywheelSubsystem.class.getName());
+    // private final Logger logger = // logger.getLogger(FlywheelSubsystem.class.getName());
 
     // motor controllers for the NEO motors on the shooter
     private final CANSparkMax motorLead;
@@ -67,21 +67,21 @@ public class FlywheelSubsystem extends SubsystemBase {
         // Follow lead reverse speed
         motor2.follow(motorLead, true);
 
-        //logger.setLevel(Level.FINEST);
+        //// logger.setLevel(Level.FINEST);
     }
 
     // -------- METHODS --------\\
 
     public void setSpeed(double speed) {
-        logger.entering(this.getClass().getName(), "setSpeed()");
+        // logger.entering(this.getClass().getName(), "setSpeed()");
 
         // Set PID to speed up flywheel
         // this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
         //motorLead.set(-speed * 5880 * PID_FF);
         motorLead.set(-speed);
 
-        logger.log(Level.FINE, "Set shooter speed to " + speed);
-        logger.exiting(getClass().getName(), "setSpeed()");
+        // logger.log(Level.FINE, "Set shooter speed to " + speed);
+        // logger.exiting(getClass().getName(), "setSpeed()");
     } // end of method setSpeed()
 
     public void setVelocity(double metersPerSecond) {
@@ -89,12 +89,12 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        logger.entering(getClass().getName(), "stop()");
+        // logger.entering(getClass().getName(), "stop()");
 
         // Set motors to stop without PID to allow them to coast down
         motorLead.set(0.0);
 
-        logger.exiting(getClass().getName(), "stop()");
+        // logger.exiting(getClass().getName(), "stop()");
     }
 
     public double getSpeed() {

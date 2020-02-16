@@ -29,7 +29,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
+    // private final Logger logger = // logger.getLogger(TurretSubsystem.class.getName());
     // constant used in the conversion from encoder units to degrees
     private final double DEGREE_CONVERSION_NUMBER = .0013889;
 
@@ -46,7 +46,7 @@ public class TurretSubsystem extends SubsystemBase {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
 
-        this.logger.log(Level.INFO, "Starting TurretSubsystem");
+        // this.// logger.log(Level.INFO, "Starting TurretSubsystem");
     }
 
     //-------- METHODS --------\\
@@ -80,7 +80,7 @@ public class TurretSubsystem extends SubsystemBase {
 
         this.turretMotor.set(ControlMode.PercentOutput, speed);
         
-        this.logger.log(Level.INFO, "Set speed to " + getSpeed());
+        // this.// logger.log(Level.INFO, "Set speed to " + getSpeed());
     }
 
     public double getSpeed() {

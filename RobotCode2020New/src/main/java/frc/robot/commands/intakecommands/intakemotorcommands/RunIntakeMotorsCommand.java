@@ -23,7 +23,7 @@ public class RunIntakeMotorsCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(RunIntakeMotorsCommand.class.getName());
+  // private final Logger logger = // logger.getLogger(RunIntakeMotorsCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 
@@ -34,7 +34,7 @@ public class RunIntakeMotorsCommand extends CommandBase {
   public RunIntakeMotorsCommand(IntakeMotorSubsystem iMotors) {
     intakeMotors = iMotors;
 
-    logger.log(Level.FINE, "Initializing the RunIntakeMotorsCommand...");
+    // logger.log(Level.FINE, "Initializing the RunIntakeMotorsCommand...");
 
     addRequirements(iMotors);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -45,7 +45,7 @@ public class RunIntakeMotorsCommand extends CommandBase {
   public void initialize() {
      intakeMotors.setMotorSpeed(Constants.INTAKE_SPEED);
 
-     logger.log(Level.FINE, "Running the intake wheels (command)..."); 
+     // logger.log(Level.FINE, "Running the intake wheels (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.

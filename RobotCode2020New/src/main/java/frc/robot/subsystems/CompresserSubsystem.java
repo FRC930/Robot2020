@@ -27,7 +27,7 @@ public class CompresserSubsystem extends SubsystemBase {
     private final boolean COMPRESSOR_ON = true;
     private final boolean COMPRESSOR_OFF = false;
 
-    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
+    // private final Logger logger = // logger.getLogger(CompresserSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -46,12 +46,12 @@ public class CompresserSubsystem extends SubsystemBase {
     //turns compresser eather on and off
     public void turnCompressorOn() {
         compressorUtility.setClosedLoopControl(COMPRESSOR_ON);
-        logger.log(Level.FINE,"turning compresser on");
+        // logger.log(Level.FINE,"turning compresser on");
     }
 
     public void turnCompressorOff(){
         compressorUtility.setClosedLoopControl(COMPRESSOR_OFF);
-        logger.log(Level.FINE,"turning compresser off");
+        // logger.log(Level.FINE,"turning compresser off");
     }
 
 } // end of class CompresserSubsystem
