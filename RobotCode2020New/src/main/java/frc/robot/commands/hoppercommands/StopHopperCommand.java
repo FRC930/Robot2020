@@ -22,10 +22,9 @@ public class StopHopperCommand extends CommandBase {
 
     private HopperSubsystem m_HopperSubsystem;
     private JoystickButton home;
-    private boolean stop = false;
     //-------- CONSTRUCTOR --------\\
 
-    public StopHopperCommand(HopperSubsystem hopperSubsystem,JoystickButton home) {
+    public StopHopperCommand(HopperSubsystem hopperSubsystem, JoystickButton home) {
         m_HopperSubsystem = hopperSubsystem;
         this.home = home;
     }   

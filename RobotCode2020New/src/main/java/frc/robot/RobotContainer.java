@@ -392,7 +392,7 @@ public class RobotContainer {
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
       // ZL Button
-      Trigger manualFlywheelPistonButton = new JoystickButton(driverController, GC_ZL).and(inManualModeTrigger);
+      Trigger manualFlywheelPistonButton = new JoystickButton(driverController, GC_ZL);//.and(inManualModeTrigger);
 
       // --Command binds
 
@@ -409,7 +409,7 @@ public class RobotContainer {
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
       CommandScheduler scheduler = CommandScheduler.getInstance();
-      reverseHopperButton.whenActive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      reverseHopperButton.whileActiveOnce(new StopHopperCommand(hopperSubsystem, reverseHopperButton));
       // manual
       killHopperButton.whileActiveOnce(killHopperStateCommand);
     } else { // If we're using the Xbox controller
