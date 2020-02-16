@@ -41,8 +41,8 @@ public class DeadbandMath {
     //Class constructor - sets logger lever
     private DeadbandMath() {
         logger.setLevel(Level.FINE);
-        deadbandZone = null;
-        shotChance = null;
+        deadbandZone = DeadbandZone.RED;
+        shotChance = ShotChance.MISS;
     }
 
     //Enum for deadband zones

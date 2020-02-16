@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        //shuffleboardUtility = new ShuffleboardUtility();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
 
         commandScheduler = CommandScheduler.getInstance();   
     }
@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
 
         //shuffleboardUtility.driveTab();
         //shuffleboardUtility.testingTab();
+        m_robotContainer.StartShuffleBoard();
 
         commandScheduler.run();
 

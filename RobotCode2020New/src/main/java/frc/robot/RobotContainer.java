@@ -204,6 +204,9 @@ public class RobotContainer {
   //private final DefaultTurretCommand defaultTurretCommand;
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
 
+  // --Utilities
+  private final ShuffleboardUtility shuffleboardUtility;
+
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
@@ -239,6 +242,8 @@ public class RobotContainer {
     towerSubsystem = new TowerSubsystem();
 
     turretSubsystem = new TurretSubsystem();
+
+    shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
 
     // --Commands
     
@@ -448,7 +453,7 @@ public class RobotContainer {
     } else { 
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      scheduler.setDefaultCommand(hopperSubsystem,defaultHopperCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 
@@ -476,6 +481,11 @@ public class RobotContainer {
 
   public static void setUsingGamecube(boolean using) {
     usingGamecube = using;
+  }
+
+  public void StartShuffleBoard() {
+    shuffleboardUtility.driveTab();
+    shuffleboardUtility.testingTab();
   }
 
 } // end of class RobotContainer
