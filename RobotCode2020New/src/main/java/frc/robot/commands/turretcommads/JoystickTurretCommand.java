@@ -47,7 +47,7 @@ public class JoystickTurretCommand extends CommandBase {
 
         controllerOutput = coDriver.getRawAxis(coDriverAxis);
 
-        if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 1.0) {
+        if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 0.5) {
             speed = Math.pow(coDriver.getRawAxis(coDriverAxis), 3);
         } else {
             speed = 0;
@@ -65,7 +65,9 @@ public class JoystickTurretCommand extends CommandBase {
         // }
         //System.out.println("speed from joystick turret command: " + speed);
         //System.out.println("joystick value " + coDriver.getRawAxis(coDriverAxis));
-        turretSubsystem.setSpeed(speed);
+
+        // we pass in a negative speed to match Kyle's joystick-+
+        turretSubsystem.setSpeed(-speed);
     } // end of class execute()
 
     @Override
