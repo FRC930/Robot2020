@@ -172,7 +172,6 @@ public class RobotContainer {
   private final DriveCommand driveCommand;
 
   // --Hopper commands
-  private final RunHopperCommand runHopperCommand;
   private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
 
@@ -260,7 +259,6 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
-    runHopperCommand = new RunHopperCommand(hopperSubsystem);
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem);
     stopHopperCommand = new StopHopperCommand(hopperSubsystem);
 
@@ -357,11 +355,11 @@ public class RobotContainer {
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //Shooter command binds
-      /* TODO: Uncomment me when ready for Automatic Testing
-      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem));
+      
+      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,shootButton));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
-      shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
-      */
+      //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
+      
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
@@ -375,6 +373,10 @@ public class RobotContainer {
       Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(inManualModeTrigger);
       // Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(inManualModeTrigger);
+      
+      JoystickButton killHopperButton = new JoystickButton(driverController, GC_HOME);
+      
+
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
       // ZL Button
@@ -385,7 +387,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whenActive(runHopperCommand).whenInactive(stopHopperCommand);
+      manualHopperButton.whenActive(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(stopHopperCommand);
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
@@ -394,7 +396,8 @@ public class RobotContainer {
       manualFlywheelButton.whenActive(runFlywheelCommand).whenInactive(stopFlywheelCommand);
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
-
+      CommandScheduler scheduler = CommandScheduler.getInstance();
+      killHopperButton.whenActive(() -> {scheduler.unregisterSubsystem(hopperSubsystem,kickerSubsystem,towerSubsystem);});
       // manual
     } else { // If we're using the Xbox controller
 
@@ -436,6 +439,7 @@ public class RobotContainer {
 
     // --The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
+    
 
     scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, flywheelSubsystem, kickerSubsystem, towerSubsystem);
 
@@ -444,7 +448,7 @@ public class RobotContainer {
     } else { 
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+      scheduler.setDefaultCommand(hopperSubsystem,defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 

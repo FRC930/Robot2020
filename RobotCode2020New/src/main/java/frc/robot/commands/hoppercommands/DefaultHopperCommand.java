@@ -9,6 +9,7 @@
 
 package frc.robot.commands.hoppercommands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.HopperSubsystem;
@@ -21,7 +22,7 @@ public class DefaultHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-
+    //private 
     //-------- CONSTRUCTOR --------\\
 
     public DefaultHopperCommand(HopperSubsystem HopperSubsystem) {
