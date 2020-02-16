@@ -9,6 +9,7 @@
 
 package frc.robot.commands.hoppercommands;
 
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.HopperSubsystem;
@@ -19,14 +20,14 @@ import frc.robot.Constants;
 public class RunHopperCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
-    private boolean running = true;
     private HopperSubsystem m_HopperSubsystem;
+    private JoystickButton zr;
     
     //-------- CONSTRUCTOR --------\\
 
-    public RunHopperCommand(HopperSubsystem HopperSubsystem,boolean state){
+    public RunHopperCommand(HopperSubsystem HopperSubsystem,JoystickButton ZR){
         m_HopperSubsystem = HopperSubsystem;
-        running = state;
+        zr = ZR;
         addRequirements(m_HopperSubsystem);
     }
 
@@ -51,6 +52,6 @@ public class RunHopperCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return !zr.get();
     }
 } // end of class RunHopperCommand

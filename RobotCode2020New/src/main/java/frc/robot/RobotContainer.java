@@ -172,7 +172,6 @@ public class RobotContainer {
   private final DriveCommand driveCommand;
 
   // --Hopper commands
-  private final RunHopperCommand runHopperCommand;
   private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
 
@@ -260,7 +259,6 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
-    runHopperCommand = new RunHopperCommand(hopperSubsystem);
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem);
     stopHopperCommand = new StopHopperCommand(hopperSubsystem);
 
@@ -358,7 +356,7 @@ public class RobotContainer {
 
       //Shooter command binds
       
-      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem));
+      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,shootButton));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
@@ -385,7 +383,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whenActive(runHopperCommand).whenInactive(stopHopperCommand);
+      manualHopperButton.whenActive(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(stopHopperCommand);
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
