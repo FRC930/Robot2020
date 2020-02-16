@@ -11,26 +11,23 @@ package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.hoppercommands.*;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class DefaultHopperCommand extends CommandBase {
+public class KillHopperStateCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
+    private boolean state;
 
-    private HopperSubsystem m_HopperSubsystem;
-    private KillHopperStateCommand m_KillHopperStateCommand;
+    // private
+    // -------- CONSTRUCTOR --------\\
 
-    //private 
-    //-------- CONSTRUCTOR --------\\
-
-    public DefaultHopperCommand(HopperSubsystem HopperSubsystem, KillHopperStateCommand killHopperStateCommand) {
-        m_HopperSubsystem = HopperSubsystem;
-        m_KillHopperStateCommand = killHopperStateCommand;
-        addRequirements(m_HopperSubsystem);
+    public KillHopperStateCommand() {
+        state = false;
     }
 
     //-------- METHODS --------\\    
@@ -38,18 +35,18 @@ public class DefaultHopperCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        
+        state = !state;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {     
-        if(m_KillHopperStateCommand.getState()){
-            m_HopperSubsystem.setSpeed(0.0);
-        }
-        else {
-            m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
-        }
+
+    }
+
+    public boolean getState()
+    {
+        return state;
     }
 
     // Called once the command ends or is interrupted.

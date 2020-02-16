@@ -177,6 +177,7 @@ public class RobotContainer {
   // --Hopper commands
   //private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
+  private final KillHopperStateCommand killHopperStateCommand;
 
   // --Intake commands
   private final DeployIntakeCommand deployIntakeCommand;
@@ -266,8 +267,8 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
-
-    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem);
+    killHopperStateCommand = new KillHopperStateCommand();
+    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, killHopperStateCommand);
     
 
     // kicker
@@ -383,7 +384,9 @@ public class RobotContainer {
       // Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(inManualModeTrigger);
       
-      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_START);
+      JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_START);
+
+      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_A);
       
 
       // ZR Button
@@ -406,8 +409,9 @@ public class RobotContainer {
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
       CommandScheduler scheduler = CommandScheduler.getInstance();
-      killHopperButton.whenActive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      reverseHopperButton.whenActive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual
+      killHopperButton.whileActiveOnce(killHopperStateCommand);
     } else { // If we're using the Xbox controller
 
     /* TODO: Fix this code, later
