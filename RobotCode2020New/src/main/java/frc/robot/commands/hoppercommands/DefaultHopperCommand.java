@@ -22,13 +22,12 @@ public class DefaultHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-    private StopHopperCommand stopHopperCommand;
+
     //private 
     //-------- CONSTRUCTOR --------\\
 
-    public DefaultHopperCommand(HopperSubsystem HopperSubsystem,StopHopperCommand SHCommmand) {
+    public DefaultHopperCommand(HopperSubsystem HopperSubsystem) {
         m_HopperSubsystem = HopperSubsystem;
-        stopHopperCommand = SHCommmand;
         addRequirements(m_HopperSubsystem);
     }
 

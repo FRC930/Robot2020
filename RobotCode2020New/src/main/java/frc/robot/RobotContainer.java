@@ -175,7 +175,7 @@ public class RobotContainer {
   private final DriveCommand driveCommand;
 
   // --Hopper commands
-  private final StopHopperCommand stopHopperCommand;
+  //private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
 
   // --Intake commands
@@ -266,8 +266,8 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
-    stopHopperCommand = new StopHopperCommand(hopperSubsystem);
-    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem,stopHopperCommand);
+
+    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem);
     
 
     // kicker
@@ -396,7 +396,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whenActive(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(stopHopperCommand);
+      manualHopperButton.whenActive(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
@@ -406,7 +406,7 @@ public class RobotContainer {
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
       CommandScheduler scheduler = CommandScheduler.getInstance();
-      killHopperButton.whenActive(stopHopperCommand);
+      killHopperButton.whenActive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual
     } else { // If we're using the Xbox controller
 
@@ -469,7 +469,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return saltAndPepperSkilletCommand;
+    //return saltAndPepperSkilletCommand;
+    return null;
     // Run path following command, then stop at the end.
   }
 

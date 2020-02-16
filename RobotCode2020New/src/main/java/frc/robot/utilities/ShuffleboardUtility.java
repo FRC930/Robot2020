@@ -7,6 +7,7 @@
 
 package frc.robot.utilities;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakePistonSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -81,6 +82,7 @@ public class ShuffleboardUtility {
     //------- Drive Tab -------\\
 
 	public void driveTab(){
+        //Shuffleboard.selectTab("Driver Station");
 		SmartDashboard.putBoolean("Intaking?", intakePistonsSubsystem.getIntakePistonState());
 		SmartDashboard.putBoolean("Shooting?", flywheelSubsystem.isFlywheelActive());
 		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
@@ -114,6 +116,7 @@ public class ShuffleboardUtility {
 	//----- Testing & Debugging -----\\
 
 	public void testingTab(){
+        //Shuffleboard.selectTab("Testing & Debugging");
 		SmartDashboard.putNumber("Tower Speed", towerSubsystem.getSpeed());
         SmartDashboard.putNumber("Hopper Speed", hopperSubsystem.getSpeed());
         SmartDashboard.putNumber("Encoder Pos", turretSubsystem.getEncoderPosition());

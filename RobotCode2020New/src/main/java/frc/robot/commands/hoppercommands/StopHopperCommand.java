@@ -21,12 +21,14 @@ public class StopHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
+    private JoystickButton home;
     private boolean stop = false;
     //-------- CONSTRUCTOR --------\\
 
-    public StopHopperCommand(HopperSubsystem hopperSubsystem) {
+    public StopHopperCommand(HopperSubsystem hopperSubsystem,JoystickButton home) {
         m_HopperSubsystem = hopperSubsystem;
-    }
+        this.home = home;
+    }   
 
     //-------- METHODS --------\\
 
@@ -49,6 +51,6 @@ public class StopHopperCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return !home.get();
     }
 } // end of class StopTowerCommand
