@@ -64,6 +64,8 @@ public class LimelightSubsystem extends SubsystemBase {
     // ty Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     private double verticleOffset;
 
+    private double targetArea;
+
     // logger
     private Logger logger;
 
@@ -161,6 +163,13 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.exiting(getClass().getName(), "getVerticleOffset()");
 
         return verticleOffset;
+    }
+
+    public double getTargetArea() {
+
+        targetArea = limelightTable.getEntry("ta").getDouble(DEFAULT_VERT_ANGLE_OFFSET);
+        return targetArea;
+
     }
 
     // sets the pipeline, or configuration, of the limelight

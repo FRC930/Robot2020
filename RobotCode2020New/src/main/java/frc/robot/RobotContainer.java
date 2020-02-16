@@ -101,8 +101,8 @@ public class RobotContainer {
 
   //-------- DECLARATIONS --------\\
 
-  private boolean usingGamecube = true; // Default, this should be true
-  private boolean inManualMode = false; // Default, this should be false
+  private static boolean usingGamecube = true; // Default, this should be true
+  private static boolean inManualMode = false; // Default, this should be false
   private Joystick driverController;
   private Joystick coDriverController;
 
@@ -462,16 +462,16 @@ public class RobotContainer {
 
   //-------- METHODS FOR SHUFFLEBOARD --------\\
 
-  public boolean getUsingGamecube() {
+  public static boolean getUsingGamecube() {
     return usingGamecube;
   }
 
-  public boolean getInManual() {
+  public static boolean getInManual() {
     return inManualMode;
   }
 
-  public void setUsingGamecube(boolean usingGamecube) {
-    this.usingGamecube = usingGamecube;
+  public static void setUsingGamecube(boolean using) {
+    usingGamecube = using;
   }
 
 } // end of class RobotContainer
