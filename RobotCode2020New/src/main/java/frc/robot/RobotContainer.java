@@ -392,7 +392,7 @@ public class RobotContainer {
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
       // ZL Button
-      Trigger manualFlywheelPistonButton = new JoystickButton(driverController, GC_ZL);//.and(inManualModeTrigger);
+      AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);//.and(inManualModeTrigger);
 
       // --Command binds
 

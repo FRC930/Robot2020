@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -26,6 +30,8 @@ public class Robot extends TimedRobot {
 
     private CommandScheduler commandScheduler;
 
+    private HttpCamera limelightCamera;
+
     //private ShuffleboardUtility shuffleboardUtility;
 
     /**
@@ -40,7 +46,11 @@ public class Robot extends TimedRobot {
         m_robotContainer = new RobotContainer();
         //shuffleboardUtility = ShuffleboardUtility.getInstance();
 
-        commandScheduler = CommandScheduler.getInstance();   
+        commandScheduler = CommandScheduler.getInstance();  
+        limelightCamera = new HttpCamera("limelight", "http://10.9.30.11:5801/stream.mjpg");
+
+        ShuffleboardTab driveTab = Shuffleboard.getTab("Driver Station");
+        driveTab.add("LL", limelightCamera);
     }
 
     /**
