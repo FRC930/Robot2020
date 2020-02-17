@@ -21,7 +21,7 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(FlywheelPistonSubsystem.class.getName());
+  // private final Logger logger = // logger.getLogger(FlywheelPistonSubsystem.class.getName());
 
   //-------- DECLARATIONS --------\\
 
@@ -53,13 +53,13 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
   //Sets the value of the piston   
   public void set(SolenoidValues state) {
     FlywheelPiston.set(state.getSolenoidState());
-    this.logger.log(Level.FINE, "setPistonValue");
+    //this.logger.log(Level.FINE, "setPistonValue");
 
   }
 
   //returns the value of the piston, TRUE = On or up, FALSE = Off or down
   public boolean get(){
-    this.logger.log(Level.FINE,"getPistonValue: " + (FlywheelPiston.get() ? "True" : "False"));
+    //this.logger.log(Level.FINE,"getPistonValue: " + (FlywheelPiston.get() ? "True" : "False"));
     return FlywheelPiston.get();
   }
 

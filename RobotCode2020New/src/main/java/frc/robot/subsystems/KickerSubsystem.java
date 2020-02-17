@@ -24,7 +24,7 @@ public class KickerSubsystem extends SubsystemBase {
   
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    // private final Logger logger = // logger.getLogger(this.getClass().getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -35,26 +35,26 @@ public class KickerSubsystem extends SubsystemBase {
 
     public KickerSubsystem() {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
-        logger.setLevel(Level.FINE);
+        //// logger.setLevel(Level.FINE);
     }   
     
     //-------- METHODS --------\\
 
     //sets the speed to the tower motor 
     public void setSpeed(double speed){
-        logger.entering(this.getClass().getName(), "setSpeed");
-        logger.log(Level.INFO, "motorSpeed: " + speed);
+        // logger.entering(this.getClass().getName(), "setSpeed");
+        // logger.log(Level.INFO, "motorSpeed: " + speed);
 
         kickerMotor.set(ControlMode.PercentOutput, speed);
 
-        logger.exiting (this.getClass().getName(), "setSpeed");
+        // logger.exiting (this.getClass().getName(), "setSpeed");
     }
 
     // returns the speed from the tower motor
     public double getSpeed(){ 
-        logger.entering(this.getClass().getName(),"getSpeed");
-        logger.log(Level.INFO, "motorSpeed: " + kickerMotor.getMotorOutputPercent());
-        logger.exiting (this.getClass().getName(),"getSpeed");
+        // logger.entering(this.getClass().getName(),"getSpeed");
+        // logger.log(Level.INFO, "motorSpeed: " + kickerMotor.getMotorOutputPercent());
+        // logger.exiting (this.getClass().getName(),"getSpeed");
         
         return kickerMotor.getMotorOutputPercent();
     }

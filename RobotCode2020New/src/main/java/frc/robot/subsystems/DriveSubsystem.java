@@ -23,7 +23,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // -------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(DriveSubsystem.class.getName());
+  // private final Logger logger = // logger.getLogger(DriveSubsystem.class.getName());
 
   // -------- DECLARATIONS --------\\
 
@@ -31,12 +31,12 @@ public class DriveSubsystem extends SubsystemBase {
   private TalonFXSpeedController right2;
   private TalonFXSpeedController left1;
   private TalonFXSpeedController left2;
-  private DifferentialDrive drive;
+  //private DifferentialDrive drive;
   
   // -------- CONSTRUCTOR --------\\
 
   public DriveSubsystem() {
-    logger.setLevel(Level.WARNING); 
+    //// logger.setLevel(Level.OFF); 
     setDriveMotors();
   }
 
@@ -58,18 +58,18 @@ public class DriveSubsystem extends SubsystemBase {
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
 
     //Sets up the differntial drive
-    drive = new DifferentialDrive(right1, left1);
+    //drive = new DifferentialDrive(right1, left1);
   }
 
   // Given Arcade value arguments and sends to motor controllers
   public void runAt(double leftSpeed, double rightSpeed) {
-    logger.entering(this.getClass().getName(), "runAt()");
-    logger.log(Level.WARNING, "runing " + "left encoder " + left1.getRPMLeft(left1) + "right encoder " + right1.getRPMRight(right1));
+    // logger.entering(this.getClass().getName(), "runAt()");
+    // logger.log(Level.OFF, "runing " + "left encoder " + left1.getRPMLeft(left1) + "right encoder " + right1.getRPMRight(right1));
 
     left1.set(leftSpeed);
     right1.set(rightSpeed);
 
-    logger.exiting(this.getClass().getName(), "runAt()");
+    // logger.exiting(this.getClass().getName(), "runAt()");
   }
 
   // Returns left speed
@@ -89,13 +89,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    logger.entering(this.getClass().getName(), "tankDriveVolts()");
-    logger.log(Level.WARNING, "MOVING: " + leftVolts + " " + rightVolts);
+    // logger.entering(this.getClass().getName(), "tankDriveVolts()");
+    // logger.log(Level.OFF, "MOVING: " + leftVolts + " " + rightVolts);
 
     right1.setVoltage(rightVolts);
     left1.setVoltage(-leftVolts);
 
-    logger.exiting(this.getClass().getName(), "tankDriveVolts()");
+    // logger.exiting(this.getClass().getName(), "tankDriveVolts()");
     
   }
 
@@ -112,16 +112,16 @@ public class DriveSubsystem extends SubsystemBase {
     return right1.getRPMLeft(right1);
   }
 
-  public void setMaxOutput(double maxOutput) {
-    drive.setMaxOutput(maxOutput);
-  }
+  // public void setMaxOutput(double maxOutput) {
+  //   drive.setMaxOutput(maxOutput);
+  // }
 
   @Override
   public void periodic() {
-    logger.entering(this.getClass().getName(), "periodic()");
+    // logger.entering(this.getClass().getName(), "periodic()");
     // This method will be called once per scheduler run
     //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
-    logger.exiting(this.getClass().getName(), "periodic()");  
+    // logger.exiting(this.getClass().getName(), "periodic()");  
   }
 
 } // end of the class DriveSubsystem

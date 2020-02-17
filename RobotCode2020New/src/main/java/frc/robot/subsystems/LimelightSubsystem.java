@@ -67,7 +67,7 @@ public class LimelightSubsystem extends SubsystemBase {
     private double targetArea;
 
     // logger
-    private Logger logger;
+    // private Logger logger;
 
     // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
@@ -93,7 +93,7 @@ public class LimelightSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public LimelightSubsystem() {
-        logger = Logger.getLogger(LimelightSubsystem.class.getName());
+        // logger = // logger.getLogger(LimelightSubsystem.class.getName());
     }
 
     // -------- METHODS --------\\
@@ -101,14 +101,14 @@ public class LimelightSubsystem extends SubsystemBase {
     // this returns the horizontal angle between the limelights crosshair and the target crosshair :)
     public double getHorizontalOffset() {
 
-        logger.entering(getClass().getName(), "getHorizontalOffset()");
+        // logger.entering(getClass().getName(), "getHorizontalOffset()");
 
         //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
-        logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
-        logger.exiting(getClass().getName(), "getHorizontalOffset()");
+        // logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
+        // logger.exiting(getClass().getName(), "getHorizontalOffset()");
 
         return horizontalOffset;
     }
@@ -116,7 +116,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // the distance between the robot and the goal :)
     public double getDistance() {
 
-        logger.entering(getClass().getName(), "getDistance()");
+        // logger.entering(getClass().getName(), "getDistance()");
 
         // initial calculated distance
         double estDistance;
@@ -131,10 +131,10 @@ public class LimelightSubsystem extends SubsystemBase {
         error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
         distanceAndError = estDistance + error;
 
-        logger.log(Level.FINE, "Estimated distance = " + estDistance);
-        logger.log(Level.FINE, "Error = " + error);
-        logger.log(Level.FINE, "estDistance + error = " + distanceAndError);
-        logger.exiting(getClass().getName(), "getDistance()");
+        // logger.log(Level.FINE, "Estimated distance = " + estDistance);
+        // logger.log(Level.FINE, "Error = " + error);
+        // logger.log(Level.FINE, "estDistance + error = " + distanceAndError);
+        // logger.exiting(getClass().getName(), "getDistance()");
 
         return distanceAndError;
     }
@@ -142,12 +142,12 @@ public class LimelightSubsystem extends SubsystemBase {
     // whether the limelight sees a target or not :)
     public boolean getValidTargets() {
 
-        logger.entering(getClass().getName(), "getValidTargets()");
+        // logger.entering(getClass().getName(), "getValidTargets()");
 
         validTarget = limelightTable.getEntry("tv").getDouble(DEFAULT_VALID_TARGET) > 0.0 ? true : false;
 
-        logger.log(Level.FINE, "Valid Target?: " + validTarget);
-        logger.exiting(getClass().getName(), "getValidTargets()");
+        // logger.log(Level.FINE, "Valid Target?: " + validTarget);
+        // logger.exiting(getClass().getName(), "getValidTargets()");
 
         return validTarget;
     }
@@ -155,12 +155,12 @@ public class LimelightSubsystem extends SubsystemBase {
     // this returns the verticle offset between the limelights crosshair and the target crosshair :)
     public double getVerticleOffset() {
 
-        logger.entering(getClass().getName(), "getVerticleOffset()");
+        // logger.entering(getClass().getName(), "getVerticleOffset()");
 
         verticleOffset = limelightTable.getEntry("ty").getDouble(DEFAULT_VERT_ANGLE_OFFSET);
 
-        logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
-        logger.exiting(getClass().getName(), "getVerticleOffset()");
+        // logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
+        // logger.exiting(getClass().getName(), "getVerticleOffset()");
 
         return verticleOffset;
     }
@@ -175,14 +175,14 @@ public class LimelightSubsystem extends SubsystemBase {
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
 
-        logger.entering(getClass().getName(), "setPipeline()");
+        // logger.entering(getClass().getName(), "setPipeline()");
 
         // sets the pipeline to the associated number of the pipeline enum
         limelightTable.getEntry("pipeline").setNumber(pipeline.getPipeline());
         currentPipeline = pipeline;
 
-        logger.log(Level.FINE, "Pipeline: " + pipeline);
-        logger.exiting(getClass().getName(), "setPipeline()");
+        // logger.log(Level.FINE, "Pipeline: " + pipeline);
+        // logger.exiting(getClass().getName(), "setPipeline()");
     }
 
     // returns the Limelight's pipeline, returns "error" if no pipeline can be found

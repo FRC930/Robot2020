@@ -26,7 +26,7 @@ public class DefaultTurretCommand extends PIDCommand {
 
     //-------- DECLARATIONS --------\\
 
-    private final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
+    // private final Logger logger = // logger.getLogger(DefaultTurretCommand.class.getName());
     private static final int MAX_ROTATIONAL_UNITS = 3570;
 
     //-------- CONSTRUCTOR --------\\
@@ -73,7 +73,7 @@ public class DefaultTurretCommand extends PIDCommand {
                 // Pass in the subsystems we will need
                 turret, limeLight); // End of super constructor
 
-        logger.entering(this.getClass().getName(), "AutoAimTurretCommand");
+        // logger.entering(this.getClass().getName(), "AutoAimTurretCommand");
 
         // Enable the controller to continuously get input
         this.getController().enableContinuousInput(-27, 27);

@@ -9,8 +9,9 @@
 
 package frc.robot.commands.hoppercommands;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.HopperSubsystem;
 
 //-------- COMMAND CLASS --------\\
@@ -20,25 +21,25 @@ public class StopHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-
+    private JoystickButton home;
     //-------- CONSTRUCTOR --------\\
 
-    public StopHopperCommand(HopperSubsystem hopperSubsystem) {
+    public StopHopperCommand(HopperSubsystem hopperSubsystem, JoystickButton home) {
         m_HopperSubsystem = hopperSubsystem;
-        addRequirements(m_HopperSubsystem);
-    }
+        this.home = home;
+    }   
 
     //-------- METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_HopperSubsystem.setSpeed(0.0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {   
+        m_HopperSubsystem.setSpeed(-0.35);
     }
 
     // Called once the command ends or is interrupted.
@@ -49,6 +50,6 @@ public class StopHopperCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return !home.get();
     }
 } // end of class StopTowerCommand

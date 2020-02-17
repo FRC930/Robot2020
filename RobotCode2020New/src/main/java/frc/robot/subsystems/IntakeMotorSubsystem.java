@@ -25,7 +25,7 @@ public class IntakeMotorSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(IntakeMotorSubsystem.class.getName());
+    // private final Logger logger = // logger.getLogger(IntakeMotorSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -41,8 +41,8 @@ public class IntakeMotorSubsystem extends SubsystemBase {
     
     //sets motor speed 
     public void setMotorSpeed(double speed) {
-        intakeMotorController.set(ControlMode.PercentOutput, speed);
-        logger.log(Level.FINE,"sets motor speed");
+        intakeMotorController.set(ControlMode.PercentOutput, -speed);
+        // logger.log(Level.FINE,"sets motor speed");
     }
 
     //returns the motor speed

@@ -9,8 +9,9 @@
 
 package frc.robot.commands.hoppercommands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.commands.hoppercommands.*;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.Constants;
 
@@ -21,11 +22,14 @@ public class DefaultHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
+    private KillHopperStateCommand m_KillHopperStateCommand;
 
+    //private 
     //-------- CONSTRUCTOR --------\\
 
-    public DefaultHopperCommand(HopperSubsystem HopperSubsystem) {
+    public DefaultHopperCommand(HopperSubsystem HopperSubsystem, KillHopperStateCommand killHopperStateCommand) {
         m_HopperSubsystem = HopperSubsystem;
+        m_KillHopperStateCommand = killHopperStateCommand;
         addRequirements(m_HopperSubsystem);
     }
 
@@ -34,12 +38,18 @@ public class DefaultHopperCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
+        
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {       
+    public void execute() {     
+        if(m_KillHopperStateCommand.getState()){
+            m_HopperSubsystem.setSpeed(0.0);
+        }
+        else {
+            m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
+        }
     }
 
     // Called once the command ends or is interrupted.

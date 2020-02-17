@@ -9,6 +9,7 @@
 
 package frc.robot.commands.shootercommands;
 
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -31,27 +32,23 @@ import frc.robot.subsystems.FlywheelPistonSubsystem;
 //-------- COMMANDGROUP CLASS --------\\
 
 public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
-
     //-------- CONSTRUCTOR --------\\
-    
     public ShootPowerCellCommandGroup(
         FlywheelSubsystem flywheelSubsystem, 
         TowerSubsystem towerSubsystem, 
         HopperSubsystem hopperSubsystem, 
         KickerSubsystem kickerSubsystem, 
         LimelightSubsystem limeLight, 
-        FlywheelPistonSubsystem flywheelPistonSubsystem)   
+        FlywheelPistonSubsystem flywheelPistonSubsystem,
+        JoystickButton ZR)   
     {
-
         //Run all required commands in order so we can shoot.
-        addCommands(new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
+        addCommands(//new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
             new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                    new RunFlywheelCommand(flywheelSubsystem, 
-                        ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
-                        limeLight.getDistance()).getVelocity()), 
-                    new RunHopperCommand(hopperSubsystem)),
-                new ParallelCommandGroup(new RunTowerCommand(towerSubsystem), new RunKickerCommand(kickerSubsystem))
+                new RunFlywheelCommand(flywheelSubsystem, 0.7),
+                    //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
+                    //limeLight.getDistance()).getVelocity()), 
+                new ParallelCommandGroup(new RunHopperCommand(hopperSubsystem, ZR), new RunTowerCommand(towerSubsystem), new RunKickerCommand(kickerSubsystem))
             )
         );
     } // end of the constructor ShootPowerCellCommandGroup

@@ -27,7 +27,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 * extends to TalonFX class, implements SpeedController interface.
 */
 public class TalonFXSpeedController extends TalonFX implements SpeedController {
-    private Logger logger;
+    // private Logger logger;
     private SmartDashboard smartDashboard;
 
     /*
@@ -35,9 +35,9 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
      */
     public TalonFXSpeedController(int deviceNumber) {
         super(deviceNumber);
-        System.out.println("constructor");
-        logger = Logger.getLogger(TalonFXSpeedController.class.getName());
-        logger.setLevel(Level.WARNING);
+        //System.out.println("constructor");
+        // logger = // logger.getLogger(TalonFXSpeedController.class.getName());
+        //// logger.setLevel(Level.OFF);
 
     }
 
@@ -67,9 +67,9 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
      */
     public void set(double speed) { // that ----------------.
         // System.out.println("void set");
-        logger.entering(this.getClass().getName(), "set()");
+        // logger.entering(this.getClass().getName(), "set()");
         super.set(TalonFXControlMode.PercentOutput, speed);
-        logger.exiting(this.getClass().getName(), "set()");// |
+        // logger.exiting(this.getClass().getName(), "set()");// |
     } // |
       // |
       // to
@@ -100,7 +100,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
      * pidWrite is located within SpeedController and PIDOutput class.
      */
     public void pidWrite(double output) {
-        System.out.println("pidwrite");
+        //System.out.println("pidwrite");
     }
 
     public double getRPMLeft(TalonFXSpeedController left1) {
@@ -117,10 +117,10 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     }
 
     public void resetEncoders(TalonFXSpeedController right1, TalonFXSpeedController left1) {
-        logger.entering(getClass().getName(), "resetEncoders()");
+        // logger.entering(getClass().getName(), "resetEncoders()");
         right1.setSelectedSensorPosition(0);
         left1.setSelectedSensorPosition(0);
-        logger.exiting(this.getClass().getName(), "resetEncoders()");
+        // logger.exiting(this.getClass().getName(), "resetEncoders()");
     }
 
 }

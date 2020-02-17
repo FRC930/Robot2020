@@ -27,41 +27,60 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretSubsystem extends SubsystemBase {
 
-    //-------- DECLARATIONS --------\\
+    //-------- CONSTANTS --------\\
 
-    private Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
+    // private final Logger logger = // logger.getLogger(TurretSubsystem.class.getName());
+    // constant used in the conversion from encoder units to degrees
+    private final double DEGREE_CONVERSION_NUMBER = .0013889;
+
+    //-------- DECLARATIONS --------\\
 
     // The motor controller that will control the turret
     private TalonSRX turretMotor;
-    private DutyCycleEncoder encoder;
-
-    // constant used in the conversion from encoder units to degrees
-    private final double DEGREE_CONVERSION_NUMBER = .0013889;
+    private DutyCycleEncoder encoder; 
+    private double encoderPosition;
     
     //-------- CONSTRUCTOR --------\\
     
     public TurretSubsystem() {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
-        //this.turretEncoder = this.turretMotor.getEncoder();
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
-        this.encoder.reset();
-        //this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
-        //this.turretMotor.setSelectedSensorPosition(0);
-        this.logger.log(Level.INFO, "Starting TurretSubsystem");
+
+        // this.// logger.log(Level.INFO, "Starting TurretSubsystem");
     }
 
     //-------- METHODS --------\\
 
     public void setSpeed(double speed) {
+        
+        encoderPosition = encoder.get();
 
-        if(Math.abs(getEncoderPosition()) > Constants.ENCODER_ROTATION_LIMIT) {
-            speed = 0;
-        }
+        
+        if(encoderPosition > Constants.UPPER_LIMIT) {
+            if(speed < 0) {
+                speed = 0;
+            } else if(speed > 0.5) {
+                speed = 0.5;
+            }
+        } else if(encoderPosition < Constants.LOWER_LIMIT) {
+            if(speed > 0) {
+                speed = 0;
+            } else if(speed < -0.5) {
+                speed = -0.5;
+            }
+        } else {
+            if(speed > 0.5) {
+                speed = 0.5;
+            } else if(speed < -0.5) {
+                speed = -0.5;
+            }
+        }   
 
-        SmartDashboard.putNumber("Turret Encoder value", getEncoderPosition());
+        SmartDashboard.putNumber("Turret Encoder value", encoderPosition);
 
         this.turretMotor.set(ControlMode.PercentOutput, speed);
-        this.logger.log(Level.INFO, "Set speed to " + getSpeed());
+        
+        // this.// logger.log(Level.INFO, "Set speed to " + getSpeed());
     }
 
     public double getSpeed() {
@@ -78,5 +97,5 @@ public class TurretSubsystem extends SubsystemBase {
         //return this.turretMotor.getSelectedSensorPosition();
         return unitsToDegrees(this.encoder.get());
     }
-    
+
 } // end of class TurretSubsystem
