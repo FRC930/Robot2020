@@ -92,8 +92,13 @@ public class DriveSubsystem extends SubsystemBase {
     // logger.entering(this.getClass().getName(), "tankDriveVolts()");
     // logger.log(Level.OFF, "MOVING: " + leftVolts + " " + rightVolts);
 
-    right1.setVoltage(rightVolts);
-    left1.setVoltage(-leftVolts);
+    //TODO: Change for Prac Robot
+    //right1.setVoltage(rightVolts);
+    //left1.setVoltage(-leftVolts);
+
+    //TODO: Change for Comp Robot
+    right1.setVoltage(-rightVolts);
+    left1.setVoltage(leftVolts);
 
     // logger.exiting(this.getClass().getName(), "tankDriveVolts()");
     

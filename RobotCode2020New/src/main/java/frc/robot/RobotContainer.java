@@ -473,8 +473,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return saltAndPepperSkilletCommand;
-    return null;
+    return saltAndPepperSkilletCommand;
+    //return null;
     // Run path following command, then stop at the end.
   }
 
