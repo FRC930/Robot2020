@@ -493,8 +493,8 @@ public class RobotContainer {
   }
 
   public void StartShuffleBoard() {
-    shuffleboardUtility.driveTab();
-    shuffleboardUtility.testingTab();
+    shuffleboardUtility.putDriveTab();
+    shuffleboardUtility.putTestingTab();
   }
 
 } // end of class RobotContainer

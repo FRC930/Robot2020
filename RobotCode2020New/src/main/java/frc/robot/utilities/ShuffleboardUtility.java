@@ -8,6 +8,7 @@
 package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakePistonSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -20,10 +21,9 @@ import frc.robot.subsystems.HopperSubsystem;
 
 public class ShuffleboardUtility {	
 
-	//-------- CONSTANTS --------\\
-
 	//-------- DECLARATIONS --------\\
 
+    //--Subsystems
 	private final TurretSubsystem turretSubsystem;
 	private final IntakePistonSubsystem intakePistonsSubsystem;
 	private final FlywheelSubsystem flywheelSubsystem;
@@ -32,31 +32,14 @@ public class ShuffleboardUtility {
     private final HopperSubsystem hopperSubsystem;
     private final DeadbandMath deadbandMath;
     private final FlywheelPistonSubsystem flywheelPistonSubsystem;
-	
-    private String fmsColor;
-    private String logger;
-    private String fmsColorDebug;
-    private double towerSpeed;
-    private double hopperSpeed;
-    private double shooterRPM;
-    private double shooterAngle;
-    private double turretSpeed;
-	private double turretEncoderPosition;
-	private double hue;
-	private double targetArea;
-	private double saturation;
-	private double targetFullness;
-	private double value;
-	private double targetAspectRatio;
-	private double erosionDilation;
-	private double distanceFromTargetDebugger;
-	private double horizontalOffput;
-	private double verticalOffput;
+
+    //--Tabs
+    ShuffleboardTab driveTab;
+    ShuffleboardTab testingTab;
 
     //-------- CONSTRUCTOR --------\\
 
     public ShuffleboardUtility(IntakePistonSubsystem intakePistonSubsystem, FlywheelSubsystem flywheelSubsystem, LimelightSubsystem limelightSubsystem, TowerSubsystem towerSubsystem, HopperSubsystem hopperSubsystem, FlywheelPistonSubsystem flywheelPistonSubsystem, TurretSubsystem turretSubsystem){
-        deadbandMath = DeadbandMath.getInstance();
         this.intakePistonsSubsystem = intakePistonSubsystem;
         this.flywheelSubsystem = flywheelSubsystem;
         this.limelightSubsystem = limelightSubsystem;
@@ -64,6 +47,10 @@ public class ShuffleboardUtility {
         this.hopperSubsystem = hopperSubsystem;
         this.flywheelPistonSubsystem = flywheelPistonSubsystem;
         this.turretSubsystem = turretSubsystem;
+        deadbandMath = DeadbandMath.getInstance();
+
+        driveTab = Shuffleboard.getTab("Driver Station");
+        testingTab = Shuffleboard.getTab("Testing & Debugging");
     }
 
     private static ShuffleboardUtility instance = null;
@@ -74,14 +61,13 @@ public class ShuffleboardUtility {
             return instance;
         }
         else {
-            return instance ;//= new ShuffleboardUtility();
+            return instance ;
         }
     }
 
     //------- Drive Tab -------\\
 
-	public void driveTab(){
-        //Shuffleboard.selectTab("Driver Station");
+	public void putDriveTab(){
 		SmartDashboard.putBoolean("Intaking?", intakePistonsSubsystem.getIntakePistonState());
 		SmartDashboard.putBoolean("Shooting?", flywheelSubsystem.isFlywheelActive());
 		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
@@ -92,7 +78,24 @@ public class ShuffleboardUtility {
         SmartDashboard.putBoolean("Manual Mode", RobotContainer.getInManual());
         putShotType();
     }
+
+    //----- Testing & Debugging -----\\
+
+	public void putTestingTab(){
+		SmartDashboard.putNumber("Tower Speed", towerSubsystem.getSpeed());
+        SmartDashboard.putNumber("Hopper Speed", hopperSubsystem.getSpeed());
+        SmartDashboard.putNumber("Encoder Pos", turretSubsystem.getEncoderPosition());
+        SmartDashboard.putNumber("Target Area", limelightSubsystem.getTargetArea());
+        SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
+        SmartDashboard.putNumber("Horizontal Offset", limelightSubsystem.getHorizontalOffset());
+        SmartDashboard.putNumber("Vertical Offset", limelightSubsystem.getVerticleOffset());
+        putShooterAngle();
+    }
     
+    public void updateValues() {
+        Shuffleboard.update();
+    }
+
 	private void putShotType() {
         String type = "";
 
@@ -107,24 +110,9 @@ public class ShuffleboardUtility {
 		SmartDashboard.putString("Can we make the shot?", type);
     }
     
-	// public String getFMSColor(){
-	// 	fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
-	// 	return fmsColor;
-    // }
-
-	//----- Testing & Debugging -----\\
-
-	public void testingTab(){
-        //Shuffleboard.selectTab("Testing & Debugging");
-		SmartDashboard.putNumber("Tower Speed", towerSubsystem.getSpeed());
-        SmartDashboard.putNumber("Hopper Speed", hopperSubsystem.getSpeed());
-        SmartDashboard.putNumber("Encoder Pos", turretSubsystem.getEncoderPosition());
-        SmartDashboard.putNumber("Target Area", limelightSubsystem.getTargetArea());
-        SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
-        SmartDashboard.putNumber("Horizontal Offset", limelightSubsystem.getHorizontalOffset());
-        SmartDashboard.putNumber("Vertical Offset", limelightSubsystem.getVerticleOffset());
-        putShooterAngle();
-	}
+	public String getFMSColor(){
+		return SmartDashboard.getString("FMS Color", "No Color Available");
+    }
 
 	// public void getLogger(String logger){
 	// 	this.logger = logger;
