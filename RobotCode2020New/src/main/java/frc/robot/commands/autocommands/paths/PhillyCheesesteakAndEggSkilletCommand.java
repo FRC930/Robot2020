@@ -58,7 +58,7 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
 
 
     // Generates a trajectory for a path to move towards Wheel of Fortune
-    Trajectory initLineToTrench5Trajectory = TrajectoryGenerator.generateTrajectory(
+    Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
         new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
         List.of(
@@ -72,7 +72,7 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
     );
 
     // Generates a trajectory two move into shooting range for 5 W.O.F. balls
-    Trajectory trench5ToRendezvous2Trajectory = TrajectoryGenerator.generateTrajectory(
+    Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the W.O.F. facing towards the goal, away from the W.O.F.
         new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
         // Pass this waypoint to have a more drastic curve towards the second shooting point
@@ -104,7 +104,7 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
     
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
-        initLineToTrench5Trajectory,
+        trajectory1,
         m_drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -121,7 +121,7 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
 
     // Creates RAMSETE Command for second trajectory
     RamseteCommand ramseteCommand2 = new RamseteCommand(
-        trench5ToRendezvous2Trajectory,
+        trajectory2,
         m_drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -153,12 +153,11 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
         m_drive
     );
     
-    /* Wait 3 seconds to theoretically shoot 3 balls, run ramseteCommand1 
-    to move forward towards the wheel of fortune and move over the five balls 
-    along that path, wait for a second, run ramseteCommand2 to move back into
-    shooting range, wait 5 seconds to shoot 5 balls, run ramseteCommand3 to
-    move to the center square and grab two balls along that path, then wait to
-    shoot final two balls
+    /* 
+    shoot 3
+    move to grab 3 trench run
+    move to grab 2 rendezvous
+    shoot 5
     */
 
     addCommands(new WaitCommand(3), 
