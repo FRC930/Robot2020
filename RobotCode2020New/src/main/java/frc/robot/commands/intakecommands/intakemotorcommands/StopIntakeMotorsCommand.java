@@ -9,11 +9,12 @@
 
 package frc.robot.commands.intakecommands.intakemotorcommands;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakeMotorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
@@ -21,7 +22,7 @@ public class StopIntakeMotorsCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  // private final Logger logger = // logger.getLogger(StopIntakeMotorsCommand.class.getName());
+  private final Logger logger = Logger.getLogger(StopIntakeMotorsCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 
@@ -32,7 +33,7 @@ public class StopIntakeMotorsCommand extends CommandBase {
   public StopIntakeMotorsCommand(IntakeMotorSubsystem iMotors) {
     intakeMotors = iMotors;
 
-    // logger.log(Level.FINE, "Initializing the StopIntakeMotorsCommand...");
+    logger.log(Constants.LOG_LEVEL_FINE, "Initializing the StopIntakeMotorsCommand...");
 
     addRequirements(iMotors);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -43,7 +44,7 @@ public class StopIntakeMotorsCommand extends CommandBase {
   public void initialize() {
      intakeMotors.setMotorSpeed(0.0);
 
-     // logger.log(Level.FINE, "Stopping the intake wheels (command)..."); 
+     logger.log(Constants.LOG_LEVEL_FINE, "Stopping the intake wheels (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.

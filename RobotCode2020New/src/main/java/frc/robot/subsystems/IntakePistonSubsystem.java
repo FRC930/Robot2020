@@ -12,7 +12,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import frc.robot.Constants;
@@ -23,7 +22,7 @@ public class IntakePistonSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    // private final Logger logger = // logger.getLogger(IntakePistonSubsystem.class.getName());
+    private final Logger logger = Logger.getLogger(IntakePistonSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -32,7 +31,6 @@ public class IntakePistonSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public IntakePistonSubsystem() {
-        //System.out.println("YYYYY");
         intakePistonController = new Solenoid(Constants.INTAKE_SOLENOID_ID);
     }
 
@@ -41,18 +39,17 @@ public class IntakePistonSubsystem extends SubsystemBase {
     public void setIntakePistonState(boolean state) {
         intakePistonController.set(state);
         
-        // logger.log(Level.FINE,"setIntakePistonState: " + state);
+        logger.log(Constants.LOG_LEVEL_FINE, "setIntakePistonState: " + state);
     }
 
     public boolean getIntakePistonState() {
-        // logger.log(Level.FINE,"getIntakePistonState: " + intakePistonController.get());
+        logger.log(Constants.LOG_LEVEL_FINE, "getIntakePistonState: " + intakePistonController.get());
 
         return intakePistonController.get();
     }
 
     @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
+    public void periodic() {    // This method will be called once per scheduler run     
     }
     
 } // end of class IntakePistonSubsystem

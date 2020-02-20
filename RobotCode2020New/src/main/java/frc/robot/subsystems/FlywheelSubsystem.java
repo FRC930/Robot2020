@@ -15,7 +15,6 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 //import com.revrobotics.CANPIDController;
@@ -33,14 +32,14 @@ public class FlywheelSubsystem extends SubsystemBase {
     // PID Proportional Gain
     //private final double PID_P = 0.0001;
     // PID Feed-Forward Gain
-    private final double PID_FF = 0.00025;
+    //private final double PID_FF = 0.00025;
 
     private final double SLOPE = 0.06;
     private final double Y_INTERCEPT = -0.05;
 
     // -------- DECLARATIONS --------\\
 
-    // private final Logger logger = // logger.getLogger(FlywheelSubsystem.class.getName());
+    private final Logger logger = Logger.getLogger(FlywheelSubsystem.class.getName());
 
     // motor controllers for the NEO motors on the shooter
     private final CANSparkMax motorLead;
@@ -67,21 +66,21 @@ public class FlywheelSubsystem extends SubsystemBase {
         // Follow lead reverse speed
         motor2.follow(motorLead, true);
 
-        //// logger.setLevel(Level.FINEST);
+        logger.setLevel(Constants.LOG_LEVEL_FINEST);
     }
 
     // -------- METHODS --------\\
 
     public void setSpeed(double speed) {
-        // logger.entering(this.getClass().getName(), "setSpeed()");
+        logger.entering(this.getClass().getName(), "setSpeed()");
 
         // Set PID to speed up flywheel
         // this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
         //motorLead.set(-speed * 5880 * PID_FF);
         motorLead.set(-speed);
 
-        // logger.log(Level.FINE, "Set shooter speed to " + speed);
-        // logger.exiting(getClass().getName(), "setSpeed()");
+        logger.log(Constants.LOG_LEVEL_FINE, "Set shooter speed to " + speed);
+        logger.exiting(getClass().getName(), "setSpeed()");
     } // end of method setSpeed()
 
     public void setVelocity(double metersPerSecond) {
@@ -89,12 +88,12 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        // logger.entering(getClass().getName(), "stop()");
+        logger.entering(getClass().getName(), "stop()");
 
         // Set motors to stop without PID to allow them to coast down
         motorLead.set(0.0);
 
-        // logger.exiting(getClass().getName(), "stop()");
+        logger.exiting(getClass().getName(), "stop()");
     }
 
     public double getSpeed() {
@@ -106,7 +105,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public boolean isFlywheelActive() {
-        if(getSpeed() != 0) {
+        if (getSpeed() != 0) {
             return true;
         } else {
             return false;

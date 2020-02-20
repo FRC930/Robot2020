@@ -9,12 +9,14 @@ package frc.robot.commands.colorwheelcommands.rotationalcontrolcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
+
 import java.util.logging.*;
 
 public class RotationalControlSpinnerKillSwitchCommand extends CommandBase{
 
     //-------- CONSTANTS --------\\
-    // private Logger logger = // logger.getLogger(RotationalControlSpinnerKillSwitchCommand.class.getName());
+    private Logger logger = Logger.getLogger(RotationalControlSpinnerKillSwitchCommand.class.getName());
     //-------- DECLARATIONS --------\\
     // Refers to the instance of the button in the RobotContainer
     JoystickButton aButton;
@@ -44,10 +46,10 @@ public class RotationalControlSpinnerKillSwitchCommand extends CommandBase{
     @Override
     public boolean isFinished() {
         // Kills the color wheel spinner early when the A button is let go
-        // logger.entering(this.getClass().getName(), "isFinished");
+        logger.entering(this.getClass().getName(), "isFinished");
         // Logs when the kill switch activates
-        // logger.log(Level.FINE, "Kill Switch!");
-        // logger.exiting(this.getClass().getName(), "isFinished");
+        logger.log(Constants.LOG_LEVEL_FINE, "Kill Switch!");
+        logger.exiting(this.getClass().getName(), "isFinished");
         return !aButton.get();
     }
 } // End of class
