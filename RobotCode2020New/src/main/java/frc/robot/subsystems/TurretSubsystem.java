@@ -59,22 +59,22 @@ public class TurretSubsystem extends SubsystemBase {
         if(encoderPosition > Constants.UPPER_LIMIT) {
             if(speed < 0) {
                 speed = 0;
-            } else if(speed > 0.5) {
+            } /*else if(speed > 0.5) {
                 speed = 0.5;
-            }
+            }*/
         } else if(encoderPosition < Constants.LOWER_LIMIT) {
             if(speed > 0) {
                 speed = 0;
-            } else if(speed < -0.5) {
+            } /*else if(speed < -0.5) {
                 speed = -0.5;
-            }
-        } else {
+            }*/
+        } /*else {
             if(speed > 0.5) {
                 speed = 0.5;
             } else if(speed < -0.5) {
                 speed = -0.5;
             }
-        }   
+        }*/ 
 
         SmartDashboard.putNumber("Turret Encoder value", encoderPosition);
 
