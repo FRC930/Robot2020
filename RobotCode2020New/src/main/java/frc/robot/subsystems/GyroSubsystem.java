@@ -42,6 +42,7 @@ public class GyroSubsystem extends SubsystemBase {
         gyroTalon = new TalonSRX(Constants.INTAKE_ID);
         gyro = new PigeonIMU(gyroTalon);
         driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+        zeroHeading();
     }
 
     // updates the yaw, pitch, and roll values in the array
@@ -57,7 +58,7 @@ public class GyroSubsystem extends SubsystemBase {
     //Returns the yaw rotation of the robot
     public double getYaw(){
         gyro.getYawPitchRoll(yawPitchRollValues);
-        return yawPitchRollValues[0];
+        return Math.IEEEremainder(yawPitchRollValues[0], 360);
     }
 
     public Pose2d getPose() {
@@ -73,6 +74,9 @@ public class GyroSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
       //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
+      updateYawPitchRoll();
+      System.out.println(getYaw());
+
       
     }
 } // end of subsystem

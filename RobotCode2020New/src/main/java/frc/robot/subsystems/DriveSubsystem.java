@@ -9,10 +9,15 @@ package frc.robot.subsystems;
 
 import java.util.logging.*;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
+
 import frc.robot.utilities.TalonFXSpeedController;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -31,6 +36,16 @@ public class DriveSubsystem extends SubsystemBase {
   private TalonFXSpeedController right2;
   private TalonFXSpeedController left1;
   private TalonFXSpeedController left2;
+  //The intake talon motor controller, has the gyro attached to it
+  private TalonSRX gyroTalon;
+    
+  //The gyro, used for autonomous
+  private PigeonIMU gyro;
+
+  //Values, used to store the yaw, pitch, and roll (the robot's rotation)
+  private double yawPitchRollValues[] = new double[3]; 
+
+  private DifferentialDriveOdometry driveOdometry;
   //private DifferentialDrive drive;
   
   // -------- CONSTRUCTOR --------\\
@@ -48,6 +63,9 @@ public class DriveSubsystem extends SubsystemBase {
     right2 = new TalonFXSpeedController(Constants.DRIVE_RIGHT_BACK_ID);
     left1 = new TalonFXSpeedController(Constants.DRIVE_LEFT_FRONT_ID);
     left2 = new TalonFXSpeedController(Constants.DRIVE_LEFT_BACK_ID);
+    gyroTalon = new TalonSRX(Constants.INTAKE_ID);
+    gyro = new PigeonIMU(gyroTalon);
+    driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
     // Mirror primary motor controllers on each side
     left2.follow(left1);
@@ -81,6 +99,12 @@ public class DriveSubsystem extends SubsystemBase {
   public double getRightSpeed() {
     return right1.getMotorOutputPercent();
   }
+
+  public double getHeading() {
+    gyro.getYawPitchRoll(yawPitchRollValues);
+    return Math.IEEEremainder(yawPitchRollValues[0], 360);
+  }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(left1.getRPMLeft(left1), right1.getRPMRight(right1));
   }
@@ -117,12 +141,29 @@ public class DriveSubsystem extends SubsystemBase {
     return right1.getRPMLeft(right1);
   }
 
+  public double getRPMLeft() {
+    double rotationML;
+    rotationML = -left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    return rotationML;
+}
+
+public double getRPMRight() {
+    double rotationMR;
+    rotationMR = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    return rotationMR;
+}
+
+public Pose2d getPose() {
+  return driveOdometry.getPoseMeters();
+}
+
   // public void setMaxOutput(double maxOutput) {
   //   drive.setMaxOutput(maxOutput);
   // }
 
   @Override
   public void periodic() {
+    driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getRPMLeft(), getRPMRight());
     // logger.entering(this.getClass().getName(), "periodic()");
     // This method will be called once per scheduler run
     //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
