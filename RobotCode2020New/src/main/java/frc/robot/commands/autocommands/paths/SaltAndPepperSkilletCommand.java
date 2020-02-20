@@ -63,17 +63,18 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new Pose2d(0, 0, new Rotation2d(0)),
         List.of( 
             // Midpoints
-            new Translation2d(inchesToMeters(12.5), inchesToMeters(-1)),
-            new Translation2d(inchesToMeters(27.5), inchesToMeters(-1)),
-            new Translation2d(inchesToMeters(52.5), inchesToMeters(-1)),
-            new Translation2d(inchesToMeters(67.5), inchesToMeters(-2)),
-            new Translation2d(inchesToMeters(75), inchesToMeters(-3)),
-            new Translation2d(inchesToMeters(90), inchesToMeters(-7)),
-            new Translation2d(inchesToMeters(100), inchesToMeters(-13)),
-            new Translation2d(inchesToMeters(110), inchesToMeters(-24))
+            
+            new Translation2d(inchesToMeters(12.5), inchesToMeters(1)),
+            new Translation2d(inchesToMeters(27.5), inchesToMeters(1)),
+            new Translation2d(inchesToMeters(52.5), inchesToMeters(1)),
+            new Translation2d(inchesToMeters(67.5), inchesToMeters(2)),
+            new Translation2d(inchesToMeters(75), inchesToMeters(3)),
+            new Translation2d(inchesToMeters(90), inchesToMeters(7)),
+            new Translation2d(inchesToMeters(100), inchesToMeters(13)),
+            new Translation2d(inchesToMeters(110), inchesToMeters(24))
         ),
         // End infront of the rendezvous point. Simply move forward 48 inches = 4 feet
-        new Pose2d(inchesToMeters(122.5), inchesToMeters(-40), new Rotation2d(Math.toRadians(270))),
+        new Pose2d(inchesToMeters(122.5), inchesToMeters(40), new Rotation2d(Math.toRadians(270))),
         // Pass config
         config
     );
@@ -104,9 +105,5 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     }
     private double inchesToMeters(double inch){
         return inch/39.3701;
-    }
-    @Override 
-    public void execute(){
-
     }
 }
