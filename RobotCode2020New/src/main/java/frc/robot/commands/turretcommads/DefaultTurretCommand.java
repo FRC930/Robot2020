@@ -27,7 +27,6 @@ public class DefaultTurretCommand extends PIDCommand {
     //-------- DECLARATIONS --------\\
 
     // private final Logger logger = // logger.getLogger(DefaultTurretCommand.class.getName());
-    private static final int MAX_ROTATIONAL_UNITS = 3570;
 
     //-------- CONSTRUCTOR --------\\
 
@@ -45,8 +44,6 @@ public class DefaultTurretCommand extends PIDCommand {
                 0.0,
                 // This lambda tells the controller how to use the output
                 (double output) -> {
-                    // double FeedForward = 0.2;
-                    // output = output + FeedForward;
 
                     // Make sure that we are not assigning some weird value to the motor
                     if (output > 1) {
@@ -55,18 +52,6 @@ public class DefaultTurretCommand extends PIDCommand {
                         output = -1;
                     }
                     SmartDashboard.putNumber("controller", output);
-
-                    // Make sure that the turret does not turn past ~300° in either direction
-                    // Internal units. 3570 == ~300°
-                    // if (output < 0) {
-                    //     if (turret.getEncoderPosition() > MAX_ROTATIONAL_UNITS) {
-                    //         output = 0;
-                    //     }
-                    // } else if (output > 0) {
-                    //     if (turret.getEncoderPosition() < -MAX_ROTATIONAL_UNITS) {
-                    //         output = 0;
-                    //     }
-                    // }
 
                     turret.setSpeed(output);
                 },
