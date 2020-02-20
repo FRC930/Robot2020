@@ -31,7 +31,7 @@ public class DefaultTurretCommand extends PIDCommand {
     //-------- CONSTRUCTOR --------\\
 
     public DefaultTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret) {
-        super(new PIDController(0.025, 0.0, 0.0008),
+        super(new PIDController(SmartDashboard.getNumber("P", 0.03), SmartDashboard.getNumber("I", 0), SmartDashboard.getNumber("D", 0.0008)),//0.025, 0.0, 0.0008),
                 // This lambda tells the controller where to get the input values from
                 () -> {
                     SmartDashboard.putNumber("horiz off", limeLight.getHorizontalOffset());

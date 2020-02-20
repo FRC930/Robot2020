@@ -32,12 +32,12 @@ public class LimelightSubsystem extends SubsystemBase {
     public final double MAXIMUM_ANGLE = 27;
 
     // the height between the limelight and the target
-    public final double TARGET_HEIGHT = 1.6764;
+    public final double TARGET_HEIGHT = 1.524;
 
     // the angle the camera is mounted at on the turret
     public final double CAMERA_ANGLE = 15;
 
-    // both used for the equasion of the error we found
+    // both used for the equation of the error we found
     public final double ERROR_EQ_SLOPE = 0.23638537459;
     // NEED the zero for Jabroni's OCD
     public final double ERROR_EQ_INTERCEPT = -0.37613082;
@@ -48,7 +48,7 @@ public class LimelightSubsystem extends SubsystemBase {
     private final double DEFAULT_VALID_TARGET = -1;
 
     // distance at which we change pipelines
-    private final double DISTANCE_THRESHOLD = 10; //TODO: find this threshold, 10 is a placeholder
+    private final double DISTANCE_THRESHOLD = 30; //TODO: find this threshold, 10 is a placeholder
 
     // -------- DECLARATIONS --------\\
 
@@ -127,7 +127,7 @@ public class LimelightSubsystem extends SubsystemBase {
         // sum of initial calculated distance and distance error
         double distanceAndError;
 
-        estDistance = TARGET_HEIGHT / Math.tan(CAMERA_ANGLE + getVerticleOffset());
+        estDistance = TARGET_HEIGHT / Math.tan(Math.toRadians(CAMERA_ANGLE + getVerticleOffset()));
         error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
         distanceAndError = estDistance + error;
 
