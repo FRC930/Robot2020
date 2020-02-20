@@ -11,10 +11,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import java.util.logging.*;
+
+import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -22,45 +24,38 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    //TODO: Change this port ID accordingly
-    private final int COLOR_WHEEL_PORT = 7;
+    // Creates an instance of the logger class
+    // private final Logger logger = // logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
-    // Creates an instance of the logger class
-    private Logger logger = Logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
-
-    //TODO: Change this motor controller, based on what's on the robot
-    //private TalonSRX talon;
-    private CANSparkMax spark1;
+    private VictorSPX wheelSpinnerMotor;
 
     //-------- CONSTRUCTOR --------\\
 
     public ColorWheelSpinnerSubsystem(){
-        //TODO: Change this instantiation based on the new motor controller
-        //talon = new TalonSRX(COLOR_WHEEL_PORT);
-        spark1 = new CANSparkMax(COLOR_WHEEL_PORT, MotorType.kBrushless);
+        wheelSpinnerMotor = new VictorSPX(Constants.COLOR_WHEEL_ID);
     }
 
     //-------- METHODS --------\\
 
     // Returns the speed of the motor controller
     public double getMotorSpeed(){
-        logger.entering(this.getClass().getName(), "getMotorSpeed");
-        logger.exiting(this.getClass().getName(), "getMotorSpeed");
-        //return talon.getMotorOutputPercent();
-        return spark1.get();
+        // logger.entering(this.getClass().getName(), "getMotorSpeed");
+        // logger.exiting(this.getClass().getName(), "getMotorSpeed");
+    
+        return wheelSpinnerMotor.getMotorOutputPercent();
     }
 
     // Sets the motor speed to a value between -1.0 and 1.0
     public void setMotorSpeed(double speed){
-        logger.entering(this.getClass().getName(), "setMotorSpeed");
-        //talon.set(ControlMode.PercentOutput, speed);
-        spark1.set(speed);
-        //spark2.set(-speed);
+        // logger.entering(this.getClass().getName(), "setMotorSpeed");
+    
+        wheelSpinnerMotor.set(ControlMode.PercentOutput, speed);
+  
         // Logs the speed from the motor controller
-        logger.log(Level.FINE, "Motor Speed: " + getMotorSpeed());
-        logger.exiting(this.getClass().getName(), "setMotorSpeed");
+        // logger.log(Level.FINE, "Motor Speed: " + getMotorSpeed());
+        // logger.exiting(this.getClass().getName(), "setMotorSpeed");
     }
     
 } // End of class ColorWheelSpinnerSubsystem

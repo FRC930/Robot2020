@@ -7,26 +7,31 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.towercommands;
+package frc.robot.commands.limelightcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.TowerSubsystem;
-import frc.robot.Constants;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.LimelightSubsystem.LimelightPipelines;
 
 //-------- COMMAND CLASS --------\\
 
-public class RunTowerCommand extends CommandBase {
+public class SetPipelineCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    private LimelightSubsystem m_LimelightSubsystem;
 
-    private TowerSubsystem towerSubsystem;
-    
+    // distance between robot and the target
+    private double distance;
+
+    // distance at which we change pipelines
+    private final double DISTANCE_THRESHOLD = 10; //TODO: find this threshold, 10 is a placeholder
+
     //-------- CONSTRUCTOR --------\\
+    public SetPipelineCommand(LimelightSubsystem limelightSubsystem){
 
-    public RunTowerCommand(TowerSubsystem towerSubsystem){
-        this.towerSubsystem = towerSubsystem;
-        addRequirements(towerSubsystem);
+        m_LimelightSubsystem = new LimelightSubsystem();
+        addRequirements(m_LimelightSubsystem);
+
     }
 
     //-------- METHODS --------\\
@@ -34,7 +39,14 @@ public class RunTowerCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        towerSubsystem.setSpeed(Constants.TOWER_SPEED);
+        
+        distance = m_LimelightSubsystem.getDistance();
+
+        if(distance > DISTANCE_THRESHOLD) {
+            m_LimelightSubsystem.setPipeline(LimelightPipelines.ZOOM);
+        } else {
+            m_LimelightSubsystem.setPipeline(LimelightPipelines.NO_ZOOM);
+        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +62,6 @@ public class RunTowerCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
-    
-} // end of class RunTowerCommand
+} // end of command

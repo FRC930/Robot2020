@@ -7,11 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import frc.robot.utilities.Shuffleboard;
+import frc.robot.utilities.ShuffleboardUtility;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,7 +30,9 @@ public class Robot extends TimedRobot {
 
     private CommandScheduler commandScheduler;
 
-    private Shuffleboard shuffleboard;
+    private HttpCamera limelightCamera;
+
+    //private ShuffleboardUtility shuffleboardUtility;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -38,9 +44,13 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        shuffleboard = new Shuffleboard();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
 
-        commandScheduler = CommandScheduler.getInstance();   
+        commandScheduler = CommandScheduler.getInstance();  
+        limelightCamera = new HttpCamera("limelight", "http://10.9.30.11:5801/stream.mjpg");
+
+        ShuffleboardTab driveTab = Shuffleboard.getTab("Driver Station");
+        driveTab.add("LL", limelightCamera);
     }
 
     /**
@@ -61,6 +71,11 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods. This must be called from the
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
+
+        //shuffleboardUtility.driveTab();
+        //shuffleboardUtility.testingTab();
+        m_robotContainer.StartShuffleBoard();
+
         commandScheduler.run();
 
         //shuffleboard.run();

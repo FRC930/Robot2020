@@ -28,7 +28,7 @@ public class LEDSwitchCommand extends SequentialCommandGroup {
         m_ledSubsystem = ledSubsystem;
         addRequirements(m_ledSubsystem);
 
-        System.out.println("&&&&&&&&Calling LEDSequential");
+        //System.out.println("&&&&&&&&Calling LEDSequential");
 
         addCommands(new RedLEDCommand(m_ledSubsystem), new WaitCommand(1), new GreenLEDCommand(m_ledSubsystem), new WaitCommand(1), new BlueLEDCommand(m_ledSubsystem));
     }

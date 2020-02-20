@@ -16,19 +16,19 @@ public class PositionalControlTrackerCommand extends CommandBase {
 
     //-------- CONSTANTS --------\\
 
+    // Creates an instance of the logger class
+    // private final Logger logger = // logger.getLogger(PositionalControlTrackerCommand.class.getName());
+
     //-------- DECLARATIONS --------\\
 
     private GetColorCommand getColorCommand;
-    private final ColorSensorSubsystem m_subsystem;
-    // Creates an instance of the logger class
-    private Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
+    private ColorSensorSubsystem colorSensorSubsystem;
 
     //-------- CONSTRUCTOR --------\\
 
-    public PositionalControlTrackerCommand(ColorSensorSubsystem subsystem) {
-        m_subsystem = subsystem;
-        // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+    public PositionalControlTrackerCommand(ColorSensorSubsystem colorSensorSubsystem) {
+        this.colorSensorSubsystem = colorSensorSubsystem;
+        addRequirements(colorSensorSubsystem);
     }
 
     //-------- METHODS --------\\
@@ -39,8 +39,8 @@ public class PositionalControlTrackerCommand extends CommandBase {
 
     @Override
     public void execute() {
-        logger.entering(this.getClass().getName(), "execute");
-        logger.exiting(this.getClass().getName(), "execute");
+        // logger.entering(this.getClass().getName(), "execute");
+        // logger.exiting(this.getClass().getName(), "execute");
     }
 
     // Called once the command ends or is interrupted.

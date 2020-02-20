@@ -7,39 +7,40 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.towercommands;
+package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-import frc.robot.subsystems.TowerSubsystem;
-import frc.robot.Constants;
+//-------- COMMANDBASE CLASS --------\\
 
-//-------- COMMAND CLASS --------\\
-
-public class RunTowerCommand extends CommandBase {
+public class FlywheelVelocityCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
-    private TowerSubsystem towerSubsystem;
-    
+    private FlywheelSubsystem m_FlywheelSubsystem;
+    private double m_Speed;
+
     //-------- CONSTRUCTOR --------\\
 
-    public RunTowerCommand(TowerSubsystem towerSubsystem){
-        this.towerSubsystem = towerSubsystem;
-        addRequirements(towerSubsystem);
+    public FlywheelVelocityCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
+        m_FlywheelSubsystem = flywheelSubsystem;
+        addRequirements(m_FlywheelSubsystem);
+        m_Speed = speed;
     }
 
-    //-------- METHODS --------\\
-    
+    //--------- COMMANDBASE METHODS ----------\\
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        towerSubsystem.setSpeed(Constants.TOWER_SPEED);
+        // Set velocity in m/s of ball to shoot from shooter.
+        m_FlywheelSubsystem.setVelocity(m_Speed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {  
+    public void execute() {
     }
 
     // Called once the command ends or is interrupted.
@@ -52,5 +53,4 @@ public class RunTowerCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-    
-} // end of class RunTowerCommand
+} // end of class FlywheelVelocityCommand

@@ -24,7 +24,7 @@ public class DeployIntakeCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(DeployIntakeCommand.class.getName());
+  // private final Logger logger = // logger.getLogger(DeployIntakeCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 
@@ -37,7 +37,7 @@ public class DeployIntakeCommand extends CommandBase {
     this.intakePistonSubsystem = intakePistonSubsystem;
     this.intakeMotorSubsystem = intakeMotorSubsystem;
 
-    logger.log(Level.FINE, "Initializing the DeployIntakeCommand...");
+    // logger.log(Level.FINE, "Initializing the DeployIntakeCommand...");
 
     addRequirements(intakePistonSubsystem, intakeMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -49,7 +49,7 @@ public class DeployIntakeCommand extends CommandBase {
     intakePistonSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
     intakeMotorSubsystem.setMotorSpeed(Constants.INTAKE_SPEED);
 
-    logger.log(Level.FINE, "Deploying the intake (command)..."); 
+    // logger.log(Level.FINE, "Deploying the intake (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.

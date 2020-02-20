@@ -27,7 +27,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
-import frc.robot.commands.autocommands.paths.Spin;
+import frc.robot.commands.autocommands.actioncommands.SpinCommand;
 import java.util.List;
 public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
   /**
@@ -35,7 +35,7 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
    */
   GyroSubsystem gyroSubsystem;
   DriveSubsystem driveSubsystem;
-  Spin spin;
+  SpinCommand spin;
   public SouthBySouthWestSkilletCommand(DriveSubsystem subsystem,GyroSubsystem gSubsystem) {
     driveSubsystem = subsystem; 
     gyroSubsystem = gSubsystem;
@@ -122,7 +122,7 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
       driveSubsystem::tankDriveVolts,
       driveSubsystem 
   );
-  Spin spin = new Spin(driveSubsystem,gyroSubsystem);
+  SpinCommand spin = new SpinCommand(driveSubsystem,gyroSubsystem);
     /* 
     Robot in autonomous moves forward off of initiation line
     */
