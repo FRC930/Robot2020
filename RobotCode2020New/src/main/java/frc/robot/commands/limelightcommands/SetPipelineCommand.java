@@ -43,7 +43,7 @@ public class SetPipelineCommand extends CommandBase {
         distance = m_LimelightSubsystem.getDistance();
 
         if(distance > DISTANCE_THRESHOLD) {
-            m_LimelightSubsystem.setPipeline(LimelightPipelines.ZOOM);
+            m_LimelightSubsystem.setPipeline(LimelightPipelines.ZOOM_2X);
         } else {
             m_LimelightSubsystem.setPipeline(LimelightPipelines.NO_ZOOM);
         }
