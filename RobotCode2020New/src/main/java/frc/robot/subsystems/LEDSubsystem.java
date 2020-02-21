@@ -27,7 +27,7 @@ public class LEDSubsystem extends SubsystemBase {
     private AddressableLEDBuffer ledsBuffer = new AddressableLEDBuffer(LEDS);
     private AddressableLED leds = new AddressableLED(PORT);
 
-    private boolean doneLoop;
+    //private boolean doneLoop;
 
 //     //-------- CONSTRUCTOR --------\\
 
@@ -36,7 +36,7 @@ public class LEDSubsystem extends SubsystemBase {
         setLEDs(0, 0, 0);
         leds.start();
 
-        doneLoop = false;
+        //doneLoop = false;
     }
 
     //-------- METHODS --------\\

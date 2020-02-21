@@ -25,7 +25,7 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
 
     // Creates an instance of the logger class
-    // private final Logger logger = // logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
+    private final Logger logger = Logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -40,22 +40,24 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
     //-------- METHODS --------\\
 
     // Returns the speed of the motor controller
-    public double getMotorSpeed(){
-        // logger.entering(this.getClass().getName(), "getMotorSpeed");
-        // logger.exiting(this.getClass().getName(), "getMotorSpeed");
+    public double getMotorSpeed() {
+
+        logger.entering(this.getClass().getName(), "getMotorSpeed()");
+        logger.exiting(this.getClass().getName(), "getMotorSpeed()");
     
         return wheelSpinnerMotor.getMotorOutputPercent();
     }
 
     // Sets the motor speed to a value between -1.0 and 1.0
     public void setMotorSpeed(double speed){
-        // logger.entering(this.getClass().getName(), "setMotorSpeed");
+        
+        logger.entering(this.getClass().getName(), "setMotorSpeed()");
     
         wheelSpinnerMotor.set(ControlMode.PercentOutput, speed);
   
         // Logs the speed from the motor controller
-        // logger.log(Level.FINE, "Motor Speed: " + getMotorSpeed());
-        // logger.exiting(this.getClass().getName(), "setMotorSpeed");
+        logger.log(Constants.LOG_LEVEL_FINE, "Motor Speed: " + getMotorSpeed());
+        logger.exiting(this.getClass().getName(), "setMotorSpeed()");
     }
     
 } // End of class ColorWheelSpinnerSubsystem

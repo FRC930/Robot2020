@@ -12,7 +12,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Compressor;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import frc.robot.Constants;
@@ -27,7 +26,7 @@ public class CompresserSubsystem extends SubsystemBase {
     private final boolean COMPRESSOR_ON = true;
     private final boolean COMPRESSOR_OFF = false;
 
-    // private final Logger logger = // logger.getLogger(CompresserSubsystem.class.getName());
+    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -46,12 +45,12 @@ public class CompresserSubsystem extends SubsystemBase {
     //turns compresser eather on and off
     public void turnCompressorOn() {
         compressorUtility.setClosedLoopControl(COMPRESSOR_ON);
-        // logger.log(Level.FINE,"turning compresser on");
+        logger.log(Constants.LOG_LEVEL_FINE, "Compresser on");
     }
 
     public void turnCompressorOff(){
         compressorUtility.setClosedLoopControl(COMPRESSOR_OFF);
-        // logger.log(Level.FINE,"turning compresser off");
+        logger.log(Constants.LOG_LEVEL_FINE, "Compresser off");
     }
 
 } // end of class CompresserSubsystem

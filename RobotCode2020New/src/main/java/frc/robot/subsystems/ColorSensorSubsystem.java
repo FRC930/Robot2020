@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.ColorSensorV3;
 
 import java.util.logging.*;
+import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -23,9 +24,9 @@ public class ColorSensorSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
   // Creates an instance of the logger class
-  // private final Logger logger = // logger.getLogger(ColorSensorSubsystem.class.getName());
+  private final Logger logger = Logger.getLogger(ColorSensorSubsystem.class.getName());
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
   //-------- DECLARATIONS --------\\
 
@@ -41,9 +42,10 @@ public class ColorSensorSubsystem extends SubsystemBase {
   //-------- METHODS --------\\    
 
   // Returns the color sensor
-  public Color getSensorColor(){
-    // logger.entering(this.getClass().getName(), "getSensorColor");
-    // logger.exiting(this.getClass().getName(), "getSensorColor");
+  public Color getSensorColor() {
+    logger.entering(this.getClass().getName(), "getSensorColor()");
+    logger.log(Constants.LOG_LEVEL_FINE, "Returning the color:" + Sensor.getColor().toString());
+    logger.exiting(this.getClass().getName(), "getSensorColor()");
     return Sensor.getColor();
   }
   

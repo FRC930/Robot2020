@@ -9,7 +9,6 @@
 
 package frc.robot.commands.intakecommands.intakepistoncommands;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakePistonSubsystem;
@@ -23,7 +22,7 @@ public class RetractIntakePistonCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  // private final Logger logger = // logger.getLogger(RetractIntakePistonCommand.class.getName());
+  private final Logger logger = Logger.getLogger(RetractIntakePistonCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 
@@ -34,7 +33,7 @@ public class RetractIntakePistonCommand extends CommandBase {
   public RetractIntakePistonCommand(IntakePistonSubsystem iPistons) {
     intakePistonsSubsystem = iPistons;
 
-    // logger.log(Level.FINE, "Initializing the RetractIntakePistonCommand...");
+    logger.log(Constants.LOG_LEVEL_FINE, "Initializing the RetractIntakePistonCommand...");
 
     addRequirements(iPistons);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -45,7 +44,7 @@ public class RetractIntakePistonCommand extends CommandBase {
   public void initialize() {
     intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
 
-    // logger.log(Level.FINE, "Retracting the intake pistons (command)..."); 
+    logger.log(Constants.LOG_LEVEL_FINE, "Retracting the intake pistons (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
