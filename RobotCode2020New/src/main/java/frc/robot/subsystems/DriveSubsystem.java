@@ -10,9 +10,9 @@ package frc.robot.subsystems;
 import java.util.logging.*;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import frc.robot.utilities.TalonFXSpeedController;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -32,10 +32,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   // -------- DECLARATIONS --------\\
 
-  private TalonFXSpeedController right1;
-  private TalonFXSpeedController right2;
-  private TalonFXSpeedController left1;
-  private TalonFXSpeedController left2;
+  private WPI_TalonFX right1;
+  private WPI_TalonFX right2;
+  private WPI_TalonFX left1;
+  private WPI_TalonFX left2;
   //The intake talon motor controller, has the gyro attached to it
   private TalonSRX gyroTalon;
     
@@ -59,14 +59,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   private void setDriveMotors() {
 
-    right1 = new TalonFXSpeedController(Constants.DRIVE_RIGHT_FRONT_ID);
-    right2 = new TalonFXSpeedController(Constants.DRIVE_RIGHT_BACK_ID);
-    left1 = new TalonFXSpeedController(Constants.DRIVE_LEFT_FRONT_ID);
-    left2 = new TalonFXSpeedController(Constants.DRIVE_LEFT_BACK_ID);
+    right1 = new WPI_TalonFX(Constants.DRIVE_RIGHT_FRONT_ID);
+    right2 = new WPI_TalonFX(Constants.DRIVE_RIGHT_BACK_ID);
+    left1 = new WPI_TalonFX(Constants.DRIVE_LEFT_FRONT_ID);
+    left2 = new WPI_TalonFX(Constants.DRIVE_LEFT_BACK_ID);
     gyroTalon = new TalonSRX(Constants.INTAKE_ID);
     gyro = new PigeonIMU(gyroTalon);
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+    left1.setInverted(true);
+    left2.setInverted(true);
+    right1.setInverted(false);
+    right2.setInverted(false);
 
+    left1.setSensorPhase(true);
+    left2.setSensorPhase(true);
+    right1.setSensorPhase(false);
+    right2.setSensorPhase(false);
     // Mirror primary motor controllers on each side
     left2.follow(left1);
     right2.follow(right1);
@@ -105,8 +113,20 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.IEEEremainder(yawPitchRollValues[0], 360);
   }
 
+  public double getRPMLeft() {
+    double rotationML;
+    rotationML = left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    return rotationML;
+}
+
+public double getRPMRight() {
+    double rotationMR;
+    rotationMR = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    return rotationMR;
+}
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(left1.getRPMLeft(left1), right1.getRPMRight(right1));
+    return new DifferentialDriveWheelSpeeds(getRPMLeft(), getRPMRight());
   }
   public void resetOdometry(Pose2d pose) {
     //driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
@@ -121,7 +141,7 @@ public class DriveSubsystem extends SubsystemBase {
     //left1.setVoltage(-leftVolts);
 
     //TODO: Change for Comp Robot
-    right1.setVoltage(-rightVolts);
+    right1.setVoltage(rightVolts);
     left1.setVoltage(leftVolts);
 
     // logger.exiting(this.getClass().getName(), "tankDriveVolts()");
@@ -129,29 +149,19 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getAverageEncoderDistance() {
-    return (left1.getRPMLeft(left1)
-        + right1.getRPMRight(right1)) / 2.0;
+    return (getRPMLeft()
+        + getRPMRight()) / 2.0;
   }
 
   public double getLeftEncoder() {
-    return left1.getRPMLeft(left1);
+    return getRPMLeft();
   }
 
   public double getRightEncoder() {
-    return right1.getRPMLeft(right1);
+    return getRPMLeft();
   }
 
-  public double getRPMLeft() {
-    double rotationML;
-    rotationML = -left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
-    return rotationML;
-}
-
-public double getRPMRight() {
-    double rotationMR;
-    rotationMR = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
-    return rotationMR;
-}
+  
 
 public Pose2d getPose() {
   return driveOdometry.getPoseMeters();
