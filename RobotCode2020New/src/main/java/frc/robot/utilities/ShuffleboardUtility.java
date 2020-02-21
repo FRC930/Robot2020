@@ -78,7 +78,8 @@ public class ShuffleboardUtility {
 		SmartDashboard.putBoolean("Shooting?", flywheelSubsystem.isFlywheelActive());
 		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
 		SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
-		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
+        SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
+        SmartDashboard.putNumber("Raw Turret", turretSubsystem.getRawEncoderPosition());
         SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
         SmartDashboard.putBoolean("GameCube", RobotContainer.getUsingGamecube());
         SmartDashboard.putBoolean("Manual Mode", RobotContainer.getInManual());

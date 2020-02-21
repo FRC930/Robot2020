@@ -78,7 +78,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // enum for the different limelight pipelines
     public enum LimelightPipelines {
 
-        NO_ZOOM(0), ZOOM(1);
+        NO_ZOOM(0), ZOOM_2X(1);
 
         private final int pipelineNumber;
 
@@ -205,7 +205,7 @@ public class LimelightSubsystem extends SubsystemBase {
     public void periodic() {    
 
         if(getDistance() > DISTANCE_THRESHOLD) {
-            setPipeline(LimelightPipelines.ZOOM);
+            setPipeline(LimelightPipelines.ZOOM_2X);
         } else {
             setPipeline(LimelightPipelines.NO_ZOOM);
         }
