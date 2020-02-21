@@ -7,6 +7,8 @@
 
 package frc.robot.utilities;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +34,10 @@ public class ShuffleboardUtility {
     private final HopperSubsystem hopperSubsystem;
     private final DeadbandMath deadbandMath;
     private final FlywheelPistonSubsystem flywheelPistonSubsystem;
+
+    private DoubleSupplier pDoubleSupplier = () -> 0.03;
+    private DoubleSupplier iDoubleSupplier = () -> 0.0;
+    private DoubleSupplier dDoubleSupplier = () -> 0.0008;
 
     //--Tabs
     ShuffleboardTab driveTab;
@@ -90,6 +96,17 @@ public class ShuffleboardUtility {
         SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
         SmartDashboard.putNumber("Horizontal Offset", limelightSubsystem.getHorizontalOffset());
         SmartDashboard.putNumber("Vertical Offset", limelightSubsystem.getVerticleOffset());
+        
+        //Turret PID
+        SmartDashboard.putNumber("P", 0.03);
+        SmartDashboard.putNumber("I", 0.0);
+        SmartDashboard.putNumber("D", 0.0008);
+
+        //Turret PID w/ Shuffleboard methods
+        testingTab.addNumber("P (doublesupplier)", pDoubleSupplier);
+        testingTab.addNumber("I (doublesupplier)", iDoubleSupplier);
+        testingTab.addNumber("D (doublesupplier)", dDoubleSupplier);
+
         putShooterAngle();
     }
     
