@@ -25,7 +25,8 @@ public class RotationalControlTrackerCommand extends CommandBase {
   //-------- CONSTANTS --------\\
 
   // Creates an instance of the ColorSensorSubsystem subsystem
-  private final ColorSensorSubsystem m_subsystem;
+  private final ColorSensorSubsystem colorSensorSubsystem;
+
   // Direction wheel spins
   private final boolean CLOCKWISE = true;
   private final boolean COUNTER_CLOCKWISE = false;
@@ -49,10 +50,10 @@ public class RotationalControlTrackerCommand extends CommandBase {
   // Creates an instance of the logger class
   private final Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
 
-  public RotationalControlTrackerCommand(ColorSensorSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public RotationalControlTrackerCommand(ColorSensorSubsystem colorSensorSubsystem) {
+    this.colorSensorSubsystem = colorSensorSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(colorSensorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -73,7 +74,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
   public void execute() {
     logger.entering(this.getClass().getName(), "execute");
     // Returns the color values from the sensors
-    final Color color = m_subsystem.getSensorColor();
+    final Color color = colorSensorSubsystem.getSensorColor();
     String nearestColor = getNearestColor(color);
 
     // When red is being seen and is being spun counter-clockwise, make sure that the next color doesn't output yellow
