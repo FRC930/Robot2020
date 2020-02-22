@@ -24,19 +24,20 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Alliance Side - Initial 3 & Trench 3 & Rendezvous 2
+
 public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem driveSubsystem;
-  GyroSubsystem gyroSubsystem;
-  public PhillyCheesesteakAndEggSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
+  DriveSubsystem m_drive;
+  public PhillyCheesesteakAndEggSkilletCommand(DriveSubsystem subsystem) {
+    m_drive = subsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -55,18 +56,31 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
 
     // -------- Trajectories -------- \\
 
-    // Generates a trajectory 
+    // Generates a trajectory for a path to move towards Wheel of Fortune
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
-        // Start 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // Start at the origin (initiation line) facing towards the field
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
         List.of(
-            // Midpoints
+            // Pass through no interior waypoints, so this field is empty
         ),
-        // End 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // End infront of the wheel of fortune
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 
+    );
+
+    // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
+    Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing towards the field
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(0)),
+        List.of(
+            // Pass through no interior waypoints, so this field is empty
+        ),
+        // End about 80 inches forward from previous point, moved in y direction to end at rendevous point balls
+        new Pose2d(inchesToMeters(-64.38), inchesToMeters(-86.7), new Rotation2d(0)),
+        // Pass config
+        config
     );
 
     // -------- RAMSETE Commands -------- \\
@@ -75,26 +89,50 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        m_drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        m_drive::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        m_drive::tankDriveVolts,
+        m_drive
+    );
+
+
+    // Creates RAMSETE Command for third trajectory
+    RamseteCommand ramseteCommand2 = new RamseteCommand(
+        trajectory2,
+        m_drive::getPose,
+        new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
+        new SimpleMotorFeedforward(Constants.KSVOLTS,
+                                   Constants.KVVOLT,
+                                   Constants.KAVOLT),
+        Constants.KDRIVEKINEMATICS,
+        m_drive::getWheelSpeeds,
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_drive::tankDriveVolts,
+        m_drive
     );
     
     /* 
-    Path Explanation
+    shoot 3
+    move to grab 3 trench run
+    move to grab 2 rendezvous
+    shoot 5
     */
 
-    addCommands(ramseteCommand1);
-
+    addCommands(new WaitCommand(3), 
+        ramseteCommand1, 
+        new WaitCommand(5), 
+        ramseteCommand2,
+        new WaitCommand(2));
   }
 
   public double inchesToMeters(double inches) {
@@ -102,5 +140,4 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
       return meters;
   }
 
-}
-
+} // end of class
