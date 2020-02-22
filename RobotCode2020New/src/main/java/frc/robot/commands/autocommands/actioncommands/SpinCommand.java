@@ -19,10 +19,13 @@ public class SpinCommand extends CommandBase {
     }
     @Override
     public void execute() {
-        if (gyroSubsystem.getYaw() < 360) {
+        
+    }
+    private void spin(double angle){        
+        if (gyroSubsystem.getYaw() < angle) {
             driveSubsystem.tankDriveVolts(-2.0, 2.0);
         }
-        else if (gyroSubsystem.getYaw() > 361.5){
+        else if (gyroSubsystem.getYaw() > angle + 1.5){
             driveSubsystem.tankDriveVolts(1.0, -1.0);
         }
     }

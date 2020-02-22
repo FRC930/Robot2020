@@ -170,7 +170,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return A double, the # of rotations from the right drivetrain
      */
   public double getRightWheelRotations() {
-      return right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;;
+      return right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
   }
 
   /**
