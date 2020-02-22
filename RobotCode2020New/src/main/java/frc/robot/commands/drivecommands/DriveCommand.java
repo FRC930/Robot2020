@@ -10,8 +10,10 @@ package frc.robot.commands.drivecommands;
 import frc.robot.Constants;
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GyroSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 
 
 public class DriveCommand extends CommandBase {
@@ -21,14 +23,16 @@ public class DriveCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
   private final DriveSubsystem driveSubsystem;
   private final Joystick m_driveStick;
+  private final GyroSubsystem gyroSubsystem;
   private int driverTurninAxis;
   private int driverThrottleAxis;
 
   //-------- CONSTRUCTOR --------\\
 
-  public DriveCommand(DriveSubsystem dSubsystem, Joystick driverStick, int turningAxis, int throttleAxis) {
+  public DriveCommand(DriveSubsystem dSubsystem, Joystick driverStick, int turningAxis, int throttleAxis, GyroSubsystem gSubsystem) {
     driveSubsystem = dSubsystem;
     m_driveStick = driverStick;
+    gyroSubsystem = gSubsystem;
     setTurningAndThrottleAxis(turningAxis, throttleAxis);
     addRequirements(dSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   } 
@@ -41,6 +45,7 @@ public class DriveCommand extends CommandBase {
   public void execute() {  
     //System.out.println("COMMAND");
     run(m_driveStick.getRawAxis(driverTurninAxis), m_driveStick.getRawAxis(driverThrottleAxis));
+    gyroSubsystem.driveOdometry.update((Rotation2d.fromDegrees(gyroSubsystem.getHeading())), driveSubsystem.getRPMLeft(), driveSubsystem.getRPMRight());
   }
   @Override   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {

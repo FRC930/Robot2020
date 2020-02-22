@@ -101,8 +101,8 @@ public final class Constants {
     //[--------------------AUTO--------------------------]
     
     public static final double KSVOLTS = 0.073;//0.22;//0.22
-    public static final double KVVOLT = 0.234; // seconds per meter 0.289
-    public static final double KAVOLT = 0.0161;//0.06; //this is in seconds squared per meter 0.06
+    public static final double KVVOLT = 0.0231;//0.234; // seconds per meter 0.289
+    public static final double KAVOLT = 0.023;//0.0161;//0.06; //this is in seconds squared per meter 0.06
     public static final double KMAXSPEED = 3; //in meters per second
     public static final double KMAXACCELERATION = 6; //in meters per seconds squared //Originally 0.5
     //gyro values
@@ -111,7 +111,7 @@ public final class Constants {
     
     //Track width of our robot
     public static final double KTRACKWIDTH = 0.69; //in meters .69
-    public static final double KPDRIVEVEL = 0.673;//.693
+    public static final double KPDRIVEVEL = 0.00121;//0.673;//.693
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
         
