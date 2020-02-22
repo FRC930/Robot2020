@@ -132,7 +132,7 @@ public double getRPMRight() {
     return new DifferentialDriveWheelSpeeds(getRPMLeft(), getRPMRight());
   }
   public void resetOdometry(Pose2d pose) {
-    System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOB resetOdometry got called");
+    //System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOB resetOdometry got called");
     //driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
   }
 
