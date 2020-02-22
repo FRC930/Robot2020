@@ -9,7 +9,6 @@
 
 package frc.robot.commands.hoppercommands;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.HopperSubsystem;
@@ -22,6 +21,7 @@ public class StopHopperCommand extends CommandBase {
 
     private HopperSubsystem m_HopperSubsystem;
     private JoystickButton home;
+    
     //-------- CONSTRUCTOR --------\\
 
     public StopHopperCommand(HopperSubsystem hopperSubsystem, JoystickButton home) {

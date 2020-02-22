@@ -9,15 +9,16 @@
 
 package frc.robot.subsystems;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import frc.robot.utilities.SmootherStack;
+//import frc.robot.utilities.SmootherStack;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -67,7 +68,7 @@ public class LimelightSubsystem extends SubsystemBase {
     private double targetArea;
 
     // logger
-    // private Logger logger;
+    private Logger logger;
 
     // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
@@ -93,7 +94,7 @@ public class LimelightSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public LimelightSubsystem() {
-        // logger = // logger.getLogger(LimelightSubsystem.class.getName());
+        logger = Logger.getLogger(LimelightSubsystem.class.getName());
     }
 
     // -------- METHODS --------\\
@@ -101,14 +102,14 @@ public class LimelightSubsystem extends SubsystemBase {
     // this returns the horizontal angle between the limelights crosshair and the target crosshair :)
     public double getHorizontalOffset() {
 
-        // logger.entering(getClass().getName(), "getHorizontalOffset()");
+        logger.entering(getClass().getName(), "getHorizontalOffset()");
 
         //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
-        // logger.log(Level.FINER, "Horizontal Offset = " + horizontalOffset);
-        // logger.exiting(getClass().getName(), "getHorizontalOffset()");
+        logger.log(Constants.LOG_LEVEL_FINER, "Horizontal Offset = " + horizontalOffset);
+        logger.exiting(getClass().getName(), "getHorizontalOffset()");
 
         return horizontalOffset;
     }
@@ -116,7 +117,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // the distance between the robot and the goal :)
     public double getDistance() {
 
-        // logger.entering(getClass().getName(), "getDistance()");
+        logger.entering(getClass().getName(), "getDistance()");
 
         // initial calculated distance
         double estDistance;
@@ -131,10 +132,10 @@ public class LimelightSubsystem extends SubsystemBase {
         error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
         distanceAndError = estDistance + error;
 
-        // logger.log(Level.FINE, "Estimated distance = " + estDistance);
-        // logger.log(Level.FINE, "Error = " + error);
-        // logger.log(Level.FINE, "estDistance + error = " + distanceAndError);
-        // logger.exiting(getClass().getName(), "getDistance()");
+        logger.log(Constants.LOG_LEVEL_FINE, "Estimated distance = " + estDistance);
+        logger.log(Constants.LOG_LEVEL_FINE, "Error = " + error);
+        logger.log(Constants.LOG_LEVEL_FINE, "estDistance + error = " + distanceAndError);
+        logger.exiting(getClass().getName(), "getDistance()");
 
         return distanceAndError;
     }

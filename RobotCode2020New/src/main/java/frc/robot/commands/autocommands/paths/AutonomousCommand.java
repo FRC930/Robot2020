@@ -65,8 +65,9 @@ public class AutonomousCommand extends SequentialCommandGroup {
   Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
-        List.of(),
-        //new Translation2d(1, 2)),
+        List.of(
+          //new Translation2d(2,0)
+        ),
         // End 1 meters straight ahead of where we started, facing forward
         new Pose2d(2, 0, new Rotation2d(0)),
         // Pass config

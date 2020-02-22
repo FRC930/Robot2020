@@ -11,12 +11,11 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+//import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+//import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -29,7 +28,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    // private final Logger logger = // logger.getLogger(TurretSubsystem.class.getName());
+    private final Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
     // constant used in the conversion from encoder units to degrees
     private final double DEGREE_CONVERSION_NUMBER = .0013889;
 
@@ -46,7 +45,7 @@ public class TurretSubsystem extends SubsystemBase {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
 
-        // this.// logger.log(Level.INFO, "Starting TurretSubsystem");
+        this.logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
     }
 
     //-------- METHODS --------\\
@@ -80,7 +79,7 @@ public class TurretSubsystem extends SubsystemBase {
 
         this.turretMotor.set(ControlMode.PercentOutput, speed);
         
-        // this.// logger.log(Level.INFO, "Set speed to " + getSpeed());
+        this.logger.log(Constants.LOG_LEVEL_INFO, "Set speed to " + getSpeed());
     }
 
     public double getSpeed() {
@@ -94,7 +93,6 @@ public class TurretSubsystem extends SubsystemBase {
 
     // returns the current encoder position in degrees
     public double getEncoderPosition() {
-        //return this.turretMotor.getSelectedSensorPosition();
         return unitsToDegrees(this.encoder.get());
     }
 

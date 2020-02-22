@@ -264,7 +264,7 @@ public class RobotContainer {
     compressorOffCommand = new CompressorOffCommand(compressorSubsystem);
 
     // drive (NOTE: This is where we bind the driver controls to the drivetrain)
-    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
+    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y,gyroSubsystem);
 
     // hopper
     killHopperStateCommand = new KillHopperStateCommand();
@@ -408,29 +408,12 @@ public class RobotContainer {
       manualFlywheelButton.whenActive(runFlywheelCommand).whenInactive(stopFlywheelCommand);
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
-      CommandScheduler scheduler = CommandScheduler.getInstance();
+ 
       reverseHopperButton.whileActiveOnce(new StopHopperCommand(hopperSubsystem, reverseHopperButton));
       // manual
       killHopperButton.whileActiveOnce(killHopperStateCommand);
     } else { // If we're using the Xbox controller
 
-    /* TODO: Fix this code, later
-      // --Buttons and triggers
-      AxisTrigger shootButton = new AxisTrigger(driverController, XB_AXIS_RT);
-
-      JoystickButton shootA = new JoystickButton(driverController, 1);
-      JoystickButton shootX = new JoystickButton(driverController, 3);
-      JoystickButton shootY = new JoystickButton(driverController, 4);
-
-      JoystickButton flywheelStop = new JoystickButton(driverController, 2);
-      // --Command binds
-
-      // shootButton.whenActive(new RunFlywheelCommand(flywheelSubsystem, 0.8));
-      shootY.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.9));
-      shootX.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.7));
-      shootA.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.7));
-      flywheelStop.whenPressed(new StopFlywheelCommand(flywheelSubsystem));
-      */
     } // end of if statement usingGamecube
 
   } // end of method configureDriverBindings()
