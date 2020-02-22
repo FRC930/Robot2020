@@ -91,7 +91,8 @@ public class GypsySkilletCommand extends SequentialCommandGroup {
     );
     
     /* 
-    Path Explanation
+    Path Description:
+    -----------------
     */
 
     addCommands(ramseteCommand1);

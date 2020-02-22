@@ -154,7 +154,14 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     );
     
     /* 
-    Path Explanation
+    Path Description:
+    -----------------
+        Starts on initiation line with 3 power cells
+        Moves towards away team trench and collects 2 power cells 
+        Moves toward the rendezvous zone 
+        Shoots 5 power cells
+        Goes to rendezvous zone and collects 3 power cells
+        Moves off of rendezvous zone and shoots 3 power cells
     */
 
     addCommands(new WaitCommand(3),

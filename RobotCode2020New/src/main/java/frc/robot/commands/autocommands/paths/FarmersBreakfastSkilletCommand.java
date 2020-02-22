@@ -89,9 +89,11 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
         m_drive
     );
     
-    /* 
-    Robot has 3 power cells set on top of the robot
-    Robot Shoots 3 power cells and moves off initiation linE
+    /*
+    Path Description:
+    -----------------
+        Robot has 3 power cells set on top of the robot
+        Robot Shoots 3 power cells and moves off initiation linE
     */
 
     addCommands(new WaitCommand(3), // Shoot 3 balls

@@ -61,28 +61,19 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
         // Start at the origin (initiation line) facing towards the field
         new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
         List.of(
-            // Pass through no interior waypoints, so this field is empty
+            new Translation2d(inchesToMeters(14.38), inchesToMeters(4.63)),
+            new Translation2d(inchesToMeters(43.15), inchesToMeters(13.88)),
+            new Translation2d(inchesToMeters(71.92), inchesToMeters(23.15)),
+            new Translation2d(inchesToMeters(104.63), inchesToMeters(27.75)),
+            new Translation2d(inchesToMeters(122.63), inchesToMeters(27.75))
         ),
         // End at the furthest ball in the trench run (194.63 inches forward)
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(27.75), new Rotation2d(0)),
         // Pass config
         config
 
     );
 
-    // Generates a trajectory two move into shooting range
-    Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
-        // Start at the W.O.F. facing towards the goal, away from the W.O.F.
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
-        // Pass this waypoint to have a more drastic curve towards the second shooting point
-        List.of(
-            // No waypoints
-        ),
-        // End at location of first trench run ball, facing rendezvous balls
-        new Pose2d(inchesToMeters(36.0), inchesToMeters(-12.0), new Rotation2d(0)),
-        // Pass config
-        config
-    );
 
     // -------- RAMSETE Commands -------- \\
     // Creates a command that can be added to the command scheduler in the sequential command
@@ -103,34 +94,19 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
         m_drive::tankDriveVolts,
         m_drive
     );
-
-    // Creates RAMSETE Command for second trajectory
-    RamseteCommand ramseteCommand2 = new RamseteCommand(
-        trajectory2,
-        m_drive::getPose,
-        new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
-        new SimpleMotorFeedforward(Constants.KSVOLTS,
-                                   Constants.KVVOLT,
-                                   Constants.KAVOLT),
-        Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
-        new PIDController(Constants.KPDRIVEVEL, 0, 0),
-        new PIDController(Constants.KPDRIVEVEL, 0, 0),
-        // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
-    );
     
     /*
+    Path Description:
+    -----------------
       Shoot 3 from initiation line
-      move through trench to grab balls and shoot from trench
+      move through trench to grab 3 balls
+      Shoot 3 from trench position
     */
 
-    addCommands(new WaitCommand(3), 
-        ramseteCommand1, 
+    addCommands(new WaitCommand(3), // Shoot 3 balls
+        ramseteCommand1, // Moving trajectory
         // Turn in place 180 degrees
-        ramseteCommand2, 
-        new WaitCommand(5));
+        new WaitCommand(5)); 
         
   }
 
