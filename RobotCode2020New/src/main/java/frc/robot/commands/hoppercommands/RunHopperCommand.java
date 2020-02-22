@@ -26,7 +26,7 @@ public class RunHopperCommand extends CommandBase {
     private JoystickButton zr;
     private double counter;
 
-    private final double COUNTER_LIMIT = 1;
+    private final int COUNTER_LIMIT = 1;
     
     //-------- CONSTRUCTOR --------\\
 

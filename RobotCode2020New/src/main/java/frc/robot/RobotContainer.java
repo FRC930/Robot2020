@@ -477,7 +477,6 @@ public class RobotContainer {
   public void StartShuffleBoard() {
     shuffleboardUtility.putDriveTab();
     shuffleboardUtility.putTestingTab();
-    Constants.setValues();
   }
 
 } // end of class RobotContainer

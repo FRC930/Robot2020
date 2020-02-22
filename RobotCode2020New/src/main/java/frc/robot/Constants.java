@@ -149,12 +149,5 @@ public final class Constants {
     public static final Level LOG_LEVEL_WARNING = Level.OFF; 
 
     //[-------------------LOGGER--------------------------]
-
-    public static void setValues() {
-        HOPPER_DEFAULT_SPEED = SmartDashboard.getNumber("Hopper default speed", 0.3);
-        HOPPER_SHOOTING_SPEED = SmartDashboard.getNumber("Hopper shooting speed", 0.85);
-        TOWER_SPEED = SmartDashboard.getNumber("Tower speed", 1.0);
-        KICKER_SPEED = SmartDashboard.getNumber("Kicker speed", 0.7);
-    }
     
 } // end of constants
