@@ -43,6 +43,8 @@ public final class Constants {
 
     public static final int COLOR_WHEEL_ID = 12;
 
+    public static final int CLIMBER_ARM_ID = 13;
+
     // [-------------------MOTOR IDS--------------------------]
 
     // [-------------------PISTON IDS-------------------------]
