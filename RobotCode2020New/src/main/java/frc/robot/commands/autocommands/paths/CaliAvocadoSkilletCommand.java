@@ -59,7 +59,7 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for a path to move towards furthest ball in trench run
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0.0), inchesToMeters(0.0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0.0), new Rotation2d(Math.toRadians(0))),
         List.of(
             // new Translation2d(inchesToMeters(14.38), inchesToMeters(4.63)),
             // new Translation2d(inchesToMeters(43.15), inchesToMeters(13.88)),
@@ -68,7 +68,7 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
             // new Translation2d(inchesToMeters(122.63), inchesToMeters(27.75))
         ),
         // End at the furthest ball in the trench run (194.63 inches forward)
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(0.0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(0.0), new Rotation2d(Math.toRadians(0))),
         // Pass config
         config
 
@@ -104,9 +104,10 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
     */
 
     addCommands(new WaitCommand(3), // Shoot 3 balls
-        ramseteCommand1, // Moving trajectory
-        // Turn in place 180 degrees
-        new WaitCommand(5)); 
+        ramseteCommand1 // Moving trajectory
+        // Turn in place 180 degrees if needed
+        //new WaitCommand(5)
+        ); 
         
   }
 

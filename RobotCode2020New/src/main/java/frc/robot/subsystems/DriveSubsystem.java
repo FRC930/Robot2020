@@ -116,20 +116,20 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.IEEEremainder(yawPitchRollValues[0], 360);
   }
 
-  public double getRPMLeft() {
+  public double getLeftWheelRotation() {
     double rotationML;
     rotationML = left1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
     return rotationML;
 }
 
-public double getRPMRight() {
+public double getRightWheelRotation() {
     double rotationMR;
     rotationMR = right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
     return rotationMR;
 }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getRPMLeft(), getRPMRight());
+    return new DifferentialDriveWheelSpeeds(getLeftWheelRotation(), getRightWheelRotation());
   }
   public void resetOdometry(Pose2d pose) {
     //System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOB resetOdometry got called");
@@ -153,19 +153,9 @@ public double getRPMRight() {
   }
 
   public double getAverageEncoderDistance() {
-    return (getRPMLeft()
-        + getRPMRight()) / 2.0;
+    return (getLeftWheelRotation()
+        + getRightWheelRotation()) / 2.0;
   }
-
-  public double getLeftEncoder() {
-    return getRPMLeft();
-  }
-
-  public double getRightEncoder() {
-    return getRPMLeft();
-  }
-
-  
 
 public Pose2d getPose() {
   return driveOdometry.getPoseMeters();
@@ -177,18 +167,18 @@ public Pose2d getPose() {
 
   @Override
   public void periodic() {
-    driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getRPMLeft(), getRPMRight());
+    driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotation(), getRightWheelRotation());
 
     //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
 
     SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
     SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
     SmartDashboard.putNumber("Heading", getHeading());
-    SmartDashboard.putNumber("RPM Left", getRPMLeft());
-    SmartDashboard.putNumber("RPM Right", getRPMRight());
 
     SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left wheel rotation", getLeftWheelRotation());
+    SmartDashboard.putNumber("Right wheel rotation", getRightWheelRotation());
     // logger.entering(this.getClass().getName(), "periodic()");
     // This method will be called once per scheduler run
     //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),

@@ -161,7 +161,20 @@ public class RobotContainer {
 
   // --Auton command
   //TODO: Change this to accept any auton path from the shuffleboard
+  //private final BigCountrySkilletCommand bigCountrySkilletCommand;
+  private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
+  // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
+  // private final EverythingSkilletCommand everythingSkilletCommand;
+  // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
+  // private final GypsySkilletCommand gypsySkilletCommand;
+  // private final GyroSkilletCommand gyroSkilletCommand;
+  // private final LoadedSkilletCommand loadedSkilletCommand;
+  // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
+  // private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
   private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
+  // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
+  // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
+  // private final VeggieSkilletCommand veggieSkilletCommand;
 
   // --Color wheel commands
   private final RotationalControlCommandGroup rotationalControlCommandGroup;
@@ -298,6 +311,7 @@ public class RobotContainer {
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
     saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, gyroSubsystem, deployIntakeCommand, returnIntakeCommand);
+    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
 
     shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
     // --Bindings
@@ -473,7 +487,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return saltAndPepperSkilletCommand;
+    return caliAvocadoSkilletCommand;
     //return null;
     // Run path following command, then stop at the end.
   }
