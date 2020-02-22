@@ -72,6 +72,7 @@ public class GyroSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //TODO: Move this to a default command that uses both drive and gyro subsystem (Most likely DriveCommand)
       //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
       
     }

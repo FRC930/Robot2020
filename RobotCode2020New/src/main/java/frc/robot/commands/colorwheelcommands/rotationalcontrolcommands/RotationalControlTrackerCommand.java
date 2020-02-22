@@ -25,7 +25,8 @@ public class RotationalControlTrackerCommand extends CommandBase {
   //-------- CONSTANTS --------\\
 
   // Creates an instance of the ColorSensorSubsystem subsystem
-  private final ColorSensorSubsystem m_subsystem;
+  private final ColorSensorSubsystem colorSensorSubsystem;
+
   // Direction wheel spins
   private final boolean CLOCKWISE = true;
   private final boolean COUNTER_CLOCKWISE = false;
@@ -47,17 +48,12 @@ public class RotationalControlTrackerCommand extends CommandBase {
   private boolean direction;
   
   // Creates an instance of the logger class
-  // private Logger logger = // logger.getLogger(RotationalControlTrackerCommand.class.getName());
+  private final Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public RotationalControlTrackerCommand(ColorSensorSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public RotationalControlTrackerCommand(ColorSensorSubsystem colorSensorSubsystem) {
+    this.colorSensorSubsystem = colorSensorSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(colorSensorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -76,48 +72,48 @@ public class RotationalControlTrackerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // logger.entering(this.getClass().getName(), "execute");
+    logger.entering(this.getClass().getName(), "execute");
     // Returns the color values from the sensors
-    final Color color = m_subsystem.getSensorColor();
+    final Color color = colorSensorSubsystem.getSensorColor();
     String nearestColor = getNearestColor(color);
 
     // When red is being seen and is being spun counter-clockwise, make sure that the next color doesn't output yellow
     if (lastColor.equals("Red") && nearestColor.equals("Yellow") && direction == COUNTER_CLOCKWISE){
       //Overrides what is seen from the sensor
-      // logger.log(Constants.LOG_LEVEL, "discarding yellow (counter-clockwise)");
+      logger.log(Constants.LOG_LEVEL_FINE, "discarding yellow (counter-clockwise)");
       return;
     }
 
     // When blue is being seen and is being spun counter-clockwise, make sure that the next color doesn't output green
     if (lastColor.equals("Blue") && nearestColor.equals("Green") && direction == COUNTER_CLOCKWISE){
       //Overrides what is seen from the sensor
-      // logger.log(Constants.LOG_LEVEL, "discarding green (counter-clockwise)");
+      logger.log(Constants.LOG_LEVEL_FINE, "discarding green (counter-clockwise)");
       return;
     }
 
     // When green is being seen and is being spun clockwise, make sure that the next color doesn't output yellow
     if (lastColor.equals("Green") && nearestColor.equals("Yellow") && direction == CLOCKWISE){
       //Overrides what is seen from the sensor
-      // logger.log(Constants.LOG_LEVEL, "discarding yellow (clockwise)");
+      logger.log(Constants.LOG_LEVEL_FINE, "discarding yellow (clockwise)");
       return;
     }
 
     // When yellow is being seen and is being spun clockwise, make sure that the next color doesn't output green
     if (lastColor.equals("Yellow") && nearestColor.equals("Green") && direction == CLOCKWISE){
       //Overrides what is seen from the sensor
-      // logger.log(Constants.LOG_LEVEL, "discarding green (clockwise)");
+      logger.log(Constants.LOG_LEVEL_FINE, "discarding green (clockwise)");
       return;
     }
 
     // When the previous color is not equal to the current color, output the new/current color
     if (!nearestColor.equals(lastColor)){
       // Logs the current color being seen
-      // logger.log(Constants.LOG_LEVEL, "Matching color:" + nearestColor);
+      logger.log(Constants.LOG_LEVEL_FINE, "Matching color:" + nearestColor);
       lastColor = nearestColor;
       // Counts how many times the color has changed
       colorCounter++;
     }
-    // logger.exiting(this.getClass().getName(), "execute");
+    logger.exiting(this.getClass().getName(), "execute");
   } // End of execute
 
   // Called once the command ends or is interrupted.
@@ -128,14 +124,14 @@ public class RotationalControlTrackerCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // logger.entering(this.getClass().getName(), "isFinished");
-    // logger.exiting(this.getClass().getName(), "isFinished");
+    logger.entering(this.getClass().getName(), "isFinished");
+    logger.exiting(this.getClass().getName(), "isFinished");
     // Stops the code when the color has changed 24 times (3 rotations)
     return colorCounter > 24;
   }
 
   public String getNearestColor(Color c) {
-    // logger.entering(this.getClass().getName(), "getNearestColor");
+    logger.entering(this.getClass().getName(), "getNearestColor");
     // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
     // Creates a ColorMatch object that finds and manages distance/difference between colors
     ColorMatchResult match = colorMatch.matchClosestColor(c);
@@ -160,7 +156,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
     else {
       colorOutput = "Unknown";
     }
-    // logger.exiting(this.getClass().getName(), "getNearestColor");
+    logger.exiting(this.getClass().getName(), "getNearestColor");
     // Returns the name of the color being seen by the sensor
     return colorOutput;
   }

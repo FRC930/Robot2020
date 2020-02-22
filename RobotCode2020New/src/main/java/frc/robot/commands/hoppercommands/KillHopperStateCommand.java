@@ -9,12 +9,7 @@
 
 package frc.robot.commands.hoppercommands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.hoppercommands.*;
-import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 

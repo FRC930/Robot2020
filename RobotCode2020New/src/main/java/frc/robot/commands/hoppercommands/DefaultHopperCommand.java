@@ -9,9 +9,7 @@
 
 package frc.robot.commands.hoppercommands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.hoppercommands.*;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.Constants;
 
@@ -44,10 +42,9 @@ public class DefaultHopperCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {     
-        if(m_KillHopperStateCommand.getState()){
+        if(m_KillHopperStateCommand.getState()) {
             m_HopperSubsystem.setSpeed(0.0);
-        }
-        else {
+        } else {
             m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
         }
     }

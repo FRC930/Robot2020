@@ -11,7 +11,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -25,7 +24,7 @@ public class HopperSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    // private final Logger logger = // logger.getLogger(CompresserSubsystem.class.getName());
+    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -43,20 +42,20 @@ public class HopperSubsystem extends SubsystemBase {
     //sets the speed to the Hoppermotor
     public void setSpeed(double speed) {
         //Logs the setSpeed method as INFO returning, "setSpeed()"
-        // logger.entering(getClass().getName(), "setSpeed()");
+        logger.entering(getClass().getName(), "setSpeed()");
 
         hopperMotor.set(ControlMode.PercentOutput, speed);
 
-        // logger.log(Level.INFO, "Set shooter speed to " + hopperMotor.getMotorOutputPercent());
-        // logger.exiting(getClass().getName(), "setSpeed()");
+        logger.log(Constants.LOG_LEVEL_INFO, "Set shooter speed to " + hopperMotor.getMotorOutputPercent());
+        logger.exiting(getClass().getName(), "setSpeed()");
     }
 
     // returns the speed
     public double getSpeed() {
         //Logs the getSpeed method as INFO returning, "getSpeed()"
-        // logger.entering(getClass().getName(), "getSpeed()");
-        // logger.log(Level.INFO, "Get shooter speed to " + hopperMotor.getMotorOutputPercent());
-        // logger.exiting(getClass().getName(), "getSpeed()");
+        logger.entering(getClass().getName(), "getSpeed()");
+        logger.log(Constants.LOG_LEVEL_INFO, "Get shooter speed to " + hopperMotor.getMotorOutputPercent());
+        logger.exiting(getClass().getName(), "getSpeed()");
         return hopperMotor.getMotorOutputPercent();
     }
 } // end of class HopperSubsystem
