@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -71,6 +72,9 @@ public class DriveSubsystem extends SubsystemBase {
     right1.setInverted(false);
     right2.setInverted(false);
 
+    left1.getSensorCollection().setIntegratedSensorPosition(0.0, 100);
+    right1.getSensorCollection().setIntegratedSensorPosition(0.0, 100);
+
     left1.setSensorPhase(true);
     left2.setSensorPhase(true);
     right1.setSensorPhase(false);
@@ -82,7 +86,6 @@ public class DriveSubsystem extends SubsystemBase {
     //Sets the ramp rate of the robot, this will need to be configued
     left1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
-
     //Sets up the differntial drive
     //drive = new DifferentialDrive(right1, left1);
   }
@@ -115,13 +118,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getRPMLeft() {
     double rotationML;
-    rotationML = left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    rotationML = left1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
     return rotationML;
 }
 
 public double getRPMRight() {
     double rotationMR;
-    rotationMR = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    rotationMR = right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
     return rotationMR;
 }
 
@@ -129,6 +132,7 @@ public double getRPMRight() {
     return new DifferentialDriveWheelSpeeds(getRPMLeft(), getRPMRight());
   }
   public void resetOdometry(Pose2d pose) {
+    System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOB resetOdometry got called");
     //driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
   }
 
@@ -174,6 +178,17 @@ public Pose2d getPose() {
   @Override
   public void periodic() {
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getRPMLeft(), getRPMRight());
+
+    //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
+
+    SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
+    SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
+    SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("RPM Left", getRPMLeft());
+    SmartDashboard.putNumber("RPM Right", getRPMRight());
+
+    SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
     // logger.entering(this.getClass().getName(), "periodic()");
     // This method will be called once per scheduler run
     //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),

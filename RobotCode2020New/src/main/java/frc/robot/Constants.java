@@ -104,7 +104,7 @@ public final class Constants {
     public static final double KVVOLT = 0.289; //0.234; // seconds per meter 0.289
     public static final double KAVOLT = 0.0161;//0.06; //0.0161 //this is in seconds squared per meter 0.06
     public static final double KMAXSPEED = 3; //in meters per second
-    public static final double KMAXACCELERATION = 1; //in meters per seconds squared //Originally 0.5
+    public static final double KMAXACCELERATION = 3; //in meters per seconds squared //Originally 0.5
     //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;

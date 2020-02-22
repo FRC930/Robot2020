@@ -74,8 +74,6 @@ public class GyroSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
       //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
-      updateYawPitchRoll();
-      System.out.println(getYaw());
 
       
     }
