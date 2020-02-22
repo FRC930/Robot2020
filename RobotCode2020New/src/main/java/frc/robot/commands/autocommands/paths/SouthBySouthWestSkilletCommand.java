@@ -122,12 +122,11 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
       driveSubsystem::tankDriveVolts,
       driveSubsystem 
   );
-  SpinCommand spin = new SpinCommand(driveSubsystem,gyroSubsystem);
     /* 
     Robot in autonomous moves forward off of initiation line
     */
 
-    addCommands(spin /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
+    addCommands(new SpinCommand(driveSubsystem,gyroSubsystem,40) /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
 
   }
 

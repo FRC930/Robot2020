@@ -277,7 +277,7 @@ public class RobotContainer {
     compressorOffCommand = new CompressorOffCommand(compressorSubsystem);
 
     // drive (NOTE: This is where we bind the driver controls to the drivetrain)
-    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y,gyroSubsystem);
+    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
     killHopperStateCommand = new KillHopperStateCommand();

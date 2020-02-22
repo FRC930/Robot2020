@@ -29,10 +29,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   // -------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(DriveSubsystem.class.getName());
+  // private final Logger logger = // logger.getLogger(DriveSubsystem.class.getName());
 
   // -------- DECLARATIONS --------\\
-
+  // Drivetrain motors
   private WPI_TalonFX right1;
   private WPI_TalonFX right2;
   private WPI_TalonFX left1;
@@ -47,13 +47,11 @@ public class DriveSubsystem extends SubsystemBase {
   private double yawPitchRollValues[] = new double[3]; 
 
   private DifferentialDriveOdometry driveOdometry;
-  private DifferentialDrive differentialDrive;
   //private DifferentialDrive drive;
   
   // -------- CONSTRUCTOR --------\\
 
   public DriveSubsystem() {
-    logger.setLevel(Constants.LOG_LEVEL_FINE); 
     setDriveMotors();
   }
 
@@ -68,14 +66,18 @@ public class DriveSubsystem extends SubsystemBase {
     gyroTalon = new TalonSRX(Constants.INTAKE_ID);
     gyro = new PigeonIMU(gyroTalon);
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+    
+    // sets our motors to be inverted so they all move the same direction
     left1.setInverted(true);
     left2.setInverted(true);
     right1.setInverted(false);
     right2.setInverted(false);
 
+    // resets the encoders back to zero on start up
     left1.getSensorCollection().setIntegratedSensorPosition(0.0, 100);
     right1.getSensorCollection().setIntegratedSensorPosition(0.0, 100);
-
+    
+    // inverts our motors encoders so they all go the right way
     left1.setSensorPhase(true);
     left2.setSensorPhase(true);
     right1.setSensorPhase(false);
@@ -88,31 +90,15 @@ public class DriveSubsystem extends SubsystemBase {
     left1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
     //Sets up the differntial drive
-    differentialDrive = new DifferentialDrive(right1, left1);
+    //drive = new DifferentialDrive(right1, left1);
   }
 
-  public double getRPMLeft(){
-    double rotationML;
-    rotationML = -left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
-    //smartDashboard.get
-    return rotationML;
-  }
-  public double getRPMRight(){
-    double rotationML;
-    rotationML = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
-    //smartDashboard.get
-    return rotationML;
-  }
-
-  // Given Arcade value arguments and sends to motor controllers
+  // tells the motors what speed to run in precent output mode
   public void runAt(double leftSpeed, double rightSpeed) {
-    logger.entering(this.getClass().getName(), "runAt()");
-    logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getRPMLeft() + " | right encoder " + getRPMRight());
-
+  
+    // sets the speed fo the motors
     left1.set(leftSpeed);
     right1.set(rightSpeed);
-
-    logger.exiting(this.getClass().getName(), "runAt()");
   }
 
   // Returns left speed
@@ -125,39 +111,46 @@ public class DriveSubsystem extends SubsystemBase {
     return right1.getMotorOutputPercent();
   }
 
+  //this method gets our robots "heading" or the yaw values remainder
   public double getHeading() {
     gyro.getYawPitchRoll(yawPitchRollValues);
     return Math.IEEEremainder(yawPitchRollValues[0], 360);
   }
 
+  // this method returns our left wheel rotationary value
   public double getLeftWheelRotation() {
     double rotationML;
+
+    //our rotation is our encoder / the ammount of ticks per rotation times the circomfrence of the wheel devided by gear ratio
     rotationML = left1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
     return rotationML;
 }
 
+// this method returns our right wheel rotationary value 
 public double getRightWheelRotation() {
     double rotationMR;
+
+    //our rotation is our encoder / the ammount of ticks per rotation times the circomfrence of the wheel devided by gear ratio
     rotationMR = right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
     return rotationMR;
 }
 
+  // returns the wheels speeds
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(getLeftWheelRotation(), getRightWheelRotation());
   }
-
   public void resetOdometry(Pose2d pose) {
-    //System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOB resetOdometry got called");
     //driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
   }
 
+  // this method is used in auto for it to contorl our drive train with volts numbers instead of joysitck percents
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    logger.entering(this.getClass().getName(), "tankDriveVolts()");
-    logger.log(Constants.LOG_LEVEL_FINE, "MOVING: " + leftVolts + " " + rightVolts);
+    // logger.entering(this.getClass().getName(), "tankDriveVolts()");
+    // logger.log(Level.OFF, "MOVING: " + leftVolts + " " + rightVolts);
 
     //TODO: Change for Prac Robot
-    right1.setVoltage(rightVolts);
-    left1.setVoltage(-leftVolts);
+    //right1.setVoltage(rightVolts);
+    //left1.setVoltage(-leftVolts);
 
     //TODO: Change for Comp Robot
     right1.setVoltage(rightVolts);
@@ -167,6 +160,7 @@ public double getRightWheelRotation() {
     
   }
 
+  // gets the average distance travled  by the motors
   public double getAverageEncoderDistance() {
     return (getLeftWheelRotation()
         + getRightWheelRotation()) / 2.0;
@@ -175,22 +169,17 @@ public double getRightWheelRotation() {
 public Pose2d getPose() {
   return driveOdometry.getPoseMeters();
 }
-  
-  
 
   // public void setMaxOutput(double maxOutput) {
   //   drive.setMaxOutput(maxOutput);
   // }
-  public void setMaxOutput(double maxOutput) {
-    differentialDrive.setMaxOutput(maxOutput);
-  }
 
   @Override
   public void periodic() {
+    // constantly updates our robots position on the feild so our robot knows where it is currently
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotation(), getRightWheelRotation());
 
-    //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
-
+    //useful info that we print to dashboard
     SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
     SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
     SmartDashboard.putNumber("Heading", getHeading());
@@ -199,10 +188,6 @@ public Pose2d getPose() {
     SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left wheel rotation", getLeftWheelRotation());
     SmartDashboard.putNumber("Right wheel rotation", getRightWheelRotation());
-    // logger.entering(this.getClass().getName(), "periodic()");
-    // This method will be called once per scheduler run
-    //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
-    logger.exiting(this.getClass().getName(), "periodic()");  
   }
 
 } // end of the class DriveSubsystem
