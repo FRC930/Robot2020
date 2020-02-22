@@ -8,6 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.logging.*;
 
 /**
@@ -66,10 +68,10 @@ public final class Constants {
 
     // [-------------------SPEEDS--------------------------]
 
-    public static final double HOPPER_DEFAULT_SPEED = 0.3;
-    public static final double HOPPER_SHOOTING_SPEED = 0.6; // 0.6
-    public static final double TOWER_SPEED = 1.0;
-    public static final double KICKER_SPEED = 0.5;
+    public static double HOPPER_DEFAULT_SPEED = 0.3;
+    public static double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
+    public static double TOWER_SPEED = 1.0;
+    public static double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
     public static final double FLYWHEEL_SPEED = 0.82;
 
@@ -147,5 +149,12 @@ public final class Constants {
     public static final Level LOG_LEVEL_WARNING = Level.OFF; 
 
     //[-------------------LOGGER--------------------------]
+
+    public static void setValues() {
+        HOPPER_DEFAULT_SPEED = SmartDashboard.getNumber("Hopper default speed", 0.3);
+        HOPPER_SHOOTING_SPEED = SmartDashboard.getNumber("Hopper shooting speed", 0.85);
+        TOWER_SPEED = SmartDashboard.getNumber("Tower speed", 1.0);
+        KICKER_SPEED = SmartDashboard.getNumber("Kicker speed", 0.7);
+    }
     
 } // end of constants

@@ -398,7 +398,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whenActive(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
@@ -441,10 +441,10 @@ public class RobotContainer {
     if (inManualMode) {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand); 
     } else { 
-      scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
+      scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      // scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-      // scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+      scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 
   }
@@ -477,6 +477,7 @@ public class RobotContainer {
   public void StartShuffleBoard() {
     shuffleboardUtility.putDriveTab();
     shuffleboardUtility.putTestingTab();
+    Constants.setValues();
   }
 
 } // end of class RobotContainer

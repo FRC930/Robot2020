@@ -57,6 +57,11 @@ public class ShuffleboardUtility {
 
         driveTab = Shuffleboard.getTab("Driver Station");
         testingTab = Shuffleboard.getTab("Testing & Debugging");
+
+        SmartDashboard.putNumber("Hopper default speed", 0.3);
+        SmartDashboard.putNumber("Hopper shooting speed", 0.6);
+        SmartDashboard.putNumber("Tower speed", 1.0);
+        SmartDashboard.putNumber("Kicker speed", 0.5);
     }
 
     private static ShuffleboardUtility instance = null;
@@ -96,16 +101,17 @@ public class ShuffleboardUtility {
         SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
         SmartDashboard.putNumber("Horizontal Offset", limelightSubsystem.getHorizontalOffset());
         SmartDashboard.putNumber("Vertical Offset", limelightSubsystem.getVerticleOffset());
+        SmartDashboard.putNumber("Flywheel Voltage Draw", flywheelSubsystem.getVoltage());
         
         //Turret PID
         SmartDashboard.putNumber("P", 0.03);
         SmartDashboard.putNumber("I", 0.0);
         SmartDashboard.putNumber("D", 0.0008);
 
-        //Turret PID w/ Shuffleboard methods
-        testingTab.addNumber("P (doublesupplier)", pDoubleSupplier);
-        testingTab.addNumber("I (doublesupplier)", iDoubleSupplier);
-        testingTab.addNumber("D (doublesupplier)", dDoubleSupplier);
+        // //Turret PID w/ Shuffleboard methods
+        // testingTab.addNumber("P (doublesupplier)", pDoubleSupplier);
+        // testingTab.addNumber("I (doublesupplier)", iDoubleSupplier);
+        // testingTab.addNumber("D (doublesupplier)", dDoubleSupplier);
 
         putShooterAngle();
     }

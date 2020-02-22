@@ -104,6 +104,10 @@ public class FlywheelSubsystem extends SubsystemBase {
         return (motorLead.getEncoder().getVelocity() / 5880);
     }
 
+    public double getVoltage() {
+        return motorLead.getBusVoltage();
+    }
+
     public boolean isFlywheelActive() {
         if (getSpeed() != 0) {
             return true;
