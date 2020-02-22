@@ -59,12 +59,12 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
     // Generates a trajectory for a path to move towards Wheel of Fortune
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
         List.of(
             // Pass through no interior waypoints, so this field is empty
         ),
         // End infront of the wheel of fortune
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
         // Pass config
         config
 
@@ -73,12 +73,12 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
     // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing towards the field
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
         List.of(
             // Pass through no interior waypoints, so this field is empty
         ),
         // End about 80 inches forward from previous point, moved in y direction to end at rendevous point balls
-        new Pose2d(inchesToMeters(-64.38), inchesToMeters(-86.7), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(130.25), inchesToMeters(-86.7), new Rotation2d(Math.toRadians(-135))),
         // Pass config
         config
     );
@@ -130,9 +130,10 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
 
     addCommands(new WaitCommand(3), 
         ramseteCommand1, 
-        new WaitCommand(5), 
-        ramseteCommand2,
-        new WaitCommand(2));
+        //new WaitCommand(5), 
+        ramseteCommand2
+        //new WaitCommand(2)
+        );
   }
 
   public double inchesToMeters(double inches) {

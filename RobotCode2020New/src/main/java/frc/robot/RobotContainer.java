@@ -170,7 +170,7 @@ public class RobotContainer {
   // private final GyroSkilletCommand gyroSkilletCommand;
   // private final LoadedSkilletCommand loadedSkilletCommand;
   // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
-  // private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
+  private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
   private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
   // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
   // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
@@ -312,6 +312,7 @@ public class RobotContainer {
     //TODO: Change this to get the Shuffleboard selected command
     saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, gyroSubsystem, deployIntakeCommand, returnIntakeCommand);
     caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
+    phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
     shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
     // --Bindings
@@ -487,7 +488,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return caliAvocadoSkilletCommand;
+    return phillyCheesesteakAndEggSkilletCommand;
     //return null;
     // Run path following command, then stop at the end.
   }
