@@ -61,10 +61,10 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for a path to move towards Wheel of  and ball pickup
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0), inchesToMeters(27.75), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
         List.of(),
         // End 3 meters straight ahead of where we started, still facing forward
-        new Pose2d(inchesToMeters(130.0), inchesToMeters(27.75), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(130.0), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 
@@ -73,7 +73,7 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory to move back into shooting position on center line
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the W.O.F. facing towards the center line
-        new Pose2d(inchesToMeters(130.0), inchesToMeters(27.75), new Rotation2d(135)),
+        new Pose2d(inchesToMeters(130.0), inchesToMeters(0), new Rotation2d(0)),
         // Pass this waypoint to have a more drastic curve towards the second shooting point
         List.of(),
         // End half way within the field, near the initiation line
@@ -85,12 +85,12 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for moving towards the center square for 3 ball pickup and shoot
     Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
         // Start at center of field just behind intiation line
-        new Pose2d(inchesToMeters(20.0), inchesToMeters(161.25), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(20.0), inchesToMeters(161.12), new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
             // Move to first of three balls first to grab balls
-            new Translation2d(inchesToMeters(107.83), inchesToMeters(145.2)),
-            new Translation2d(inchesToMeters(114.17), inchesToMeters(160.5))
+            // new Translation2d(inchesToMeters(107.83), inchesToMeters(145.2)),
+            // new Translation2d(inchesToMeters(114.17), inchesToMeters(160.5))
         ),
         // Endpoint
             //***Requires future adjustments based on game field dimensions
