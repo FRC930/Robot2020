@@ -85,6 +85,6 @@ public class DriveCommand extends CommandBase {
       stickY = 0;
     }
     // Arcade drive
-    driveSubsystem.runAt((stickY + stickX), -(stickY - stickX));
+    driveSubsystem.runAt((stickY - stickX), (stickY + stickX));
   } //End of method run()
 } //End of class DriveCommand
