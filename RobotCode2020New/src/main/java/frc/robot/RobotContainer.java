@@ -399,9 +399,9 @@ public class RobotContainer {
       // Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(inManualModeTrigger);
       
-      JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_START);
+      JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_B);
 
-      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_A);
+      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_START);
       
 
       // ZR Button
