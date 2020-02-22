@@ -70,10 +70,10 @@ public final class Constants {
 
     // [-------------------SPEEDS--------------------------]
 
-    public static double HOPPER_DEFAULT_SPEED = 0.3;
-    public static double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
-    public static double TOWER_SPEED = 1.0;
-    public static double KICKER_SPEED = 0.7; // 0.5
+    public static final double HOPPER_DEFAULT_SPEED = 0.3;
+    public static final double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
+    public static final double TOWER_SPEED = 1.0;
+    public static final double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
     public static final double FLYWHEEL_SPEED = 0.82;
 
@@ -92,6 +92,10 @@ public final class Constants {
     public static final double UPPER_LIMIT = 0.78;
     public static final double LOWER_LIMIT = 0.4;
     public static final double TURRET_MAX_SPEED = 0.75;
+
+    public static final double TURRET_P = 0.021;
+    public static final double TURRET_I = 0.135;
+    public static final double TURRET_D = 0.00081;
 
     // [-------------------TURRET--------------------------]
 

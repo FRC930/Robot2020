@@ -11,6 +11,7 @@ package frc.robot.commands.turretcommads;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
@@ -27,10 +28,11 @@ public class DefaultTurretCommand extends PIDCommand {
     // -------- DECLARATIONS --------\\
 
     private final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
+    private double stickX;
 
     // -------- CONSTRUCTOR --------\\
 
-    public DefaultTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret, PIDController controller) {
+    public DefaultTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret, PIDController controller, Joystick coDriver, int coDriverAxis) {
         // Initial P = 0.065
         // Oscillations over time: 3 cycles per 1 second
         // Period = 0.33   :    Took the oscillations over time and divided one by that number
@@ -62,8 +64,12 @@ public class DefaultTurretCommand extends PIDCommand {
                     }
                     SmartDashboard.putNumber("controller", output);
 
-                    if (Math.abs(limeLight.getHorizontalOffset()) < 27) {
-                        turret.setSpeed(output);
+                    if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 0.1) {
+                        turret.setSpeed(Math.pow(coDriver.getRawAxis(coDriverAxis), 3));
+                    } else {
+                        if(Math.abs(limeLight.getHorizontalOffset()) < 27) {
+                            turret.setSpeed(output);
+                        }
                     }
                 },
                 // Pass in the subsystems we will need
