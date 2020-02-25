@@ -56,22 +56,51 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
 
     // -------- Trajectories -------- \\
 
+
     // Generates a trajectory for a path to move towards Wheel of Fortune
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
         List.of(
             // Pass through no interior waypoints, so this field is empty
         ),
         // End infront of the wheel of fortune
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 
     );
 
-    // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
+    // Generates a trajectory two move into shooting range for 5 W.O.F. balls
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+        // Start at the W.O.F. facing towards the goal, away from the W.O.F.
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // Pass this waypoint to have a more drastic curve towards the second shooting point
+        List.of(
+            // No waypoints
+        ),
+        // End at location of first trench run ball, facing rendezvous balls
+        new Pose2d(inchesToMeters(36.0), inchesToMeters(-12.0), new Rotation2d(Math.toRadians(270))),
+        // Pass config
+        config
+    );
+
+    // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
+    Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing towards the field
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(
+            // Pass through no interior waypoints, so this field is empty
+        ),
+        // End about 80 inches forward from previous point, moved in y direction to end at rendevous point balls
+        new Pose2d(inchesToMeters(0), inchesToMeters(81.04), new Rotation2d(0)),
+        // Pass config
+        config
+    );
+
+    // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
+    Trajectory trajectory4 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing towards the field
         new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
         List.of(
@@ -103,10 +132,26 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
         m_drive
     );
 
-
-    // Creates RAMSETE Command for third trajectory
+    // Creates RAMSETE Command for second trajectory
     RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
+        m_drive::getPose,
+        new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
+        new SimpleMotorFeedforward(Constants.KSVOLTS,
+                                   Constants.KVVOLT,
+                                   Constants.KAVOLT),
+        Constants.KDRIVEKINEMATICS,
+        m_drive::getWheelSpeeds,
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_drive::tankDriveVolts,
+        m_drive
+    );
+
+    // Creates RAMSETE Command for third trajectory
+    RamseteCommand ramseteCommand3 = new RamseteCommand(
+        trajectory3,
         m_drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -130,10 +175,11 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
 
     addCommands(new WaitCommand(3), 
         ramseteCommand1, 
-        //new WaitCommand(5), 
-        ramseteCommand2
-        //new WaitCommand(2)
-        );
+        // Turn in place 180 degrees
+        ramseteCommand2, 
+        new WaitCommand(5), 
+        ramseteCommand3,
+        new WaitCommand(2));
   }
 
   public double inchesToMeters(double inches) {

@@ -28,6 +28,10 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Opponent Side - Trench 2 & Initial 3 & Rendezvous 3
+
 public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
  /**
    * Creates a new Autonomous.
@@ -73,11 +77,11 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory to move back into shooting position on center line
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the W.O.F. facing towards the center line
-        new Pose2d(inchesToMeters(130.0), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(135))),
         // Pass this waypoint to have a more drastic curve towards the second shooting point
         List.of(),
         // End half way within the field, near the initiation line
-        new Pose2d(inchesToMeters(20.0), inchesToMeters(161.12), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(-130.0), inchesToMeters(160.0), new Rotation2d(Math.toRadians(135))),
         // Pass config
         config
     );
@@ -85,16 +89,15 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for moving towards the center square for 3 ball pickup and shoot
     Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
         // Start at center of field just behind intiation line
-        new Pose2d(inchesToMeters(20.0), inchesToMeters(161.12), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(180))),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
-            // Move to first of three balls first to grab balls
-            // new Translation2d(inchesToMeters(107.83), inchesToMeters(145.2)),
-            // new Translation2d(inchesToMeters(114.17), inchesToMeters(160.5))
+            // Move to first two of three balls first to grab balls
+            new Translation2d(inchesToMeters(107.83), inchesToMeters(0)),
+            new Translation2d(inchesToMeters(7.0), inchesToMeters(-15.0))
         ),
         // Endpoint
-            //***Requires future adjustments based on game field dimensions
-        new Pose2d(inchesToMeters(120.51), inchesToMeters(175.8), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(6.5), inchesToMeters(-15.0), new Rotation2d(Math.toRadians(180))),
         // Pass config
         config
     );
@@ -154,7 +157,14 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     );
     
     /* 
-    Path Explanation
+    Path Description:
+    -----------------
+        Starts on initiation line with 3 power cells
+        Moves towards away team trench and collects 2 power cells 
+        Moves toward the rendezvous zone 
+        Shoots 5 power cells
+        Goes to rendezvous zone and collects 3 power cells
+        Moves off of rendezvous zone and shoots 3 power cells
     */
 
     addCommands(new WaitCommand(3),

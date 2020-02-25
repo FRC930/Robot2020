@@ -28,6 +28,10 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Alliance Side - Initial 3 & Trench 3 + 2 & Rendezvous 2 + 3
+
 public class EverythingSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -90,7 +94,14 @@ public class EverythingSkilletCommand extends SequentialCommandGroup {
     );
     
     /* 
-    Path Explanation
+    Path Description:
+    -----------------
+        Starts with 3 power cells and shoots 3 from initiation line
+        Moves to trench and collects 5 power cells
+        Shoots 5 power cells
+        Moves to rendezvous zone and collects 2 power cells
+        Shoots 2 power cells
+        Collects 3 power cells and shoot 3 power cells
     */
 
     addCommands(ramseteCommand1);

@@ -28,6 +28,10 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Alliance Side - Initial 3 & Trench 3 & Rendezvous 3
+
 public class GyroSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
