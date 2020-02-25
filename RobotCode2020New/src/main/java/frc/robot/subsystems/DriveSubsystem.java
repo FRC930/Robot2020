@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
-
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -29,26 +28,32 @@ public class DriveSubsystem extends SubsystemBase {
 
   // -------- CONSTANTS --------\\
 
-  // private final Logger logger = // logger.getLogger(DriveSubsystem.class.getName());
+  // private final Logger logger = //
+  // logger.getLogger(DriveSubsystem.class.getName());
 
   // -------- DECLARATIONS --------\\
-  // Drivetrain motors
   private WPI_TalonFX right1;
   private WPI_TalonFX right2;
   private WPI_TalonFX left1;
   private WPI_TalonFX left2;
-  //The intake talon motor controller, has the gyro attached to it
+
+  // The intake talon motor controller, has the gyro attached to it
   private TalonSRX gyroTalon;
-    
-  //The gyro, used for autonomous
+
+  // The gyro, used for autonomous
   private PigeonIMU gyro;
 
-  //Values, used to store the yaw, pitch, and roll (the robot's rotation)
-  private double yawPitchRollValues[] = new double[3]; 
+  // Values, used to store the yaw, pitch, and roll (the robot's rotation)
+  private double yawPitchRollValues[] = new double[3];
 
+  // The odometry of the differential drive
   private DifferentialDriveOdometry driveOdometry;
-  //private DifferentialDrive drive;
-  
+
+  // The differential drive object itself
+  private DifferentialDrive differentialDrive;
+
+  private Logger logger;
+
   // -------- CONSTRUCTOR --------\\
 
   public DriveSubsystem() {
@@ -59,135 +64,205 @@ public class DriveSubsystem extends SubsystemBase {
 
   private void setDriveMotors() {
 
+    // instantiates the drive motors
     right1 = new WPI_TalonFX(Constants.DRIVE_RIGHT_FRONT_ID);
     right2 = new WPI_TalonFX(Constants.DRIVE_RIGHT_BACK_ID);
     left1 = new WPI_TalonFX(Constants.DRIVE_LEFT_FRONT_ID);
     left2 = new WPI_TalonFX(Constants.DRIVE_LEFT_BACK_ID);
+
+    // the talon that controls intake, used to get the piston
+    // TODO: Change this because IntakeSubsystem already instantiates this!
     gyroTalon = new TalonSRX(Constants.INTAKE_ID);
+
+    // the gyro attached to the talon, used to track position and rotation
+    // TODO: Change this because GyroSubsystem already instantiates this!
     gyro = new PigeonIMU(gyroTalon);
+
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
-    
-    // sets our motors to be inverted so they all move the same direction
+
+    // Inverts the direction of the drive motors
     left1.setInverted(true);
     left2.setInverted(true);
     right1.setInverted(false);
     right2.setInverted(false);
 
-    // resets the encoders back to zero on start up
+    // Resets drive motor encoders to 0
     left1.getSensorCollection().setIntegratedSensorPosition(0.0, 100);
     right1.getSensorCollection().setIntegratedSensorPosition(0.0, 100);
-    
-    // inverts our motors encoders so they all go the right way
+
     left1.setSensorPhase(true);
     left2.setSensorPhase(true);
     right1.setSensorPhase(false);
     right2.setSensorPhase(false);
+
     // Mirror primary motor controllers on each side
     left2.follow(left1);
     right2.follow(right1);
 
-    //Sets the ramp rate of the robot, this will need to be configued
+    // Sets the ramp rate of the robot, this will need to be configued
     left1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
-    //Sets up the differntial drive
-    //drive = new DifferentialDrive(right1, left1);
+    // Sets up the differntial drive
+    // drive = new DifferentialDrive(right1, left1);
   }
 
-  // tells the motors what speed to run in precent output mode
+  /**
+   * Sets the left and right drivetrain motors to the speeds passed through the
+   * parameters
+   * 
+   * @param leftSpeed  The speed of the left drivetrain motors
+   * @param rightSpeed The speed of the right drivetrain motors
+   */
   public void runAt(double leftSpeed, double rightSpeed) {
-  
-    // sets the speed fo the motors
+    //Logger.entering(this.getClass().getName(), "runAt()");
+
+    //TODO: Remove this logging, we should be seeing this on the Shuffleboard
+    //logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getLeftWheelRotations() + " | right encoder " + getRightWheelRotations());
+
     left1.set(leftSpeed);
     right1.set(rightSpeed);
-  }
 
-  // Returns left speed
+    logger.exiting(this.getClass().getName(), "runAt()");
+  } // end of method runAt()
+
+  /**
+     * Returns the speed of the left drivetrain motors
+     * 
+     * @return The left drivetrain motor speed, ranging from -1 to 1
+     */
   public double getLeftSpeed() {
     return left1.getMotorOutputPercent();
   }
 
-  // Returns right speed
+  /**
+     * Returns the speed of the right drivetrain motors
+     * 
+     * @return The right drivetrain motor speed, ranging from -1 to 1
+     */
   public double getRightSpeed() {
     return right1.getMotorOutputPercent();
   }
 
-  //this method gets our robots "heading" or the yaw values remainder
+  /**
+     * Returns the gyro's yaw, in degrees
+     * 
+     * @return The gyro's yaw value, in degrees
+     */
   public double getHeading() {
     gyro.getYawPitchRoll(yawPitchRollValues);
     return Math.IEEEremainder(yawPitchRollValues[0], 360);
   }
 
-  // this method returns our left wheel rotationary value
-  public double getLeftWheelRotation() {
-    double rotationML;
+  /**
+     * Returns the number of rotations from the left side of the drivetrain
+     * 
+     * @return A double, the # of rotations from the left drivetrain
+     */
+  public double getLeftWheelRotations() {
+    return left1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
+  }
 
-    //our rotation is our encoder / the ammount of ticks per rotation times the circomfrence of the wheel devided by gear ratio
-    rotationML = left1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
-    return rotationML;
-}
+  /**
+     * Returns the number of rotations from the right side of the drivetrain
+     * 
+     * @return A double, the # of rotations from the right drivetrain
+     */
+  public double getRightWheelRotations() {
+      return right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
+  }
 
-// this method returns our right wheel rotationary value 
-public double getRightWheelRotation() {
-    double rotationMR;
-
-    //our rotation is our encoder / the ammount of ticks per rotation times the circomfrence of the wheel devided by gear ratio
-    rotationMR = right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
-    return rotationMR;
-}
-
-  // returns the wheels speeds
+  /**
+     * Returns the speeds in the differential drive
+     * 
+     * @return A DifferentialDriveWheelSpeeds object, has the rotations of the left and right wheels
+     */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getLeftWheelRotation(), getRightWheelRotation());
-  }
-  public void resetOdometry(Pose2d pose) {
-    //driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    return new DifferentialDriveWheelSpeeds(getLeftWheelRotations(), getRightWheelRotations());
   }
 
-  // this method is used in auto for it to contorl our drive train with volts numbers instead of joysitck percents
+  /**
+     * Resets the gyro
+     */
+  public void resetOdometry(Pose2d pose) {
+    driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  }
+
+  /**
+     * Runs the drivetrain motors, but by sending the voltage amount instead  
+     */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    // logger.entering(this.getClass().getName(), "tankDriveVolts()");
-    // logger.log(Level.OFF, "MOVING: " + leftVolts + " " + rightVolts);
+    logger.entering(this.getClass().getName(), "tankDriveVolts()");
+
+    logger.log(Constants.LOG_LEVEL_FINE, "Drivetrain Moving: " + leftVolts + " " + rightVolts);
 
     //TODO: Change for Prac Robot
     //right1.setVoltage(rightVolts);
     //left1.setVoltage(-leftVolts);
 
     //TODO: Change for Comp Robot
-    right1.setVoltage(rightVolts);
-    left1.setVoltage(leftVolts);
+    //right1.setVoltage(-rightVolts);
+    //left1.setVoltage(leftVolts);
 
-    // logger.exiting(this.getClass().getName(), "tankDriveVolts()");
-    
+    logger.exiting(this.getClass().getName(), "tankDriveVolts()");
+  } // end of method tankDriveVolts()
+
+  //-- TODO: Update getLeftEncoder() and getRightEncoder()
+
+  /**
+     * Gets the left drivetrain encoder value
+     * 
+     * @return A double, of the getLeftWheelRotations()
+     */
+  public double getLeftEncoder() {
+    return getLeftWheelRotations();
   }
 
-  // gets the average distance travled  by the motors
-  public double getAverageEncoderDistance() {
-    return (getLeftWheelRotation()
-        + getRightWheelRotation()) / 2.0;
+  /**
+     * Gets the right drivetrain encoder value
+     * 
+     * @return A double, of the getRightWheelRotations()
+     */
+  public double getRightEncoder() {
+    return getRightWheelRotations();
   }
 
-public Pose2d getPose() {
-  return driveOdometry.getPoseMeters();
-}
+  /**
+     * Returns the position from the odometry
+     * 
+     * @return A Pose2d object, from the drive odometry
+     */
+  public Pose2d getPose() {
+    return driveOdometry.getPoseMeters();
+  }
 
-  // public void setMaxOutput(double maxOutput) {
-  //   drive.setMaxOutput(maxOutput);
-  // }
+  /**
+     * Sets the max output the differential drive can give
+     * 
+     * @param maxOutput A double, specifying the maxiumum power that can be given by the differential drive
+     */
+  public void setMaxOutput(double maxOutput) {
+    differentialDrive.setMaxOutput(maxOutput);
+  }
 
   @Override
   public void periodic() {
-    // constantly updates our robots position on the feild so our robot knows where it is currently
-    driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotation(), getRightWheelRotation());
+    driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
 
-    //useful info that we print to dashboard
-    SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
-    SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
-    SmartDashboard.putNumber("Heading", getHeading());
+    //TODO: Uncomment shuffleboard stuff
+    //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
 
-    SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Left wheel rotation", getLeftWheelRotation());
-    SmartDashboard.putNumber("Right wheel rotation", getRightWheelRotation());
+    //SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
+    //SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
+   //SmartDashboard.putNumber("Heading", getHeading());
+    //SmartDashboard.putNumber("RPM Left", getLeftWheelRotations());
+    //SmartDashboard.putNumber("RPM Right", getRightWheelRotations());
+
+    //SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
+    //SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
+    // logger.entering(this.getClass().getName(), "periodic()");
+    // This method will be called once per scheduler run
+    //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
+    logger.exiting(this.getClass().getName(), "periodic()");  
   }
 
 } // end of the class DriveSubsystem
