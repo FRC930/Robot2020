@@ -55,7 +55,7 @@ public class FlywheelVelocityCommand extends CommandBase {
     public void execute() {
         // FlywheelSubsystem get angle
         // Limelight get distance
-        this.math.setPosition(m_FlywheelAngleSubsystem.get() ? 31.4 : 39, m_LimelightSubsystem.getDistance());
+        this.math.setPosition(flywheelPistonSubsystem.get() ? 31.4 : 39, limelightSubsystem.getDistance());
     }
 
     // Called once the command ends or is interrupted.

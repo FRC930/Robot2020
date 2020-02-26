@@ -24,7 +24,7 @@ import frc.robot.commands.intakecommands.intakepistoncommands.*;
 
 import frc.robot.commands.kickercommands.*;
 //import frc.robot.commands.ledcommands.*;
-
+import frc.robot.commands.shootercommands.ShootPowerCellCommand;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.*;
 import frc.robot.commands.shootercommands.pistoncommands.*;
@@ -129,7 +129,6 @@ public class RobotContainer {
   private final DriveSubsystem driveSubsystem;
 
   // --Shooter stuff subsystems
-  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
   private final FlywheelSubsystem flywheelSubsystem;
 
   // --Gyro subsystem
@@ -152,7 +151,7 @@ public class RobotContainer {
   private final LimelightSubsystem limelightSubsystem;
 
   //--Flywheel Angle Subsystem
-  private final FlywheelAngleSubsystem flywheelAngleSubsystem;
+  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
 
   //--Tower subsystem
   private final TowerSubsystem towerSubsystem;
@@ -248,8 +247,6 @@ public class RobotContainer {
     towerSubsystem = new TowerSubsystem();
 
     turretSubsystem = new TurretSubsystem();
-    kickerSubsystem = new KickerSubsystem();
-    flywheelAngleSubsystem = new FlywheelAngleSubsystem();
     
 
     // --Commands
@@ -369,8 +366,8 @@ public class RobotContainer {
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //Shooter command binds
-      shootButton.whileActiveOnce(new ShootPowerCellCommand(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelAngleSubsystem));
-      shootButton.whenReleased(new StopTowerKickerCommand(towerSubsystem, kickerSubsystem));
+      shootButton.whileActiveOnce(new ShootPowerCellCommand(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem));
+      shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
 

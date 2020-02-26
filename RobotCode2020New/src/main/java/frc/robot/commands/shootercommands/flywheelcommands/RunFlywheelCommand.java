@@ -50,10 +50,6 @@ public class RunFlywheelCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-<<<<<<< HEAD:RobotCode2020New/src/main/java/frc/robot/commands/shootercommands/RunFlywheelCommand.java
-    //System.out.println("isAtSpeed(): " + isAtSpeed());
-=======
->>>>>>> 5861273be32beac358aaf9987676cb3d9ebd4973:RobotCode2020New/src/main/java/frc/robot/commands/shootercommands/flywheelcommands/RunFlywheelCommand.java
     return isAtSpeed();
   }
 
@@ -61,10 +57,6 @@ public class RunFlywheelCommand extends CommandBase {
   private boolean isAtSpeed() {
     return this.m_FlywheelSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_FlywheelSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
   }
-<<<<<<< HEAD:RobotCode2020New/src/main/java/frc/robot/commands/shootercommands/RunFlywheelCommand.java
-}
-=======
 
 } // end of command class RunFlywheelCommand
 
->>>>>>> 5861273be32beac358aaf9987676cb3d9ebd4973:RobotCode2020New/src/main/java/frc/robot/commands/shootercommands/flywheelcommands/RunFlywheelCommand.java

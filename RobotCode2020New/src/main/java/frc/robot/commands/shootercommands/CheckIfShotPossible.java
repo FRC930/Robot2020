@@ -1,7 +1,7 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.FlywheelAngleSubsystem;
+import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.utilities.DeadbandMath;
 import frc.robot.utilities.DeadbandMath.DeadbandZone;
@@ -16,14 +16,14 @@ public class CheckIfShotPossible extends CommandBase{
     private DeadbandMath deadbandMath = DeadbandMath.getInstance();
     private ShooterMath shooterMath = ShooterMath.getInstance();
     private LimelightSubsystem limeLight;
-    private FlywheelAngleSubsystem m_FlywheelAngleSubsystem;
+    private FlywheelPistonSubsystem m_FlywheelPistonSubsystem;
     private ShotOutcome shotOutcome;
     private DeadbandZone deadbandZone;
     private ShotChance shotChance;
 
-    public CheckIfShotPossible(LimelightSubsystem limeLight, FlywheelAngleSubsystem flywheelAngleSubsystem) {
+    public CheckIfShotPossible(LimelightSubsystem limeLight, FlywheelPistonSubsystem flywheelAngleSubsystem) {
         this.limeLight = limeLight;
-        this.m_FlywheelAngleSubsystem = flywheelAngleSubsystem;
+        this.m_FlywheelPistonSubsystem = flywheelAngleSubsystem;
         shotOutcome = null;
         deadbandZone = null;
         shotChance = null;
@@ -33,7 +33,7 @@ public class CheckIfShotPossible extends CommandBase{
     public boolean isFinished() {
 
         //Set the shot type to the shooter.
-        shooterMath.setPosition(m_FlywheelAngleSubsystem.get() ? 31.4 : 39, limeLight.getDistance());
+        shooterMath.setPosition(m_FlywheelPistonSubsystem.get() ? 31.4 : 39, limeLight.getDistance());
         this.shotOutcome = shooterMath.getPossibleShot();
         
         deadbandMath.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
