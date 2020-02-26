@@ -12,8 +12,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -21,36 +22,34 @@ public class IntakePistonSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final int LEFT_PISTON_ID = 0;
-    private final int RIGHT_PISTON_ID = 1;
-
-    public static final boolean INTAKE_PISTONS_UP = false; 
-    public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP; 
+    private final Logger logger = Logger.getLogger(IntakePistonSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
-    private final Logger logger = Logger.getLogger (IntakePistonSubsystem.class.getName());
-
-    private Solenoid intakePistonRight;
-    private Solenoid intakePistonLeft;
+    private Solenoid intakePistonController;
    
     //-------- CONSTRUCTOR --------\\
 
-    public IntakePistonSubsystem(){
-        intakePistonRight = new Solenoid(RIGHT_PISTON_ID);
-        intakePistonLeft = new Solenoid(LEFT_PISTON_ID);
+    public IntakePistonSubsystem() {
+        intakePistonController = new Solenoid(Constants.INTAKE_SOLENOID_ID);
     }
 
     //-------- METHODS --------\\
     
-    public void setIntakePiston(boolean state) {
-        intakePistonLeft.set(state);
-        intakePistonRight.set(state);
-        logger.log(Level.FINE,"setIntakePiston");
+    public void setIntakePistonState(boolean state) {
+        intakePistonController.set(state);
+        
+        logger.log(Constants.LOG_LEVEL_FINE, "setIntakePistonState: " + state);
+    }
+
+    public boolean getIntakePistonState() {
+        logger.log(Constants.LOG_LEVEL_FINE, "getIntakePistonState: " + intakePistonController.get());
+
+        return intakePistonController.get();
     }
 
     @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
+    public void periodic() {    // This method will be called once per scheduler run     
     }
+    
 } // end of class IntakePistonSubsystem

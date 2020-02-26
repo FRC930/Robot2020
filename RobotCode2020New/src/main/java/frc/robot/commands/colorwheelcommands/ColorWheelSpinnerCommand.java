@@ -8,16 +8,18 @@
 package frc.robot.commands.colorwheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ColorWheelSpinnerSubsystem;
 import java.util.logging.*;
 
 public class ColorWheelSpinnerCommand extends CommandBase {
 
     //-------- CONSTANTS --------\\
+    
     // Creates an instance of the RotationalControlSubsystem subsystem
     private final ColorWheelSpinnerSubsystem m_subsystem;
     // Creates an instance of the logger class
-    private Logger logger = Logger.getLogger(ColorWheelSpinnerCommand.class.getName());
+    private final Logger logger = Logger.getLogger(ColorWheelSpinnerCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -42,7 +44,7 @@ public class ColorWheelSpinnerCommand extends CommandBase {
     public void execute() {
         logger.entering(this.getClass().getName(), "execute");
         // Gets the SparkMax values from the RotationalControlSubsystem subsystem        
-        logger.log(Level.FINE, "(spinning)");
+        logger.log(Constants.LOG_LEVEL_FINE, "(spinning)");
         logger.exiting(this.getClass().getName(), "execute");
     }
 

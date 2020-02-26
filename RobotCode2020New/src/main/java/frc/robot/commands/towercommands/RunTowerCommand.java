@@ -20,13 +20,13 @@ public class RunTowerCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
-    private TowerSubsystem m_TowerSubsystem;
+    private TowerSubsystem towerSubsystem;
     
     //-------- CONSTRUCTOR --------\\
 
-    public RunTowerCommand(TowerSubsystem TowerSubsystem){
-        m_TowerSubsystem = TowerSubsystem;
-        addRequirements(m_TowerSubsystem);
+    public RunTowerCommand(TowerSubsystem towerSubsystem){
+        this.towerSubsystem = towerSubsystem;
+        addRequirements(towerSubsystem);
     }
 
     //-------- METHODS --------\\
@@ -34,7 +34,7 @@ public class RunTowerCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_TowerSubsystem.setSpeed(Constants.TOWER_SPEED);
+        towerSubsystem.setSpeed(Constants.TOWER_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -52,4 +52,5 @@ public class RunTowerCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
+    
 } // end of class RunTowerCommand

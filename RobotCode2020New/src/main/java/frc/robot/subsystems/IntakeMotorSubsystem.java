@@ -11,7 +11,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,9 +22,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeMotorSubsystem extends SubsystemBase {
 
-    //-------- DECLARATIONS --------\\
+    //-------- CONSTANTS --------\\
 
     private final Logger logger = Logger.getLogger(IntakeMotorSubsystem.class.getName());
+
+    //-------- DECLARATIONS --------\\
+
     private TalonSRX intakeMotorController; 
 
     //-------- CONSTRUCTOR --------\\
@@ -38,8 +40,8 @@ public class IntakeMotorSubsystem extends SubsystemBase {
     
     //sets motor speed 
     public void setMotorSpeed(double speed) {
-        intakeMotorController.set(ControlMode.PercentOutput, speed);
-        logger.log(Level.FINE,"sets motor speed");
+        intakeMotorController.set(ControlMode.PercentOutput, -speed);
+        logger.log(Constants.LOG_LEVEL_FINE,"sets motor speed");
     }
 
     //returns the motor speed

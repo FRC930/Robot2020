@@ -12,7 +12,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+
 import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -29,12 +33,15 @@ public class GyroSubsystem extends SubsystemBase {
 
     //Values, used to store the yaw, pitch, and roll (the robot's rotation)
     private double yawPitchRollValues[] = new double[3]; 
+
+    public DifferentialDriveOdometry driveOdometry;
     
     //-------- CONSTRUCTOR --------\\
 
     public GyroSubsystem() {
         gyroTalon = new TalonSRX(Constants.INTAKE_ID);
         gyro = new PigeonIMU(gyroTalon);
+        driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     }
 
     // updates the yaw, pitch, and roll values in the array
@@ -53,9 +60,20 @@ public class GyroSubsystem extends SubsystemBase {
         return yawPitchRollValues[0];
     }
 
+    public Pose2d getPose() {
+        return driveOdometry.getPoseMeters();
+    }
+
     //Resets the yaw rotation
     public void zeroHeading(){
         gyro.setYaw(0.0);
         gyro.setFusedHeading(0.0);
+    }
+
+    @Override
+    public void periodic() {
+        //TODO: Move this to a default command that uses both drive and gyro subsystem (Most likely DriveCommand)
+      //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
+      
     }
 } // end of subsystem

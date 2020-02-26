@@ -11,7 +11,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -25,19 +24,17 @@ public class HopperSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
+    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
+
     //-------- DECLARATIONS --------\\
 
     // VictorSPX is a motor controller that rotates the hopper, containing the power cells. Works like a nerf hellraiser loader  
-    private VictorSPX HopperMotor;
-    
-    private double speed;    //TODO: Remove this speed variable and use the .getSpeed method in the VictorSPX
-
-    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
+    private VictorSPX hopperMotor;
 
     //-------- CONSTRUCTOR --------\\
 
     public HopperSubsystem() {
-        HopperMotor = new VictorSPX(Constants.HOPPER_ID);
+        hopperMotor = new VictorSPX(Constants.HOPPER_ID);
     }
 
     //-------- METHODS --------\\
@@ -47,10 +44,9 @@ public class HopperSubsystem extends SubsystemBase {
         //Logs the setSpeed method as INFO returning, "setSpeed()"
         logger.entering(getClass().getName(), "setSpeed()");
 
-        
-        HopperMotor.set(ControlMode.PercentOutput, speed);
+        hopperMotor.set(ControlMode.PercentOutput, speed);
 
-        logger.log(Level.INFO, "Set shooter speed to " + HopperMotor.getMotorOutputPercent());
+        logger.log(Constants.LOG_LEVEL_INFO, "Set shooter speed to " + hopperMotor.getMotorOutputPercent());
         logger.exiting(getClass().getName(), "setSpeed()");
     }
 
@@ -58,8 +54,8 @@ public class HopperSubsystem extends SubsystemBase {
     public double getSpeed() {
         //Logs the getSpeed method as INFO returning, "getSpeed()"
         logger.entering(getClass().getName(), "getSpeed()");
-        logger.log(Level.INFO, "Get shooter speed to " + HopperMotor.getMotorOutputPercent());
+        logger.log(Constants.LOG_LEVEL_INFO, "Get shooter speed to " + hopperMotor.getMotorOutputPercent());
         logger.exiting(getClass().getName(), "getSpeed()");
-        return HopperMotor.getMotorOutputPercent();
+        return hopperMotor.getMotorOutputPercent();
     }
 } // end of class HopperSubsystem

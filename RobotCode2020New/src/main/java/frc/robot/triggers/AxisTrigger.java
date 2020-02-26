@@ -20,28 +20,30 @@ public class AxisTrigger extends Trigger {
 
   //--------- CONSTANTS --------\\
 
-  public final double TRIGGER_PRESSED_THRESHOLD = 0.4;
+  private final double TRIGGER_PRESSED_THRESHOLD = 0.4;
 
   // -------- DECLARATIONS --------\\
 
-  private final Joystick joystick;
-  private final int axisNumber;
+  private Joystick joystick;
+  private int axisNumber;
 
-  //-------- METHODS --------\\
+  //-------- CONSTRUCTOR --------\\
 
   /**
-   * Creates a joystick axis for triggering commands.
+   * Creates a joystick button for triggering commands.
    *
    * @param joystick     The Joystick object that has an axis
    * 
-   * @param axisNumber The axis number (see {@link joystick#getRawAxis(int) }
+   * @param axisNumber The button number (see {@link joystick#getRawAxis(int) }
    */
   public AxisTrigger(Joystick joystick, int axisNumber) {
-    requireNonNullParam(joystick, "joystick", "AxisTrigger");  //Requires a joystick object, or else it fails
+    requireNonNullParam(joystick, "joystick", "JoystickButton");
 
     this.joystick = joystick;
     this.axisNumber = axisNumber;
   }
+
+  //-------- METHODS --------\\
 
   /**
    * Gets the value of the joystick button.
@@ -54,4 +56,3 @@ public class AxisTrigger extends Trigger {
   }
 
 } // end of class AxisTrigger
-

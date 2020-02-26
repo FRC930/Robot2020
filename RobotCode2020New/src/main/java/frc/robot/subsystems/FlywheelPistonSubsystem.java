@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -9,22 +9,22 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import frc.robot.Constants;
 
-public class FlywheelAngleSubsystem extends SubsystemBase {
+//--------- SUBSYSTEM CLASS ---------\\
 
-  // -------- CONSTANTS --------\\
-  private final int SOLENOID_CHANNEL = 0;
-  // --Ports
+public class FlywheelPistonSubsystem extends SubsystemBase {
 
-  // -------- DECLARATIONS --------\\
+  //-------- CONSTANTS --------\\
+
+  private final Logger logger = Logger.getLogger(FlywheelPistonSubsystem.class.getName());
+
+  //-------- DECLARATIONS --------\\
+
   private Solenoid FlywheelPiston;
-
-  private final Logger logger = Logger.getLogger(FlywheelAngleSubsystem.class.getName());
 
   public enum SolenoidValues {
 
@@ -43,30 +43,27 @@ public class FlywheelAngleSubsystem extends SubsystemBase {
 
   // -------- CONSTRUCTOR --------\\
 
-  public FlywheelAngleSubsystem() {
-
-    FlywheelPiston = new Solenoid(SOLENOID_CHANNEL);
-
+  public FlywheelPistonSubsystem() {
+    FlywheelPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
   }
 
   //-------- METHODS --------\\ 
 
   //Sets the value of the piston   
   public void set(SolenoidValues state) {
-
     FlywheelPiston.set(state.getSolenoidState());
-    this.logger.log(Level.FINE,"setPistonValue");
+    this.logger.log(Constants.LOG_LEVEL_FINE, "set(" + state + ")");
 
   }
+
   //returns the value of the piston, TRUE = On or up, FALSE = Off or down
   public boolean get(){
-
-    this.logger.log(Level.FINE,"getPistonValue: " + (FlywheelPiston.get() ? "True" : "False"));
+    this.logger.log(Constants.LOG_LEVEL_FINE, "getPistonValue: " + (FlywheelPiston.get() ? "True" : "False"));
     return FlywheelPiston.get();
-
   }
 
   @Override
   public void periodic() {
   }
-}//end of class ShooterAngleSubsytem
+
+} // end of class FlywheelPistonSubsystem

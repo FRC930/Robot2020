@@ -1,35 +1,49 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+//-------- IMPORTS --------\\
+
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.FlywheelAngleSubsystem;
+
+import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.utilities.ShooterMath;
 
-/**
- * <h3>ShooterVelocity</h3>
- * <p>
- * The shooter velocity command will set the speed of the shooter based on the
- * calculations returned from the math class
- * </p>
- */
+import frc.robot.Constants;
+
+//-------- COMMANDBASE CLASS --------\\
+//The shooter velocity command will set the speed of the shooter based on the calculations returned from the math class
+
 public class FlywheelVelocityCommand extends CommandBase {
 
-    private FlywheelAngleSubsystem m_FlywheelAngleSubsystem;
-    private FlywheelSubsystem m_FlywheelSubsystem;
-    private LimelightSubsystem m_LimelightSubsystem;
+    //-------- DECLARATIONS --------\\
+    
+    // --Subsystems
+    private FlywheelPistonSubsystem flywheelPistonSubsystem;
+    private FlywheelSubsystem flywheelSubsystem;
+    private LimelightSubsystem limelightSubsystem;
+
+    // --Utilities
     private ShooterMath math = ShooterMath.getInstance();
 
-    public FlywheelVelocityCommand(FlywheelAngleSubsystem flywheelAngleSubsystem, FlywheelSubsystem flywheelSubsystem,
-            boolean solenoidStatus, LimelightSubsystem limelightSubsystem)
-    {
-        m_FlywheelAngleSubsystem = flywheelAngleSubsystem;
-        m_FlywheelSubsystem = flywheelSubsystem;
-        m_LimelightSubsystem = limelightSubsystem;
-        
-        addRequirements(m_FlywheelAngleSubsystem, m_FlywheelSubsystem);
+    //-------- CONSTRUCTOR --------\\
+
+    public FlywheelVelocityCommand(FlywheelPistonSubsystem flywheelPistonSubsystem, FlywheelSubsystem flywheelSubsystem, boolean solenoidStatus, LimelightSubsystem limelightSubsystem) {
+        this.flywheelPistonSubsystem = flywheelPistonSubsystem;
+        this.flywheelSubsystem = flywheelSubsystem;
+        this.limelightSubsystem = limelightSubsystem;
+
+        addRequirements(flywheelPistonSubsystem, flywheelSubsystem, limelightSubsystem);
     }
+
+    //-------- COMMANDBASE METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override

@@ -6,10 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import java.util.logging.*;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -20,7 +18,7 @@ import java.util.logging.*;
  */
 public final class Constants {
 
-    //[-------------------IDS--------------------------]
+    //[-------------------MOTOR IDS--------------------------]
 
     public static final int DRIVE_RIGHT_FRONT_ID = 1;
     public static final int DRIVE_RIGHT_BACK_ID = 2;
@@ -30,14 +28,31 @@ public final class Constants {
     public static final int TURRET_ID = 5;
     public static final int INTAKE_ID = 6;
 
-    public static final int SHOOTER_LEAD_ID = 7;
-    public static final int SHOOTER_SLAVE_ID = 8;
+    public static final int SHOOTER_LEAD_ID = 8;
+    public static final int SHOOTER_SLAVE_ID = 7;
 
     public static final int HOPPER_ID = 9;
     public static final int TOWER_ID = 10;
     public static final int KICKER_ID = 11;
-    
-    //[-------------------IDS--------------------------]
+
+    public static final int COLOR_WHEEL_ID = 12;
+
+    //[-------------------MOTOR IDS--------------------------]
+
+    //[-------------------PISTON IDS-------------------------]
+
+    public static final int INTAKE_SOLENOID_ID = 0;
+    public static final int SHOOTER_SOLENOID_ID = 1;
+
+    public static final int COMPRESSOR_PORT = 0;
+
+    //[-------------------PISTON IDS-------------------------]
+
+    //[-------------------ROBORIO PORT IDS---------------------------]
+
+    public static final int ENCODER_PORT_ID = 0;
+
+    //[-------------------ROBORIO PORT IDS---------------------------]
 
     //[-------------------DRIVE------------------------]
 
@@ -47,35 +62,83 @@ public final class Constants {
 
     //[-------------------SPEEDS--------------------------]
 
-    public static final double HOPPER_DEFAULT_SPEED = 0.2;
-    public static final double HOPPER_SHOOTING_SPEED = 0.8;
-    public static final double TOWER_SPEED = 0.75;
-    public static final double KICKER_SPEED = 0.75;
+    public static final double HOPPER_DEFAULT_SPEED = 0.3;
+    public static final double HOPPER_SHOOTING_SPEED = 0.6; // 0.6
+    public static final double TOWER_SPEED = 1.0;
+    public static final double KICKER_SPEED = 0.5;
+    public static final double INTAKE_SPEED = 0.8; // 0.5
+    public static final double FLYWHEEL_SPEED = 0.82;
 
     //[-------------------SPEEDS--------------------------]
 
-    //[--------------------AUTO--------------------------]
+    //[-------------------LIMITS--------------------------]
 
-    public static final double KSVOLTS = 0.22;
-    public static final double KVVOLT = 0.289; // seconds per meter
-    public static final double KAVOLT = 0.06; //this is in seconds squared per meter
-    public static final double KMAXSPEED = 1; //in meters per second
-    public static final double KMAXACCELERATION = 3; //in meters per seconds squared
+    public static final double ENCODER_ROTATION_LIMIT = 190;
+
+    //[-------------------LIMITS--------------------------]
+
+    //[-------------------TURRET--------------------------]
+
+    public static final double UPPER_LIMIT = 0.8;
+    public static final double LOWER_LIMIT = 0.4;
+
+    //[-------------------TURRET--------------------------]
+
+    //[-------------------ANGLES--------------------------]
+
+    public static final double FLYWHEEL_LOWER_ANGLE = 31.4;
+    public static final double FLYWHEEL_UPPER_ANGLE = 39.0;
+
+    //[-------------------ANGLES--------------------------]
+
+    //[-------------------STATES--------------------------]
+
+    public static final boolean INTAKE_PISTONS_UP = false; 
+    public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP; 
+    
+    //[-------------------STATES--------------------------]
+
+    //[--------------------AUTO--------------------------]
+    
+    public static final double KSVOLTS = 0.073;//0.22;//0.22
+    public static final double KVVOLT = 0.0231;//0.234; // seconds per meter 0.289
+    public static final double KAVOLT = 0.023;//0.0161;//0.06; //this is in seconds squared per meter 0.06
+    public static final double KMAXSPEED = 3; //in meters per second
+    public static final double KMAXACCELERATION = 6; //in meters per seconds squared //Originally 0.5
     //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;
+    
     //Track width of our robot
-    public static final double KTRACKWIDTH = 0.69; //in meters
-    public static final double KPDRIVEVEL = 1;
+    public static final double KTRACKWIDTH = 0.69; //in meters .69
+    public static final double KPDRIVEVEL = 0.00121;//0.673;//.693
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
+    // AUTO code values---------------------------------------]
+        
+    // DRIVETRAIN Constants --------------------------------]
+    
+    public static final double DRIVE_DEADBAND_JOYSTICK = 0.000125;
+    public static final double DRIVE_TURNING_MULTIPLIER = 0.5;
+        
+    // DRIVETRAIN Constants --------------------------------]
 
-    //[-------------------AUTO--------------------------]
-  
-    //[--------------------UTILITIES--------------------]
+    //[-------------------LOGGER--------------------------]
 
-    // Sets the global logger level
-    public static final Level LOG_LEVEL = Level.INFO;
+    /*
+    public static final Level LOG_LEVEL_FINE = Level.FINE;
+    public static final Level LOG_LEVEL_FINER = Level.FINER;
+    public static final Level LOG_LEVEL_FINEST = Level.FINEST;
+    public static final Level LOG_LEVEL_INFO = Level.INFO;
+    public static final Level LOG_LEVEL_WARNING = Level.WARNING; 
+    */
 
-    //[--------------------UTILITIES--------------------]
-  
-} //End of Constants.java
+    //TODO: We want to be able to change these values in Shuffleboard
+    public static final Level LOG_LEVEL_FINE = Level.OFF;
+    public static final Level LOG_LEVEL_FINER = Level.OFF;
+    public static final Level LOG_LEVEL_FINEST = Level.OFF;
+    public static final Level LOG_LEVEL_INFO = Level.OFF;
+    public static final Level LOG_LEVEL_WARNING = Level.OFF; 
+
+    //[-------------------LOGGER--------------------------]
+    
+} // end of constants

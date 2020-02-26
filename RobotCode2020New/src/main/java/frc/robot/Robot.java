@@ -7,15 +7,19 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import frc.robot.utilities.ShuffleboardUtility;
+
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the name of this class or
+ * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
 public class Robot extends TimedRobot {
@@ -24,6 +28,11 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
 
     private CommandScheduler commandScheduler;
+
+    private HttpCamera limelightCamera;
+
+    //private ShuffleboardUtility shuffleboardUtility;
+
     /**
      * This function is run when the robot is first started up and should be used
      * for any initialization code.
@@ -34,8 +43,13 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
 
-        commandScheduler = CommandScheduler.getInstance();
+        commandScheduler = CommandScheduler.getInstance();  
+        limelightCamera = new HttpCamera("limelight", "http://10.9.30.11:5801/stream.mjpg");
+
+        ShuffleboardTab driveTab = Shuffleboard.getTab("Driver Station");
+        driveTab.add("LL", limelightCamera);
     }
 
     /**
@@ -56,7 +70,14 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods. This must be called from the
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
+
+        //shuffleboardUtility.driveTab();
+        //shuffleboardUtility.testingTab();
+        m_robotContainer.StartShuffleBoard();
+
         commandScheduler.run();
+
+        //shuffleboard.run();
     }
 
     /**
@@ -101,24 +122,4 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
     }
-
-    /**
-     * This function is called periodically during operator control.
-     */
-    @Override
-    public void teleopPeriodic() {
-    }
-
-    @Override
-    public void testInit() {
-        // Cancels all running commands at the start of test mode.
-        CommandScheduler.getInstance().cancelAll();
-    }
-
-    /**
-     * This function is called periodically during test mode.
-     */
-    @Override
-    public void testPeriodic() {
-    }
-}
+  }
