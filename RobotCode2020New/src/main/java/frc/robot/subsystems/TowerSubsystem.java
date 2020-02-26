@@ -34,7 +34,7 @@ public class TowerSubsystem extends SubsystemBase {
 
     public TowerSubsystem() {
         towerMotor = new VictorSPX(Constants.TOWER_ID);  
-        logger.setLevel(Constants.LOG_LEVEL_FINE);
+        //logger.setLevel(Constants.LOG_LEVEL_FINE);
     }   
     
     //-------- METHODS --------\\

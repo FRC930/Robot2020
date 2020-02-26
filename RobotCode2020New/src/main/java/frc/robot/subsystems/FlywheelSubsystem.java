@@ -66,7 +66,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         // Follow lead reverse speed
         motor2.follow(motorLead, true);
 
-        logger.setLevel(Constants.LOG_LEVEL_FINEST);
+        //logger.setLevel(Constants.LOG_LEVEL_FINEST);
     }
 
     // -------- METHODS --------\\

@@ -43,10 +43,12 @@ import frc.robot.triggers.*;
 // --Utility imports
 import frc.robot.utilities.*;
 
-import java.lang.System.Logger;
+import java.lang.System.LoggerFinder;
+import java.util.logging.*;
 
 // --Other imports
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -220,17 +222,24 @@ public class RobotContainer {
   // --Turret commands
   private final DefaultTurretCommand defaultTurretCommand;
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
-
+  private final Logger logger = Logger.getLogger(RobotContainer.class.getName());;
   // --Utilities
   private final ShuffleboardUtility shuffleboardUtility;
 
+  
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
+    logger.setLevel(Level.OFF);
+    ConsoleHandler handler = new ConsoleHandler();
+    handler.setLevel(logger.getLevel());
+    logger.addHandler(handler);
+    logger.log(Level.INFO, "Log level is set to: "+ logger.getLevel());
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-
+    Solenoid s = new Solenoid(2);
+    s.set(true);
     // --Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -459,8 +468,8 @@ public class RobotContainer {
     } else { 
       scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      // scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-      // scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+      scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 
   }
