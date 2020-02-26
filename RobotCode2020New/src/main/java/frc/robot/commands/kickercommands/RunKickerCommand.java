@@ -9,6 +9,7 @@
 
 package frc.robot.commands.kickercommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.KickerSubsystem;
@@ -40,7 +41,7 @@ public class RunKickerCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if((2 % (Math.round((2 % ((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10)) * 100))) == 1)
+        if(((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100)) % 2) == 1)
         {
             kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
         } else {
