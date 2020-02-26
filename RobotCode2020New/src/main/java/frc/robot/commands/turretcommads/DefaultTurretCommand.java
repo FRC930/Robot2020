@@ -11,6 +11,7 @@ package frc.robot.commands.turretcommads;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
@@ -24,21 +25,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DefaultTurretCommand extends PIDCommand {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
     private final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
+    private double stickX;
 
-    //-------- CONSTRUCTOR --------\\
+    // -------- CONSTRUCTOR --------\\
 
-    public DefaultTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret) {
-        super(new PIDController(0.025, 0.0, 0.0008),
+    public DefaultTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret, PIDController controller, Joystick coDriver, int coDriverAxis) {
+        // Initial P = 0.065
+        // Oscillations over time: 3 cycles per 1 second
+        // Period = 0.33   :    Took the oscillations over time and divided one by that number
+        // Calcualted P = 0.6 * Initial P = 0.039
+        // Calculated I = (1.2 * Initial P) / Period = 0.24
+        // Calculated D = (3 * Initial P * Period) / 40
+        super(controller,
                 // This lambda tells the controller where to get the input values from
                 () -> {
                     SmartDashboard.putNumber("horiz off", limeLight.getHorizontalOffset());
+                    // SmartDashboard.putNumber("PID error", value);
                     if (limeLight.getValidTargets()) {
                         return limeLight.getHorizontalOffset();
+                    } else {
+                        controller.reset();
+                        return 0.0;
                     }
-                    return 0.0;
                 },
                 // The setpoint that the controller will try to acheive
                 0.0,
@@ -53,7 +64,13 @@ public class DefaultTurretCommand extends PIDCommand {
                     }
                     SmartDashboard.putNumber("controller", output);
 
-                    turret.setSpeed(output);
+                    if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 0.1) {
+                        turret.setSpeed(Math.pow(coDriver.getRawAxis(coDriverAxis), 3));
+                    } else {
+                        if(Math.abs(limeLight.getHorizontalOffset()) < 27) {
+                            turret.setSpeed(output);
+                        }
+                    }
                 },
                 // Pass in the subsystems we will need
                 turret, limeLight); // End of super constructor
@@ -75,5 +92,5 @@ public class DefaultTurretCommand extends PIDCommand {
     public boolean isFinished() {
         return false;
     }
-    
+
 } // End DefaultTurretCommand class
