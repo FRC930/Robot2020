@@ -12,25 +12,21 @@ package frc.robot.commands.Endgamecommands;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberArmSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class RetractShiftCommand extends CommandBase {
+public class ExtendArmCommand extends CommandBase {
 
-    //-------- CONSTANTS --------\\
 
     //You must include logger as a constant variable, and you must have logging in your files
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    //-------- DECLARATIONS --------\\
-
     private ClimberArmSubsystem climberArmSubsystem;    
     
-    //-------- CONSTRUCTOR --------\\
-
-    public RetractShiftCommand(ClimberArmSubsystem climberArmSubsystem){
+    public ExtendArmCommand(ClimberArmSubsystem climberArmSubsystem){
         this.climberArmSubsystem = climberArmSubsystem;
         addRequirements(climberArmSubsystem);
     }
@@ -40,7 +36,7 @@ public class RetractShiftCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
-        climberArmSubsystem.setSpeed(Constants.CLIMBER_RETRACT_SPEED);  
+        climberArmSubsystem.setSpeed(Constants.CLIMBER_EXTEND_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -53,6 +49,7 @@ public class RetractShiftCommand extends CommandBase {
     public void end(boolean interrupted) {
     }
 
+    
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
