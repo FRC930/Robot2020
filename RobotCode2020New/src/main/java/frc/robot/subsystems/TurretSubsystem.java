@@ -28,7 +28,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     // -------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
+    private static final Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
     // constant used in the conversion from encoder units to degrees
     private final double DEGREE_CONVERSION_NUMBER = .0013889;
 
@@ -45,7 +45,13 @@ public class TurretSubsystem extends SubsystemBase {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
 
+        //logger.info("TESTING...."+logger.getLevel());
+        //logger.info("PARENT...."+logger.getParent().getName());
+        //logger.info("P Level...."+logger.getParent().getLevel());
+
         this.logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
+        //int cx= 0;
+        //int x = 1/cx;
     }
 
     // -------- METHODS --------\\

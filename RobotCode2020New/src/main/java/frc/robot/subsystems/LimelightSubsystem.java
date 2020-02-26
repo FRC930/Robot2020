@@ -11,6 +11,7 @@ package frc.robot.subsystems;
 
 import java.util.logging.Logger;
 
+
 //import frc.robot.utilities.SmootherStack;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -19,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
+
+
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -50,7 +53,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     // distance at which we change pipelines
     private final double DISTANCE_THRESHOLD = 30; //TODO: find this threshold, 10 is a placeholder
-
+    
     // -------- DECLARATIONS --------\\
 
     // network table that holds the limelight's settings
@@ -68,7 +71,7 @@ public class LimelightSubsystem extends SubsystemBase {
     private double targetArea;
 
     // logger
-    private Logger logger;
+    private static final Logger logger = Logger.getLogger(LimelightSubsystem.class.getName());
 
     // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
@@ -94,7 +97,7 @@ public class LimelightSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public LimelightSubsystem() {
-        logger = Logger.getLogger(LimelightSubsystem.class.getName());
+        //logger = Logger.getLogger(LimelightSubsystem.class.getName());
     }
 
     // -------- METHODS --------\\

@@ -24,7 +24,7 @@ public class HopperSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
+    private static final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 

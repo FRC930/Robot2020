@@ -22,7 +22,7 @@ public class RetractIntakePistonCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(RetractIntakePistonCommand.class.getName());
+  private static final Logger logger = Logger.getLogger(RetractIntakePistonCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 

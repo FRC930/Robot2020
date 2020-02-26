@@ -42,8 +42,9 @@ import frc.robot.triggers.*;
 
 // --Utility imports
 import frc.robot.utilities.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import java.lang.System.Logger;
 
 // --Other imports
 import edu.wpi.first.wpilibj.Joystick;
@@ -224,15 +225,22 @@ public class RobotContainer {
 
   // --Utilities
   private final ShuffleboardUtility shuffleboardUtility;
+  // Parent Logger for Robot code
+  private static final Logger frcRobotLogger = Logger.getLogger(RobotContainer.class.getPackageName());
+  //private static final Logger logger = Logger.getLogger(RobotContainer.class.getName();
 
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
+
+    // Set Logger level for robot
+    frcRobotLogger.setLevel(Level.OFF);
+   
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
 
-    // --Subsystems
+    // --SubsystFems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
 

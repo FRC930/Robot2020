@@ -23,7 +23,7 @@ public class ReturnIntakeCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(ReturnIntakeCommand.class.getName());
+  private static final Logger logger = Logger.getLogger(ReturnIntakeCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 

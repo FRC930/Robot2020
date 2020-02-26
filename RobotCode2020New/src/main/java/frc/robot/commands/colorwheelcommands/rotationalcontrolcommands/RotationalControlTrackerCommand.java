@@ -48,7 +48,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
   private boolean direction;
   
   // Creates an instance of the logger class
-  private final Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
+  private static final Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
 
   public RotationalControlTrackerCommand(ColorSensorSubsystem colorSensorSubsystem) {
     this.colorSensorSubsystem = colorSensorSubsystem;

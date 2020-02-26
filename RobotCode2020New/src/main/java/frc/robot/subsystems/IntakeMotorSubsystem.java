@@ -24,7 +24,7 @@ public class IntakeMotorSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(IntakeMotorSubsystem.class.getName());
+    private static final Logger logger = Logger.getLogger(IntakeMotorSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 

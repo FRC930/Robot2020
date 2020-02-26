@@ -52,7 +52,8 @@ public class DriveSubsystem extends SubsystemBase {
   // The differential drive object itself
   private DifferentialDrive differentialDrive;
 
-  private Logger logger;
+  private static final Logger logger = Logger.getLogger(DriveSubsystem.class.getName());
+
 
   // -------- CONSTRUCTOR --------\\
 

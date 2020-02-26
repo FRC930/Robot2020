@@ -25,7 +25,7 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
 
     // Creates an instance of the logger class
-    private final Logger logger = Logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
+    private static final Logger logger = Logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 

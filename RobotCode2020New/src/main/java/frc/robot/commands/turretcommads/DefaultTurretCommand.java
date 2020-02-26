@@ -27,7 +27,7 @@ public class DefaultTurretCommand extends PIDCommand {
 
     // -------- DECLARATIONS --------\\
 
-    private final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
     private double stickX;
 
     // -------- CONSTRUCTOR --------\\
