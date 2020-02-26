@@ -35,6 +35,7 @@ public class HopperSubsystem extends SubsystemBase {
 
     public HopperSubsystem() {
         hopperMotor = new VictorSPX(Constants.HOPPER_ID);
+        hopperMotor.setInverted(true);
     }
 
     //-------- METHODS --------\\

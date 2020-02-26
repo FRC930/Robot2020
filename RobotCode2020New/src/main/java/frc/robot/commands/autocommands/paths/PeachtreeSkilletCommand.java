@@ -29,6 +29,10 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Alliance Side - Initial 3 & Trench 3 + 2
+
 public class PeachtreeSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -56,18 +60,32 @@ public class PeachtreeSkilletCommand extends SequentialCommandGroup {
 
     // -------- Trajectories -------- \\
 
-    // Generates a trajectory 
+    // Generates a trajectory for a path to move towards furthest ball in trench run
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
-        // Start 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // Start at the origin (initiation line) facing towards the field
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
         List.of(
-            // Midpoints
+            // Pass through no interior waypoints, so this field is empty
         ),
-        // End 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // End at the WOF
+        new Pose2d(inchesToMeters(258.9), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 
+    );
+
+    // Generates a trajectory two move into shooting range
+    Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+        // Start at the W.O.F. facing towards the goal, away from the W.O.F.
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // Pass this waypoint to have a more drastic curve towards the second shooting point
+        List.of(
+            // No waypoints
+        ),
+        // End at location of first trench run ball, facing rendezvous balls
+        new Pose2d(inchesToMeters(48.0), inchesToMeters(-12.0), new Rotation2d(0)),
+        // Pass config
+        config
     );
 
     // -------- RAMSETE Commands -------- \\
@@ -89,13 +107,35 @@ public class PeachtreeSkilletCommand extends SequentialCommandGroup {
         driveSubsystem::tankDriveVolts,
         driveSubsystem
     );
+
+    // Creates RAMSETE Command for second trajectory
+    RamseteCommand ramseteCommand2 = new RamseteCommand(
+        trajectory2,
+        driveSubsystem::getPose,
+        new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
+        new SimpleMotorFeedforward(Constants.KSVOLTS,
+                                   Constants.KVVOLT,
+                                   Constants.KAVOLT),
+        Constants.KDRIVEKINEMATICS,
+        driveSubsystem::getWheelSpeeds,
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        // RamseteCommand passes volts to the callback
+        driveSubsystem::tankDriveVolts,
+        driveSubsystem
+    );
     
-    /* 
-    Path Explanation
+    /*
+      Shoot 3 from initiation line
+      move through trench to grab 5 balls and shoot from trench
     */
 
-    addCommands(ramseteCommand1);
-
+    addCommands(new WaitCommand(3), 
+        ramseteCommand1, 
+        // Turn in place 180 degrees
+        ramseteCommand2, 
+        new WaitCommand(5));
+        
   }
 
   public double inchesToMeters(double inches) {
@@ -103,5 +143,4 @@ public class PeachtreeSkilletCommand extends SequentialCommandGroup {
       return meters;
   }
 
-}
-
+} // end of class

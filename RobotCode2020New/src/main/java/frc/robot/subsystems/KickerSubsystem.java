@@ -34,7 +34,7 @@ public class KickerSubsystem extends SubsystemBase {
 
     public KickerSubsystem() {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
-        logger.setLevel(Constants.LOG_LEVEL_FINE);
+        kickerMotor.setInverted(true);
     }   
     
     //-------- METHODS --------\\
