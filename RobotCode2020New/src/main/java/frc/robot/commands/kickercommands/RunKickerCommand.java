@@ -34,12 +34,18 @@ public class RunKickerCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        if((2 % (Math.round((2 % ((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10)) * 100))) == 1)
+        {
+            kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+        } else {
+            kickerSubsystem.setSpeed(0.0);
+        }
     }
 
     // Called once the command ends or is interrupted.

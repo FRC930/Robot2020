@@ -39,6 +39,10 @@ public final class Constants {
 
     //[-------------------MOTOR IDS--------------------------]
 
+    //[-------------------ENCODER OFFSETS--------------------]
+    public static final double KICKER_ENCODER_OFFSET = 0;
+    //[-------------------ENCODER OFFSETS--------------------]
+
     //[-------------------PISTON IDS-------------------------]
 
     public static final int INTAKE_SOLENOID_ID = 0;
@@ -51,6 +55,7 @@ public final class Constants {
     //[-------------------ROBORIO PORT IDS---------------------------]
 
     public static final int ENCODER_PORT_ID = 0;
+    public static final int HOPPER_ENCODER_PORT_ID = 1;
 
     //[-------------------ROBORIO PORT IDS---------------------------]
 
