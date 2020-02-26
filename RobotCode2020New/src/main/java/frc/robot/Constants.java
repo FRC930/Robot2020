@@ -43,6 +43,8 @@ public final class Constants {
 
     public static final int COLOR_WHEEL_ID = 12;
 
+    public static final int CLIMBER_ARM_ID = 13;
+
     // [-------------------MOTOR IDS--------------------------]
 
     // [-------------------PISTON IDS-------------------------]
@@ -68,10 +70,10 @@ public final class Constants {
 
     // [-------------------SPEEDS--------------------------]
 
-    public static double HOPPER_DEFAULT_SPEED = 0.3;
-    public static double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
-    public static double TOWER_SPEED = 1.0;
-    public static double KICKER_SPEED = 0.7; // 0.5
+    public static final double HOPPER_DEFAULT_SPEED = 0.3;
+    public static final double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
+    public static final double TOWER_SPEED = 1.0;
+    public static final double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
     public static final double FLYWHEEL_SPEED = 0.82;
 
@@ -91,6 +93,10 @@ public final class Constants {
     public static final double LOWER_LIMIT = 0.4;
     public static final double TURRET_MAX_SPEED = 0.75;
 
+    public static final double TURRET_P = 0.021;
+    public static final double TURRET_I = 0.135;
+    public static final double TURRET_D = 0.00081;
+
     // [-------------------TURRET--------------------------]
 
     // [-------------------ANGLES--------------------------]
@@ -105,22 +111,20 @@ public final class Constants {
     public static final boolean INTAKE_PISTONS_UP = false;
     public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP;
 
-    // [-------------------STATES--------------------------]
-
-    // [--------------------AUTO--------------------------]
-
-    public static final double KSVOLTS = 0.073;// 0.22;//0.22
-    public static final double KVVOLT = 0.234; // seconds per meter 0.289
-    public static final double KAVOLT = 0.0161;// 0.06; //this is in seconds squared per meter 0.06
-    public static final double KMAXSPEED = 3; // in meters per second
-    public static final double KMAXACCELERATION = 6; // in meters per seconds squared //Originally 0.5
-    // gyro values
+    //[--------------------AUTO--------------------------]
+    
+    public static final double KSVOLTS = 0.073;//0.22;//0.22
+    public static final double KVVOLT = 0.0231;//0.234; // seconds per meter 0.289
+    public static final double KAVOLT = 0.023;//0.0161;//0.06; //this is in seconds squared per meter 0.06
+    public static final double KMAXSPEED = 3; //in meters per second
+    public static final double KMAXACCELERATION = 6; //in meters per seconds squared //Originally 0.5
+    //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;
-
-    // Track width of our robot
-    public static final double KTRACKWIDTH = 0.69; // in meters .69
-    public static final double KPDRIVEVEL = 0.673;// .693
+    
+    //Track width of our robot
+    public static final double KTRACKWIDTH = 0.69; //in meters .69
+    public static final double KPDRIVEVEL = 0.00121;//0.673;//.693
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
 
@@ -149,12 +153,5 @@ public final class Constants {
     public static final Level LOG_LEVEL_WARNING = Level.OFF; 
 
     //[-------------------LOGGER--------------------------]
-
-    public static void setValues() {
-        HOPPER_DEFAULT_SPEED = SmartDashboard.getNumber("Hopper default speed", 0.3);
-        HOPPER_SHOOTING_SPEED = SmartDashboard.getNumber("Hopper shooting speed", 0.85);
-        TOWER_SPEED = SmartDashboard.getNumber("Tower speed", 1.0);
-        KICKER_SPEED = SmartDashboard.getNumber("Kicker speed", 0.7);
-    }
     
 } // end of constants

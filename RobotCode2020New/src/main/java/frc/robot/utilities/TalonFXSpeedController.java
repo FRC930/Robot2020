@@ -77,18 +77,7 @@ public class TalonFXSpeedController extends TalonFX implements SpeedController {
     public void pidWrite(double output) {
     }
 
-    public double getRPMLeft(TalonFXSpeedController left1) {
-        double rotationML;
-        rotationML = -left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
-        //smartDashboard.get
-        return rotationML;
-    }
-
-    public double getRPMRight(TalonFXSpeedController right1) {
-        double rotationMR;
-        rotationMR = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
-        return rotationMR;
-    }
+   
 
     public void resetEncoders(TalonFXSpeedController right1, TalonFXSpeedController left1) {
         logger.entering(getClass().getName(), "resetEncoders()");
