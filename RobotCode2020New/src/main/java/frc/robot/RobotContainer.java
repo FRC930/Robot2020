@@ -161,7 +161,20 @@ public class RobotContainer {
 
   // --Auton command
   //TODO: Change this to accept any auton path from the shuffleboard
+  //private final BigCountrySkilletCommand bigCountrySkilletCommand;
+  private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
+  // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
+  // private final EverythingSkilletCommand everythingSkilletCommand;
+  // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
+  // private final GypsySkilletCommand gypsySkilletCommand;
+  // private final GyroSkilletCommand gyroSkilletCommand;
+  // private final LoadedSkilletCommand loadedSkilletCommand;
+  // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
+  private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
   private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
+  // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
+  // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
+  // private final VeggieSkilletCommand veggieSkilletCommand;
 
   // --Color wheel commands
   private final RotationalControlCommandGroup rotationalControlCommandGroup;
@@ -264,7 +277,7 @@ public class RobotContainer {
     compressorOffCommand = new CompressorOffCommand(compressorSubsystem);
 
     // drive (NOTE: This is where we bind the driver controls to the drivetrain)
-    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y,gyroSubsystem);
+    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
     killHopperStateCommand = new KillHopperStateCommand();
@@ -298,8 +311,10 @@ public class RobotContainer {
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
     saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, gyroSubsystem, deployIntakeCommand, returnIntakeCommand);
+    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
+    phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
-    shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
@@ -384,9 +399,9 @@ public class RobotContainer {
       // Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(inManualModeTrigger);
       
-      JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_START);
+      JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_B);
 
-      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_A);
+      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_START);
       
 
       // ZR Button
@@ -456,7 +471,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return saltAndPepperSkilletCommand;
+    return phillyCheesesteakAndEggSkilletCommand;
     //return null;
     // Run path following command, then stop at the end.
   }
@@ -476,8 +491,8 @@ public class RobotContainer {
   }
 
   public void StartShuffleBoard() {
-    shuffleboardUtility.putDriveTab();
-    shuffleboardUtility.putTestingTab();
+    // shuffleboardUtility.putDriveTab();
+    // shuffleboardUtility.putTestingTab();
   }
 
 } // end of class RobotContainer

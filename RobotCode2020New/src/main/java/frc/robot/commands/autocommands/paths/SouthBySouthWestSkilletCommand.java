@@ -29,6 +29,10 @@ import frc.robot.Constants;
 
 import frc.robot.commands.autocommands.actioncommands.SpinCommand;
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Mid Field - Off Initiation Line, No Power Cells
+
 public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -99,7 +103,8 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
         driveSubsystem::getWheelSpeeds,
-        // pid info***
+
+        // pid***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
@@ -122,12 +127,11 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
       driveSubsystem::tankDriveVolts,
       driveSubsystem 
   );
-  SpinCommand spin = new SpinCommand(driveSubsystem,gyroSubsystem);
     /* 
     Robot in autonomous moves forward off of initiation line
     */
 
-    addCommands(spin /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
+    addCommands(new SpinCommand(driveSubsystem,gyroSubsystem,40) /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
 
   }
 
