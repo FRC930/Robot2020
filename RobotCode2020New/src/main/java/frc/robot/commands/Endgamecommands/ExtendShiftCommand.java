@@ -36,7 +36,7 @@ public class ExtendShiftCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
-        ClimberArmSubsystem.Extend(Constants.CLIMBER_ARM_SPEED);  
+        climberArmSubsystem.setSpeed(Constants.CLIMBER_EXTEND_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

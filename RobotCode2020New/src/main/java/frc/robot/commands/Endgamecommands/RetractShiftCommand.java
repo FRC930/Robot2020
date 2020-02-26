@@ -40,7 +40,7 @@ public class RetractShiftCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
-        climberArmSubsystem.();
+        climberArmSubsystem.setSpeed(Constants.CLIMBER_RETRACT_SPEED);  
     }
 
     // Called every time the scheduler runs while the command is scheduled.
