@@ -10,7 +10,6 @@
 package frc.robot.utilities;
 
 import java.util.List;
-
 import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -56,7 +55,6 @@ public class ShuffleboardUtility {
     private ShuffleboardTab driveTab;
     private ShuffleboardTab testingTab;
     //private PIDController pidController;
-    
 
     //-------- CONSTRUCTOR --------\\
 
@@ -97,6 +95,7 @@ public class ShuffleboardUtility {
     }
 
     //------- Drive Tab -------\\
+
 
 	public void setIntakeIndicator(boolean intakeIndicator){
 		this.intakeIndicator = intakeIndicator;
