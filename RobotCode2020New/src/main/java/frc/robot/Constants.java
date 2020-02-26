@@ -76,7 +76,7 @@ public final class Constants {
     public static final double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
     public static final double FLYWHEEL_SPEED = 0.82;
-
+    public static final double CLIMBER_ARM_SPEED = 0.3;
     // [-------------------SPEEDS--------------------------]
 
     // [-------------------LIMITS--------------------------]
