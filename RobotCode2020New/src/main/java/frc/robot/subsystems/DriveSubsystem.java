@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class DriveSubsystem extends SubsystemBase {
 
   // -------- CONSTANTS --------\\
-
+  private final double DRIVE_GEAR_RATIO = 9.88;
   // private final Logger logger = //
   // logger.getLogger(DriveSubsystem.class.getName());
 
@@ -159,7 +159,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return A double, the # of rotations from the left drivetrain
      */
   public double getLeftWheelRotations() {
-    return left1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
+    return left1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / DRIVE_GEAR_RATIO;
   }
 
   /**
@@ -168,7 +168,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return A double, the # of rotations from the right drivetrain
      */
   public double getRightWheelRotations() {
-      return right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / 12.0;
+      return right1.getSelectedSensorPosition() * ((1.0 / 2048.0) * 0.152 * Math.PI) / DRIVE_GEAR_RATIO;
   }
 
   /**
