@@ -33,12 +33,12 @@ public class LimelightSubsystem extends SubsystemBase {
     public final double MAXIMUM_ANGLE = 27;
 
     // the height between the limelight and the target
-    public final double TARGET_HEIGHT = 1.6764;
+    public final double TARGET_HEIGHT = 1.524;
 
     // the angle the camera is mounted at on the turret
     public final double CAMERA_ANGLE = 15;
 
-    // both used for the equasion of the error we found
+    // both used for the equation of the error we found
     public final double ERROR_EQ_SLOPE = 0.23638537459;
     // NEED the zero for Jabroni's OCD
     public final double ERROR_EQ_INTERCEPT = -0.37613082;
@@ -49,7 +49,7 @@ public class LimelightSubsystem extends SubsystemBase {
     private final double DEFAULT_VALID_TARGET = -1;
 
     // distance at which we change pipelines
-    private final double DISTANCE_THRESHOLD = 10; //TODO: find this threshold, 10 is a placeholder
+    private final double DISTANCE_THRESHOLD = 30; //TODO: find this threshold, 10 is a placeholder
 
     // -------- DECLARATIONS --------\\
 
@@ -68,7 +68,7 @@ public class LimelightSubsystem extends SubsystemBase {
     private double targetArea;
 
     // logger
-    private Logger logger;
+    private Logger logger = Logger.getLogger(LimelightSubsystem.class.getName());;
 
     // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
@@ -78,7 +78,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // enum for the different limelight pipelines
     public enum LimelightPipelines {
 
-        NO_ZOOM(0), ZOOM(1);
+        NO_ZOOM(0), ZOOM_2X(1);
 
         private final int pipelineNumber;
 
@@ -94,7 +94,7 @@ public class LimelightSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public LimelightSubsystem() {
-        logger = Logger.getLogger(LimelightSubsystem.class.getName());
+        
     }
 
     // -------- METHODS --------\\
@@ -102,14 +102,14 @@ public class LimelightSubsystem extends SubsystemBase {
     // this returns the horizontal angle between the limelights crosshair and the target crosshair :)
     public double getHorizontalOffset() {
 
-        logger.entering(getClass().getName(), "getHorizontalOffset()");
+        logger.entering(this.getClass().getName(), "getHorizontalOffset()");
 
         //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
-        logger.log(Constants.LOG_LEVEL_FINER, "Horizontal Offset = " + horizontalOffset);
-        logger.exiting(getClass().getName(), "getHorizontalOffset()");
+        logger.log(Constants.LOG_LEVEL_FINER, "Horizontal Offset = " + horizontalOffset + " " + logger.getLevel());
+        logger.exiting(this.getClass().getName(), "getHorizontalOffset()");
 
         return horizontalOffset;
     }
@@ -117,7 +117,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // the distance between the robot and the goal :)
     public double getDistance() {
 
-        logger.entering(getClass().getName(), "getDistance()");
+        logger.entering(this.getClass().getName(), "getDistance()");
 
         // initial calculated distance
         double estDistance;
@@ -128,14 +128,14 @@ public class LimelightSubsystem extends SubsystemBase {
         // sum of initial calculated distance and distance error
         double distanceAndError;
 
-        estDistance = TARGET_HEIGHT / Math.tan(CAMERA_ANGLE + getVerticleOffset());
+        estDistance = TARGET_HEIGHT / Math.tan(Math.toRadians(CAMERA_ANGLE + getVerticleOffset()));
         error = (ERROR_EQ_SLOPE * estDistance) + ERROR_EQ_INTERCEPT;
         distanceAndError = estDistance + error;
 
         logger.log(Constants.LOG_LEVEL_FINE, "Estimated distance = " + estDistance);
         logger.log(Constants.LOG_LEVEL_FINE, "Error = " + error);
         logger.log(Constants.LOG_LEVEL_FINE, "estDistance + error = " + distanceAndError);
-        logger.exiting(getClass().getName(), "getDistance()");
+        logger.exiting(this.getClass().getName(), "getDistance()");
 
         return distanceAndError;
     }
@@ -143,12 +143,12 @@ public class LimelightSubsystem extends SubsystemBase {
     // whether the limelight sees a target or not :)
     public boolean getValidTargets() {
 
-        // logger.entering(getClass().getName(), "getValidTargets()");
+        // logger.entering(this.getClass().getName(), "getValidTargets()");
 
         validTarget = limelightTable.getEntry("tv").getDouble(DEFAULT_VALID_TARGET) > 0.0 ? true : false;
 
         // logger.log(Level.FINE, "Valid Target?: " + validTarget);
-        // logger.exiting(getClass().getName(), "getValidTargets()");
+        // logger.exiting(this.getClass().getName(), "getValidTargets()");
 
         return validTarget;
     }
@@ -156,12 +156,12 @@ public class LimelightSubsystem extends SubsystemBase {
     // this returns the verticle offset between the limelights crosshair and the target crosshair :)
     public double getVerticleOffset() {
 
-        // logger.entering(getClass().getName(), "getVerticleOffset()");
+        // logger.entering(this.getClass().getName(), "getVerticleOffset()");
 
         verticleOffset = limelightTable.getEntry("ty").getDouble(DEFAULT_VERT_ANGLE_OFFSET);
 
         // logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
-        // logger.exiting(getClass().getName(), "getVerticleOffset()");
+        // logger.exiting(this.getClass().getName(), "getVerticleOffset()");
 
         return verticleOffset;
     }
@@ -176,14 +176,14 @@ public class LimelightSubsystem extends SubsystemBase {
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
 
-        // logger.entering(getClass().getName(), "setPipeline()");
+        // logger.entering(this.getClass().getName(), "setPipeline()");
 
         // sets the pipeline to the associated number of the pipeline enum
         limelightTable.getEntry("pipeline").setNumber(pipeline.getPipeline());
         currentPipeline = pipeline;
 
         // logger.log(Level.FINE, "Pipeline: " + pipeline);
-        // logger.exiting(getClass().getName(), "setPipeline()");
+        // logger.exiting(this.getClass().getName(), "setPipeline()");
     }
 
     // returns the Limelight's pipeline, returns "error" if no pipeline can be found
@@ -205,7 +205,7 @@ public class LimelightSubsystem extends SubsystemBase {
     public void periodic() {    
 
         if(getDistance() > DISTANCE_THRESHOLD) {
-            setPipeline(LimelightPipelines.ZOOM);
+            setPipeline(LimelightPipelines.ZOOM_2X);
         } else {
             setPipeline(LimelightPipelines.NO_ZOOM);
         }

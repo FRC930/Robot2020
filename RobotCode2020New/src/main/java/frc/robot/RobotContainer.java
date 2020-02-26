@@ -43,10 +43,13 @@ import frc.robot.triggers.*;
 // --Utility imports
 import frc.robot.utilities.*;
 
-import java.lang.System.Logger;
+import java.lang.System.LoggerFinder;
+import java.util.logging.*;
 
 // --Other imports
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -220,17 +223,24 @@ public class RobotContainer {
   // --Turret commands
   private final DefaultTurretCommand defaultTurretCommand;
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
-
+  private final Logger logger = Logger.getLogger(RobotContainer.class.getName());;
   // --Utilities
   private final ShuffleboardUtility shuffleboardUtility;
 
+  
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
+    logger.setLevel(Level.OFF);
+    ConsoleHandler handler = new ConsoleHandler();
+    handler.setLevel(logger.getLevel());
+    logger.addHandler(handler);
+    logger.log(Level.INFO, "Log level is set to: "+ logger.getLevel());
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-
+    Solenoid s = new Solenoid(2);
+    s.set(true);
     // --Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -305,7 +315,7 @@ public class RobotContainer {
     stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
     // turret
-    defaultTurretCommand = new DefaultTurretCommand(limelightSubsystem, turretSubsystem);
+    defaultTurretCommand = new DefaultTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X);
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
 
     // auto 
@@ -320,8 +330,6 @@ public class RobotContainer {
 
     // --Default commands
     beginRunCommands(); // Sets the default command
-
-
   } // end of constructor RobotContainer()
 
   // -------- METHODS --------\\
@@ -414,7 +422,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whenActive(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
@@ -459,8 +467,8 @@ public class RobotContainer {
     } else { 
       scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      // scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-      // scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+      scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 
   }

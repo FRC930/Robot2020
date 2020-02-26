@@ -66,7 +66,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         // Follow lead reverse speed
         motor2.follow(motorLead, true);
 
-        logger.setLevel(Constants.LOG_LEVEL_FINEST);
+        //logger.setLevel(Constants.LOG_LEVEL_FINEST);
     }
 
     // -------- METHODS --------\\
@@ -102,6 +102,10 @@ public class FlywheelSubsystem extends SubsystemBase {
 
     public double getPercentOutput() {
         return (motorLead.getEncoder().getVelocity() / 5880);
+    }
+
+    public double getVoltage() {
+        return motorLead.getBusVoltage();
     }
 
     public boolean isFlywheelActive() {

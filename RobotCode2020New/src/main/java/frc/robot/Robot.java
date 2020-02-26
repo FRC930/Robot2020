@@ -50,6 +50,10 @@ public class Robot extends TimedRobot {
 
         ShuffleboardTab driveTab = Shuffleboard.getTab("Driver Station");
         driveTab.add("LL", limelightCamera);
+
+        // SmartDashboard.putNumber("TP", 0.03);
+        // SmartDashboard.putNumber("TI", 0.0);
+        // SmartDashboard.putNumber("TD", 0.001);
     }
 
     /**
