@@ -398,7 +398,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
@@ -445,6 +445,7 @@ public class RobotContainer {
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(kickerSubsystem, stopKickerCommand);
     }
 
   }
