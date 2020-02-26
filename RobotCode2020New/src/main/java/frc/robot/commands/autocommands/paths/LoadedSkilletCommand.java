@@ -28,6 +28,10 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Alliance Side - Initial 3 & Trench 3 + 2 & Rendezvous 2
+
 public class LoadedSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -59,31 +63,29 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
         // Reference https://drive.google.com/open?id=1lmhSdpIyVqGV13hMAeo5CIO-BRiFMvaV for detailed diagram drawing
 
     // Generates a trajectory for a path to move towards Wheel of Fortune
-    Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
+    Trajectory initLineToTrench5Trajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0.0), inchesToMeters(-27.75), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
         List.of(
             // Pass through no interior waypoints, so this field is empty
         ),
-        // End 3 meters straight ahead of where we started, still facing forward
-            //***Requires future adjustments based on game field dimensions
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(-27.75), new Rotation2d(0)),
+        // End infront of the wheel of fortune
+        new Pose2d(inchesToMeters(258.9), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 
     );
 
     // Generates a trajectory two move into shooting range for 5 W.O.F. balls
-    Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
+    Trajectory trench5ToRendezvous2Trajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the W.O.F. facing towards the goal, away from the W.O.F.
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(-27.75), new Rotation2d(180)),
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
         // Pass this waypoint to have a more drastic curve towards the second shooting point
         List.of(
-            new Translation2d(inchesToMeters(158.63), inchesToMeters(-27.75))
+            // No waypoints
         ),
-        // End 3 meters straight ahead of where we started, still facing forward
-            //***Requires future adjustments based on game field dimensions
-        new Pose2d(inchesToMeters(95.06), inchesToMeters(-40.0), new Rotation2d(270)),
+        // End at location of first trench run ball, facing rendezvous balls
+        new Pose2d(inchesToMeters(48.0), inchesToMeters(-12.0), new Rotation2d(Math.toRadians(270))),
         // Pass config
         config
     );
@@ -91,14 +93,13 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
     Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing towards the field
-        new Pose2d(inchesToMeters(95.06), inchesToMeters(-40.0), new Rotation2d(270)),
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
             // Pass through no interior waypoints, so this field is empty
         ),
-        // Endpoint
-            //***Requires future adjustments based on game field dimensions
-        new Pose2d(inchesToMeters(122.63), inchesToMeters(-100.0), new Rotation2d(290)),
+        // End about 80 inches forward from previous point, moved in y direction to end at rendevous point balls
+        new Pose2d(inchesToMeters(0), inchesToMeters(81.04), new Rotation2d(0)),
         // Pass config
         config
     );
@@ -108,8 +109,8 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
-        trajectory1,
-        gyroSubsystem::getPose,
+        initLineToTrench5Trajectory,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -125,8 +126,8 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
 
     // Creates RAMSETE Command for second trajectory
     RamseteCommand ramseteCommand2 = new RamseteCommand(
-        trajectory2,
-        gyroSubsystem::getPose,
+        trench5ToRendezvous2Trajectory,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -165,9 +166,9 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     shoot final two balls
     */
 
-    addCommands(new WaitCommand(3),
+    addCommands(new WaitCommand(3), 
         ramseteCommand1, 
-        new WaitCommand(1), 
+        // Turn in place 180 degrees
         ramseteCommand2, 
         new WaitCommand(5), 
         ramseteCommand3,

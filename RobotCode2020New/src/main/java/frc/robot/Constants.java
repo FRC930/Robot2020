@@ -26,10 +26,10 @@ public final class Constants {
 
     // [-------------------MOTOR IDS--------------------------]
 
-    public static final int DRIVE_RIGHT_FRONT_ID = 1;
-    public static final int DRIVE_RIGHT_BACK_ID = 2;
-    public static final int DRIVE_LEFT_FRONT_ID = 3;
-    public static final int DRIVE_LEFT_BACK_ID = 4;
+    public static final int DRIVE_RIGHT_FRONT_ID = 3;
+    public static final int DRIVE_RIGHT_BACK_ID = 4;
+    public static final int DRIVE_LEFT_FRONT_ID = 1;
+    public static final int DRIVE_LEFT_BACK_ID = 2;
 
     public static final int TURRET_ID = 5;
     public static final int INTAKE_ID = 6;
@@ -89,8 +89,8 @@ public final class Constants {
 
     // When the turret encoder is reset, the turret faces forward and the encoder is
     // reset to 180 degrees. These units are in raw values.
-    public static final double UPPER_LIMIT = 0.78;
-    public static final double LOWER_LIMIT = 0.4;
+    public static final double UPPER_LIMIT = 0.8;
+    public static final double LOWER_LIMIT = 0.2;
     public static final double TURRET_MAX_SPEED = 0.75;
 
     public static final double TURRET_P = 0.021;
@@ -113,18 +113,18 @@ public final class Constants {
 
     //[--------------------AUTO--------------------------]
     
-    public static final double KSVOLTS = 0.073;//0.22;//0.22
-    public static final double KVVOLT = 0.0231;//0.234; // seconds per meter 0.289
-    public static final double KAVOLT = 0.023;//0.0161;//0.06; //this is in seconds squared per meter 0.06
+    public static final double KSVOLTS = 0.22; //0.073 //0.22
+    public static final double KVVOLT = 0.289; //0.234; // seconds per meter 0.289
+    public static final double KAVOLT = 0.0161;//0.06; //0.0161 //this is in seconds squared per meter 0.06
     public static final double KMAXSPEED = 3; //in meters per second
-    public static final double KMAXACCELERATION = 6; //in meters per seconds squared //Originally 0.5
+    public static final double KMAXACCELERATION = 3; //in meters per seconds squared //Originally 0.5
     //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;
     
     //Track width of our robot
     public static final double KTRACKWIDTH = 0.69; //in meters .69
-    public static final double KPDRIVEVEL = 0.00121;//0.673;//.693
+    public static final double KPDRIVEVEL = 0.693; //0.673;//.693
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
 
