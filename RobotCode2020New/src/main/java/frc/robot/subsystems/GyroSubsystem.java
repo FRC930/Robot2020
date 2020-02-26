@@ -34,7 +34,7 @@ public class GyroSubsystem extends SubsystemBase {
     //Values, used to store the yaw, pitch, and roll (the robot's rotation)
     private double yawPitchRollValues[] = new double[3]; 
 
-    private DifferentialDriveOdometry driveOdometry;
+    public DifferentialDriveOdometry driveOdometry;
     
     //-------- CONSTRUCTOR --------\\
 

@@ -61,10 +61,23 @@ public class DriveSubsystem extends SubsystemBase {
     differentialDrive = new DifferentialDrive(right1, left1);
   }
 
+  public double getRPMLeft(){
+    double rotationML;
+    rotationML = -left1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    //smartDashboard.get
+    return rotationML;
+  }
+  public double getRPMRight(){
+    double rotationML;
+    rotationML = right1.getSelectedSensorPosition() * ((1 / 2048) * 0.152 * Math.PI);
+    //smartDashboard.get
+    return rotationML;
+  }
+
   // Given Arcade value arguments and sends to motor controllers
   public void runAt(double leftSpeed, double rightSpeed) {
     logger.entering(this.getClass().getName(), "runAt()");
-    logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + left1.getRPMLeft(left1) + " | right encoder " + right1.getRPMRight(right1));
+    logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getRPMLeft() + " | right encoder " + getRPMRight());
 
     left1.set(leftSpeed);
     right1.set(rightSpeed);
@@ -83,7 +96,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(left1.getRPMLeft(left1), right1.getRPMRight(right1));
+    return new DifferentialDriveWheelSpeeds(getRPMLeft(), getRPMRight());
   }
 
   public void resetOdometry(Pose2d pose) {
@@ -95,29 +108,35 @@ public class DriveSubsystem extends SubsystemBase {
     logger.log(Constants.LOG_LEVEL_FINE, "MOVING: " + leftVolts + " " + rightVolts);
 
     //TODO: Change for Prac Robot
-    //right1.setVoltage(rightVolts);
-    //left1.setVoltage(-leftVolts);
+    right1.setVoltage(rightVolts);
+    left1.setVoltage(-leftVolts);
 
     //TODO: Change for Comp Robot
-    right1.setVoltage(-rightVolts);
-    left1.setVoltage(leftVolts);
+    //right1.setVoltage(-rightVolts);
+    //left1.setVoltage(leftVolts);
 
     logger.exiting(this.getClass().getName(), "tankDriveVolts()");
   }
 
-  public double getAverageEncoderDistance() {
-    return (left1.getRPMLeft(left1)
-        + right1.getRPMRight(right1)) / 2.0;
-  }
-
   public double getLeftEncoder() {
-    return left1.getRPMLeft(left1);
+    return getRPMLeft();
   }
 
   public double getRightEncoder() {
-    return right1.getRPMLeft(right1);
+    return getRPMLeft();
   }
 
+  public double getAverageEncoderDistance() {
+    return (getRPMLeft()
+        + getRPMRight()) / 2.0;
+  }
+
+  
+  
+
+  // public void setMaxOutput(double maxOutput) {
+  //   drive.setMaxOutput(maxOutput);
+  // }
   public void setMaxOutput(double maxOutput) {
     differentialDrive.setMaxOutput(maxOutput);
   }
