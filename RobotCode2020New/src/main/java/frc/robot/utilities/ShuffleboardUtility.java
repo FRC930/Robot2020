@@ -10,6 +10,7 @@
 package frc.robot.utilities;
 
 import java.util.List;
+import java.util.Map;
 
 import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -17,9 +18,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.networktables.NetworkTableEntry;
-// import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.RotationalControlCommandGroup;
-// import frc.robot.subsystems.ColorSensorSubsystem;
-// import frc.robot.subsystems.ColorWheelSpinnerSubsystem;
 
 //-------- CLASS --------\\
 
@@ -55,7 +53,6 @@ public class ShuffleboardUtility {
     private double gyroYaw;
     private ShuffleboardTab driveTab;
     private ShuffleboardTab testingTab;
-    //private PIDController pidController;
     
 
     //-------- CONSTRUCTOR --------\\
@@ -82,6 +79,11 @@ public class ShuffleboardUtility {
         turretEncoderPosition = 0.0;
         gyroYaw = 0.0;
         limelightCamera = new HttpCamera("limelight", "http://10.9.30.11:5801/stream.mjpg");
+        kP = 0.0;
+        kI = 0.0;
+        kD = 0.0;
+        kF = 0.0;
+        kSetpoint = 0.0;
     }
 
     private static ShuffleboardUtility instance = null;
@@ -98,6 +100,7 @@ public class ShuffleboardUtility {
 
     //------- Drive Tab -------\\
 
+    // TODO: set methods to respective commands
 	public void setIntakeIndicator(boolean intakeIndicator){
 		this.intakeIndicator = intakeIndicator;
 		SmartDashboard.putBoolean("Intaking?", intakeIndicator);
@@ -164,7 +167,7 @@ public class ShuffleboardUtility {
         String rtn = "Nothing to Return...";
         if (pidController.size() > 0){
             for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Shooter PID"){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
                     rtn = pidController.get(0).toString();
                 }
             }
@@ -176,7 +179,7 @@ public class ShuffleboardUtility {
         String rtn = "Nothing to Return...";
         if (pidController.size() > 0){
             for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Shooter PID"){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
                     rtn = pidController.get(1).toString();
                 }
             }
@@ -188,7 +191,7 @@ public class ShuffleboardUtility {
         String rtn = "Nothing to Return...";
         if (pidController.size() > 0){
             for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Shooter PID"){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
                     rtn = pidController.get(2).toString();
                 }
             }
@@ -200,7 +203,7 @@ public class ShuffleboardUtility {
         String rtn = "Nothing to Return...";
         if (pidController.size() > 0){
             for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Shooter PID"){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
                     rtn = pidController.get(3).toString();
                 }
             }
@@ -212,34 +215,62 @@ public class ShuffleboardUtility {
         String rtn = "Nothing to Return...";
         if (pidController.size() > 0){
             for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Shooter PID"){
-                    rtn = pidController.get(1).toString();
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
+                    rtn = pidController.get(4).toString();
                 }
             }
         }
         return rtn;
     }
+    /**
+     * May or may not be applied later
+     */
     public void setShooterP(double kP){
-        this.kP = kP;
-        SmartDashboard.putNumber("Shooter PID", kP);
+         if (pidController.size() > 0){
+             for (int i = 0; i < pidController.size(); i++){
+                 if (pidController.get(i).getTitle() == "Flywheel PID"){
+                     pidController.get(i).withProperties(Map.of("P", kP));
+                 }
+             }
+         }
     }
     public void setShooterI(double kI){
-        this.kI = kI;
-        SmartDashboard.putNumber("Shooter PID", kI);
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
+                    pidController.get(i).withProperties(Map.of("I", kI));
+                }
+            }
+        }
     }
     public void setShooterD(double kD){
-        this.kD = kD;
-        SmartDashboard.putNumber("Shooter PID", kD);
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
+                    pidController.get(i).withProperties(Map.of("D", kD));
+                }
+            }
+        }
     }
     public void setShooterF(double kF){
-        this.kF = kF;
-        SmartDashboard.putNumber("Shooter PID", kF);
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
+                    pidController.get(i).withProperties(Map.of("F", kF));
+                }
+            }
+        }
     }
     public void setShooterSetpoint(double kSetpoint){
-        this.kSetpoint = kSetpoint;
-        SmartDashboard.putNumber("Shooter PID", kSetpoint);
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Flywheel PID"){
+                    pidController.get(i).withProperties(Map.of("Setpoint", kSetpoint));
+                }
+            }
+        }
     }
-
+    
 	//-------- Autonomous --------\\
 
 } //end of class Shuffleboard

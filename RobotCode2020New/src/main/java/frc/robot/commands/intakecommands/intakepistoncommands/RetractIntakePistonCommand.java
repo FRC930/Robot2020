@@ -12,6 +12,7 @@ package frc.robot.commands.intakecommands.intakepistoncommands;
 import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
@@ -27,6 +28,7 @@ public class RetractIntakePistonCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   private final IntakePistonSubsystem intakePistonsSubsystem;
+  private ShuffleboardUtility shuffleboardUtility;
 
   //-------- CONSTRUCTOR --------\\
 
@@ -43,12 +45,15 @@ public class RetractIntakePistonCommand extends CommandBase {
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
     intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
 
     logger.log(Constants.LOG_LEVEL_FINE, "Retracting the intake pistons (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() { 
+    // Sets the piston state into Shuffleboard
+    shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
   } 
   
   @Override   // Called once the command ends or is interrupted.
