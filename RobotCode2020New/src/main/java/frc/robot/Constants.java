@@ -80,7 +80,7 @@ public final class Constants {
     //[-------------------TURRET--------------------------]
 
     public static final double UPPER_LIMIT = 0.8;
-    public static final double LOWER_LIMIT = 0.4;
+    public static final double LOWER_LIMIT = 0.2;
 
     //[-------------------TURRET--------------------------]
 
