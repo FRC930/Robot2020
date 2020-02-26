@@ -314,7 +314,7 @@ public class RobotContainer {
     caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
-    shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
@@ -491,8 +491,8 @@ public class RobotContainer {
   }
 
   public void StartShuffleBoard() {
-    shuffleboardUtility.putDriveTab();
-    shuffleboardUtility.putTestingTab();
+    // shuffleboardUtility.putDriveTab();
+    // shuffleboardUtility.putTestingTab();
   }
 
 } // end of class RobotContainer
