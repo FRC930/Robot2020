@@ -149,11 +149,11 @@ public final class Constants {
     */
 
     //TODO: We want to be able to change these values in Shuffleboard
-    public static final Level LOG_LEVEL_FINE = Level.OFF;
-    public static final Level LOG_LEVEL_FINER = Level.OFF;
-    public static final Level LOG_LEVEL_FINEST = Level.OFF;
-    public static final Level LOG_LEVEL_INFO = Level.OFF;
-    public static final Level LOG_LEVEL_WARNING = Level.OFF; 
+    public static final Level LOG_LEVEL_FINE = Level.FINE;
+    public static final Level LOG_LEVEL_FINER = Level.FINER;
+    public static final Level LOG_LEVEL_FINEST = Level.FINEST;
+    public static final Level LOG_LEVEL_INFO = Level.INFO;
+    public static final Level LOG_LEVEL_WARNING = Level.WARNING; 
 
     //[-------------------LOGGER--------------------------]
     

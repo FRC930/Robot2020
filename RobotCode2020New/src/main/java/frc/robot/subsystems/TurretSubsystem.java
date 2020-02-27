@@ -28,7 +28,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     // -------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
+    private static final Logger logger = Logger.getLogger(TurretSubsystem.class.getName());
     // constant used in the conversion from encoder units to degrees
     private final double DEGREE_CONVERSION_NUMBER = .0013889;
 

@@ -22,7 +22,7 @@ public class IntakePistonSubsystem extends SubsystemBase {
 
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(IntakePistonSubsystem.class.getName());
+    private static final Logger logger = Logger.getLogger(IntakePistonSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
