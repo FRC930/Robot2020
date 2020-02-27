@@ -23,7 +23,7 @@ public class KickerSubsystem extends SubsystemBase {
   
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(KickerSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
