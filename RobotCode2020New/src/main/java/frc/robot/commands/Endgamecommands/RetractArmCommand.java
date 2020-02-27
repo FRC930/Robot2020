@@ -30,7 +30,7 @@ public class RetractArmCommand extends CommandBase {
     
     //-------- CONSTRUCTOR --------\\
 
-    public RetractArmCommand(ClimberArmSubsystem climberArmSubsystem){
+    public RetractArmCommand(){
         this.climberArmSubsystem = climberArmSubsystem;
         addRequirements(climberArmSubsystem);
     }
