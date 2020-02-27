@@ -4,7 +4,9 @@ package frc.robot;
 
 // --Library Commands
 import edu.wpi.first.wpilibj2.command.*;
-
+import frc.robot.commands.Endgamecommands.RetractArmCommand;
+import frc.robot.commands.Endgamecommands.ToggleShiftCommand;
+import frc.robot.commands.Endgamecommands.ExtendArmCommand;
 // --Our Commands
 import frc.robot.commands.autocommands.paths.*;
 
@@ -79,7 +81,7 @@ public class RobotContainer {
   private final int GC_AXIS_LEFT_Y = 1;
   private final int GC_AXIS_RIGHT_X = 2;
   private final int GC_AXIS_RIGHT_Y = 3;
-
+  
   // --XBox button map
   private final int XB_AXIS_LEFT_X = 0;
   private final int XB_AXIS_LEFT_Y = 1;
@@ -118,6 +120,9 @@ public class RobotContainer {
   }
 
   //-------- SUBSYSTEMS --------\\
+
+  //--Endgame subsystem
+  private final ClimberArmSubsystem climberArmSubsystem;
 
   // --Color wheel stuff subsystems
   private final ColorSensorSubsystem colorSensorSubsystem;
@@ -188,6 +193,11 @@ public class RobotContainer {
   // --Drive commands
   private final DriveCommand driveCommand;
 
+  // --Endgame commands
+  private final ExtendArmCommand extendArmCommand;
+  private final RetractArmCommand retractArmCommand;
+  private final ToggleShiftCommand toggleShiftCommand;
+  
   // --Hopper commands
   //private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
@@ -249,6 +259,8 @@ public class RobotContainer {
 
     kickerSubsystem = new KickerSubsystem();
 
+    climberArmSubsystem = new ClimberArmSubsystem();
+
     // ledSubsystem = new LEDSubsystem();
 
     limelightSubsystem = new LimelightSubsystem();
@@ -264,6 +276,10 @@ public class RobotContainer {
 
     // --Commands
     
+    // endgame
+    extendArmCommand = new ExtendArmCommand(climberArmSubsystem);
+    retractArmCommand = new RetractArmCommand();
+
     // intake
     deployIntakeCommand = new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
     returnIntakeCommand = new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
@@ -366,7 +382,10 @@ public class RobotContainer {
       JoystickButton toggleAngle = new JoystickButton(driverController, GC_ZL);
       // ZR Button
       JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
-
+      // X Button
+      JoystickButton liftArm = new JoystickButton (driverController, GC_X);
+      // Y Button 
+      JoystickButton lowerArm = new JoystickButton (driverController, GC_Y);
       // --Command binds
 
       // Rotational control command bind
@@ -384,6 +403,13 @@ public class RobotContainer {
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
+      // Endgame command binds
+
+      liftArm.whileActiveOnce(extendArmCommand);
+      liftArm.whenReleased(extendArmCommand);
+
+      retractArm.whileActiveOnce(retractArmCommand);
+      retractArm.whenReleased(retractArmCommand);
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
