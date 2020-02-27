@@ -17,11 +17,17 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 
+import java.util.logging.Logger;
+
 import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
 
 public class GyroSubsystem extends SubsystemBase {
+
+    //-------- CONSTANTS --------\\
+
+    private static final Logger logger = Logger.getLogger(GyroSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
     

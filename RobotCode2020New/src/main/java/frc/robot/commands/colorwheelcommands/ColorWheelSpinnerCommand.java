@@ -19,7 +19,7 @@ public class ColorWheelSpinnerCommand extends CommandBase {
     // Creates an instance of the RotationalControlSubsystem subsystem
     private final ColorWheelSpinnerSubsystem m_subsystem;
     // Creates an instance of the logger class
-    private final Logger logger = Logger.getLogger(ColorWheelSpinnerCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(ColorWheelSpinnerCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -34,10 +34,10 @@ public class ColorWheelSpinnerCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        logger.entering(getClass().getName(), "initialize");
+        logger.entering(this.getClass().getName(), "initialize");
         // Sets the motor speed to the constant SPEED
         m_subsystem.setMotorSpeed(SPEED);
-        logger.exiting(getClass().getName(), "initialize");
+        logger.exiting(this.getClass().getName(), "initialize");
     }
 
     @Override
