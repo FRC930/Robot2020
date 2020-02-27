@@ -199,7 +199,6 @@ public class RobotContainer {
   // --Endgame commands
   private final ExtendArmCommand extendArmCommand;
   private final RetractArmCommand retractArmCommand;
-  private final ToggleShiftCommand toggleShiftCommand;
   
   // --Hopper commands
   //private final StopHopperCommand stopHopperCommand;
@@ -286,7 +285,7 @@ public class RobotContainer {
     
     // endgame
     extendArmCommand = new ExtendArmCommand(climberArmSubsystem);
-    retractArmCommand = new RetractArmCommand();
+    retractArmCommand = new RetractArmCommand(climberArmSubsystem);
 
     // intake
     deployIntakeCommand = new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
@@ -414,10 +413,8 @@ public class RobotContainer {
       // Endgame command binds
 
       liftArm.whileActiveOnce(extendArmCommand);
-      liftArm.whenReleased(extendArmCommand);
 
-      retractArm.whileActiveOnce(retractArmCommand);
-      retractArm.whenReleased(retractArmCommand);
+      lowerArm.whileActiveOnce(retractArmCommand);
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
