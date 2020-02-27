@@ -43,8 +43,8 @@ import frc.robot.triggers.*;
 // --Utility imports
 import frc.robot.utilities.*;
 
-import java.lang.System.LoggerFinder;
-import java.util.logging.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 // --Other imports
 import edu.wpi.first.wpilibj.Joystick;
@@ -104,6 +104,8 @@ public class RobotContainer {
   // --Ports of controllers
   private final int DRIVER_CONTROLLER_ID = 0; // The gamecube controller
   private final int CODRIVER_CONTROLLER_ID = 1; // The xbox controller
+
+  private static final Logger frcRobotLogger = Logger.getLogger(RobotContainer.class.getPackageName());
 
   //-------- DECLARATIONS --------\\
 
@@ -231,11 +233,11 @@ public class RobotContainer {
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
-    logger.setLevel(Level.OFF);
-    ConsoleHandler handler = new ConsoleHandler();
-    handler.setLevel(logger.getLevel());
-    logger.addHandler(handler);
-    logger.log(Level.INFO, "Log level is set to: "+ logger.getLevel());
+
+    //Setting Log level for entire robot code
+    //TODO: Edit this in Shuffleboard...?
+    frcRobotLogger.setLevel(Level.OFF);
+
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);

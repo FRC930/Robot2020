@@ -26,7 +26,7 @@ public class CompresserSubsystem extends SubsystemBase {
     private final boolean COMPRESSOR_ON = true;
     private final boolean COMPRESSOR_OFF = false;
 
-    private final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
+    private static final Logger logger = Logger.getLogger(CompresserSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 

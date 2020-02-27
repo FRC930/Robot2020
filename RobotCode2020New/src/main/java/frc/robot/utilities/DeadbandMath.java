@@ -42,7 +42,7 @@ public class DeadbandMath {
     
     //Class constructor - sets logger lever
     private DeadbandMath() {
-        //logger.setLevel(Constants.LOG_LEVEL_FINE);
+        logger.setLevel(Constants.LOG_LEVEL_FINE);
         deadbandZone = DeadbandZone.RED;
         shotChance = ShotChance.MISS;
     }
@@ -222,6 +222,5 @@ public class DeadbandMath {
             shotChance = ShotChance.MISS;
         }
         logger.log(Constants.LOG_LEVEL_INFO, "Calculated ShotChance: " + shotChance);
-        logger.exiting(this.getClass().getName(), "calculateShotChance");
-    }
+        logger.exiting(this.getClass().getName(), "calculateShotChance");    }
 }

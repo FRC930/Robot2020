@@ -37,7 +37,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
     private final Color kYellowTarget = new Color(0.361, 0.524, 0.113);
 
     // Creates an instance of the logger class
-    private final Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(PositionalControlTrackerCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
 

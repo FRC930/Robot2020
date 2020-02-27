@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -28,8 +27,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // -------- CONSTANTS --------\\
   private final double DRIVE_GEAR_RATIO = 9.88;
-  // private final Logger logger = //
-  // logger.getLogger(DriveSubsystem.class.getName());
+  private static final Logger logger = Logger.getLogger(DriveSubsystem.class.getName());
 
   // -------- DECLARATIONS --------\\
   private WPI_TalonFX right1;
@@ -51,8 +49,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The differential drive object itself
   private DifferentialDrive differentialDrive;
-
-  private Logger logger;
 
   // -------- CONSTRUCTOR --------\\
 
@@ -104,7 +100,7 @@ public class DriveSubsystem extends SubsystemBase {
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
-    logger = Logger.getLogger(DriveSubsystem.class.getName());
+    //logger = Logger.getLogger(DriveSubsystem.class.getName());
   }
 
   /**
