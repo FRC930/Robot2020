@@ -20,7 +20,7 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(FlywheelPistonSubsystem.class.getName());
+  private static final Logger logger = Logger.getLogger(FlywheelPistonSubsystem.class.getName());
 
   //-------- DECLARATIONS --------\\
 

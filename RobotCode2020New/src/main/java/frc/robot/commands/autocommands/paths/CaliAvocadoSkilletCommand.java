@@ -24,19 +24,20 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Alliance Side - Initial 3 & Trench 3 & Rendezvous 2
+
 public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem driveSubsystem;
-  GyroSubsystem gyroSubsystem;
-  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
+  DriveSubsystem m_drive;
+  public CaliAvocadoSkilletCommand(DriveSubsystem subsystem) {
+    m_drive = subsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -55,19 +56,24 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
 
     // -------- Trajectories -------- \\
 
-    // Generates a trajectory 
+    // Generates a trajectory for a path to move towards furthest ball in trench run
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
-        // Start 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // Start at the origin (initiation line) facing towards the field
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0.0), new Rotation2d(0)),
         List.of(
-            // Midpoints
+            // new Translation2d(inchesToMeters(14.38), inchesToMeters(4.63)),
+            // new Translation2d(inchesToMeters(43.15), inchesToMeters(13.88)),
+            // new Translation2d(inchesToMeters(71.92), inchesToMeters(23.15)),
+            // new Translation2d(inchesToMeters(104.63), inchesToMeters(27.75)),
+            // new Translation2d(inchesToMeters(122.63), inchesToMeters(27.75))
         ),
-        // End 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // End at the furthest ball in the trench run (194.63 inches forward)
+        new Pose2d(inchesToMeters(194.63), inchesToMeters(0.0), new Rotation2d(0)),
         // Pass config
         config
 
     );
+
 
     // -------- RAMSETE Commands -------- \\
     // Creates a command that can be added to the command scheduler in the sequential command
@@ -75,26 +81,33 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        m_drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        m_drive::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        m_drive::tankDriveVolts,
+        m_drive
     );
     
-    /* 
-    Path Explanation
+    /*
+    Path Description:
+    -----------------
+      Shoot 3 from initiation line
+      move through trench to grab 3 balls
+      Shoot 3 from trench position
     */
 
-    addCommands(ramseteCommand1);
-
+    addCommands(new WaitCommand(3), // Shoot 3 balls
+        ramseteCommand1, // Moving trajectory
+        // Turn in place 180 degrees
+        new WaitCommand(5)); 
+        
   }
 
   public double inchesToMeters(double inches) {
@@ -102,5 +115,4 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
       return meters;
   }
 
-}
-
+} // end of class

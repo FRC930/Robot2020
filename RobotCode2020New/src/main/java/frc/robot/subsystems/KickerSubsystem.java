@@ -25,7 +25,7 @@ public class KickerSubsystem extends SubsystemBase {
   
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(KickerSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -39,6 +39,7 @@ public class KickerSubsystem extends SubsystemBase {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
         this.encoder = new DutyCycleEncoder(Constants.HOPPER_ENCODER_PORT_ID);
         logger.setLevel(Constants.LOG_LEVEL_FINE);
+        kickerMotor.setInverted(true);
     }   
     
     //-------- METHODS --------\\

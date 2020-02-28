@@ -44,10 +44,12 @@ import frc.robot.triggers.*;
 // --Utility imports
 import frc.robot.utilities.*;
 
-import java.lang.System.Logger;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 // --Other imports
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -102,6 +104,8 @@ public class RobotContainer {
   // --Ports of controllers
   private final int DRIVER_CONTROLLER_ID = 0; // The gamecube controller
   private final int CODRIVER_CONTROLLER_ID = 1; // The xbox controller
+
+  private static final Logger frcRobotLogger = Logger.getLogger(RobotContainer.class.getPackageName());
 
   //-------- DECLARATIONS --------\\
 
@@ -167,7 +171,20 @@ public class RobotContainer {
 
   // --Auton command
   //TODO: Change this to accept any auton path from the shuffleboard
+  //private final BigCountrySkilletCommand bigCountrySkilletCommand;
+  private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
+  // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
+  // private final EverythingSkilletCommand everythingSkilletCommand;
+  // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
+  // private final GypsySkilletCommand gypsySkilletCommand;
+  // private final GyroSkilletCommand gyroSkilletCommand;
+  // private final LoadedSkilletCommand loadedSkilletCommand;
+  // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
+  private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
   private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
+  // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
+  // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
+  // private final VeggieSkilletCommand veggieSkilletCommand;
 
   // --Color wheel commands
   private final RotationalControlCommandGroup rotationalControlCommandGroup;
@@ -220,6 +237,11 @@ public class RobotContainer {
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
+
+    //Setting Log level for entire robot code
+    //TODO: Edit this in Shuffleboard...?
+    frcRobotLogger.setLevel(Level.OFF);
+
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
@@ -269,7 +291,7 @@ public class RobotContainer {
     compressorOffCommand = new CompressorOffCommand(compressorSubsystem);
 
     // drive (NOTE: This is where we bind the driver controls to the drivetrain)
-    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y,gyroSubsystem);
+    driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
     killHopperStateCommand = new KillHopperStateCommand();
@@ -297,21 +319,21 @@ public class RobotContainer {
     stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
     // turret
-    defaultTurretCommand = new DefaultTurretCommand(limelightSubsystem, turretSubsystem);
+    defaultTurretCommand = new DefaultTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X);
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
     saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, gyroSubsystem, deployIntakeCommand, returnIntakeCommand);
+    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
+    phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
-    shuffleboardUtility = new ShuffleboardUtility(intakePistonSubsystem, flywheelSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, flywheelPistonSubsystem, turretSubsystem);
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
     // --Default commands
     beginRunCommands(); // Sets the default command
-
-
   } // end of constructor RobotContainer()
 
   // -------- METHODS --------\\
@@ -388,9 +410,9 @@ public class RobotContainer {
       // Y Button
       Trigger manualTowerEndgame = new JoystickButton(driverController, GC_Y).and(inManualModeTrigger);
       
-      JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_START);
+      JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_B);
 
-      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_A);
+      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_START);
       
 
       // ZR Button
@@ -403,7 +425,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whenActive(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
@@ -448,8 +470,8 @@ public class RobotContainer {
     } else { 
       scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      // scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-      // scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+      scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     }
 
   }
@@ -480,8 +502,8 @@ public class RobotContainer {
   }
 
   public void StartShuffleBoard() {
-    shuffleboardUtility.putDriveTab();
-    shuffleboardUtility.putTestingTab();
+    // shuffleboardUtility.putDriveTab();
+    // shuffleboardUtility.putTestingTab();
   }
 
 } // end of class RobotContainer

@@ -28,6 +28,10 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Mid Field - Initial 3 & Rendezvous 3 & Trench 3
+
 public class GypsySkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -90,7 +94,8 @@ public class GypsySkilletCommand extends SequentialCommandGroup {
     );
     
     /* 
-    Path Explanation
+    Path Description:
+    -----------------
     */
 
     addCommands(ramseteCommand1);

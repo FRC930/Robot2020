@@ -1,165 +1,244 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//-------- IMPORTS --------\\
+
 package frc.robot.utilities;
 
+import java.util.List;
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.IntakePistonSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.FlywheelPistonSubsystem;
-import frc.robot.subsystems.FlywheelSubsystem;
-import frc.robot.subsystems.HopperSubsystem;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import edu.wpi.first.networktables.NetworkTableEntry;
+// import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.RotationalControlCommandGroup;
+// import frc.robot.subsystems.ColorSensorSubsystem;
+// import frc.robot.subsystems.ColorWheelSpinnerSubsystem;
+
+//-------- CLASS --------\\
 
 public class ShuffleboardUtility {	
 
-	//-------- DECLARATIONS --------\\
+	//-------- CONSTANTS --------\\
 
-    //--Subsystems
-	private final TurretSubsystem turretSubsystem;
-	private final IntakePistonSubsystem intakePistonsSubsystem;
-	private final FlywheelSubsystem flywheelSubsystem;
-	private final LimelightSubsystem limelightSubsystem;
-	private final TowerSubsystem towerSubsystem;
-    private final HopperSubsystem hopperSubsystem;
-    private final DeadbandMath deadbandMath;
-    private final FlywheelPistonSubsystem flywheelPistonSubsystem;
-
-    //--Tabs
-    ShuffleboardTab driveTab;
-    ShuffleboardTab testingTab;
+    //-------- DECLARATIONS --------\\
+    
+    private ShuffleboardTab testDebugTab;
+    private List<ShuffleboardComponent<?>> pidController;
+    private double kP;
+    private double kI;
+    private double kD;
+    private double kF;
+    private double kSetpoint;
+	private boolean intakeIndicator;
+    private boolean shootIndicator;
+    private boolean manualMode;
+	// private double turretEncoder;
+	private double distanceFromTarget;
+	private String shotType;
+    private String fmsColor;
+    private String logger;
+    private String fmsColorDebug;
+    private double hopperSpeed;
+    private double shooterRPM;
+    private double pistonAngle;
+    private double pistonRPM;
+    private double turretSpeed;
+    private double turretEncoderPosition;
+    private HttpCamera limelightCamera;
+    private double gyroYaw;
+    private ShuffleboardTab driveTab;
+    private ShuffleboardTab testingTab;
+    //private PIDController pidController;
 
     //-------- CONSTRUCTOR --------\\
 
-    public ShuffleboardUtility(IntakePistonSubsystem intakePistonSubsystem, FlywheelSubsystem flywheelSubsystem, LimelightSubsystem limelightSubsystem, TowerSubsystem towerSubsystem, HopperSubsystem hopperSubsystem, FlywheelPistonSubsystem flywheelPistonSubsystem, TurretSubsystem turretSubsystem){
-        this.intakePistonsSubsystem = intakePistonSubsystem;
-        this.flywheelSubsystem = flywheelSubsystem;
-        this.limelightSubsystem = limelightSubsystem;
-        this.towerSubsystem = towerSubsystem;
-        this.hopperSubsystem = hopperSubsystem;
-        this.flywheelPistonSubsystem = flywheelPistonSubsystem;
-        this.turretSubsystem = turretSubsystem;
-        deadbandMath = DeadbandMath.getInstance();
-
+    private ShuffleboardUtility() {
+        testDebugTab = Shuffleboard.getTab("Testing & Debugging");
+        pidController = testDebugTab.getComponents();
         driveTab = Shuffleboard.getTab("Driver Station");
         testingTab = Shuffleboard.getTab("Testing & Debugging");
+        intakeIndicator = false;
+        shootIndicator = false;
+        manualMode = false;
+        // turretEncoder = 0.0;
+        distanceFromTarget = 0.0;
+        shotType = "";
+        fmsColor = "";
+        logger = "";
+        fmsColorDebug = "";
+        hopperSpeed = 0.0;
+        shooterRPM = 0.0;
+        pistonAngle = 0.0;
+        pistonRPM = 0.0;
+        turretSpeed = 0.0;
+        turretEncoderPosition = 0.0;
+        gyroYaw = 0.0;
+        limelightCamera = new HttpCamera("limelight", "http://10.9.30.11:5801/stream.mjpg");
     }
 
     private static ShuffleboardUtility instance = null;
 
 	// Singleton
-    public static ShuffleboardUtility getInstance(){
+    public static ShuffleboardUtility getInstance() {
         if (instance == null){
             return instance;
         }
         else {
-            return instance ;
+            return instance = new ShuffleboardUtility();
         }
     }
 
     //------- Drive Tab -------\\
 
-	public void putDriveTab(){
-		SmartDashboard.putBoolean("Intaking?", intakePistonsSubsystem.getIntakePistonState());
-		SmartDashboard.putBoolean("Shooting?", flywheelSubsystem.isFlywheelActive());
-		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
-		SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
-		SmartDashboard.putNumber("Turret Encoder", turretSubsystem.getEncoderPosition());
-        SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
-        SmartDashboard.putBoolean("GameCube", RobotContainer.getUsingGamecube());
-        SmartDashboard.putBoolean("Manual Mode", RobotContainer.getInManual());
-        putShotType();
-    }
 
-    //----- Testing & Debugging -----\\
-
-	public void putTestingTab(){
-		SmartDashboard.putNumber("Tower Speed", towerSubsystem.getSpeed());
-        SmartDashboard.putNumber("Hopper Speed", hopperSubsystem.getSpeed());
-        SmartDashboard.putNumber("Encoder Pos", turretSubsystem.getEncoderPosition());
-        SmartDashboard.putNumber("Target Area", limelightSubsystem.getTargetArea());
-        SmartDashboard.putNumber("Distance from Target", limelightSubsystem.getDistance());
-        SmartDashboard.putNumber("Horizontal Offset", limelightSubsystem.getHorizontalOffset());
-        SmartDashboard.putNumber("Vertical Offset", limelightSubsystem.getVerticleOffset());
-        putShooterAngle();
-    }
-    
-    public void updateValues() {
-        Shuffleboard.update();
-    }
-
-	private void putShotType() {
-        String type = "";
-
-        if(deadbandMath.getDeadbandZone().getType() == 0) {
-            type = "NO";
-        } else if(deadbandMath.getDeadbandZone().getType() == 1) {
-            type = "MAYBE";
-        } else if(deadbandMath.getDeadbandZone().getType() == 2) {
-            type = "YES";
-        }
-
-		SmartDashboard.putString("Can we make the shot?", type);
-    }
-    
-	public String getFMSColor(){
-		return SmartDashboard.getString("FMS Color", "No Color Available");
-    }
-
-	// public void getLogger(String logger){
-	// 	this.logger = logger;
-	// 	SmartDashboard.putString("Logger", logger);
-    // }
-    
-	public void putShooterAngle(){
-
-        String angle = "";
-
-        if(flywheelPistonSubsystem.get()) {
-            angle = "low";
-        } else {
-            angle = "high";
-        }
-	
-		SmartDashboard.putString("Angle", angle);
+	public void setIntakeIndicator(boolean intakeIndicator){
+		this.intakeIndicator = intakeIndicator;
+		SmartDashboard.putBoolean("Intaking?", intakeIndicator);
 	}
-    
-	// public void putLimelightSaturation(double saturation){
-	// 	this.saturation = saturation;
-	// 	SmartDashboard.putNumber("Saturation", saturation);
-    // }
+	public void setShootIndicator(boolean shootIndicator){
+		this.shootIndicator = shootIndicator;
+		SmartDashboard.putBoolean("Shooting?", shootIndicator);
+    }
+    public void setManualMode(boolean manualMode){
+        this.manualMode = manualMode;
+        SmartDashboard.putBoolean("Manual Mode?", manualMode);
+    }
+	public void setDistanceFromTarget(double distanceFromTarget){
+		this.distanceFromTarget = distanceFromTarget;
+		SmartDashboard.putNumber("Distance from Target", distanceFromTarget);
+	}
+	public void setShotType(String shotType){
+		this.shotType = shotType;
+		SmartDashboard.putString("Shot Type", shotType);
+    }
+    public void setLimelightFeed(HttpCamera limelightCamera){
+        this.limelightCamera = limelightCamera;
+        driveTab.add("Limelight Feed", limelightCamera);
+        testingTab.add("Limelight Feed", limelightCamera);
+    }
+    public String getFMSColor(){
+		fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
+		return fmsColor;
+    }
 
-    //limelight hue
-    
-	// public void putLimelightTargetFullness(double targetFullness){
-	// 	this.targetFullness = targetFullness;
-	// 	SmartDashboard.putNumber("Target Fullness", targetFullness);
-    // }
-    
-	// public void putLimelightValue(double value){
-	// 	this.value = value;
-	// 	SmartDashboard.putNumber("Value", value);
-    // }
-    
-	// public void putLimelightTargetAspectRatio(double targetAspectRatio){
-	// 	this.targetAspectRatio = targetAspectRatio;
-	// 	SmartDashboard.putNumber("Target Aspect Ratio", targetAspectRatio);
-    // }
-    
-	// public void putLimelightErosionDilation(double erosionDilation){
-	// 	this.erosionDilation = erosionDilation;
-	// 	SmartDashboard.putNumber("Erosion & Dilation", erosionDilation);
-    // }
+	//----- Testing & Debugging -----\\
+
+    public void setTurretSpeed(double turretSpeed){
+        this.turretSpeed = turretSpeed;
+        SmartDashboard.putNumber("Turret Speed", turretSpeed);
+    }
+    public void setHopperSpeed(double hopperSpeed){
+        this.hopperSpeed = hopperSpeed;
+        SmartDashboard.putNumber("Hopper Speed", hopperSpeed);
+    }
+    public void setPistonAngle(double pistonAngle){
+        this.pistonAngle = pistonAngle;
+        SmartDashboard.putNumber("Piston Angle", pistonAngle);
+    }
+	public void getLogger(String logger){
+		this.logger = logger;
+		SmartDashboard.putString("Logger Level", logger);
+	}
+	public void setPistonRPM(double pistonRPM){
+		this.pistonRPM = pistonRPM;
+		SmartDashboard.putNumber("Piston RPM", pistonRPM);
+	}
+	public void setTurretEncoderPosition(double turretEncoderPosition){
+		this.turretEncoderPosition = turretEncoderPosition;
+		SmartDashboard.putNumber("Turret Encoder Pos", turretEncoderPosition);
+    }
+    public void setGyroYaw(double gyroYaw){
+        this.gyroYaw = gyroYaw;
+        SmartDashboard.putNumber("Gyro Yaw (LtoR Rotation)", gyroYaw);
+    }
+    // TODO: figure out how to get PID values into code
+    public String getShooterP(){
+        //  return string : set to error string, changes to valid string if object is found.
+        String rtn = "Nothing to Return...";
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Shooter PID"){
+                    rtn = pidController.get(0).toString();
+                }
+            }
+        }
+        return rtn;
+    }
+    public String getShooterI(){
+        //  return string : set to error string, changes to valid string if object is found.
+        String rtn = "Nothing to Return...";
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Shooter PID"){
+                    rtn = pidController.get(1).toString();
+                }
+            }
+        }
+        return rtn;
+    }
+    public String getShooterD(){
+        //  return string : set to error string, changes to valid string if object is found.
+        String rtn = "Nothing to Return...";
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Shooter PID"){
+                    rtn = pidController.get(2).toString();
+                }
+            }
+        }
+        return rtn;
+    }
+    public String getShooterF(){
+        //  return string : set to error string, changes to valid string if object is found.
+        String rtn = "Nothing to Return...";
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Shooter PID"){
+                    rtn = pidController.get(3).toString();
+                }
+            }
+        }
+        return rtn;
+    }
+    public String getShooterSetpoint(){
+        //  return string : set to error string, changes to valid string if object is found.
+        String rtn = "Nothing to Return...";
+        if (pidController.size() > 0){
+            for (int i = 0; i < pidController.size(); i++){
+                if (pidController.get(i).getTitle() == "Shooter PID"){
+                    rtn = pidController.get(1).toString();
+                }
+            }
+        }
+        return rtn;
+    }
+    public void setShooterP(double kP){
+        this.kP = kP;
+        SmartDashboard.putNumber("Shooter PID", kP);
+    }
+    public void setShooterI(double kI){
+        this.kI = kI;
+        SmartDashboard.putNumber("Shooter PID", kI);
+    }
+    public void setShooterD(double kD){
+        this.kD = kD;
+        SmartDashboard.putNumber("Shooter PID", kD);
+    }
+    public void setShooterF(double kF){
+        this.kF = kF;
+        SmartDashboard.putNumber("Shooter PID", kF);
+    }
+    public void setShooterSetpoint(double kSetpoint){
+        this.kSetpoint = kSetpoint;
+        SmartDashboard.putNumber("Shooter PID", kSetpoint);
+    }
 
 	//-------- Autonomous --------\\
 
 } //end of class Shuffleboard
-		

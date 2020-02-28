@@ -17,49 +17,46 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-//-------- SUBSYSTEM CLASS --------\\
+//--------SUBSYSTEM CLASS--------\\
 
-public class TowerSubsystem extends SubsystemBase {
-  
-    //-------- CONSTANTS --------\\
+public class ClimberArmSubsystem extends SubsystemBase {
 
-    private static final Logger logger = Logger.getLogger(TowerSubsystem.class.getName());
+    //--------CONSTANTS--------\\
+    private static final Logger logger = Logger.getLogger(ClimberArmSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
-
-    // VictorSPX is a motor controller that makes the conveor belt  Take's the power cell up to the shooter
-    private VictorSPX towerMotor;
-
-    //-------- CONSTRUCTOR --------\\
-
-    public TowerSubsystem() {
-        towerMotor = new VictorSPX(Constants.TOWER_ID);  
-    }   
     
-    //-------- METHODS --------\\
+    // VictorSPX is a motor controller that makes the arm go up and down for when we climb for endgame
+    private VictorSPX ClimberArmMotor;
 
-    //sets the speed to the tower motor 
+    // Constructor
+    public ClimberArmSubsystem() {
+        ClimberArmMotor = new VictorSPX(Constants.CLIMBER_ARM_ID);
+    }
+
+    //-------- METHODS --------\\
+    
+    // sets the speed of the climber arm motor
     public void setSpeed(double speed){
         logger.entering(this.getClass().getName(), "setSpeed");
-        logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + -speed);
+        logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + speed);
 
-        towerMotor.set(ControlMode.PercentOutput, -speed);
+        ClimberArmMotor.set(ControlMode.PercentOutput, speed);
 
-        logger.exiting(this.getClass().getName(), "setSpeed");
+        logger.exiting(this.getClass().getName(), "setSpeed");  
     }
-        
-    // returns the speed from the tower motor
+
+    // returns the speed of the climber arm motor
     public double getSpeed(){ 
         logger.entering(this.getClass().getName(),"getSpeed");
-        logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + towerMotor.getMotorOutputPercent());
+        logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + ClimberArmMotor.getMotorOutputPercent());
         logger.exiting(this.getClass().getName(),"getSpeed");
         
-        return towerMotor.getMotorOutputPercent();
+        return ClimberArmMotor.getMotorOutputPercent();
     }
-
-    //stops the motor
+    
+    // stops the climber arm motor
     public void stopMotor() {
-        towerMotor.set(ControlMode.PercentOutput, 0.0);
+        ClimberArmMotor.set(ControlMode.PercentOutput, 0.0);
     }
-
-} //end of class TowerSubsystem
+} // End of ClimberArm Subsystem
