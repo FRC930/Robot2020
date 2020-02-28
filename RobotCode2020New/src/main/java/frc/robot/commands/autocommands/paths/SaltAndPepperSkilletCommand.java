@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
-//import frc.robot.commands.shootercommands.ShootPowerCellCommand;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -34,15 +34,15 @@ import frc.robot.Constants;
 public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     private DriveSubsystem driveSubsystem;
     // private GyroSubsystem gyroSubsystem;
-    // private DeployIntakeCommand deployIntakeCommand;
-    // private ReturnIntakeCommand returnIntakeCommand;
-    //private ShootPowerCellCommand shootPowerCellCommand;
-    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem){//} GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){//ShootPowerCellCommand SPCCommand){
+    private DeployIntakeCommand deployIntakeCommand;
+    private ReturnIntakeCommand returnIntakeCommand;
+    private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
+    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand/*, ShootPowerCellCommandGroup SPCCommand*/){
         driveSubsystem = dSubsystem;
         // gyroSubsystem = gSubsystem;
-        // deployIntakeCommand = DICommand;
-        // returnIntakeCommand = RICommand;
-        //shootPowerCellCommand = SPCCommand;
+        deployIntakeCommand = DICommand;
+        returnIntakeCommand = RICommand;
+        //shootPowerCellCommandGroup = SPCCommand;
 
         //this is our config for how much power goes to the motors
         var autoVoltageConstraint =
@@ -159,7 +159,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         driveSubsystem 
     );
         // add commands here to run during auto
-        addCommands(ramseteCommand1, ramseteCommand2);//DeployIntakeAndDriveParrellelCommand,new WaitCommand(1),returnIntakeCommand);//shootPowerCellCommand);
+        addCommands(ramseteCommand1, deployIntakeCommand, new WaitCommand(5), returnIntakeCommand, ramseteCommand2);//DeployIntakeAndDriveParrellelCommand,new WaitCommand(1),returnIntakeCommand);//shootPowerCellCommand);
     }
     //converts our inches into meters
     private double inchesToMeters(double inch){

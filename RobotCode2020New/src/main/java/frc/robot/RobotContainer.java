@@ -322,8 +322,8 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem/*, gyroSubsystem, deployIntakeCommand, returnIntakeCommand*/);
-    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
+    saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand);
+    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
