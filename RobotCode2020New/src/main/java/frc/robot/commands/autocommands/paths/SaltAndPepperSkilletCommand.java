@@ -37,7 +37,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     // private DeployIntakeCommand deployIntakeCommand;
     // private ReturnIntakeCommand returnIntakeCommand;
     //private ShootPowerCellCommand shootPowerCellCommand;
-    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem) //, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){//ShootPowerCellCommand SPCCommand){
+    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem){//} GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){//ShootPowerCellCommand SPCCommand){
         driveSubsystem = dSubsystem;
         // gyroSubsystem = gSubsystem;
         // deployIntakeCommand = DICommand;
