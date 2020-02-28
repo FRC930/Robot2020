@@ -322,7 +322,7 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, gyroSubsystem, deployIntakeCommand, returnIntakeCommand);
+    saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem/*, gyroSubsystem, deployIntakeCommand, returnIntakeCommand*/);
     caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
@@ -481,6 +481,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+    scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+    scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     return phillyCheesesteakAndEggSkilletCommand;
     //return null;
     // Run path following command, then stop at the end.
