@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import java.util.logging.*;
 /**
@@ -39,10 +40,6 @@ public final class Constants {
 
     //[-------------------MOTOR IDS--------------------------]
 
-    //[-------------------ENCODER OFFSETS--------------------]
-    public static final double KICKER_ENCODER_OFFSET = 0;
-    //[-------------------ENCODER OFFSETS--------------------]
-
     //[-------------------PISTON IDS-------------------------]
 
     public static final int INTAKE_SOLENOID_ID = 0;
@@ -55,7 +52,7 @@ public final class Constants {
     //[-------------------ROBORIO PORT IDS---------------------------]
 
     public static final int ENCODER_PORT_ID = 0;
-    public static final int HOPPER_ENCODER_PORT_ID = 1;
+	public static final int HOPPER_ENCODER_PORT_ID = 1; 
 
     //[-------------------ROBORIO PORT IDS---------------------------]
 
@@ -70,9 +67,9 @@ public final class Constants {
     public static final double HOPPER_DEFAULT_SPEED = 0.3;
     public static final double HOPPER_SHOOTING_SPEED = 0.6; // 0.6
     public static final double TOWER_SPEED = 1.0;
-    public static final double KICKER_SPEED = 0.5;
-    public static final double INTAKE_SPEED = 0.8; // 0.5
-    public static final double FLYWHEEL_SPEED = 0.82;
+    public static final double KICKER_SPEED = 0.6; // 0.6
+    public static final double INTAKE_SPEED = 0.8; // 0.8
+    public static final double FLYWHEEL_SPEED = 0.62;
 
     //[-------------------SPEEDS--------------------------]
 
@@ -142,8 +139,12 @@ public final class Constants {
     public static final Level LOG_LEVEL_FINER = Level.OFF;
     public static final Level LOG_LEVEL_FINEST = Level.OFF;
     public static final Level LOG_LEVEL_INFO = Level.OFF;
-    public static final Level LOG_LEVEL_WARNING = Level.OFF; 
+    public static final Level LOG_LEVEL_WARNING = Level.OFF;
 
     //[-------------------LOGGER--------------------------]
+
+    // OFFSET
+    
+	public static final double KICKER_ENCODER_OFFSET = 0;
     
 } // end of constants

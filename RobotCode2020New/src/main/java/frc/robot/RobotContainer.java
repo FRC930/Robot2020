@@ -23,6 +23,7 @@ import frc.robot.commands.intakecommands.intakemotorcommands.*;
 import frc.robot.commands.intakecommands.intakepistoncommands.*;
 
 import frc.robot.commands.kickercommands.*;
+import frc.robot.commands.ledcommands.RunWithAutonLEDs;
 //import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.shootercommands.ShootPowerCellCommand;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
@@ -158,6 +159,9 @@ public class RobotContainer {
 
   // --Turret subsystem
   private final TurretSubsystem turretSubsystem;
+
+  //--LED subsystem
+  LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   //-------- COMMANDS --------\\
 
@@ -456,7 +460,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return saltAndPepperSkilletCommand;
+    return new RunWithAutonLEDs(ledSubsystem, saltAndPepperSkilletCommand);
     //return null;
     // Run path following command, then stop at the end.
   }

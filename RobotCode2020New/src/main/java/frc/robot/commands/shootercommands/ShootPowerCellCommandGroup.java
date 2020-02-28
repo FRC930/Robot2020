@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.Constants;
 import frc.robot.commands.hoppercommands.RunHopperCommand;
 import frc.robot.commands.kickercommands.RunKickerCommand;
 import frc.robot.commands.towercommands.RunTowerCommand;
@@ -45,7 +45,7 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
         //Run all required commands in order so we can shoot.
         addCommands(//new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
             new SequentialCommandGroup(
-                new RunFlywheelCommand(flywheelSubsystem, 0.7),
+                new RunFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_SPEED),
                     //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
                     //limeLight.getDistance()).getVelocity()), 
                 new ParallelCommandGroup(new RunHopperCommand(hopperSubsystem, ZR), new RunTowerCommand(towerSubsystem), new RunKickerCommand(kickerSubsystem))
