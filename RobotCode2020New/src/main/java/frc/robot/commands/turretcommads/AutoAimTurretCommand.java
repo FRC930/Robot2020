@@ -23,16 +23,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //-------- PIDCOMMAND CLASS --------\\
 
-public class DefaultTurretCommand extends PIDCommand {
+public class AutoAimTurretCommand extends PIDCommand {
 
     // -------- DECLARATIONS --------\\
 
-    private static final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(AutoAimTurretCommand.class.getName());
+    private LimelightSubsystem limelight;
+    private TurretSubsystem turretSubsystem;
     private double stickX;
+    private final int LEDS_ON = 3;
 
     // -------- CONSTRUCTOR --------\\
 
-    public DefaultTurretCommand(LimelightSubsystem limeLight, TurretSubsystem turret, PIDController controller, Joystick coDriver, int coDriverAxis) {
+    public AutoAimTurretCommand(LimelightSubsystem limelight, TurretSubsystem turret, PIDController controller, Joystick coDriver, int coDriverAxis) {
         // Initial P = 0.065
         // Oscillations over time: 3 cycles per 1 second
         // Period = 0.33   :    Took the oscillations over time and divided one by that number
@@ -42,10 +45,10 @@ public class DefaultTurretCommand extends PIDCommand {
         super(controller,
                 // This lambda tells the controller where to get the input values from
                 () -> {
-                    SmartDashboard.putNumber("horiz off", limeLight.getHorizontalOffset());
+                    SmartDashboard.putNumber("horiz off", limelight.getHorizontalOffset());
                     // SmartDashboard.putNumber("PID error", value);
-                    if (limeLight.getValidTargets()) {
-                        return limeLight.getHorizontalOffset();
+                    if (limelight.getValidTargets()) {
+                        return limelight.getHorizontalOffset();
                     } else {
                         controller.reset();
                         return 0.0;
@@ -67,15 +70,17 @@ public class DefaultTurretCommand extends PIDCommand {
                     if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 0.1) {
                         turret.setSpeed(Math.pow(coDriver.getRawAxis(coDriverAxis), 3));
                     } else {
-                        if(Math.abs(limeLight.getHorizontalOffset()) < 27) {
+                        if(Math.abs(limelight.getHorizontalOffset()) < 27) {
                             turret.setSpeed(output);
                         }
                     }
                 },
                 // Pass in the subsystems we will need
-                turret, limeLight); // End of super constructor
+                turret, limelight); // End of super constructor
 
         logger.entering(this.getClass().getName(), "AutoAimTurretCommand");
+        this.limelight = limelight;
+        this.turretSubsystem = turret;
 
         // Enable the controller to continuously get input
         this.getController().enableContinuousInput(-27, 27);
@@ -84,9 +89,19 @@ public class DefaultTurretCommand extends PIDCommand {
         this.getController().setTolerance(0.4);
 
         // Require the subsystems that we need
-        addRequirements(limeLight, turret);
+        addRequirements(limelight, turret);
 
     } // end of constructor AutoAimTurretCommand()
+
+    @Override
+    public void initialize() {
+        // turn limelight LEDs on
+        limelight.setLightMode(LEDS_ON);
+    }
+
+    @Override
+    public void execute() {
+    }
 
     @Override
     public boolean isFinished() {

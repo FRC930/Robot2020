@@ -33,6 +33,10 @@ public class ClimberArmSubsystem extends SubsystemBase {
     // VictorSPX is a motor controller that makes the arm go up and down for when we climb for endgame
     private VictorSPX ClimberArmMotor;
 
+    public ClimberArmSubsystem() {
+        ClimberArmMotor = new VictorSPX(Constants.CLIMBER_ARM_ID);
+    }
+
     public void setSpeed(double speed){
         logger.entering(this.getClass().getName(), "Extend");
         logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + speed);

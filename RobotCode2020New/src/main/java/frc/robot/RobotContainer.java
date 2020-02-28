@@ -6,6 +6,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.Endgamecommands.RetractArmCommand;
 import frc.robot.commands.Endgamecommands.ToggleShiftCommand;
+import frc.robot.commands.Endgamecommands.StopArmCommand;
 import frc.robot.commands.Endgamecommands.ExtendArmCommand;
 // --Our Commands
 import frc.robot.commands.autocommands.paths.*;
@@ -26,7 +27,7 @@ import frc.robot.commands.intakecommands.intakepistoncommands.*;
 
 import frc.robot.commands.kickercommands.*;
 //import frc.robot.commands.ledcommands.*;
-
+import frc.robot.commands.limelightcommands.*;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.*;
 import frc.robot.commands.shootercommands.pistoncommands.*;
@@ -199,6 +200,10 @@ public class RobotContainer {
   // --Endgame commands
   private final ExtendArmCommand extendArmCommand;
   private final RetractArmCommand retractArmCommand;
+  private final StopArmCommand stopArmCommand;
+  private final ToggleShiftCommand toggleShiftCommand;
+  private final LimelightLEDsOnCommand limelightLEDsOnCommand;
+  private final LimelightLEDsOffCommand limelightLEDsOffCommand;
   
   // --Hopper commands
   //private final StopHopperCommand stopHopperCommand;
@@ -231,7 +236,7 @@ public class RobotContainer {
   private final StopTowerCommand stopTowerCommand;
 
   // --Turret commands
-  private final DefaultTurretCommand defaultTurretCommand;
+  private final AutoAimTurretCommand autoAimTurretCommand;
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
 
   // --Utilities
@@ -286,6 +291,10 @@ public class RobotContainer {
     // endgame
     extendArmCommand = new ExtendArmCommand(climberArmSubsystem);
     retractArmCommand = new RetractArmCommand(climberArmSubsystem);
+    stopArmCommand = new StopArmCommand(climberArmSubsystem);
+    toggleShiftCommand = new ToggleShiftCommand(driveSubsystem);
+    limelightLEDsOnCommand = new LimelightLEDsOnCommand(limelightSubsystem);
+    limelightLEDsOffCommand = new LimelightLEDsOffCommand(limelightSubsystem);
 
     // intake
     deployIntakeCommand = new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
@@ -329,7 +338,7 @@ public class RobotContainer {
     stopTowerCommand = new StopTowerCommand(towerSubsystem);
 
     // turret
-    defaultTurretCommand = new DefaultTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X);
+    autoAimTurretCommand = new AutoAimTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X);
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
 
     // auto 
@@ -412,9 +421,13 @@ public class RobotContainer {
       
       // Endgame command binds
 
-      liftArm.whileActiveOnce(extendArmCommand);
+      liftArm.whenPressed(extendArmCommand);
+      liftArm.whenReleased(stopArmCommand);
 
-      lowerArm.whileActiveOnce(retractArmCommand);
+      lowerArm.whenPressed(retractArmCommand);
+      lowerArm.whenReleased(stopArmCommand);
+
+      toggleEndgame.toggleWhenActive(toggleShiftCommand);
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
@@ -469,7 +482,12 @@ public class RobotContainer {
 
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
+    JoystickButton limelightLEDsOn = new JoystickButton(coDriverController, XB_LB);
+
     // --Command binds
+    // limelightLEDsOn.whenPressed(limelightLEDsOnCommand);
+    // limelightLEDsOn.whenReleased(limelightLEDsOffCommand);
+    limelightLEDsOn.whileActiveOnce(autoAimTurretCommand);
 
     // Toggle intake
     intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
@@ -487,10 +505,11 @@ public class RobotContainer {
     if (inManualMode) {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand); 
     } else { 
-      scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
+      //scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(limelightSubsystem, limelightLEDsOffCommand);
     }
 
   }
