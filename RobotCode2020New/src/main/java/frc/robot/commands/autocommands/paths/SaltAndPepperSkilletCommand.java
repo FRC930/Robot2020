@@ -32,11 +32,15 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
 
 public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
+
     private DriveSubsystem driveSubsystem;
-    // private GyroSubsystem gyroSubsystem;
-    // private DeployIntakeCommand deployIntakeCommand;
-    // private ReturnIntakeCommand returnIntakeCommand;
-    //private ShootPowerCellCommand shootPowerCellCommand;
+
+    //private DeployIntakeCommand deployIntakeCommand;
+    //private ReturnIntakeCommand returnIntakeCommand;
+
+    //private IntakeMotorSubsystem intakeMotorSubsytem;
+    //private IntakePistonSubsystem intakePistonSubsytem;
+
     public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem){//} GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){//ShootPowerCellCommand SPCCommand){
         driveSubsystem = dSubsystem;
         // gyroSubsystem = gSubsystem;
