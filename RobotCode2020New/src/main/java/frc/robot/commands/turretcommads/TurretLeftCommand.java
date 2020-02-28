@@ -26,6 +26,7 @@ public class TurretLeftCommand extends CommandBase {
 
     private double turretPosition;
     private double targetPosition = Constants.TURRET_LEFT_POSITION;
+    private double speed;
 
     private TurretSubsystem turretSubsystem;    
     
@@ -39,9 +40,20 @@ public class TurretLeftCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
+        speed = 0;
         turretPosition = turretSubsystem.getRawEncoderPosition();
 
+        if(Math.abs(turretPosition - targetPosition) > Constants.TURRET_DEADBAND){
+            if(turretPosition < targetPosition) {
+                speed = Constants.TURRET_TURNING_SPEED;
+            } else if(turretPosition > targetPosition) {
+                speed = -Constants.TURRET_TURNING_SPEED;
+            }    
+        } else {
+            speed = 0;
+        }
         
+        turretSubsystem.setSpeed(speed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

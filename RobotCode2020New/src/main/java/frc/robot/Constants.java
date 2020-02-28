@@ -76,7 +76,7 @@ public final class Constants {
     public static final double TOWER_SPEED = 1.0;
     public static final double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
-    public static final double FLYWHEEL_SPEED = 0;//0.82;
+    public static final double FLYWHEEL_SPEED = 0.82;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
     public static final double CLIMBER_RETRACT_SPEED = -0.1;
 
@@ -100,10 +100,16 @@ public final class Constants {
     public static final double TURRET_I = 0.135;
     public static final double TURRET_D = 0.00081;
 
-    public static final double TURRET_FRONT_POSITION = 0.5;
-    public static final double TURRET_BACK_POSITION = 0.5;
-    public static final double TURRET_LEFT_POSITION = 0.5;
-    public static final double TURRET_RIGHT_POSITION = 0.5;
+    // encoder positions for setting turret to one of four directions
+    public static final double TURRET_FRONT_POSITION = 0.13;
+    public static final double TURRET_BACK_POSITION = -0.13;
+    public static final double TURRET_LEFT_POSITION = 0.0;
+    public static final double TURRET_RIGHT_POSITION = 0.26;
+
+    // speed used for turning the turret
+    public static final double TURRET_TURNING_SPEED = 0.3;
+
+    public static final double TURRET_DEADBAND = 0.2;
 
     // [-------------------TURRET--------------------------]
 
