@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.intakecommands.DeployIntakeCommand;
-import frc.robot.commands.intakecommands.ReturnIntakeCommand;
+// import frc.robot.commands.intakecommands.DeployIntakeCommand;
+// import frc.robot.commands.intakecommands.ReturnIntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
+// import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.commands.intakecommands.*;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -33,15 +33,15 @@ import frc.robot.Constants;
 
 public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     private DriveSubsystem driveSubsystem;
-    private GyroSubsystem gyroSubsystem;
-    private DeployIntakeCommand deployIntakeCommand;
-    private ReturnIntakeCommand returnIntakeCommand;
+    // private GyroSubsystem gyroSubsystem;
+    // private DeployIntakeCommand deployIntakeCommand;
+    // private ReturnIntakeCommand returnIntakeCommand;
     //private ShootPowerCellCommand shootPowerCellCommand;
-    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){//ShootPowerCellCommand SPCCommand){
+    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem) //, GyroSubsystem gSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand){//ShootPowerCellCommand SPCCommand){
         driveSubsystem = dSubsystem;
-        gyroSubsystem = gSubsystem;
-        deployIntakeCommand = DICommand;
-        returnIntakeCommand = RICommand;
+        // gyroSubsystem = gSubsystem;
+        // deployIntakeCommand = DICommand;
+        // returnIntakeCommand = RICommand;
         //shootPowerCellCommand = SPCCommand;
 
         //this is our config for how much power goes to the motors
