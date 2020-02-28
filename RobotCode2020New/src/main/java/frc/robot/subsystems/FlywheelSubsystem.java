@@ -84,7 +84,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     } // end of method setSpeed()
 
     public void setVelocity(double metersPerSecond) {
-        this.setSpeed(this.SLOPE * metersPerSecond - this.Y_INTERCEPT);
+        this.setSpeed((this.SLOPE * metersPerSecond) - this.Y_INTERCEPT);
     }
 
     public void stop() {

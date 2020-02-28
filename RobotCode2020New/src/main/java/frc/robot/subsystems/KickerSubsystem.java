@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -29,11 +32,13 @@ public class KickerSubsystem extends SubsystemBase {
 
     // VictorSPX is a motor controller that makes the conveor belt  Take's the power cell up to the shooter
     private VictorSPX kickerMotor;  
+    private DutyCycleEncoder encoder;
 
     //-------- CONSTRUCTOR --------\\
 
     public KickerSubsystem() {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
+        this.encoder = new DutyCycleEncoder(Constants.HOPPER_ENCODER_PORT_ID);
         logger.setLevel(Constants.LOG_LEVEL_FINE);
     }   
     
@@ -56,6 +61,10 @@ public class KickerSubsystem extends SubsystemBase {
         logger.exiting (this.getClass().getName(), "getSpeed()");
         
         return kickerMotor.getMotorOutputPercent();
+    }
+
+    public double getEncoder(){
+        return encoder.get();
     }
 
     //stops the motor

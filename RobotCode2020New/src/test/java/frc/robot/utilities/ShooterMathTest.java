@@ -102,4 +102,12 @@ public class ShooterMathTest {
         assertEquals(-1.0, mathClass.getVelocity(), 0.0001);
         assertSame(mathClass.getPossibleShot(), ShotOutcome.NONE);
     }
+
+    @Test
+    public void testX() {
+        ShooterMath mathClass = ShooterMath.getInstance();
+
+        mathClass.setPosition(39, 5);
+        System.out.println(mathClass.getVelocity());
+    }
 }

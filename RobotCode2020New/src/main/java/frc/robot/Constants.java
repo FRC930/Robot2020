@@ -45,9 +45,11 @@ public final class Constants {
 
     public static final int CLIMBER_ARM_ID = 13;
 
-    // [-------------------MOTOR IDS--------------------------]
+    //[-------------------ENCODER OFFSETS--------------------]
+    public static final double KICKER_ENCODER_OFFSET = 0;
+    //[-------------------ENCODER OFFSETS--------------------]
 
-    // [-------------------PISTON IDS-------------------------]
+    //[-------------------PISTON IDS-------------------------]
 
     public static final int INTAKE_SOLENOID_ID = 0;
     public static final int SHOOTER_SOLENOID_ID = 1;
@@ -59,6 +61,7 @@ public final class Constants {
     // [-------------------ROBORIO PORT IDS---------------------------]
 
     public static final int ENCODER_PORT_ID = 0;
+    public static final int HOPPER_ENCODER_PORT_ID = 1;
 
     // [-------------------ROBORIO PORT IDS---------------------------]
 
@@ -75,7 +78,7 @@ public final class Constants {
     public static final double TOWER_SPEED = 1.0;
     public static final double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
-    public static final double FLYWHEEL_SPEED = 0.82;
+    public static final double FLYWHEEL_SPEED = 0.4;
 
     // [-------------------SPEEDS--------------------------]
 
