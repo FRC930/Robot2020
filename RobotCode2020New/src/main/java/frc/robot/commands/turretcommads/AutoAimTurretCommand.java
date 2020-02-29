@@ -70,7 +70,7 @@ public class AutoAimTurretCommand extends PIDCommand {
                         logger.log(Level.INFO, stickX + " > " + Constants.JOYSTICK_TURRET_DEADBAND);
                         turret.setSpeed(-Math.pow(coDriver.getRawAxis(coDriverAxis), 3) * 0.5);
                     } else {
-                        logger.log(Level.INFO, stickX + " > " + Constants.JOYSTICK_TURRET_DEADBAND);
+                        logger.log(Level.INFO, stickX + " < " + Constants.JOYSTICK_TURRET_DEADBAND);
                         if(Math.abs(limelight.getHorizontalOffset()) < 27) {
                             turret.setSpeed(output);
                         }

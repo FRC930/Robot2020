@@ -48,11 +48,12 @@ public class TurretFrontCommand extends CommandBase {
         turretPosition = turretSubsystem.getRawEncoderPosition();
 
         if(Math.abs(turretPosition - targetPosition) > Constants.TURRET_DEADBAND){
+            logger.log(Level.INFO, if((turretPosition - targetPosition)>0.0){} + " > " + Constants.TURRET_DEADBAND);
             if(turretPosition < targetPosition) {
-                logger.log(Level.INFO, "turretPosition > targetPosition");
+                logger.log(Level.INFO, turretPosition + " > " + targetPosition);
                 speed = -Constants.TURRET_TURNING_SPEED;
             } else if(turretPosition > targetPosition) {
-                logger.log(Level.INFO, "turretPosition > targetPosition");
+                logger.log(Level.INFO, turretPosition + " < " + targetPosition);
                 speed = Constants.TURRET_TURNING_SPEED;
             }    
         } else {
