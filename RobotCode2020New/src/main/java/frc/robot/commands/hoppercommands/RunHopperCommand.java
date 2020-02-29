@@ -19,27 +19,25 @@ import frc.robot.utilities.ShuffleboardUtility;
 import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
- 
+
 public class RunHopperCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
     private HopperSubsystem m_HopperSubsystem;
     private ShuffleboardUtility shuffleboardUtility;
     private JoystickButton zr;
     private double counter;
 
-    private final int COUNTER_LIMIT = 1;
-    
-    //-------- CONSTRUCTOR --------\\
+    // -------- CONSTRUCTOR --------\\
 
-    public RunHopperCommand(HopperSubsystem HopperSubsystem,JoystickButton ZR){
+    public RunHopperCommand(HopperSubsystem HopperSubsystem) {
         m_HopperSubsystem = HopperSubsystem;
         shuffleboardUtility = ShuffleboardUtility.getInstance();
         zr = ZR;
         addRequirements(m_HopperSubsystem);
     }
 
-    //-------- METHODS --------\\
+    // -------- METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override
@@ -73,6 +71,6 @@ public class RunHopperCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return !zr.get();
+        return false;
     }
 } // end of class RunHopperCommand
