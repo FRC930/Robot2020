@@ -100,6 +100,7 @@ public final class Constants {
     public static final double LOWER_LIMIT = 0.335;//0.2; //-.27
 
     public static final double TURRET_MAX_SPEED = 0.6;//0.75;
+    public static final double TURRET_MAX_SET_POSITION_SPEED = 0.4;
 
     public static final double TURRET_P = 0.025;//0.021;
     public static final double TURRET_I = 0.0;//0.135;
@@ -113,7 +114,6 @@ public final class Constants {
     public static final double TURRET_FRONT_POSITION = 0.659;
     public static final double TURRET_BACK_POSITION = 0.415;
     public static final double TURRET_LEFT_POSITION = 0.532;
-    public static final double TURRET_RIGHT_POSITION = 0.26;
 
     // speed used for turning the turret
     public static final double TURRET_TURNING_SPEED = 0.4;

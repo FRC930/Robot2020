@@ -519,8 +519,8 @@ public class RobotContainer {
 
     // set turret position with PID
     turretFront.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_FRONT_POSITION));
-    turretBack.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_BACK_POSITION));
-    turretLeft.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_FRONT_POSITION));
+    turretBack.whileActiveOnce(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_BACK_POSITION));
+    turretLeft.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_LEFT_POSITION));
 
     // Toggle intake
     intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
