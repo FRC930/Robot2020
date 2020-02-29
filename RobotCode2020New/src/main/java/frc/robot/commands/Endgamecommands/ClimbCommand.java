@@ -7,7 +7,7 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.Endgamecommands;
+package frc.robot.commands.endgamecommands;
 
 import java.util.logging.Logger;
 
