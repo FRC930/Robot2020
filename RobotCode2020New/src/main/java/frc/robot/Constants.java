@@ -41,9 +41,9 @@ public final class Constants {
     public static final int TOWER_ID = 10;
     public static final int KICKER_ID = 11;
 
-    public static final int COLOR_WHEEL_ID = 12;
+    public static final int COLOR_WHEEL_ID = 333;
 
-    public static final int CLIMBER_ARM_ID = 13;
+    public static final int CLIMBER_ARM_ID = 12;
 
     // [-------------------MOTOR IDS--------------------------]
 
@@ -51,6 +51,7 @@ public final class Constants {
 
     public static final int INTAKE_SOLENOID_ID = 0;
     public static final int SHOOTER_SOLENOID_ID = 1;
+    public static final int SHIFTER_SOLENOID_ID = 2;
 
     public static final int COMPRESSOR_PORT = 0;
 
@@ -75,7 +76,9 @@ public final class Constants {
     public static final double TOWER_SPEED = 1.0;
     public static final double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
-    public static final double FLYWHEEL_SPEED = 0.82;
+    public static final double FLYWHEEL_SPEED = 0;//0.82;
+    public static final double CLIMBER_EXTEND_SPEED = 0.1;
+    public static final double CLIMBER_RETRACT_SPEED = -0.1;
 
     // [-------------------SPEEDS--------------------------]
 
@@ -89,13 +92,26 @@ public final class Constants {
 
     // When the turret encoder is reset, the turret faces forward and the encoder is
     // reset to 180 degrees. These units are in raw values.
-    public static final double UPPER_LIMIT = 0.8;
-    public static final double LOWER_LIMIT = 0.2;
+    public static final double UPPER_LIMIT = 0.763;//0.8;//.27
+    public static final double LOWER_LIMIT = 0.335;//0.2; //-.27
+
     public static final double TURRET_MAX_SPEED = 0.75;
 
     public static final double TURRET_P = 0.021;
     public static final double TURRET_I = 0.135;
     public static final double TURRET_D = 0.00081;
+
+    // encoder positions for setting turret to one of four directions
+    public static final double TURRET_FRONT_POSITION = 0.659;
+    public static final double TURRET_BACK_POSITION = 0.415;
+    public static final double TURRET_LEFT_POSITION = 0.532;
+    public static final double TURRET_RIGHT_POSITION = 0.26;
+
+    // speed used for turning the turret
+    public static final double TURRET_TURNING_SPEED = 0.1;
+
+    // deadband for the turret set position commands
+    public static final double TURRET_DEADBAND = 0.001;
 
     // [-------------------TURRET--------------------------]
 

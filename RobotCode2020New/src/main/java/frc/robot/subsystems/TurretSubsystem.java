@@ -66,8 +66,6 @@ public class TurretSubsystem extends SubsystemBase {
             }
         }
 
-        SmartDashboard.putNumber("Turret Encoder value", this.encoder.get());
-
         this.turretMotor.set(ControlMode.PercentOutput, speed);
         
         this.logger.log(Constants.LOG_LEVEL_INFO, "Set speed to " + getSpeed());
