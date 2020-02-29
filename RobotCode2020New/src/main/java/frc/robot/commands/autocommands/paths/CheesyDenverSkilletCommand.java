@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-
+import frc.robot.commands.intakecommands.DeployIntakeCommand;
+import frc.robot.commands.intakecommands.ReturnIntakeCommand;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -37,16 +39,15 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
 
-  private DriveSubsystem driveSubsystem;
+    private DriveSubsystem driveSubsystem;
 
-  //private DeployIntakeCommand deployIntakeCommand;
-  //private ReturnIntakeCommand returnIntakeCommand;
+    private DeployIntakeCommand deployIntakeCommand;
+    private ReturnIntakeCommand returnIntakeCommand;
+    
+    private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
 
-  //private IntakeMotorSubsystem intakeMotorSubsytem;
-  //private IntakePistonSubsystem intakePistonSubsytem;
-
-  public CheesyDenverSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
+    public CheesyDenverSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
+        driveSubsystem = dSubsystem;
 
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -72,10 +73,10 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for a path to move towards Wheel of  and ball pickup
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
         List.of(),
         // End 3 meters straight ahead of where we started, still facing forward
-        new Pose2d(inchesToMeters(130.0), inchesToMeters(0), new Rotation2d(0)),
+        new Pose2d(inchesToMeters(130.36), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
         // Pass config
         config
 
@@ -84,11 +85,11 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory to move back into shooting position on center line
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the W.O.F. facing towards the center line
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(135))),
+        new Pose2d(inchesToMeters(130.36), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
         // Pass this waypoint to have a more drastic curve towards the second shooting point
         List.of(),
         // End half way within the field, near the initiation line
-        new Pose2d(inchesToMeters(-130.0), inchesToMeters(160.0), new Rotation2d(Math.toRadians(135))),
+        new Pose2d(inchesToMeters(0), inchesToMeters(160.5), new Rotation2d(Math.toRadians(0))),
         // Pass config
         config
     );
@@ -96,15 +97,15 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Generates a trajectory for moving towards the center square for 3 ball pickup and shoot
     Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
         // Start at center of field just behind intiation line
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(180))),
+        new Pose2d(inchesToMeters(0), inchesToMeters(160.5), new Rotation2d(Math.toRadians(0))),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
             // Move to first two of three balls first to grab balls
-            new Translation2d(inchesToMeters(107.83), inchesToMeters(0)),
-            new Translation2d(inchesToMeters(7.0), inchesToMeters(-15.0))
+            //new Translation2d(inchesToMeters(107.83), inchesToMeters(0)),
+            //new Translation2d(inchesToMeters(7.0), inchesToMeters(-15.0))
         ),
         // Endpoint
-        new Pose2d(inchesToMeters(6.5), inchesToMeters(-15.0), new Rotation2d(Math.toRadians(180))),
+        new Pose2d(inchesToMeters(120.51), inchesToMeters(175.8), new Rotation2d(Math.toRadians(0))),
         // Pass config
         config
     );
