@@ -65,4 +65,4 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
         //  );
     } // end of the constructor ShootPowerCellCommandGroup
 
-}   // end of class ShootPowerCellCommandGroup
+} // end of class ShootPowerCellCommandGroup

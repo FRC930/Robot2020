@@ -482,7 +482,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new RunWithAutonLEDs(ledSubsystem, saltAndPepperSkilletCommand);
+    return new RunWithAutonLEDs(saltAndPepperSkilletCommand, ledSubsystem);
     //return null;
     // Run path following command, then stop at the end.
   }
