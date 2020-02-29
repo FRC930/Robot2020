@@ -21,7 +21,7 @@ import frc.robot.subsystems.TurretSubsystem;
 
 public class SetTurretPositionPIDCommand extends PIDCommand {
 
-    //You must include logger as a constant variable, and you must have logging in your files
+    //You must include logger as a constant variable, and you must have logging in your file
     private static final Logger logger = Logger.getLogger(SetTurretPositionPIDCommand.class.getName());
 
     private TurretSubsystem turretSubsystem;    
@@ -40,10 +40,11 @@ public class SetTurretPositionPIDCommand extends PIDCommand {
             // lambda that sets the speed of the turret
             (double speed)->{
 
-                if (speed > 0.4) {
-                    speed = 0.4;
-                } else if (speed < -0.4) {
-                    speed = -0.4;
+                // clamp the speed of the turret
+                if (speed > Constants.TURRET_MAX_SET_POSITION_SPEED) {
+                    speed = Constants.TURRET_MAX_SET_POSITION_SPEED;
+                } else if (speed < -Constants.TURRET_MAX_SET_POSITION_SPEED) {
+                    speed = -Constants.TURRET_MAX_SET_POSITION_SPEED;
                 }
 
                 System.out.println("SETTING SPEED: " + speed);
