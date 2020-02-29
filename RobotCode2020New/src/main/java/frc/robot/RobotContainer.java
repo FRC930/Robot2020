@@ -30,6 +30,7 @@ import frc.robot.commands.shootercommands.flywheelcommands.*;
 import frc.robot.commands.shootercommands.pistoncommands.*;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 
+
 import frc.robot.commands.towercommands.*;
 
 import frc.robot.commands.turretcommads.*;
@@ -127,7 +128,7 @@ public class RobotContainer {
   //-- Inline Class for Manual Mode Trigger
   private class ManualModeTrigger extends Trigger {
     public boolean get() {
-      shuffleboardUtility.setManualMode(inManualMode);
+      //shuffleboardUtility.setManualMode(inManualMode);
       return inManualMode;
     }
   }
@@ -181,7 +182,7 @@ public class RobotContainer {
   // --Auton command
   //TODO: Change this to accept any auton path from the shuffleboard
   //private final BigCountrySkilletCommand bigCountrySkilletCommand;
-  private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
+  //private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
   // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
   // private final EverythingSkilletCommand everythingSkilletCommand;
   // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
@@ -249,13 +250,13 @@ public class RobotContainer {
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
   private final Logger logger = Logger.getLogger(RobotContainer.class.getName());;
   // --Utilities
-  private final ShuffleboardUtility shuffleboardUtility;
+  //private final ShuffleboardUtility shuffleboardUtility;
 
   
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
-
+    new CameraUtil().startCapture();
     //Setting Log level for entire robot code
     //TODO: Edit this in Shuffleboard...?
     frcRobotLogger.setLevel(Level.OFF);
@@ -354,10 +355,10 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
+    //caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
+    //shuffleboardUtility = ShuffleboardUtility.getInstance();
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
