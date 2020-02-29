@@ -36,11 +36,17 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem driveSubsystem;
-  GyroSubsystem gyroSubsystem;
+  private DriveSubsystem driveSubsystem;
+
+  //private DeployIntakeCommand deployIntakeCommand;
+  //private ReturnIntakeCommand returnIntakeCommand;
+
+  //private IntakeMotorSubsystem intakeMotorSubsytem;
+  //private IntakePistonSubsystem intakePistonSubsytem;
+
   public LoadedSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
     driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -144,7 +150,7 @@ public class LoadedSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for third trajectory
     RamseteCommand ramseteCommand3 = new RamseteCommand(
         trajectory3,
-        gyroSubsystem::getPose,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,

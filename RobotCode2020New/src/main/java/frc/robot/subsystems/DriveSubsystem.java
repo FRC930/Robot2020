@@ -105,7 +105,6 @@ public class DriveSubsystem extends SubsystemBase {
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
-
     shifter.set(true);
   }
 

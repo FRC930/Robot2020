@@ -13,10 +13,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.FlywheelPistonSubsystem.SolenoidValues;
+import frc.robot.utilities.ShuffleboardUtility;
 
 public class ExtendFlywheelPistonCommand extends CommandBase {
 
   private FlywheelPistonSubsystem flywheelAngleSubsystem;
+  private ShuffleboardUtility shuffleboardUtility;
 
   public ExtendFlywheelPistonCommand(FlywheelPistonSubsystem flywheelAngleSubsystem) {
     this.flywheelAngleSubsystem = flywheelAngleSubsystem;
@@ -26,11 +28,13 @@ public class ExtendFlywheelPistonCommand extends CommandBase {
   @Override
   public void initialize() {
     flywheelAngleSubsystem.set(SolenoidValues.EXTEND);
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    shuffleboardUtility.setShootIndicator(flywheelAngleSubsystem.get());
   }
 
   // Called once the command ends or is interrupted.

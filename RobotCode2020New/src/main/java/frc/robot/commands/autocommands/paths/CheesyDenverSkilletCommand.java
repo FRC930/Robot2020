@@ -36,11 +36,18 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
  /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem driveSubsystem;
-  GyroSubsystem gyroSubsystem;
+
+  private DriveSubsystem driveSubsystem;
+
+  //private DeployIntakeCommand deployIntakeCommand;
+  //private ReturnIntakeCommand returnIntakeCommand;
+
+  //private IntakeMotorSubsystem intakeMotorSubsytem;
+  //private IntakePistonSubsystem intakePistonSubsytem;
+
   public CheesyDenverSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
     driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -108,7 +115,7 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -125,7 +132,7 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for second trajectory
     RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        gyroSubsystem::getPose,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -142,7 +149,7 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for third trajectory
     RamseteCommand ramseteCommand3 = new RamseteCommand(
         trajectory3,
-        gyroSubsystem::getPose,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
