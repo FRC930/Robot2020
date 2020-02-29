@@ -9,7 +9,6 @@
 
 package frc.robot.commands.kickercommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.KickerSubsystem;
@@ -27,7 +26,7 @@ public class RunKickerCommand extends CommandBase {
 
     public RunKickerCommand(KickerSubsystem kSubsystem){
         kickerSubsystem = kSubsystem;
-        addRequirements(kickerSubsystem);
+        addRequirements(kSubsystem);
     }
 
     //-------- METHODS --------\\
