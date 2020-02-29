@@ -112,6 +112,9 @@ public final class Constants {
     // speed used for turning the turret
     public static final double TURRET_TURNING_SPEED = 0.1;
 
+    // deadband for the turret joystick
+    public static final double JOYSTICK_TURRET_DEADBAND = 0.1;
+
     // deadband for the turret set position commands
     public static final double TURRET_DEADBAND = 0.001;
 

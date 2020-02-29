@@ -9,7 +9,7 @@
 
 package frc.robot.commands.turretcommads;
 
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -48,12 +48,16 @@ public class TurretBackCommand extends CommandBase {
         turretPosition = turretSubsystem.getRawEncoderPosition();
 
         if(Math.abs(turretPosition - targetPosition) > Constants.TURRET_DEADBAND){
+            logger.log(Level.INFO, "(turretPosition - targetPosition) > TURRET_DEADBAND(0.001)");
             if(turretPosition < targetPosition) {
+                logger.log(Level.INFO, "turretPosition < targetPosition");
                 speed = -Constants.TURRET_TURNING_SPEED;
             } else if(turretPosition > targetPosition) {
+                logger.log(Level.INFO, "turretPosition > targetPosition");
                 speed = Constants.TURRET_TURNING_SPEED;
             }    
         } else {
+            logger.log(Level.INFO, "(turretPosition - targetPosition) < TURRET_DEADBAND(0.001)");
             speed = 0;
         }
         
