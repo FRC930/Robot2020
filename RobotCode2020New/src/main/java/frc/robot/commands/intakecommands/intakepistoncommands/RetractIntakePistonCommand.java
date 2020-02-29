@@ -23,7 +23,7 @@ public class RetractIntakePistonCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private static final Logger logger = Logger.getLogger(RetractIntakePistonCommand.class.getName());
+  private final Logger logger = Logger.getLogger(getClass().toString());
 
   //-------- DECLARATIONS --------\\
 
@@ -35,7 +35,6 @@ public class RetractIntakePistonCommand extends CommandBase {
   public RetractIntakePistonCommand(IntakePistonSubsystem iPistons) {
     intakePistonsSubsystem = iPistons;
     shuffleboardUtility = ShuffleboardUtility.getInstance();
-    logger.log(Constants.LOG_LEVEL_FINE, "Initializing the RetractIntakePistonCommand...");
 
     addRequirements(iPistons);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -48,16 +47,6 @@ public class RetractIntakePistonCommand extends CommandBase {
     
     shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
     logger.log(Constants.LOG_LEVEL_FINE, "Retracting the intake pistons (command)..."); 
-  }
-
-  @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() { 
-    // Sets the piston state into Shuffleboard
-    
-  } 
-  
-  @Override   // Called once the command ends or is interrupted.
-  public void end(boolean interrupted) {
   }
   
   @Override   // Returns true when the command should end.

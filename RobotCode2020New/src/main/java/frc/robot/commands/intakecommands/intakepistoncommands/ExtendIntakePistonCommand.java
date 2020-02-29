@@ -23,7 +23,7 @@ public class ExtendIntakePistonCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private static final Logger logger = Logger.getLogger(ExtendIntakePistonCommand.class.getName());
+  private final Logger logger = Logger.getLogger(getClass().toString());
 
   //-------- DECLARATIONS --------\\
 
@@ -34,8 +34,6 @@ public class ExtendIntakePistonCommand extends CommandBase {
 
   public ExtendIntakePistonCommand(IntakePistonSubsystem iPistons) {
     intakePistonsSubsystem = iPistons;
-    
-    logger.log(Constants.LOG_LEVEL_FINE, "Initializing the ExtendIntakePistonCommand...");
 
     addRequirements(iPistons);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -49,15 +47,6 @@ public class ExtendIntakePistonCommand extends CommandBase {
     logger.log(Constants.LOG_LEVEL_FINE, "Extending the intake piston (command)..."); 
   }
 
-  @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() {
-  } 
-  
-  @Override   // Called once the command ends or is interrupted.
-  public void end(boolean interrupted) {
-  }
-
-  
   @Override   // Returns true when the command should end.
   public boolean isFinished() {
     return true;
