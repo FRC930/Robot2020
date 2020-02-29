@@ -11,7 +11,6 @@ package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FlywheelSubsystem;
-import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- COMMANDBASE CLASS --------\\
 
@@ -20,14 +19,12 @@ public class RunFlywheelCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   private FlywheelSubsystem m_FlywheelSubsystem;
-  private ShuffleboardUtility shuffleboardUtility;
   private double m_Speed;
 
   //-------- CONSTRUCTOR --------\\
 
   public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
     m_FlywheelSubsystem = flywheelSubsystem;
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
     m_Speed = speed;
     addRequirements(m_FlywheelSubsystem);
   }
@@ -38,15 +35,11 @@ public class RunFlywheelCommand extends CommandBase {
   @Override
   public void initialize() {
     m_FlywheelSubsystem.setSpeed(m_Speed);  //Run the flywheel at a certain speed
-    shuffleboardUtility.setShootIndicator(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Sets the flywheel RPM into ShuffleboardUtility
-    shuffleboardUtility.setShooterRPM(m_FlywheelSubsystem.getSpeed());
-    shuffleboardUtility.setShooterUpToSpeed(m_FlywheelSubsystem.isShooterUpToSpeed());
   }
 
   // Called once the command ends or is interrupted.

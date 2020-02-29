@@ -62,9 +62,9 @@ public class CheckIfShotPossibleCommand extends CommandBase {
         //Set the shot type to the shooter.
         shooterMath.setPosition((flywheelPistonSubsystem.get() ? Constants.FLYWHEEL_LOWER_ANGLE : Constants.FLYWHEEL_UPPER_ANGLE), limeLight.getDistance()); 
         this.shotOutcome = shooterMath.getPossibleShot();
+        shuffleboardUtility.setShotType(ShooterMath.getShotType(shotOutcome));
         
         deadbandMath.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
-        shuffleboardUtility.setDistanceFromTarget(limeLight.getDistance());
         this.deadbandZone = deadbandMath.getDeadbandZone();
         this.shotChance = deadbandMath.getShotChance();
         

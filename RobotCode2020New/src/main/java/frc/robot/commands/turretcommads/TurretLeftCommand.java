@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- COMMAND CLASS --------\\
 
@@ -30,11 +29,9 @@ public class TurretLeftCommand extends CommandBase {
     private double speed;
 
     private TurretSubsystem turretSubsystem;
-    private ShuffleboardUtility shuffleboardUtility;
     
     public TurretLeftCommand(TurretSubsystem turretSubsystem){
         this.turretSubsystem = turretSubsystem;
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
         addRequirements(turretSubsystem);
     }
 
@@ -61,8 +58,6 @@ public class TurretLeftCommand extends CommandBase {
         }
         
         turretSubsystem.setSpeed(speed);
-        shuffleboardUtility.setTurretSpeed(turretSubsystem.getSpeed());
-        shuffleboardUtility.setTurretEncoderPosition(turretSubsystem.getEncoderPosition());
     }
 
     // Called once the command ends or is interrupted.

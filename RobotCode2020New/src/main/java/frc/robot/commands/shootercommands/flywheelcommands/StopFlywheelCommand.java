@@ -21,13 +21,11 @@ public class StopFlywheelCommand extends CommandBase {
     //-------- DELCARATIONS --------\\
 
     private FlywheelSubsystem flyWheelSubsystem;
-    private ShuffleboardUtility shuffleboardUtility;
 
     //-------- CONSTRUCTOR --------\\
 
     public StopFlywheelCommand(FlywheelSubsystem flyWheelSubsystem) {
         this.flyWheelSubsystem = flyWheelSubsystem;
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
         addRequirements(this.flyWheelSubsystem);
     }
 
@@ -39,14 +37,11 @@ public class StopFlywheelCommand extends CommandBase {
     public void initialize() {
         //Stop the flywheel, automatically returning to default.
         flyWheelSubsystem.stop();
-        shuffleboardUtility.setShootIndicator(false);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // Sets the flywheel RPM into ShuffleboardUtility
-        shuffleboardUtility.setShooterRPM(flyWheelSubsystem.getSpeed());
     }
 
     // Called once the command ends or is interrupted.

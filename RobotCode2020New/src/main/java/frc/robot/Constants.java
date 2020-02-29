@@ -76,7 +76,7 @@ public final class Constants {
     public static final double TOWER_SPEED = 1.0;
     public static final double KICKER_SPEED = 0.7; // 0.5
     public static final double INTAKE_SPEED = 0.8; // 0.5
-    public static final double FLYWHEEL_SPEED = 0.82;//0.82;  changed to 0.82 for shuffleboard testing. Set back to 0 when done
+    public static final double FLYWHEEL_SPEED = 0;//0.82;  changed to 0.82 for shuffleboard testing. Set back to 0 when done
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
     public static final double CLIMBER_RETRACT_SPEED = -0.1;
 

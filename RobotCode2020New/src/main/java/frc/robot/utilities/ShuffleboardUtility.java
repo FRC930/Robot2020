@@ -12,10 +12,10 @@ package frc.robot.utilities;
 import java.util.List;
 import java.util.Map;
 
-import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.autocommands.paths.SaltAndPepperSkilletCommand;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
@@ -36,7 +36,6 @@ public class ShuffleboardUtility {
 	private boolean intakeIndicator;
     private boolean shootIndicator;
     private boolean manualMode;
-	// private double turretEncoder;
 	private double distanceFromTarget;
     private String shotType;
     private boolean shooterUpToSpeed;
@@ -48,10 +47,13 @@ public class ShuffleboardUtility {
     private boolean shooterAngle;
     private double turretSpeed;
     private double turretEncoderPosition;
-    private HttpCamera limelightCamera;
     private double gyroYaw;
+    private boolean saltAndPepper;
+    private boolean cheesyDenver;
+    private boolean caliAvocado;
     private ShuffleboardTab testDebugTab;
     private ShuffleboardTab driverStationTab;
+    private ShuffleboardTab autoTab;
     private NetworkTableEntry intakingEntry;
     private NetworkTableEntry shootingEntry;
     private NetworkTableEntry manualModeEntry;
@@ -64,12 +66,14 @@ public class ShuffleboardUtility {
     private NetworkTableEntry shooterRPMEntry;
     private NetworkTableEntry turretEncoderPositionEntry;
     private NetworkTableEntry gyroYawEntry;
-    
+    private NetworkTableEntry saltAndPepperEntry;
+    private NetworkTableEntry cheesyDenverEntry;
+    private NetworkTableEntry caliAvocadoEntry;
 
     //-------- CONSTRUCTOR --------\\
 
     private ShuffleboardUtility() {
-        pidController = testDebugTab.getComponents();
+        //pidController = testDebugTab.getComponents();
         intakeIndicator = false;
         shootIndicator = false;
         manualMode = false;
@@ -86,14 +90,17 @@ public class ShuffleboardUtility {
         turretSpeed = 0.0;
         turretEncoderPosition = 0.0;
         gyroYaw = 0.0;
-        limelightCamera = new HttpCamera("limelight", "http://10.9.30.11:5801/stream.mjpg");
         kP = 0.0;
         kI = 0.0;
         kD = 0.0;
         kF = 0.0;
         kSetpoint = 0.0;
+        saltAndPepper = false;
+        cheesyDenver = false;
+        caliAvocado = false;
         driverStationTab = Shuffleboard.getTab("Driver Station");
         testDebugTab = Shuffleboard.getTab("Testing & Debugging");
+        autoTab = Shuffleboard.getTab("Autonomous");
         intakingEntry = driverStationTab.add("Intaking?", intakeIndicator).getEntry();
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
@@ -106,6 +113,9 @@ public class ShuffleboardUtility {
         shooterRPMEntry = testDebugTab.add("Shooter RPM", shooterRPM).getEntry();
         turretEncoderPositionEntry = testDebugTab.add("Turret Encoder Position", turretEncoderPosition).getEntry();
         gyroYawEntry = testDebugTab.add("Gyro Yaw", gyroYaw).getEntry();
+        saltAndPepperEntry = autoTab.add("Salt and Pepper Skillet", saltAndPepper).getEntry();
+        cheesyDenverEntry = autoTab.add("Cheesy Denver Skillet", cheesyDenver).getEntry();
+        caliAvocadoEntry = autoTab.add("Cali Avocado Skillet", caliAvocado).getEntry();
     }
 
     private static ShuffleboardUtility instance = null;
@@ -131,7 +141,7 @@ public class ShuffleboardUtility {
     }
     public void setManualMode(boolean ManualMode){
         manualMode = ManualMode;
-        manualModeEntry.setBoolean(shootIndicator);
+        manualModeEntry.setBoolean(manualMode);
     }
 	public void setDistanceFromTarget(double DistanceFromTarget){
 		distanceFromTarget = DistanceFromTarget;
@@ -141,11 +151,6 @@ public class ShuffleboardUtility {
 	public void setShotType(String ShotType){
 		shotType = ShotType;
 		shotTypeEntry.setString(shotType);
-    }
-    public void setLimelightFeed(HttpCamera LimelightCamera){
-        limelightCamera = LimelightCamera;
-        driverStationTab.add("Limelight Feed", limelightCamera);
-        testDebugTab.add("Limelight Feed", limelightCamera);
     }
     public void setHopperFeed(){
         
@@ -299,6 +304,36 @@ public class ShuffleboardUtility {
     //     }
     // }
     
-	//-------- Autonomous --------\\
+    //-------- Autonomous --------\\
+    
+    // public boolean getSaltAndPepperSkillet(){
+    //     saltAndPepper = saltAndPepperEntry.getBoolean(saltAndPepper);
+    //     return saltAndPepper;
+    // }
+    // public boolean getCheesyDenverSkillet(){
+    //     cheesyDenver = cheesyDenverEntry.getBoolean(cheesyDenver);
+    //     return cheesyDenver;
+    // }
+    // public boolean getCaliAvocadoSkillet(){
+    //     caliAvocado = caliAvocadoEntry.getBoolean(caliAvocado);
+    //     return caliAvocado;
+    // }
 
+    // public int autonomousPaths(){
+
+    //     caliAvocado = caliAvocadoEntry.getBoolean(caliAvocado);
+    //     cheesyDenver = cheesyDenverEntry.getBoolean(cheesyDenver);
+    //     saltAndPepper = saltAndPepperEntry.getBoolean(saltAndPepper);
+
+    //     if (caliAvocado == true){
+    //         return 1;
+    //     } else if (cheesyDenver == true){
+    //         return 2;
+    //     } else if (saltAndPepper == true){
+    //         return 3;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
+    
 } //end of class Shuffleboard

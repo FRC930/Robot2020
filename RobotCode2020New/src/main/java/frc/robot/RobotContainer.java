@@ -124,11 +124,12 @@ public class RobotContainer {
   private static boolean inManualMode = false; // Default, this should be false
   private Joystick driverController;
   private Joystick coDriverController;
+  private ShuffleboardUtility shuffleboardUtility = ShuffleboardUtility.getInstance();
 
   //-- Inline Class for Manual Mode Trigger
   private class ManualModeTrigger extends Trigger {
     public boolean get() {
-      //shuffleboardUtility.setManualMode(inManualMode);
+      shuffleboardUtility.setManualMode(inManualMode);
       return inManualMode;
     }
   }
@@ -380,7 +381,8 @@ public class RobotContainer {
     // This runnable method flips the manual mode and updates shuffleboard
     manualModeButton.whileActiveOnce(new InstantCommand(() -> {
       inManualMode = !inManualMode;
-      SmartDashboard.putBoolean("Safety", inManualMode);
+      System.out.println("MANUAL MODE TOGGLE STATE:  " + inManualMode);
+      shuffleboardUtility.setManualMode(inManualMode);
       beginRunCommands();
     }));
 

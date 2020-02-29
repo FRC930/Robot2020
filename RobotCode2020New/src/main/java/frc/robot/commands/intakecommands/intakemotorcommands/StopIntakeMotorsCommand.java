@@ -28,14 +28,12 @@ public class StopIntakeMotorsCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   private final IntakeMotorSubsystem intakeMotors;
-  private ShuffleboardUtility shuffleboardUtility;
 
   //-------- CONSTRUCTOR --------\\
 
   public StopIntakeMotorsCommand(IntakeMotorSubsystem iMotors) {
     intakeMotors = iMotors;
     logger.log(Constants.LOG_LEVEL_FINE, "Initializing the StopIntakeMotorsCommand...");
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
     addRequirements(iMotors);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -44,7 +42,6 @@ public class StopIntakeMotorsCommand extends CommandBase {
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
      intakeMotors.setMotorSpeed(0.0);
-     shuffleboardUtility.setIntakeIndicator(false);
      logger.log(Constants.LOG_LEVEL_FINE, "Stopping the intake wheels (command)..."); 
   }
 

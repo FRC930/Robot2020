@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import java.util.logging.Logger;
 
 import frc.robot.Constants;
+import frc.robot.utilities.ShuffleboardUtility;
 
 //--------- SUBSYSTEM CLASS ---------\\
 
@@ -25,6 +26,7 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
   //-------- DECLARATIONS --------\\
 
   private Solenoid FlywheelPiston;
+  private ShuffleboardUtility shuffleboardUtility;
 
   public enum SolenoidValues {
 
@@ -45,6 +47,7 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
 
   public FlywheelPistonSubsystem() {
     FlywheelPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
   }
 
   //-------- METHODS --------\\ 
@@ -64,6 +67,7 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    shuffleboardUtility.setShooterAngle(get());
   }
 
 } // end of class FlywheelPistonSubsystem

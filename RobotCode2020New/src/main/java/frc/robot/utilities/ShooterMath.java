@@ -158,4 +158,18 @@ public class ShooterMath {
             this.type = type;
         }
     }
+
+    public static String getShotType(ShotOutcome type){
+        String shotType;
+        if (type == ShotOutcome.NONE){
+            shotType = "Impossible";
+        }
+        else if (type == ShotOutcome.OUTER){
+            shotType = "Outer Goal possible";
+        }
+        else{
+            shotType = "Inner Goal possible";
+        }
+        return shotType;
+    }
 }
