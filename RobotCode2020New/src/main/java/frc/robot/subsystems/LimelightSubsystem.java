@@ -201,6 +201,11 @@ public class LimelightSubsystem extends SubsystemBase {
         return pipelineName;
     }
 
+    // used to turn the limelight LEDs on and off
+    public void setLightMode(int mode) {
+        limelightTable.getEntry("ledMode").setNumber(mode);
+    }
+
     @Override
     public void periodic() {    
 
