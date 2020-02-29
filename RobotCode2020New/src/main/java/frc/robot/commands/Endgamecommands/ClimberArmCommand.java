@@ -56,7 +56,7 @@ public class ClimberArmCommand extends CommandBase
         stickY = coDriver.getRawAxis(coDriverAxis);
 
         // if the coDriver pushes joystick up it will set the speed to the Climber Arm
-        if(Math.abs(stickY) > 0.1) {
+        if(Math.abs(stickY) > 0.1 && climberArmSubsystem.getRawEncoderPosition() > Constants.CLIMBER_LIMIT) {
             speed = Math.pow(stickY, 3) * 0.5;
             this.logger.log(Constants.LOG_LEVEL_INFO, "Absolute Stick axis value: " + stickY + " > " + 0.1);
         } else {
