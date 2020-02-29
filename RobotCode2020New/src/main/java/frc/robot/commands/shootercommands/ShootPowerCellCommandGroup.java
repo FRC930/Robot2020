@@ -26,8 +26,7 @@ import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
-
-import frc.robot.utilities.ShooterMath;
+import frc.robot.triggers.TriggerCommand;
 
 import frc.robot.subsystems.FlywheelPistonSubsystem;
 
@@ -47,6 +46,7 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
         //Run all required commands in order so we can shoot.
         addCommands(//new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
             new SequentialCommandGroup(
+                new TriggerCommand(zr),
                 new RampShooterCommand(flywheelSubsystem),
                 new RunFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_SPEED),
                     //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
@@ -64,5 +64,11 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
         //      )
         //  );
     } // end of the constructor ShootPowerCellCommandGroup
+    
+
+    @Override
+    public void end(boolean interrupted) {
+        System.out.println("### PARALLEL RACE GROUP ENDING ###");
+    }
 
 } // end of class ShootPowerCellCommandGroup

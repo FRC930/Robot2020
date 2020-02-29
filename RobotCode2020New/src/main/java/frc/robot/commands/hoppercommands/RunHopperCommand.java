@@ -18,10 +18,10 @@ import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
- 
+
 public class RunHopperCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
     private HopperSubsystem m_HopperSubsystem;
     private JoystickButton zr;
     private double counter;
@@ -30,13 +30,14 @@ public class RunHopperCommand extends CommandBase {
     
     //-------- CONSTRUCTOR --------\\
 
-    public RunHopperCommand(HopperSubsystem HopperSubsystem,JoystickButton ZR){
+    // -------- CONSTRUCTOR --------\\
+
+    public RunHopperCommand(HopperSubsystem HopperSubsystem) {
         m_HopperSubsystem = HopperSubsystem;
-        zr = ZR;
         addRequirements(m_HopperSubsystem);
     }
 
-    //-------- METHODS --------\\
+    // -------- METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override
@@ -64,10 +65,10 @@ public class RunHopperCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
     }
-
+  
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return !zr.get();
+        return false;
     }
 } // end of class RunHopperCommand

@@ -16,12 +16,12 @@ import frc.robot.subsystems.FlywheelSubsystem;
 
 public class RunFlywheelCommand extends CommandBase {
 
-  //-------- DECLARATIONS --------\\
+  // -------- DECLARATIONS --------\\
 
   private FlywheelSubsystem m_FlywheelSubsystem;
   private double m_Speed;
 
-  //-------- CONSTRUCTOR --------\\
+  // -------- CONSTRUCTOR --------\\
 
   public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
     m_FlywheelSubsystem = flywheelSubsystem;
@@ -29,34 +29,18 @@ public class RunFlywheelCommand extends CommandBase {
     addRequirements(m_FlywheelSubsystem);
   }
 
-  //--------- COMMANDBASE METHODS ----------\\
+  // --------- COMMANDBASE METHODS ----------\\
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_FlywheelSubsystem.setSpeed(m_Speed);  //Run the flywheel at a certain speed
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    m_FlywheelSubsystem.setSpeed(m_Speed); // Run the flywheel at a certain speed
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isAtSpeed();
-  }
-
-  //TODO: Change 5880 and 50 to constants please
-  private boolean isAtSpeed() {
-    return this.m_FlywheelSubsystem.getSpeed() < (this.m_Speed * 5880) + 50 || this.m_FlywheelSubsystem.getSpeed() > (this.m_Speed * 5880) - 50;
+    return false;
   }
 
 } // end of command class RunFlywheelCommand
-

@@ -91,6 +91,8 @@ public final class Constants {
 
     // When the turret encoder is reset, the turret faces forward and the encoder is
     // reset to 180 degrees. These units are in raw values.
+
+    // [-------------------TURRET--------------------------]
     public static final double UPPER_LIMIT = 0.8;
     public static final double LOWER_LIMIT = 0.2;
     public static final double TURRET_MAX_SPEED = 0.75;

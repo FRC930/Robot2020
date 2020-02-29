@@ -56,8 +56,7 @@ public class ShuffleboardUtility {
     private ShuffleboardTab testingTab;
     //private PIDController pidController;
 
-    //-------- CONSTRUCTOR --------\\
-
+    // -------- CONSTRUCTOR --------\\
     private ShuffleboardUtility() {
         testDebugTab = Shuffleboard.getTab("Testing & Debugging");
         pidController = testDebugTab.getComponents();
@@ -94,8 +93,7 @@ public class ShuffleboardUtility {
         }
     }
 
-    //------- Drive Tab -------\\
-
+    // ------- Drive Tab -------\\
 
 	public void setIntakeIndicator(boolean intakeIndicator){
 		this.intakeIndicator = intakeIndicator;
@@ -239,6 +237,6 @@ public class ShuffleboardUtility {
         SmartDashboard.putNumber("Shooter PID", kSetpoint);
     }
 
-	//-------- Autonomous --------\\
+    // -------- Autonomous --------\\
 
 } //end of class Shuffleboard
