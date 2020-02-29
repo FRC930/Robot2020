@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-
+import frc.robot.commands.intakecommands.DeployIntakeCommand;
+import frc.robot.commands.intakecommands.ReturnIntakeCommand;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -36,14 +37,14 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
   private DriveSubsystem driveSubsystem;
+  private DeployIntakeCommand deployIntakeCommand;
+  private ReturnIntakeCommand returnIntakeCommand;
 
-  //private DeployIntakeCommand deployIntakeCommand;
-  //private ReturnIntakeCommand returnIntakeCommand;
-
-  //private IntakeMotorSubsystem intakeMotorSubsytem;
-  //private IntakePistonSubsystem intakePistonSubsytem;
-  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem) {
+  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem,DeployIntakeCommand dICommand,ReturnIntakeCommand rICommand) {
     driveSubsystem = dSubsystem;
+    deployIntakeCommand = dICommand;
+    returnIntakeCommand = rICommand;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -107,9 +108,10 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
       move through trench to grab 3 balls
       Shoot 3 from trench position
     */
-
+    
     addCommands(new WaitCommand(3), // Shoot 3 balls
-        ramseteCommand1, // Moving trajectory
+      new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand) , // Moving trajectory
+        returnIntakeCommand,
         // Turn in place 180 degrees
         new WaitCommand(5)); 
         
