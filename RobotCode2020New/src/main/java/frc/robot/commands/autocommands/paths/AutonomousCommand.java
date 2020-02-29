@@ -112,6 +112,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
         drive::tankDriveVolts,
         drive
     );
-    addCommands(ramseteCommand1, new SpinCommand(drive, gyroSubsystem));
+    addCommands(ramseteCommand1, new SpinCommand(drive, gyroSubsystem,340));
   }
 }

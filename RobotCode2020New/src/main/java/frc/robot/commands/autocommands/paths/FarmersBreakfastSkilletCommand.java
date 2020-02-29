@@ -23,19 +23,20 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
+
+// -------- PATH DESCRIPTION -------- \\
+// Mid Field - Move off intiation & Initial 3
+
 public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem driveSubsystem;
-  GyroSubsystem gyroSubsystem;
-  public FarmersBreakfastSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
+  DriveSubsystem m_drive;
+  public FarmersBreakfastSkilletCommand(DriveSubsystem subsystem) {
+    m_drive = subsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -61,8 +62,8 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
         List.of(
             // Midpoints
         ),
-        // End 
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
+        // End 5 feet infront of initiation line
+        new Pose2d(inchesToMeters(60.0), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 
@@ -74,23 +75,25 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        m_drive::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        m_drive::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        m_drive::tankDriveVolts,
+        m_drive
     );
     
-    /* 
-    Robot has 3 power cells set on top of the robot
-    Robot Shoots 3 power cells and moves off initiation linE
+    /*
+    Path Description:
+    -----------------
+        Robot has 3 power cells set on top of the robot
+        Robot Shoots 3 power cells and moves off initiation linE
     */
 
     addCommands(new WaitCommand(3), // Shoot 3 balls
@@ -104,4 +107,3 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
   }
 
 } // end of Farmers Breakfast Skillet Command class
-

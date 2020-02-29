@@ -25,7 +25,7 @@ public class ColorSensorSubsystem extends SubsystemBase {
   //-------- CONSTANTS --------\\
 
   // Creates an instance of the logger class
-  private final Logger logger = Logger.getLogger(ColorSensorSubsystem.class.getName());
+  private static final Logger logger = Logger.getLogger(ColorSensorSubsystem.class.getName());
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
   //-------- DECLARATIONS --------\\

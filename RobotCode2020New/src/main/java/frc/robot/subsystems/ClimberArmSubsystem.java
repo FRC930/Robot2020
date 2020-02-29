@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ClimberArmSubsystem extends SubsystemBase {
 
     //--------CONSTANTS--------\\
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ClimberArmSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
     

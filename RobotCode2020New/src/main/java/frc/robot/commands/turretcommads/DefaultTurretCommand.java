@@ -26,8 +26,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DefaultTurretCommand extends PIDCommand {
 
     // -------- DECLARATIONS --------\\
+    private static final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
 
-    private final Logger logger = Logger.getLogger(DefaultTurretCommand.class.getName());
     private double stickX;
 
     // -------- CONSTRUCTOR --------\\
