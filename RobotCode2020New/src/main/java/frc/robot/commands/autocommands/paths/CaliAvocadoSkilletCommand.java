@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.commands.intakecommands.DeployIntakeCommand;
 import frc.robot.commands.intakecommands.ReturnIntakeCommand;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -33,17 +34,28 @@ import java.util.List;
 // Alliance Side - Initial 3 & Trench 3 & Rendezvous 2
 
 public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
-  /**
-   * Creates a new Autonomous.
-   */
+/**  
+    Path Description:
+    -----------------
+      Shoot 3 from initiation line
+      move through trench to grab 3 balls
+      Shoot 3 from trench position
+*/
+
   private DriveSubsystem driveSubsystem;
+
   private DeployIntakeCommand deployIntakeCommand;
   private ReturnIntakeCommand returnIntakeCommand;
 
-  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem,DeployIntakeCommand dICommand,ReturnIntakeCommand rICommand) {
+  private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
+
+  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommandGroup SPCCommand) {
     driveSubsystem = dSubsystem;
-    deployIntakeCommand = dICommand;
-    returnIntakeCommand = rICommand;
+
+    deployIntakeCommand = DICommand;
+    returnIntakeCommand = RICommand;
+
+    shootPowerCellCommandGroup = SPCCommand;
 
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -81,7 +93,6 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
 
     );
 
-
     // -------- RAMSETE Commands -------- \\
     // Creates a command that can be added to the command scheduler in the sequential command
     
@@ -110,12 +121,10 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
       Shoot 3 from trench position
     */
     
-    addCommands(new WaitCommand(3), // Shoot 3 balls
-      new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand) , // Moving trajectory
-        returnIntakeCommand,
-        // Turn in place 180 degrees
-        new WaitCommand(5)); 
-        
+    addCommands(new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup),  // Shoot 3 balls
+      new ParallelRaceGroup(ramseteCommand1, deployIntakeCommand) ,                      // Moving trajectory while intaking
+      returnIntakeCommand,                                                            // Stop intaking
+      new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup));         // Shooting final 3 balls        
   }
 
   public double inchesToMeters(double inches) {

@@ -69,7 +69,13 @@ public class ShuffleboardUtility {
     //-------- CONSTRUCTOR --------\\
 
     private ShuffleboardUtility() {
+<<<<<<< HEAD
+=======
+        // Gets the pid controller data
+>>>>>>> c5240cc0d6638d012e12e53d176cff9ef098c55b
         pidController = testDebugTab.getComponents();
+        
+        // sets stating values -------------------------------------------
         intakeIndicator = false;
         shootIndicator = false;
         manualMode = false;
@@ -92,8 +98,13 @@ public class ShuffleboardUtility {
         kD = 0.0;
         kF = 0.0;
         kSetpoint = 0.0;
+        //end of stating values ---------------------------------------------------------
+
+        //gets all the tab data
         driverStationTab = Shuffleboard.getTab("Driver Station");
         testDebugTab = Shuffleboard.getTab("Testing & Debugging");
+
+        // data to add to shuffle board
         intakingEntry = driverStationTab.add("Intaking?", intakeIndicator).getEntry();
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
@@ -122,28 +133,39 @@ public class ShuffleboardUtility {
 
     // TODO: set methods to respective commands
 	public void setIntakeIndicator(boolean IntakeIndicator){
-		intakeIndicator = IntakeIndicator;
+        intakeIndicator = IntakeIndicator;
+        //sends the state to shuffle board
         intakingEntry.setBoolean(intakeIndicator);
 	}
 	public void setShootIndicator(boolean ShootIndicator){
-		shootIndicator = ShootIndicator;
+        shootIndicator = ShootIndicator;
+        //sends the state to shuffle board
 		shootingEntry.setBoolean(shootIndicator);
     }
     public void setManualMode(boolean ManualMode){
         manualMode = ManualMode;
+        //sends the state to shuffle board
         manualModeEntry.setBoolean(shootIndicator);
     }
 	public void setDistanceFromTarget(double DistanceFromTarget){
-		distanceFromTarget = DistanceFromTarget;
+        distanceFromTarget = DistanceFromTarget;
+        //sends the distance to shuffle board
         distanceFromTargetEntry.setNumber(distanceFromTarget);
     }
     // TODO: find method for shot types
 	public void setShotType(String ShotType){
+<<<<<<< HEAD
 		shotType = ShotType;
 		shotTypeEntry.setString(shotType);
+=======
+        shotType = ShotType;
+        //sends the type to shuffle board
+		shotTypeEntry.getString(shotType);
+>>>>>>> c5240cc0d6638d012e12e53d176cff9ef098c55b
     }
     public void setLimelightFeed(HttpCamera LimelightCamera){
         limelightCamera = LimelightCamera;
+        //sends the limelight feed
         driverStationTab.add("Limelight Feed", limelightCamera);
         testDebugTab.add("Limelight Feed", limelightCamera);
     }
@@ -161,6 +183,7 @@ public class ShuffleboardUtility {
 
 	//----- Testing & Debugging -----\\
 
+<<<<<<< HEAD
     public void setTurretSpeed(double TurretSpeed){
         turretSpeed = TurretSpeed;
         turretSpeedEntry.setNumber(turretSpeed);
@@ -172,11 +195,29 @@ public class ShuffleboardUtility {
     public void setShooterAngle(boolean ShooterAngle){
         shooterAngle = ShooterAngle;
         shooterAngleEntry.setBoolean(shooterAngle);
+=======
+    public void setTurretSpeed(double turretSpeed){
+        this.turretSpeed = turretSpeed;
+        //sends the speed to shuffle board
+        SmartDashboard.putNumber("Turret Speed", turretSpeed);
+    }
+    public void setHopperSpeed(double hopperSpeed){
+        this.hopperSpeed = hopperSpeed;
+        //sends the speed to shuffle board
+        SmartDashboard.putNumber("Hopper Speed", hopperSpeed);
+    }
+    // travis and josh are fixing rn
+    public void setPistonAngle(double pistonAngle){
+        this.pistonAngle = pistonAngle;
+        //sends the state to shuffle board
+        SmartDashboard.putNumber("Piston Angle", pistonAngle);
+>>>>>>> c5240cc0d6638d012e12e53d176cff9ef098c55b
     }
 	// public void getLogger(String logger){
 	// 	this.logger = logger;
 	// 	SmartDashboard.putString("Logger Level", logger);
 	// }
+<<<<<<< HEAD
 	public void setShooterRPM(double ShooterRPM){
 		shooterRPM = ShooterRPM;
 		shooterRPMEntry.setNumber(shooterRPM);
@@ -188,6 +229,18 @@ public class ShuffleboardUtility {
     public void setGyroYaw(double GyroYaw){
         gyroYaw = GyroYaw;
         gyroYawEntry.setNumber(gyroYaw);
+=======
+	public void setTurretEncoderPosition(double turretEncoderPosition){
+        this.turretEncoderPosition = turretEncoderPosition;
+        // sends the encoder pos to shuffle board
+		SmartDashboard.putNumber("Turret Encoder Pos", turretEncoderPosition);
+    }
+
+    public void setGyroYaw(double gyroYaw){
+        this.gyroYaw = gyroYaw;
+        //sends the yaw to shuffle board
+        SmartDashboard.putNumber("Gyro Yaw (LtoR Rotation)", gyroYaw);
+>>>>>>> c5240cc0d6638d012e12e53d176cff9ef098c55b
     }
     // TODO: figure out how to get PID values into code
     // public String getShooterP(){

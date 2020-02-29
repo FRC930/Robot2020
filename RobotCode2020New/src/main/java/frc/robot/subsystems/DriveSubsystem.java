@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   // The gyro, used for autonomous
   private PigeonIMU gyro;
 
-  private Solenoid shifter;
+  //private Solenoid shifter;
 
   // Values, used to store the yaw, pitch, and roll (the robot's rotation)
   private double yawPitchRollValues[] = new double[3];
@@ -79,7 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
     // TODO: Change this because GyroSubsystem already instantiates this!
     gyro = new PigeonIMU(gyroTalon);
    
-    shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
+    //shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
 
@@ -109,11 +109,11 @@ public class DriveSubsystem extends SubsystemBase {
     right1.configOpenloopRamp(Constants.MOTOR_RAMP_RATE);
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
-    shifter.set(true);
+    //shifter.set(true);
   }
 
   public void setShifterState(boolean state) {
-    shifter.set(state);
+    //shifter.set(state);
   }
 
   /**

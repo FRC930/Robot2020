@@ -4,10 +4,7 @@ package frc.robot;
 
 // --Library Commands
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.commands.Endgamecommands.RetractArmCommand;
-import frc.robot.commands.Endgamecommands.ToggleShiftCommand;
-import frc.robot.commands.Endgamecommands.StopArmCommand;
-import frc.robot.commands.Endgamecommands.ExtendArmCommand;
+
 // --Our Commands
 import frc.robot.commands.autocommands.paths.*;
 
@@ -33,9 +30,15 @@ import frc.robot.commands.shootercommands.flywheelcommands.*;
 import frc.robot.commands.shootercommands.pistoncommands.*;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 
+
 import frc.robot.commands.towercommands.*;
 
 import frc.robot.commands.turretcommads.*;
+
+import frc.robot.commands.endgamecommands.RetractArmCommand;
+import frc.robot.commands.endgamecommands.ToggleShiftCommand;
+import frc.robot.commands.endgamecommands.StopArmCommand;
+import frc.robot.commands.endgamecommands.ExtendArmCommand;
 
 // --Subsystem imports
 import frc.robot.subsystems.*;
@@ -125,7 +128,7 @@ public class RobotContainer {
   //-- Inline Class for Manual Mode Trigger
   private class ManualModeTrigger extends Trigger {
     public boolean get() {
-      shuffleboardUtility.setManualMode(inManualMode);
+      //shuffleboardUtility.setManualMode(inManualMode);
       return inManualMode;
     }
   }
@@ -179,7 +182,7 @@ public class RobotContainer {
   // --Auton command
   //TODO: Change this to accept any auton path from the shuffleboard
   //private final BigCountrySkilletCommand bigCountrySkilletCommand;
-  private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
+  //private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
   // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
   // private final EverythingSkilletCommand everythingSkilletCommand;
   // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
@@ -247,13 +250,13 @@ public class RobotContainer {
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
   private final Logger logger = Logger.getLogger(RobotContainer.class.getName());;
   // --Utilities
-  private final ShuffleboardUtility shuffleboardUtility;
+  //private final ShuffleboardUtility shuffleboardUtility;
 
   
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
-
+    new CameraUtil().startCapture();
     //Setting Log level for entire robot code
     //TODO: Edit this in Shuffleboard...?
     frcRobotLogger.setLevel(Level.OFF);
@@ -352,10 +355,10 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
+    //caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
+    //shuffleboardUtility = ShuffleboardUtility.getInstance();
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
@@ -540,11 +543,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     CommandScheduler scheduler = CommandScheduler.getInstance();
-    scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
+    scheduler.setDefaultCommand(turretSubsystem, autoAimTurretCommand);
     scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
     scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
-    //return null;
     // Run path following command, then stop at the end.
   }
 

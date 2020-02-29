@@ -32,16 +32,27 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
 
 public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
+/*
+    Path Description:
+    -----------------
+      - Drive off intiation line
+      - Move to the side 2 Rendezvous Point balls
+      - Pick up two rendezvous point balls
+      - Shoot all 5 balls held
+*/
     private DriveSubsystem driveSubsystem;
-    // private GyroSubsystem gyroSubsystem;
+
     private DeployIntakeCommand deployIntakeCommand;
     private ReturnIntakeCommand returnIntakeCommand;
+
     private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
+
     public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommandGroup SPCCommand){
         driveSubsystem = dSubsystem;
-        // gyroSubsystem = gSubsystem;
+
         deployIntakeCommand = DICommand;
         returnIntakeCommand = RICommand;
+        
         shootPowerCellCommandGroup = SPCCommand;
 
         //this is our config for how much power goes to the motors
@@ -78,16 +89,6 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
         List.of( 
             // Midpoints
-            //new Translation2d(inchesToMeters(40), inchesToMeters(0)),
-            //new Translation2d(inchesToMeters(80), inchesToMeters(30))
-            // new Translation2d(inchesToMeters(12.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(27.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(52.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(67.5), inchesToMeters(2)),
-            // new Translation2d(inchesToMeters(75), inchesToMeters(3)),
-            // new Translation2d(inchesToMeters(90), inchesToMeters(7)),
-            // new Translation2d(inchesToMeters(100), inchesToMeters(13)),
-            // new Translation2d(inchesToMeters(110), inchesToMeters(24))
         ),
         //this is our end point we end our first trajectory at X: 80 inches Y:-80 inches and -65 degrees from orgin
         new Pose2d(inchesToMeters(114.94), inchesToMeters(-20), new Rotation2d(Math.toRadians(-65))),
@@ -101,16 +102,6 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new Pose2d(inchesToMeters(114.94), inchesToMeters(-20), new Rotation2d(Math.toRadians(-65))), //-65
         List.of( 
             // Midpoints
-            //new Translation2d(inchesToMeters(40), inchesToMeters(0)),
-            //new Translation2d(inchesToMeters(80), inchesToMeters(30))
-            // new Translation2d(inchesToMeters(12.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(27.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(52.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(67.5), inchesToMeters(2)),
-            // new Translation2d(inchesToMeters(75), inchesToMeters(3)),
-            // new Translation2d(inchesToMeters(90), inchesToMeters(7)),
-            // new Translation2d(inchesToMeters(100), inchesToMeters(13)),
-            // new Translation2d(inchesToMeters(110), inchesToMeters(24))
         ),
         // return to intial position
         new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
@@ -158,9 +149,24 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         driveSubsystem::tankDriveVolts,
         driveSubsystem 
     );
-        // add commands here to run during auto
-        addCommands(new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand), returnIntakeCommand, ramseteCommand2,shootPowerCellCommandGroup);
+
+    /*
+    Path Description:
+    -----------------
+      - Drive off intiation line
+      - Move to the side 2 Rendezvous Point balls
+      - Pick up two rendezvous point balls
+      - Return to initiation line
+      - Shoot all 5 balls held
+    */
+
+    // add commands here to run during auto
+    addCommands(new ParallelRaceGroup(ramseteCommand1, deployIntakeCommand),     // Move to the rendezvous point side 2 balls while intaking
+        returnIntakeCommand,                                                     // Stop intake motors and return intake
+        ramseteCommand2,                                                         // Move back to initiation line
+        new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup));  // Shoot 5 balls held from position at initiation line
     }
+    
     //converts our inches into meters
     private double inchesToMeters(double inch){
         return inch/39.3701;
