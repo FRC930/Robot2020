@@ -125,6 +125,7 @@ public class RobotContainer {
   //-- Inline Class for Manual Mode Trigger
   private class ManualModeTrigger extends Trigger {
     public boolean get() {
+      shuffleboardUtility.setManualMode(inManualMode);
       return inManualMode;
     }
   }

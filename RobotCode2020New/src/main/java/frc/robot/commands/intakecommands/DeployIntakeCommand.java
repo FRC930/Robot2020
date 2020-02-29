@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
@@ -29,6 +30,7 @@ public class DeployIntakeCommand extends CommandBase {
 
   private IntakePistonSubsystem intakePistonSubsystem;
   private IntakeMotorSubsystem intakeMotorSubsystem;
+  private ShuffleboardUtility shuffleboardUtility;
 
   //-------- CONSTRUCTOR --------\\
 
@@ -47,12 +49,15 @@ public class DeployIntakeCommand extends CommandBase {
   public void initialize() {
     intakePistonSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
     intakeMotorSubsystem.setMotorSpeed(Constants.INTAKE_SPEED);
-
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
+    
     logger.log(Constants.LOG_LEVEL_FINE, "Deploying the intake (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() { 
+  public void execute() {
+    System.out.println("BIG ROBOT CODE THINGS YAY!  " + intakePistonSubsystem.getIntakePistonState());
+    shuffleboardUtility.setIntakeIndicator(intakePistonSubsystem.getIntakePistonState());
   } 
   
   @Override   // Called once the command ends or is interrupted.
