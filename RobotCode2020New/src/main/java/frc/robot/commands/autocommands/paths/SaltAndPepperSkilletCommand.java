@@ -159,8 +159,21 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         driveSubsystem::tankDriveVolts,
         driveSubsystem 
     );
+
+    /*
+    Path Description:
+    -----------------
+      - Drive off intiation line
+      - Move to the side 2 Rendezvous Point balls
+      - Pick up two rendezvous point balls
+      - Shoot all 5 balls held
+    */
+
         // add commands here to run during auto
-        addCommands(new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand), returnIntakeCommand, ramseteCommand2,shootPowerCellCommandGroup);
+        addCommands(new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand), 
+            returnIntakeCommand,
+            ramseteCommand2,
+            shootPowerCellCommandGroup);
     }
     //converts our inches into meters
     private double inchesToMeters(double inch){

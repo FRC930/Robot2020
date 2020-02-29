@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.*;
 
@@ -39,6 +40,7 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
   private DriveSubsystem driveSubsystem;
   private DeployIntakeCommand deployIntakeCommand;
   private ReturnIntakeCommand returnIntakeCommand;
+  private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
 
   public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem,DeployIntakeCommand dICommand,ReturnIntakeCommand rICommand) {
     driveSubsystem = dSubsystem;
@@ -109,11 +111,10 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
       Shoot 3 from trench position
     */
     
-    addCommands(new WaitCommand(3), // Shoot 3 balls
-      new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand) , // Moving trajectory
-        returnIntakeCommand,
-        // Turn in place 180 degrees
-        new WaitCommand(5)); 
+    addCommands(shootPowerCellCommandGroup, // Shoot 3 balls
+      new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand) , // Moving trajectory while intaking
+        returnIntakeCommand, // Stop intaking
+        shootPowerCellCommandGroup); // Shooting final 3 balls 
         
   }
 
