@@ -10,7 +10,6 @@
 package frc.robot.commands.shootercommands;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -39,12 +38,12 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
     //-------- CONSTRUCTORS --------\\
     
     public ShootPowerCellCommandGroup(
-        FlywheelSubsystem flywheelSubsystem, 
-        TowerSubsystem towerSubsystem, 
-        HopperSubsystem hopperSubsystem, 
-        KickerSubsystem kickerSubsystem, 
-        LimelightSubsystem limeLightSubsystem, 
-        FlywheelPistonSubsystem flywheelPistonSubsystem) 
+        FlywheelSubsystem fSubsystem, 
+        TowerSubsystem tSubsystem, 
+        HopperSubsystem hSubsystem, 
+        KickerSubsystem kSubsystem, 
+        LimelightSubsystem lLightSubsystem, 
+        FlywheelPistonSubsystem fPistonSubsystem) 
     {
         //Run all required commands in order so we can shoot.
         addCommands(//new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
@@ -53,18 +52,18 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
                 // new RunFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_SPEED),
                     //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
                     //limeLight.getDistance()).getVelocity()), 
-                new ParallelCommandGroup(new RunHopperCommand(hopperSubsystem), new RunTowerCommand(towerSubsystem), new RunKickerCommand(kickerSubsystem))
+                new ParallelCommandGroup(new RunHopperCommand(hSubsystem), new RunTowerCommand(tSubsystem), new RunKickerCommand(kSubsystem))
             )
         );
-    } // end of the auton constructor ShootPowerCellCommandGroup
+    } // End of Auton Constructor
     
     public ShootPowerCellCommandGroup(
-        FlywheelSubsystem flywheelSubsystem, 
-        TowerSubsystem towerSubsystem, 
-        HopperSubsystem hopperSubsystem, 
-        KickerSubsystem kickerSubsystem, 
-        LimelightSubsystem limeLightSubsystem, 
-        FlywheelPistonSubsystem flywheelPistonSubsystem,
+        FlywheelSubsystem fSubsystem, 
+        TowerSubsystem tSubsystem, 
+        HopperSubsystem hSubsystem, 
+        KickerSubsystem kSubsystem, 
+        LimelightSubsystem lLightSubsystem, 
+        FlywheelPistonSubsystem fPistonSubsystem,
         JoystickButton ZR)   
     {
         //Run all required commands in order so we can shoot.
@@ -75,14 +74,9 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
                 // new RunFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_SPEED),
                     //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
                     //limeLight.getDistance()).getVelocity()), 
-                new ParallelCommandGroup(new RunHopperCommand(hopperSubsystem), new RunTowerCommand(towerSubsystem), new RunKickerCommand(kickerSubsystem))
+                new ParallelCommandGroup(new RunHopperCommand(hSubsystem), new RunTowerCommand(tSubsystem), new RunKickerCommand(kSubsystem))
             )
         );
-    } // end of the teleop constructor ShootPowerCellCommandGroup
+    } // End of Teleop Constructor
 
-    @Override
-    public void end(boolean interrupted) {
-      
-    }
-
-} // end of class ShootPowerCellCommandGroup
+} // End of Class

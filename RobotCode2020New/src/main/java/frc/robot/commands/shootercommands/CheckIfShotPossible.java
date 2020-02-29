@@ -15,30 +15,30 @@ import frc.robot.utilities.ShooterMath.ShotOutcome;;
 public class CheckIfShotPossible extends CommandBase{
     private DeadbandMath deadbandMath = DeadbandMath.getInstance();
     private ShooterMath shooterMath = ShooterMath.getInstance();
-    private LimelightSubsystem limeLight;
-    private FlywheelPistonSubsystem m_FlywheelPistonSubsystem;
+    private LimelightSubsystem limeLightSubsystem;
+    private FlywheelPistonSubsystem flywheelPistonSubsystem;
     private ShotOutcome shotOutcome;
     private DeadbandZone deadbandZone;
     private ShotChance shotChance;
 
-    public CheckIfShotPossible(LimelightSubsystem limeLight, FlywheelPistonSubsystem flywheelAngleSubsystem) {
-        this.limeLight = limeLight;
-        this.m_FlywheelPistonSubsystem = flywheelAngleSubsystem;
-        shotOutcome = null;
-        deadbandZone = null;
-        shotChance = null;
+    public CheckIfShotPossible(LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fPistonSubsystem) {
+        limeLightSubsystem = lLightSubsystem;
+        flywheelPistonSubsystem = fPistonSubsystem;
+        shotOutcome = ShotOutcome.NONE;
+        deadbandZone = DeadbandZone.RED;
+        shotChance = ShotChance.MISS;
     }
     
     @Override
     public boolean isFinished() {
 
         //Set the shot type to the shooter.
-        shooterMath.setPosition(m_FlywheelPistonSubsystem.get() ? 31.4 : 39, limeLight.getDistance());
-        this.shotOutcome = shooterMath.getPossibleShot();
+        shooterMath.setPosition(flywheelPistonSubsystem.get() ? 31.4 : 39, limeLightSubsystem.getDistance());
+        shotOutcome = shooterMath.getPossibleShot();
         
-        deadbandMath.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
-        this.deadbandZone = deadbandMath.getDeadbandZone();
-        this.shotChance = deadbandMath.getShotChance();
+        deadbandMath.setPosition(limeLightSubsystem.getHorizontalOffset(), limeLightSubsystem.getDistance());
+        deadbandZone = deadbandMath.getDeadbandZone();
+        shotChance = deadbandMath.getShotChance();
 
         // Return true if the shot types is best. We are not shooting at maybe or lower.
         if (this.shotOutcome == ShotOutcome.INNER && this.deadbandZone == DeadbandZone.GREEN && this.shotChance == ShotChance.HIGH) {
