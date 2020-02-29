@@ -71,6 +71,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     // -------- METHODS --------\\
 
     public void setSpeed(double speed) {
+        System.out.println("Flywheel speed: " + speed);
         logger.entering(this.getClass().getName(), "setSpeed()");
 
         // Set PID to speed up flywheel

@@ -13,45 +13,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.KickerSubsystem;
+import frc.robot.utilities.JamState;
 import frc.robot.Constants;
- 
+
 //-------- COMMAND CLASS --------\\
 
 public class RunKickerCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
     private KickerSubsystem kickerSubsystem;
-    
-    //-------- CONSTRUCTOR --------\\
+    private JamState state = JamState.getInstance();
 
-    public RunKickerCommand(KickerSubsystem kSubsystem){
+    // -------- CONSTRUCTOR --------\\
+
+    public RunKickerCommand(KickerSubsystem kSubsystem) {
         kickerSubsystem = kSubsystem;
         addRequirements(kickerSubsystem);
-    }
-
-    //-------- METHODS --------\\
-    
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100)) % 2) == 1)
-        {
-            kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
-        } else {
+        if (state.getState()) {
             kickerSubsystem.setSpeed(0.0);
+        } else {
+            if (((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100))
+                    % 2) == 1) {
+                kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+            } else {
+                kickerSubsystem.setSpeed(0.0);
+            }
         }
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.

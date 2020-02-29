@@ -47,6 +47,7 @@ public class KickerSubsystem extends SubsystemBase {
 
     //sets the speed to the tower motor 
     public void setSpeed(double speed) {
+        System.out.println("Kicker Speed: " + speed);
         logger.entering(this.getClass().getName(), "setSpeed()");
         logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + speed);
 
