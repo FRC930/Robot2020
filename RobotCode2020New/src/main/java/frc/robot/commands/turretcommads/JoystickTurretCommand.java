@@ -50,11 +50,12 @@ public class JoystickTurretCommand extends CommandBase {
 
         stickX = coDriver.getRawAxis(coDriverAxis);
  
+        logger.log(Level.INFO, "stickX = "+stickX);
         if(Math.abs(stickX) > Constants.JOYSTICK_TURRET_DEADBAND) {
-            logger.log(Level.INFO, stickX + " > " + Constants.JOYSTICK_TURRET_DEADBAND);
+            logger.log(Level.INFO, "stickX >  Constants.JOYSTICK_TURRET_DEADBAND("+Constants.JOYSTICK_TURRET_DEADBAND+")");
             speed = Math.pow(stickX, 3) * 0.5;
         } else {
-            logger.log(Level.INFO, stickX + " < " + Constants.JOYSTICK_TURRET_DEADBAND);
+            logger.log(Level.INFO, "stickX <  Constants.JOYSTICK_TURRET_DEADBAND("+Constants.JOYSTICK_TURRET_DEADBAND+")");
             speed = 0;
         }
 

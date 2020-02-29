@@ -67,11 +67,12 @@ public class AutoAimTurretCommand extends PIDCommand {
 
                     // manual control will override the auto tracking
                     if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > Constants.JOYSTICK_TURRET_DEADBAND) {
-                        logger.log(Level.INFO, stickX + " > " + Constants.JOYSTICK_TURRET_DEADBAND);
+                        logger.log(Level.INFO, "turret joytick value > Constants.JOYSTICK_TURRET_DEADBAND");
                         turret.setSpeed(-Math.pow(coDriver.getRawAxis(coDriverAxis), 3) * 0.5);
                     } else {
-                        logger.log(Level.INFO, stickX + " < " + Constants.JOYSTICK_TURRET_DEADBAND);
+                        logger.log(Level.INFO, "turret joytick value < Constants.JOYSTICK_TURRET_DEADBAND");
                         if(Math.abs(limelight.getHorizontalOffset()) < 27) {
+                            logger.log(Level.INFO, "setting 'turret' speed ="+ output);
                             turret.setSpeed(output);
                         }
                     }
@@ -90,7 +91,8 @@ public class AutoAimTurretCommand extends PIDCommand {
 
         // Require the subsystems that we need
         addRequirements(limelight, turret);
-
+    
+        logger.exiting(this.getClass().getName(), "AutoAimTurretCommand");
     } // end of constructor AutoAimTurretCommand()
 
     @Override
