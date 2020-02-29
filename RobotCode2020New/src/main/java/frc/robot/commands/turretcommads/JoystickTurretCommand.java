@@ -9,7 +9,7 @@
 
 package frc.robot.commands.turretcommads;
 
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,6 +51,7 @@ public class JoystickTurretCommand extends CommandBase {
         stickX = coDriver.getRawAxis(coDriverAxis);
 
         if(Math.abs(stickX) > 0.1) {
+            logger.log(Level.FINE, )
             speed = Math.pow(stickX, 3) * 0.5;
         } else {
             speed = 0;
