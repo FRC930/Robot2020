@@ -103,6 +103,10 @@ public final class Constants {
     public static final double TURRET_I = 0.0;//0.135;
     public static final double TURRET_D = 0.0008;//0.00081;
 
+    public static final double TURRET_SET_POSITION_P = 1.0;
+    public static final double TURRET_SET_POSITION_I = 0.0;
+    public static final double TURRET_SET_POSITION_D = 0.0;
+
     // encoder positions for setting turret to one of four directions
     public static final double TURRET_FRONT_POSITION = 0.659;
     public static final double TURRET_BACK_POSITION = 0.415;

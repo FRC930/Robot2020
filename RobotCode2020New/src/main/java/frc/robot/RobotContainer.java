@@ -181,7 +181,7 @@ public class RobotContainer {
   // --Auton command
   //TODO: Change this to accept any auton path from the shuffleboard
   //private final BigCountrySkilletCommand bigCountrySkilletCommand;
-  private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
+  //private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
   // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
   // private final EverythingSkilletCommand everythingSkilletCommand;
   // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
@@ -263,8 +263,6 @@ public class RobotContainer {
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-    Solenoid s = new Solenoid(2);
-    s.set(true);
     // --Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -354,7 +352,7 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
+    //caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
@@ -492,7 +490,7 @@ public class RobotContainer {
 
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
-    JoystickButton limelightLEDsOn = new JoystickButton(coDriverController, XB_LB);
+    JoystickButton autoTrackTurret = new JoystickButton(coDriverController, XB_LB);
 
     POVTrigger turretFront = new POVTrigger(coDriverController, 0, XB_POV_UP);
     POVTrigger turretBack = new POVTrigger(coDriverController, 0, XB_POV_DOWN);
@@ -504,11 +502,21 @@ public class RobotContainer {
     // limelightLEDsOn.whenPressed(autoAimTurretCommand);
     // limelightLEDsOn.whenReleased(limelightLEDsOffCommand);
 
-    limelightLEDsOn.whileActiveOnce(autoAimTurretCommand);
+    // auto tracking the turret
+    autoTrackTurret.whileActiveOnce(autoAimTurretCommand);
+    autoTrackTurret.whenInactive(limelightLEDsOffCommand);
+    autoTrackTurret.whenInactive(new TurretBackCommand(turretSubsystem));
+    //autoTrackTurret.whenInactive(new TurretBackPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)));
 
-    turretFront.whileActiveContinuous(new TurretFrontCommand(turretSubsystem));
-    turretBack.whileActiveContinuous(new TurretBackCommand(turretSubsystem));
-    turretLeft.whileActiveContinuous(new TurretLeftCommand(turretSubsystem));
+    // set turret position without PID
+    // turretFront.whileActiveContinuous(new SetTurretPositionCommand(turretSubsystem, Constants.TURRET_FRONT_POSITION));
+    // turretBack.whileActiveContinuous(new SetTurretPositionCommand(turretSubsystem, Constants.TURRET_BACK_POSITION));
+    // turretLeft.whileActiveContinuous(new SetTurretPositionCommand(turretSubsystem, Constants.TURRET_LEFT_POSITION));
+
+    // set turret position with PID
+    turretFront.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_FRONT_POSITION));
+    turretBack.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_BACK_POSITION));
+    turretLeft.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_FRONT_POSITION));
 
     // Toggle intake
     intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
