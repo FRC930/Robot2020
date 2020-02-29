@@ -61,7 +61,8 @@ public final class Constants {
     // [-------------------ROBORIO PORT IDS---------------------------]
 
     public static final int ENCODER_PORT_ID = 0;
-	public static final int HOPPER_ENCODER_PORT_ID = 1; 
+	  public static final int HOPPER_ENCODER_PORT_ID = 1; 
+    public static final int CLIMBER_ENCODER_PORT_ID = 2;
 
     // [-------------------ROBORIO PORT IDS---------------------------]
 
@@ -87,6 +88,7 @@ public final class Constants {
     // [-------------------LIMITS--------------------------]
 
     public static final double ENCODER_ROTATION_LIMIT = 190;
+    public static final double CLIMBER_LIMIT = -2.3;
 
     // [-------------------LIMITS--------------------------]
 
@@ -97,11 +99,15 @@ public final class Constants {
     public static final double UPPER_LIMIT = 0.763;//0.8;//.27
     public static final double LOWER_LIMIT = 0.335;//0.2; //-.27
 
-    public static final double TURRET_MAX_SPEED = 0.75;
+    public static final double TURRET_MAX_SPEED = 0.6;//0.75;
 
-    public static final double TURRET_P = 0.021;
-    public static final double TURRET_I = 0.135;
-    public static final double TURRET_D = 0.00081;
+    public static final double TURRET_P = 0.025;//0.021;
+    public static final double TURRET_I = 0.0;//0.135;
+    public static final double TURRET_D = 0.0008;//0.00081;
+
+    public static final double TURRET_SET_POSITION_P = 1.0;
+    public static final double TURRET_SET_POSITION_I = 0.0;
+    public static final double TURRET_SET_POSITION_D = 0.0;
 
     // encoder positions for setting turret to one of four directions
     public static final double TURRET_FRONT_POSITION = 0.659;
@@ -110,7 +116,7 @@ public final class Constants {
     public static final double TURRET_RIGHT_POSITION = 0.26;
 
     // speed used for turning the turret
-    public static final double TURRET_TURNING_SPEED = 0.1;
+    public static final double TURRET_TURNING_SPEED = 0.4;
 
     // deadband for the turret set position commands
     public static final double TURRET_DEADBAND = 0.001;

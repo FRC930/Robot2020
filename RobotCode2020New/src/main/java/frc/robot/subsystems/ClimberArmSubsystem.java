@@ -13,6 +13,7 @@ import frc.robot.Constants;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,13 +30,21 @@ public class ClimberArmSubsystem extends SubsystemBase {
     private static final Logger logger = Logger.getLogger(ClimberArmSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
+    private DutyCycleEncoder encoder;
+    private double encoderPostition;
     
     // VictorSPX is a motor controller that makes the arm go up and down for when we climb for endgame
     private VictorSPX ClimberArmMotor;
 
+    // -------- CONSTRUCTOR --------\\
+
     public ClimberArmSubsystem() {
         ClimberArmMotor = new VictorSPX(Constants.CLIMBER_ARM_ID);
+        this.encoder = new DutyCycleEncoder(Constants.CLIMBER_ENCODER_PORT_ID);
+        this.encoder.reset();
     }
+
+    // -------- METHODS --------\\
 
     public void setSpeed(double speed){
         logger.entering(this.getClass().getName(), "Extend");
@@ -56,5 +65,8 @@ public class ClimberArmSubsystem extends SubsystemBase {
     
     public void stopMotor() {
         ClimberArmMotor.set(ControlMode.PercentOutput, 0.0);
+    }
+    public double getRawEncoderPosition(){
+        return this.encoder.get();
     }
 }       // End of ClimberArm Subsystem

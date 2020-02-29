@@ -11,27 +11,54 @@ package frc.robot.commands.turretcommads;
 
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.TurretSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class TurretRightCommand extends CommandBase {
-
+public class TurretLeftPIDCommand extends PIDCommand {
 
     //You must include logger as a constant variable, and you must have logging in your files
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private double turretPosition;
-    private double targetPosition = Constants.TURRET_RIGHT_POSITION;
-    private double speed;
-
     private TurretSubsystem turretSubsystem;    
     
-    public TurretRightCommand(TurretSubsystem turretSubsystem){
+    public TurretLeftPIDCommand(TurretSubsystem turretSubsystem, PIDController controller){
+
+        super(controller,
+            // lambda for passing through the position of the encoder
+            ()->{
+                return turretSubsystem.getRawEncoderPosition();
+            },
+
+            // target position to reach
+            Constants.TURRET_LEFT_POSITION,
+
+            // lambda that sets the speed of the turret
+            (double speed)->{
+
+                if (speed > 0.4) {
+                    speed = 0.4;
+                } else if (speed < -0.4) {
+                    speed = -0.4;
+                }
+
+                turretSubsystem.setSpeed(speed);
+            },
+
+            turretSubsystem);
+
         this.turretSubsystem = turretSubsystem;
+
+        // Enable the controller to continuously get input
+        this.getController().enableContinuousInput(0, 1);
+
+        // Set the tolerance of the controller
+        this.getController().setTolerance(Constants.TURRET_DEADBAND);
+
         addRequirements(turretSubsystem);
     }
 
@@ -40,25 +67,6 @@ public class TurretRightCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
-        speed = 0;
-        turretPosition = turretSubsystem.getRawEncoderPosition();
-
-        if(Math.abs(turretPosition - targetPosition) > Constants.TURRET_DEADBAND){
-            if(turretPosition < targetPosition) {
-                speed = Constants.TURRET_TURNING_SPEED;
-            } else if(turretPosition > targetPosition) {
-                speed = -Constants.TURRET_TURNING_SPEED;
-            }    
-        } else {
-            speed = 0;
-        }
-        
-        turretSubsystem.setSpeed(speed);
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {  
     }
 
     // Called once the command ends or is interrupted.
@@ -66,11 +74,9 @@ public class TurretRightCommand extends CommandBase {
     public void end(boolean interrupted) {
     }
 
-    
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return true;
     }
-} // end of class TurretRightCommand 
-
+} // end of class TurretLeftPIDCommand 

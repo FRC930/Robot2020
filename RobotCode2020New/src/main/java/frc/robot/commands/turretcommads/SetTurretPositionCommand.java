@@ -7,49 +7,57 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.endgamecommands;
+package frc.robot.commands.turretcommads;
 
 import java.util.logging.Logger;
-
-import javax.swing.text.Position;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimberArmSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class ExtendArmCommand extends CommandBase {
-
+public class SetTurretPositionCommand extends CommandBase {
 
     //You must include logger as a constant variable, and you must have logging in your files
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private ClimberArmSubsystem climberArmSubsystem;    
+    private double turretPosition;
+    private double targetPosition;
+    private double speed;
+
+    private TurretSubsystem turretSubsystem;    
     
-    public ExtendArmCommand(ClimberArmSubsystem climberArmSubsystem){
-        this.climberArmSubsystem = climberArmSubsystem;
-        addRequirements(climberArmSubsystem);
+    public SetTurretPositionCommand(TurretSubsystem turretSubsystem, double targetPosition){
+        this.turretSubsystem = turretSubsystem;
+        this.targetPosition = targetPosition;
+        addRequirements(turretSubsystem);
     }
 
     //-------- METHODS --------\\
     
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {     
+    public void initialize() {   
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {  
-        double postition = climberArmSubsystem.getRawEncoderPosition();
-        if (postition > Constants.CLIMBER_LIMIT) {
-            climberArmSubsystem.setSpeed(Constants.CLIMBER_EXTEND_SPEED);
+        turretPosition = turretSubsystem.getRawEncoderPosition();
+
+        if(Math.abs(turretPosition - targetPosition) > Constants.TURRET_DEADBAND){
+            if(turretPosition < targetPosition) {
+                speed = -Constants.TURRET_TURNING_SPEED;
+            } else if(turretPosition > targetPosition) {
+                speed = Constants.TURRET_TURNING_SPEED;
+            }    
+        } else {
+            speed = 0;
         }
-        else {
-            climberArmSubsystem.stopMotor();
-        }
+        
+        turretSubsystem.setSpeed(speed);
     }
 
     // Called once the command ends or is interrupted.
@@ -63,5 +71,5 @@ public class ExtendArmCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-} // end of class ClimberArmCommand 
+} // end of class TurretBackCommand 
 
