@@ -60,6 +60,7 @@ public final class Constants {
     // [-------------------ROBORIO PORT IDS---------------------------]
 
     public static final int ENCODER_PORT_ID = 0;
+    public static final int CLIMBER_ENCODER_PORT_ID = 2;
 
     // [-------------------ROBORIO PORT IDS---------------------------]
 
@@ -85,6 +86,7 @@ public final class Constants {
     // [-------------------LIMITS--------------------------]
 
     public static final double ENCODER_ROTATION_LIMIT = 190;
+    public static final double CLIMBER_LIMIT = 0.5;
 
     // [-------------------LIMITS--------------------------]
 

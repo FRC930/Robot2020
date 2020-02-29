@@ -35,13 +35,20 @@ public class ExtendArmCommand extends CommandBase {
     
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {   
-        climberArmSubsystem.setSpeed(Constants.CLIMBER_EXTEND_SPEED);
+    public void initialize() {     
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {  
+        double postition = climberArmSubsystem.getRawEncoderPosition();
+        if (postition < Constants.CLIMBER_LIMIT) {
+            climberArmSubsystem.setSpeed(Constants.CLIMBER_EXTEND_SPEED);
+        }
+        else {
+            climberArmSubsystem.stopMotor();
+        }
+        
     }
 
     // Called once the command ends or is interrupted.
