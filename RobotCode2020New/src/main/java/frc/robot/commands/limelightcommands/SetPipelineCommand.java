@@ -29,8 +29,8 @@ public class SetPipelineCommand extends CommandBase {
     //-------- CONSTRUCTOR --------\\
     public SetPipelineCommand(LimelightSubsystem limelightSubsystem){
 
-        m_LimelightSubsystem = new LimelightSubsystem();
-        addRequirements(m_LimelightSubsystem);
+        m_LimelightSubsystem = limelightSubsystem;
+        addRequirements(limelightSubsystem);
 
     }
 
