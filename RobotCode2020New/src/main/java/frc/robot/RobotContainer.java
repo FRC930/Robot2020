@@ -542,11 +542,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     CommandScheduler scheduler = CommandScheduler.getInstance();
-    //scheduler.setDefaultCommand(turretSubsystem, );
+    scheduler.setDefaultCommand(turretSubsystem, autoAimTurretCommand);
     scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
     scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
     return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
-    //return null;
     // Run path following command, then stop at the end.
   }
 

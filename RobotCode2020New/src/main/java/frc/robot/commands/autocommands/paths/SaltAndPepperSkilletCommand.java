@@ -79,16 +79,6 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
         List.of( 
             // Midpoints
-            //new Translation2d(inchesToMeters(40), inchesToMeters(0)),
-            //new Translation2d(inchesToMeters(80), inchesToMeters(30))
-            // new Translation2d(inchesToMeters(12.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(27.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(52.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(67.5), inchesToMeters(2)),
-            // new Translation2d(inchesToMeters(75), inchesToMeters(3)),
-            // new Translation2d(inchesToMeters(90), inchesToMeters(7)),
-            // new Translation2d(inchesToMeters(100), inchesToMeters(13)),
-            // new Translation2d(inchesToMeters(110), inchesToMeters(24))
         ),
         //this is our end point we end our first trajectory at X: 80 inches Y:-80 inches and -65 degrees from orgin
         new Pose2d(inchesToMeters(114.94), inchesToMeters(-20), new Rotation2d(Math.toRadians(-65))),
@@ -102,16 +92,6 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new Pose2d(inchesToMeters(114.94), inchesToMeters(-20), new Rotation2d(Math.toRadians(-65))), //-65
         List.of( 
             // Midpoints
-            //new Translation2d(inchesToMeters(40), inchesToMeters(0)),
-            //new Translation2d(inchesToMeters(80), inchesToMeters(30))
-            // new Translation2d(inchesToMeters(12.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(27.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(52.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(67.5), inchesToMeters(2)),
-            // new Translation2d(inchesToMeters(75), inchesToMeters(3)),
-            // new Translation2d(inchesToMeters(90), inchesToMeters(7)),
-            // new Translation2d(inchesToMeters(100), inchesToMeters(13)),
-            // new Translation2d(inchesToMeters(110), inchesToMeters(24))
         ),
         // return to intial position
         new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
