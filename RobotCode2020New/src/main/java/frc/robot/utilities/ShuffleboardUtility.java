@@ -58,9 +58,8 @@ public class ShuffleboardUtility {
     private NetworkTableEntry distanceFromTargetEntry;
     private NetworkTableEntry shotTypeEntry;
     
-
-    //-------- CONSTRUCTOR --------\\
-
+    // -------- CONSTRUCTOR --------\\
+    
     private ShuffleboardUtility() {
         // Gets the pid controller data
         pidController = testDebugTab.getComponents();

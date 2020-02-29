@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-
 import frc.robot.utilities.ShooterMath;
 
 import frc.robot.Constants;
@@ -54,7 +53,9 @@ public class FlywheelVelocityCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        this.math.setPosition((flywheelPistonSubsystem.get() ? Constants.FLYWHEEL_LOWER_ANGLE : Constants.FLYWHEEL_UPPER_ANGLE), limelightSubsystem.getDistance());
+        // FlywheelSubsystem get angle
+        // Limelight get distance
+        this.math.setPosition(flywheelPistonSubsystem.get() ? 31.4 : 39, limelightSubsystem.getDistance());
     }
 
     // Called once the command ends or is interrupted.

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,46 +7,39 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.kickercommands;
+package frc.robot.commands.shootercommands.flywheelcommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.Constants;
- 
+
 //-------- COMMAND CLASS --------\\
 
-public class RunKickerCommand extends CommandBase {
+public class RampShooterCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
-    private KickerSubsystem kickerSubsystem;
-    
-    //-------- CONSTRUCTOR --------\\
+    private FlywheelSubsystem m_FlywheelSubsystem;
 
-    public RunKickerCommand(KickerSubsystem kSubsystem){
-        kickerSubsystem = kSubsystem;
-        addRequirements(kickerSubsystem);
+    // -------- CONSTRUCTOR --------\\
+
+    public RampShooterCommand(FlywheelSubsystem flywheelSubsystem) {
+        m_FlywheelSubsystem = flywheelSubsystem;
+        addRequirements(m_FlywheelSubsystem);
     }
 
-    //-------- METHODS --------\\
-    
+    //-------- COMMANDBASE METHODS --------\\
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-
+        m_FlywheelSubsystem.setSpeed(1.0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100)) % 2) == 1)
-        {
-            kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
-        } else {
-            kickerSubsystem.setSpeed(0.0);
-        }
     }
 
     // Called once the command ends or is interrupted.
@@ -54,9 +47,9 @@ public class RunKickerCommand extends CommandBase {
     public void end(boolean interrupted) {
     }
 
-    // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return (m_FlywheelSubsystem.getPercentOutput() >= 0.5);
     }
-} // end of class RunKickerCommand
+
+} // end of class RunDefaultFlywheelCommand
