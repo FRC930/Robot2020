@@ -9,13 +9,14 @@
 
 package frc.robot.commands.turretcommads;
 
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.Constants;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -65,10 +66,13 @@ public class AutoAimTurretCommand extends PIDCommand {
                     SmartDashboard.putNumber("controller", output);
 
                     // manual control will override the auto tracking
-                    if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 0.1) {
+                    if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > Constants.JOYSTICK_TURRET_DEADBAND) {
+                        logger.log(Level.INFO, "turret joytick value > Constants.JOYSTICK_TURRET_DEADBAND");
                         turret.setSpeed(-Math.pow(coDriver.getRawAxis(coDriverAxis), 3) * 0.5);
                     } else {
+                        logger.log(Level.INFO, "turret joytick value < Constants.JOYSTICK_TURRET_DEADBAND");
                         if(Math.abs(limelight.getHorizontalOffset()) < 27) {
+                            logger.log(Level.INFO, "setting 'turret' speed ="+ output);
                             turret.setSpeed(output);
                         }
                     }
@@ -87,7 +91,8 @@ public class AutoAimTurretCommand extends PIDCommand {
 
         // Require the subsystems that we need
         addRequirements(limelight, turret);
-
+    
+        logger.exiting(AutoAimTurretCommand.class.getName(), "AutoAimTurretCommand");
     } // end of constructor AutoAimTurretCommand()
 
     @Override

@@ -9,11 +9,12 @@
 
 package frc.robot.commands.turretcommads;
 
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.TurretSubsystem;
 
 //-------- COMMAND CLASS --------\\
@@ -27,7 +28,6 @@ public class JoystickTurretCommand extends CommandBase {
     private TurretSubsystem turretSubsystem;
     private Joystick coDriver;
     private int coDriverAxis;
-
     private double stickX;
 
     //-------- CONSTRUCTOR --------\\
@@ -49,10 +49,13 @@ public class JoystickTurretCommand extends CommandBase {
         double speed;
 
         stickX = coDriver.getRawAxis(coDriverAxis);
-
-        if(Math.abs(stickX) > 0.1) {
+ 
+        logger.log(Level.INFO, "stickX = "+stickX);
+        if(Math.abs(stickX) > Constants.JOYSTICK_TURRET_DEADBAND) {
+            logger.log(Level.INFO, "stickX >  Constants.JOYSTICK_TURRET_DEADBAND("+Constants.JOYSTICK_TURRET_DEADBAND+")");
             speed = Math.pow(stickX, 3) * 0.5;
         } else {
+            logger.log(Level.INFO, "stickX <  Constants.JOYSTICK_TURRET_DEADBAND("+Constants.JOYSTICK_TURRET_DEADBAND+")");
             speed = 0;
         }
 

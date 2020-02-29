@@ -13,16 +13,20 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Joystick;
 
+import java.util.logging.*;
 
 public class DriveCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
   //-------- DECLARATIONS --------\\
+
   private final DriveSubsystem driveSubsystem;
   private final Joystick m_driveStick;
   private int driverTurninAxis;
   private int driverThrottleAxis;
+
+  private final Logger logger = Logger.getLogger(DriveCommand.class.getName());
 
   //-------- CONSTRUCTOR --------\\
 
@@ -67,9 +71,11 @@ public class DriveCommand extends CommandBase {
 
     // Dead band after the cube sets to zero if under the dead band
     if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {
+      logger.log(Level.INFO, "stickX < DRIVE_DEADBAND_JOYSTICK");
       stickX = 0;
     }
     if (Math.abs(stickY) < Constants.DRIVE_DEADBAND_JOYSTICK) {
+      logger.log(Level.INFO, "stickY < DRIVE_DEADBAND_JOYSTICK");
       stickY = 0;
     }
     // sends the values of our sticks (with some math for turning) to our drive train motors
