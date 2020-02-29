@@ -12,6 +12,7 @@ package frc.robot.commands.intakecommands.intakemotorcommands;
 import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
@@ -27,12 +28,13 @@ public class RunIntakeMotorsCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   private final IntakeMotorSubsystem intakeMotors;
+  private ShuffleboardUtility shuffleboardUtility;
 
   //-------- CONSTRUCTOR --------\\
 
   public RunIntakeMotorsCommand(IntakeMotorSubsystem iMotors) {
     intakeMotors = iMotors;
-
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
     logger.log(Constants.LOG_LEVEL_FINE, "Initializing the RunIntakeMotorsCommand...");
 
     addRequirements(iMotors);  // Use addRequirements() here to declare subsystem dependencies.
@@ -48,7 +50,7 @@ public class RunIntakeMotorsCommand extends CommandBase {
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() { 
+  public void execute() {
   } 
   
   @Override   // Called once the command ends or is interrupted.

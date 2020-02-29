@@ -9,10 +9,12 @@
 
 package frc.robot.commands.turretcommads;
 
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.TurretSubsystem;
 
 //-------- COMMAND CLASS --------\\
@@ -20,6 +22,8 @@ import frc.robot.subsystems.TurretSubsystem;
 public class JoystickTurretCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
+
+    private static final Logger logger = Logger.getLogger(JoystickTurretCommand.class.getName());
 
     private TurretSubsystem turretSubsystem;
     private Joystick coDriver;
@@ -48,7 +52,7 @@ public class JoystickTurretCommand extends CommandBase {
         stickX = coDriver.getRawAxis(coDriverAxis);
 
         if(Math.abs(stickX) > 0.1) {
-            speed = Math.pow(stickX, 3);
+            speed = Math.pow(stickX, 3) * 0.5;
         } else {
             speed = 0;
         }
@@ -58,6 +62,9 @@ public class JoystickTurretCommand extends CommandBase {
 
         // we pass in a negative speed to match Kyle's joystick-+
         turretSubsystem.setSpeed(-speed);
+
+        
+
     } // end of class execute()
 
     @Override

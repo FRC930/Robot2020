@@ -12,6 +12,7 @@ package frc.robot.commands.intakecommands.intakepistoncommands;
 import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
@@ -28,11 +29,12 @@ public class ExtendIntakePistonCommand extends CommandBase {
 
   private final IntakePistonSubsystem intakePistonsSubsystem;
 
+
   //-------- CONSTRUCTOR --------\\
 
   public ExtendIntakePistonCommand(IntakePistonSubsystem iPistons) {
     intakePistonsSubsystem = iPistons;
-
+    
     logger.log(Constants.LOG_LEVEL_FINE, "Initializing the ExtendIntakePistonCommand...");
 
     addRequirements(iPistons);  // Use addRequirements() here to declare subsystem dependencies.
@@ -43,12 +45,12 @@ public class ExtendIntakePistonCommand extends CommandBase {
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
     intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_DOWN);
-
+    
     logger.log(Constants.LOG_LEVEL_FINE, "Extending the intake piston (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() { 
+  public void execute() {
   } 
   
   @Override   // Called once the command ends or is interrupted.
