@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants;
-import frc.robot.commands.intakecommands.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.autocommands.actioncommands.SpinCommand;
 
@@ -34,19 +33,7 @@ public class AutonomousCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  private DriveSubsystem dSubsystem;
-  private GyroSubsystem gyroSubsystem;
-
-  private DeployIntakeCommand deployIntakeCommand;
-  private ReturnIntakeCommand returnIntakeCommand;
-
-  private IntakeMotorSubsystem intakeMotorSubsytem;
-  private IntakePistonSubsystem intakePistonSubsytem;
-  
-
-  public AutonomousCommand(DriveSubsystem driveSubsystem, GyroSubsystem gSubsystem) {
-    dSubsystem = driveSubsystem;
-    gyroSubsystem = gSubsystem;
+  public AutonomousCommand(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem) {
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -75,7 +62,7 @@ public class AutonomousCommand extends SequentialCommandGroup {
         
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        gSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -99,7 +86,7 @@ public class AutonomousCommand extends SequentialCommandGroup {
         config);
      RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        gyroSubsystem::getPose,
+        gSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -112,6 +99,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
         dSubsystem::tankDriveVolts,
         dSubsystem
     );
-    addCommands(ramseteCommand1, new SpinCommand(dSubsystem, gyroSubsystem,340));
-  }
-}
+    addCommands(ramseteCommand1, new SpinCommand(dSubsystem, gSubsystem, 340));
+  } // End of Constructor
+} // End of Class

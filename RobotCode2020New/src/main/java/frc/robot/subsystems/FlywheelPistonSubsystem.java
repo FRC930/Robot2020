@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,54 +9,71 @@ import frc.robot.Constants;
 
 //--------- SUBSYSTEM CLASS ---------\\
 
+/**
+ * <h3>FlywheelPistonSubsystem</h3> This class controls the piston on the
+ * shooter
+ */
 public class FlywheelPistonSubsystem extends SubsystemBase {
 
-  //-------- CONSTANTS --------\\
+    // -------- CONSTANTS --------\\
 
-  private static final Logger logger = Logger.getLogger(FlywheelPistonSubsystem.class.getName());
+    /**
+     * This logger will be used for sending information to the user
+     */
+    private static final Logger logger = Logger.getLogger(FlywheelPistonSubsystem.class.getName());
 
-  //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
-  private Solenoid FlywheelPiston;
+    /**
+     * This Solenoid will be used for changing the shooting angle
+     */
+    private Solenoid flywheelPiston;
 
-  public enum SolenoidValues {
+    /**
+     * This enum will be used for choosing piston state
+     */
+    public enum SolenoidValues {
 
-    EXTEND(true), RETRACT(false);
+        EXTEND(true), RETRACT(false);
 
-    private final boolean solenoidState;
+        private final boolean solenoidState;
 
-    private SolenoidValues(boolean solenoidState) {
-      this.solenoidState = solenoidState;
+        private SolenoidValues(boolean solenoidState) {
+            this.solenoidState = solenoidState;
+        }
+
+        public boolean getSolenoidState() {
+            return this.solenoidState;
+        }
     }
 
-    public boolean getSolenoidState() {
-      return this.solenoidState;
+    // -------- CONSTRUCTOR --------\\
+
+    /**
+     * This constructor will assign {@link #flywheelPiston} to the correct hardware
+     */
+    public FlywheelPistonSubsystem() {
+        flywheelPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
     }
-  }
 
-  // -------- CONSTRUCTOR --------\\
+    // -------- METHODS --------\\
 
-  public FlywheelPistonSubsystem() {
-    FlywheelPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
-  }
+    /**
+     * Sets the state of the piston
+     * @param state the state of the piston
+     */
+    public void set(SolenoidValues state) {
+        flywheelPiston.set(state.getSolenoidState());
+        this.logger.log(Constants.LOG_LEVEL_FINE, "set(" + state + ")");
 
-  //-------- METHODS --------\\ 
+    }
 
-  //Sets the value of the piston   
-  public void set(SolenoidValues state) {
-    FlywheelPiston.set(state.getSolenoidState());
-    this.logger.log(Constants.LOG_LEVEL_FINE, "set(" + state + ")");
-
-  }
-
-  //returns the value of the piston, TRUE = On or up, FALSE = Off or down
-  public boolean get(){
-    this.logger.log(Constants.LOG_LEVEL_FINE, "getPistonValue: " + (FlywheelPiston.get() ? "True" : "False"));
-    return FlywheelPiston.get();
-  }
-
-  @Override
-  public void periodic() {
-  }
-
+    /**
+     * This method will get the solenoid position
+     * @return the solenoid position using the custom enum
+     */
+    public boolean get() {
+        this.logger.log(Constants.LOG_LEVEL_FINE, "getPistonValue: " + (flywheelPiston.get() ? "True" : "False"));
+        return flywheelPiston.get();
+    }
 } // end of class FlywheelPistonSubsystem

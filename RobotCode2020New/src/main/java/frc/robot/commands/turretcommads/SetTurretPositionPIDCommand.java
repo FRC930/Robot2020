@@ -21,9 +21,9 @@ import frc.robot.subsystems.TurretSubsystem;
 
 public class SetTurretPositionPIDCommand extends PIDCommand {
 
-    //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-    private final double SPEED_LIMIT = 0.4;
+    //You must include logger as a constant variable, and you must have logging in your file
+    private static final Logger logger = Logger.getLogger(SetTurretPositionPIDCommand.class.getName());
+
     private TurretSubsystem turretSubsystem;    
     
     public SetTurretPositionPIDCommand(TurretSubsystem turretSubsystem, PIDController controller, double targetPosition){

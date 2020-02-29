@@ -22,7 +22,7 @@ import frc.robot.subsystems.TurretSubsystem;
 public class TurretFrontPIDCommand extends PIDCommand {
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(TurretFrontPIDCommand.class.getName());
 
     private TurretSubsystem turretSubsystem;    
     

@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 //-------- IMPORTS --------\\
 
 package frc.robot.subsystems;
@@ -20,43 +13,69 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //-------- SUBSYSTEM CLASS --------\\
 
+/**
+ * <h3>HopperSubsystem</h3>
+ * 
+ * This class controls the hopper
+ */
 public class HopperSubsystem extends SubsystemBase {
 
-    //-------- CONSTANTS --------\\
+    // -------- CONSTANTS --------\\
 
+    /**
+     * This is the logger that will be used to output information to the user
+     */
     private static final Logger logger = Logger.getLogger(HopperSubsystem.class.getName());
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
-    // VictorSPX is a motor controller that rotates the hopper, containing the power cells. Works like a nerf hellraiser loader  
+    /**
+     * This VictorSPX is the motor that controls the hopper
+     */
     private VictorSPX hopperMotor;
 
-    //-------- CONSTRUCTOR --------\\
+    // -------- CONSTRUCTOR --------\\
 
+    /**
+     * This constructor initializes the {@link #hopperMotor} to the correct motor
+     * <p>It also sets the motor to be in inverted mode</p>
+     */
     public HopperSubsystem() {
         hopperMotor = new VictorSPX(Constants.HOPPER_ID);
         hopperMotor.setInverted(true);
     }
 
-    //-------- METHODS --------\\
+    // -------- METHODS --------\\
 
-    //sets the speed to the Hoppermotor
+    /**
+     * <h3>setSpeed</h3>
+     * 
+     * This method setst the speed of the hopper
+     * 
+     * @param the speed that the motor will run at
+     */
     public void setSpeed(double speed) {
-        //Logs the setSpeed method as INFO returning, "setSpeed()"
-        logger.entering(this.getClass().getName(), "setSpeed()");
+        // Logs the setSpeed method as INFO returning, "setSpeed()"
+        logger.entering(HopperSubsystem.class.getName(), "setSpeed()");
 
         hopperMotor.set(ControlMode.PercentOutput, speed);
 
         logger.log(Constants.LOG_LEVEL_INFO, "Set shooter speed to " + hopperMotor.getMotorOutputPercent());
-        logger.exiting(this.getClass().getName(), "setSpeed()");
+        logger.exiting(HopperSubsystem.class.getName(), "setSpeed()");
     }
 
-    // returns the speed
+    /**
+     * <h3>getSpeed</h3>
+     * 
+     * This method will return the current speed of the motor
+     * 
+     * @return the current speed of the motor
+     */
     public double getSpeed() {
-        //Logs the getSpeed method as INFO returning, "getSpeed()"
-        logger.entering(this.getClass().getName(), "getSpeed()");
+        // Logs the getSpeed method as INFO returning, "getSpeed()"
+        logger.entering(HopperSubsystem.class.getName(), "getSpeed()");
         logger.log(Constants.LOG_LEVEL_INFO, "Get shooter speed to " + hopperMotor.getMotorOutputPercent());
-        logger.exiting(this.getClass().getName(), "getSpeed()");
+        logger.exiting(HopperSubsystem.class.getName(), "getSpeed()");
         return hopperMotor.getMotorOutputPercent();
     }
 } // end of class HopperSubsystem

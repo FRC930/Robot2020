@@ -37,18 +37,7 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-
-  private DriveSubsystem driveSubsystem;
-  private GyroSubsystem gyroSubsystem;
-  
-  //private DeployIntakeCommand deployIntakeCommand;
-  //private ReturnIntakeCommand returnIntakeCommand;
-
-  //private IntakeMotorSubsystem intakeMotorSubsytem;
-  //private IntakePistonSubsystem intakePistonSubsytem;
-
-  public SouthBySouthWestSkilletCommand(DriveSubsystem subsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = subsystem; 
+  public SouthBySouthWestSkilletCommand(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem) {
 
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -103,48 +92,50 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
 
         // pid***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem 
+        dSubsystem::tankDriveVolts,
+        dSubsystem 
     );
     RamseteCommand ramseteCommand2 = new RamseteCommand(
       trajectory2,
-      driveSubsystem::getPose,
+      dSubsystem::getPose,
       new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
       new SimpleMotorFeedforward(Constants.KSVOLTS,
                                  Constants.KVVOLT,
                                  Constants.KAVOLT),
       Constants.KDRIVEKINEMATICS,
-      driveSubsystem::getWheelSpeeds,
+      dSubsystem::getWheelSpeeds,
       // pid info***
       new PIDController(Constants.KPDRIVEVEL, 0, 0),
       new PIDController(Constants.KPDRIVEVEL, 0, 0),
       // RamseteCommand passes volts to the callback
-      driveSubsystem::tankDriveVolts,
-      driveSubsystem 
+      dSubsystem::tankDriveVolts,
+      dSubsystem 
   );
     /* 
     Robot in autonomous moves forward off of initiation line
     */
 
-    addCommands(new SpinCommand(driveSubsystem,gyroSubsystem,40) /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
+    addCommands(new SpinCommand(dSubsystem, gSubsystem,40) /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
 
-  }
-
+  } // End of Constructor
+  
+  // Method to convert distances
   public double inchesToMeters(double inches) {
       double meters = inches / 39.37;
       return meters;
   }
-}
+
+} // End of Class
 

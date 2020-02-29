@@ -23,14 +23,14 @@ public class StopTowerKickerCommandGroup extends ParallelCommandGroup {
 
     //-------- CONSTRUCTOR --------\\
 
-    public StopTowerKickerCommandGroup(TowerSubsystem towerSubsystem, KickerSubsystem kickerSubsystem) {
+    public StopTowerKickerCommandGroup(TowerSubsystem tSubsystem, KickerSubsystem kSubsystem) {
 
         //Stop the tower and kicker, the other subsystems will run at a default speed.
         addCommands(
             new ParallelCommandGroup(
-                new StopTowerCommand(towerSubsystem), 
-                new StopKickerCommand(kickerSubsystem)
+                new StopTowerCommand(tSubsystem), 
+                new StopKickerCommand(kSubsystem)
             )
         );
-    } // end of constructor StopTowerKickerCommand()
-} // end of class StopTowerKickerCommand
+    } // End of Constructor
+} // End of Class

@@ -24,6 +24,7 @@ public class StopTurretCommand extends CommandBase {
 
     public StopTurretCommand(TurretSubsystem turretSubsystem) {
         this.turretSubsystem = turretSubsystem;
+        addRequirements(turretSubsystem);
     }
 
     //-------- METHODS --------\\

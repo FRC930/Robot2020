@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import frc.robot.Constants;
 
@@ -54,6 +54,7 @@ public class GyroSubsystem extends SubsystemBase {
     // updates the yaw, pitch, and roll values in the array
     public void updateYawPitchRoll() {
         gyro.getYawPitchRoll(yawPitchRollValues);
+        logger.log(Level.INFO, yawPitchRollValues.toString());
     }
 
     public double getHeading() {

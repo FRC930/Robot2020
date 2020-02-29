@@ -22,7 +22,7 @@ public class ToggleShiftCommand extends CommandBase {
 
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ToggleShiftCommand.class.getName());
 
     private boolean state;
 

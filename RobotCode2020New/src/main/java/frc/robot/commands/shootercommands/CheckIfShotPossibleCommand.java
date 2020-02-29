@@ -18,8 +18,8 @@ import frc.robot.utilities.DeadbandMath;
 import frc.robot.utilities.DeadbandMath.DeadbandZone;
 import frc.robot.utilities.DeadbandMath.ShotChance;
 import frc.robot.utilities.ShooterMath;
-import frc.robot.utilities.ShuffleboardUtility;
 import frc.robot.utilities.ShooterMath.ShotOutcome;
+import frc.robot.utilities.ShuffleboardUtility;
 
 import frc.robot.Constants;
 
@@ -30,12 +30,12 @@ public class CheckIfShotPossibleCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     // --Utilities (Singletons)
-    private DeadbandMath deadbandMath = DeadbandMath.getInstance();
-    private ShooterMath shooterMath = ShooterMath.getInstance();
-    private ShuffleboardUtility shuffleboardUtility = ShuffleboardUtility.getInstance();
+    private DeadbandMath deadbandMathUtil = DeadbandMath.getInstance();
+    private ShooterMath shooterMathUtil = ShooterMath.getInstance();
+    private ShuffleboardUtility shuffleboardUtil = ShuffleboardUtility.getInstance();
 
     // --Subsystems
-    private LimelightSubsystem limeLight;
+    private LimelightSubsystem limeLightSubsystem;
     private FlywheelPistonSubsystem flywheelPistonSubsystem;
 
     // --Other
@@ -45,14 +45,14 @@ public class CheckIfShotPossibleCommand extends CommandBase {
 
     //-------- CONSTRUCTOR --------\\
 
-    public CheckIfShotPossibleCommand(LimelightSubsystem limeLight, FlywheelPistonSubsystem flywheelPistonSubsystem) {
-        this.limeLight = limeLight;
-        this.flywheelPistonSubsystem = flywheelPistonSubsystem;
+    public CheckIfShotPossibleCommand(LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fPistonSubsystem) {
+        limeLightSubsystem = lLightSubsystem;
+        flywheelPistonSubsystem = fPistonSubsystem;
 
-        shotOutcome = null;
-        deadbandZone = null;
-        shotChance = null;
-    }
+        shotOutcome = ShotOutcome.NONE;
+        deadbandZone = DeadbandZone.RED;
+        shotChance = ShotChance.MISS;
+    } // End of Constructor
     
     //-------- COMMANDBASE METHODS --------\\
 
@@ -60,19 +60,19 @@ public class CheckIfShotPossibleCommand extends CommandBase {
     public boolean isFinished() {
 
         //Set the shot type to the shooter.
-        shooterMath.setPosition((flywheelPistonSubsystem.get() ? Constants.FLYWHEEL_LOWER_ANGLE : Constants.FLYWHEEL_UPPER_ANGLE), limeLight.getDistance()); 
-        this.shotOutcome = shooterMath.getPossibleShot();
+        shooterMathUtil.setPosition((flywheelPistonSubsystem.get() ? Constants.FLYWHEEL_LOWER_ANGLE : Constants.FLYWHEEL_UPPER_ANGLE), limeLightSubsystem.getDistance()); 
+        shotOutcome = shooterMathUtil.getPossibleShot();
         
-        deadbandMath.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
-        this.deadbandZone = deadbandMath.getDeadbandZone();
-        this.shotChance = deadbandMath.getShotChance();
+        deadbandMathUtil.setPosition(limeLightSubsystem.getHorizontalOffset(), limeLightSubsystem.getDistance());
+        deadbandZone = deadbandMathUtil.getDeadbandZone();
+        shotChance = deadbandMathUtil.getShotChance();
         
         // Return true if the shot types is best. We are not shooting at maybe or lower.
-        if (this.shotOutcome == ShotOutcome.INNER && this.deadbandZone == DeadbandZone.GREEN && this.shotChance == ShotChance.HIGH) {
+        if (shotOutcome == ShotOutcome.INNER && deadbandZone == DeadbandZone.GREEN && shotChance == ShotChance.HIGH) {
             return true;
         } else {
             return false;
         }
-    } // end of method isFinished()
+    } // End of isFinished() method
     
-} //end of command class CheckIfShotPossibleCommand
+} // End of Class
