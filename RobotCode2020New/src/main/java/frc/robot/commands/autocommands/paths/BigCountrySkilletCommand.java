@@ -36,18 +36,7 @@ public class BigCountrySkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  private DriveSubsystem driveSubsystem;
-  private GyroSubsystem gyroSubsystem;
-
-  //private DeployIntakeCommand deployIntakeCommand;
-  //private ReturnIntakeCommand returnIntakeCommand;
-
-  //private IntakeMotorSubsystem intakeMotorSubsytem;
-  //private IntakePistonSubsystem intakePistonSubsytem;
-  
-  public BigCountrySkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
+  public BigCountrySkilletCommand(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem) {
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -86,32 +75,30 @@ public class BigCountrySkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        gSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        dSubsystem::tankDriveVolts,
+        dSubsystem
     );
-    
     /* 
     Path Explanation
     */
-
     addCommands(ramseteCommand1);
+  } // End of Constructor
 
-  }
-
+  // Method to convert distances
   public double inchesToMeters(double inches) {
       double meters = inches / 39.37;
       return meters;
   }
 
-}
+} // End of Class
 
