@@ -35,10 +35,8 @@ import frc.robot.commands.towercommands.*;
 
 import frc.robot.commands.turretcommads.*;
 
-import frc.robot.commands.endgamecommands.RetractArmCommand;
-import frc.robot.commands.endgamecommands.ToggleShiftCommand;
-import frc.robot.commands.endgamecommands.StopArmCommand;
-import frc.robot.commands.endgamecommands.ExtendArmCommand;
+import frc.robot.commands.endgamecommands.*;
+
 
 // --Subsystem imports
 import frc.robot.subsystems.*;
@@ -220,7 +218,7 @@ public class RobotContainer {
   private final ToggleShiftCommand toggleShiftCommand;
   private final LimelightLEDsOnCommand limelightLEDsOnCommand;
   private final LimelightLEDsOffCommand limelightLEDsOffCommand;
-  
+  private final ClimberArmCommandGroup climberArmCommandGroup;
   // --Hopper commands
   // private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
@@ -309,6 +307,7 @@ public class RobotContainer {
     toggleShiftCommand = new ToggleShiftCommand(driveSubsystem);
     limelightLEDsOnCommand = new LimelightLEDsOnCommand(limelightSubsystem);
     limelightLEDsOffCommand = new LimelightLEDsOffCommand(limelightSubsystem);
+    climberArmCommandGroup = new ClimberArmCommandGroup(climberArmSubsystem,coDriverController,XB_AXIS_LEFT_Y,new JoystickButton(coDriverController,XB_RB));
 
     // intake
     deployIntakeCommand = new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
@@ -499,6 +498,7 @@ public class RobotContainer {
     POVTrigger turretFront = new POVTrigger(coDriverController, 0, XB_POV_UP);
     POVTrigger turretBack = new POVTrigger(coDriverController, 0, XB_POV_DOWN);
     POVTrigger turretLeft = new POVTrigger(coDriverController, 0, XB_POV_LEFT);
+    JoystickButton endgameSafetyButton = new JoystickButton(coDriverController, XB_RB);
 
     // --Command binds
     // limelightLEDsOn.whenPressed(limelightLEDsOnCommand);
@@ -522,6 +522,7 @@ public class RobotContainer {
     turretBack.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_BACK_POSITION));
     turretLeft.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_FRONT_POSITION));
 
+    endgameSafetyButton.whileActiveOnce(climberArmCommandGroup);
     // Toggle intake
     intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
 
