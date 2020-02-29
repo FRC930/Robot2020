@@ -35,9 +35,16 @@ import java.util.List;
 // Opponent Side - Trench 2 & Initial 3 & Rendezvous 3
 
 public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
- /**
-   * Creates a new Autonomous.
-   */
+/**
+    Path Description:
+    -----------------
+        Starts on initiation line with 3 power cells
+        Moves towards away team trench and collects 2 power cells 
+        Moves toward the rendezvous zone 
+        Shoots 5 power cells
+        Goes to rendezvous zone and collects 3 power cells
+        Moves off of rendezvous zone and shoots 3 power cells
+*/
 
     private DriveSubsystem driveSubsystem;
 
@@ -46,8 +53,13 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     
     private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
 
-    public CheesyDenverSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
+    public CheesyDenverSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommandGroup SPCCommand) {
         driveSubsystem = dSubsystem;
+
+        deployIntakeCommand = DICommand;
+        returnIntakeCommand = RICommand;
+        
+        shootPowerCellCommandGroup = SPCCommand;
 
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -168,20 +180,20 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     Path Description:
     -----------------
         Starts on initiation line with 3 power cells
-        Moves towards away team trench and collects 2 power cells 
+        Moves towards enemy team trench and collects 2 power cells 
         Moves toward the rendezvous zone 
         Shoots 5 power cells
         Goes to rendezvous zone and collects 3 power cells
         Moves off of rendezvous zone and shoots 3 power cells
     */
 
-    addCommands(new WaitCommand(3),
-        ramseteCommand1, 
-        new WaitCommand(1), 
-        ramseteCommand2, 
-        new WaitCommand(5), 
-        ramseteCommand3,
-        new WaitCommand(2));
+    addCommands(new ParallelRaceGroup(ramseteCommand1, deployIntakeCommand),    // Move to enemy trench run while running intake
+        returnIntakeCommand,                                                    // Stop intake motors and return intake
+        ramseteCommand2,                                                        // Move to center of field near intiation line for shooting
+        new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup),  // Shoot 5 power cells that are held from current position
+        new ParallelRaceGroup(ramseteCommand3, deployIntakeCommand),            // Move to rendezvous point and run intake for 3 front balls
+        returnIntakeCommand,                                                    // Stop intake motors and return intake
+        new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup)); // Shoot 3 power cells that are held from rendezvous point
   }
 
   public double inchesToMeters(double inches) {

@@ -32,17 +32,27 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
 
 public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
-
+/*
+    Path Description:
+    -----------------
+      - Drive off intiation line
+      - Move to the side 2 Rendezvous Point balls
+      - Pick up two rendezvous point balls
+      - Shoot all 5 balls held
+*/
     private DriveSubsystem driveSubsystem;
-    // private GyroSubsystem gyroSubsystem;
+
     private DeployIntakeCommand deployIntakeCommand;
     private ReturnIntakeCommand returnIntakeCommand;
+
     private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
+
     public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommandGroup SPCCommand){
         driveSubsystem = dSubsystem;
-        // gyroSubsystem = gSubsystem;
+
         deployIntakeCommand = DICommand;
         returnIntakeCommand = RICommand;
+        
         shootPowerCellCommandGroup = SPCCommand;
 
         //this is our config for how much power goes to the motors
@@ -166,15 +176,17 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
       - Drive off intiation line
       - Move to the side 2 Rendezvous Point balls
       - Pick up two rendezvous point balls
+      - Return to initiation line
       - Shoot all 5 balls held
     */
 
-        // add commands here to run during auto
-        addCommands(new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand), 
-            returnIntakeCommand,
-            ramseteCommand2,
-            shootPowerCellCommandGroup);
+    // add commands here to run during auto
+    addCommands(new ParallelRaceGroup(ramseteCommand1, deployIntakeCommand),     // Move to the rendezvous point side 2 balls while intaking
+        returnIntakeCommand,                                                     // Stop intake motors and return intake
+        ramseteCommand2,                                                         // Move back to initiation line
+        new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup));  // Shoot 5 balls held from position at initiation line
     }
+    
     //converts our inches into meters
     private double inchesToMeters(double inch){
         return inch/39.3701;
