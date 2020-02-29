@@ -103,6 +103,11 @@ public class RobotContainer {
   public static final int XB_LEFTSTICK_BUTTON = 9;
   public static final int XB_RIGHTSTICK_BUTTON = 10;
 
+  public static final int XB_POV_UP = 0;
+  public static final int XB_POV_DOWN = 180;
+  public static final int XB_POV_LEFT = 270;
+  public static final int XB_POV_RIGHT = 90;
+
   // --Ports of controllers
   private final int DRIVER_CONTROLLER_ID = 0; // The gamecube controller
   private final int CODRIVER_CONTROLLER_ID = 1; // The xbox controller
@@ -238,6 +243,10 @@ public class RobotContainer {
   // --Turret commands
   private final AutoAimTurretCommand autoAimTurretCommand;
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
+  private final TurretFrontCommand turretFrontCommand;
+  private final TurretBackCommand turretBackCommand;
+  private final TurretLeftCommand turretLeftCommand;
+  private final TurretRightCommand turretRightCommand;
 
   // --Utilities
   private final ShuffleboardUtility shuffleboardUtility;
@@ -340,6 +349,10 @@ public class RobotContainer {
     // turret
     autoAimTurretCommand = new AutoAimTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X);
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
+    turretFrontCommand = new TurretFrontCommand(turretSubsystem);
+    turretBackCommand = new TurretBackCommand(turretSubsystem);
+    turretLeftCommand = new TurretLeftCommand(turretSubsystem);
+    turretRightCommand = new TurretRightCommand(turretSubsystem);
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
@@ -399,9 +412,9 @@ public class RobotContainer {
       // ZR Button
       JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
       // X Button
-      JoystickButton liftArm = new JoystickButton (driverController, GC_X);
+      JoystickButton liftArm = new JoystickButton (driverController, GC_Y);
       // Y Button 
-      JoystickButton lowerArm = new JoystickButton (driverController, GC_Y);
+      JoystickButton lowerArm = new JoystickButton (driverController, GC_X);
       // --Command binds
 
       // Rotational control command bind
@@ -484,10 +497,25 @@ public class RobotContainer {
 
     JoystickButton limelightLEDsOn = new JoystickButton(coDriverController, XB_LB);
 
+    POVTrigger turretFront = new POVTrigger(coDriverController, 0, XB_POV_UP);
+    POVTrigger turretBack = new POVTrigger(coDriverController, 0, XB_POV_DOWN);
+    POVTrigger turretLeft = new POVTrigger(coDriverController, 0, XB_POV_LEFT);
+    //POVTrigger turretRight = new POVTrigger(coDriverController, 0, XB_POV_RIGHT);
+    JoystickButton turretFrontTemp = new JoystickButton(coDriverController, XB_RB);
+
     // --Command binds
     // limelightLEDsOn.whenPressed(limelightLEDsOnCommand);
     // limelightLEDsOn.whenReleased(limelightLEDsOffCommand);
+    // limelightLEDsOn.whenPressed(autoAimTurretCommand);
+    // limelightLEDsOn.whenReleased(limelightLEDsOffCommand);
+
     limelightLEDsOn.whileActiveOnce(autoAimTurretCommand);
+
+    //turretFrontTemp.whileHeld(turretFrontCommand);
+    turretFront.whileActiveContinuous(new TurretFrontCommand(turretSubsystem));
+    turretBack.whileActiveContinuous(new TurretBackCommand(turretSubsystem));
+    turretLeft.whileActiveContinuous(new TurretLeftCommand(turretSubsystem));
+    // turretRight.whileActiveOnce(new TurretRightCommand(turretSubsystem));
 
     // Toggle intake
     intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
@@ -505,7 +533,7 @@ public class RobotContainer {
     if (inManualMode) {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand); 
     } else { 
-      //scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
+      scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);

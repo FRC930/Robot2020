@@ -68,7 +68,7 @@ public class AutoAimTurretCommand extends PIDCommand {
                     SmartDashboard.putNumber("controller", output);
 
                     if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 0.1) {
-                        turret.setSpeed(Math.pow(coDriver.getRawAxis(coDriverAxis), 3));
+                        turret.setSpeed(-Math.pow(coDriver.getRawAxis(coDriverAxis), 3) * 0.5);
                     } else {
                         if(Math.abs(limelight.getHorizontalOffset()) < 27) {
                             turret.setSpeed(output);
@@ -97,10 +97,6 @@ public class AutoAimTurretCommand extends PIDCommand {
     public void initialize() {
         // turn limelight LEDs on
         limelight.setLightMode(LEDS_ON);
-    }
-
-    @Override
-    public void execute() {
     }
 
     @Override
