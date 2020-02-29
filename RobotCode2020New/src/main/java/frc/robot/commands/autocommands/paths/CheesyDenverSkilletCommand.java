@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.robot.commands.drivecommands.StopDriveCommand;
 import frc.robot.commands.intakecommands.DeployIntakeCommand;
 import frc.robot.commands.intakecommands.ReturnIntakeCommand;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
@@ -187,11 +188,13 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
         Moves off of rendezvous zone and shoots 3 power cells
     */
 
-    addCommands(new ParallelRaceGroup(ramseteCommand1, deployIntakeCommand),    // Move to enemy trench run while running intake
-        returnIntakeCommand,                                                    // Stop intake motors and return intake
-        ramseteCommand2,                                                        // Move to center of field near intiation line for shooting
+    addCommands(new ParallelRaceGroup(deployIntakeCommand,ramseteCommand1),    // Move to enemy trench run while running intake
+        new StopDriveCommand(driveSubsystem),                                                    // Stop intake motors and return intake
+        ramseteCommand2,
+        new StopDriveCommand(driveSubsystem),                                                        // Move to center of field near intiation line for shooting
         new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup),  // Shoot 5 power cells that are held from current position
-        new ParallelRaceGroup(ramseteCommand3, deployIntakeCommand),            // Move to rendezvous point and run intake for 3 front balls
+        new ParallelRaceGroup(ramseteCommand3, deployIntakeCommand),          // Move to rendezvous point and run intake for 3 front balls
+        new StopDriveCommand(driveSubsystem),
         returnIntakeCommand,                                                    // Stop intake motors and return intake
         new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup)); // Shoot 3 power cells that are held from rendezvous point
   }

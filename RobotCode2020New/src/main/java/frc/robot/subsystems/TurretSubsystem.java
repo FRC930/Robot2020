@@ -98,5 +98,11 @@ public class TurretSubsystem extends SubsystemBase {
         }
         return speed;
     }
+    // @Override
+    // public void periodic() {
+    //     // TODO Auto-generated method stub
+    //     System.out.println(getRawEncoderPosition());
+    //     super.periodic();
+    // }
 
 } // end of class TurretSubsystem

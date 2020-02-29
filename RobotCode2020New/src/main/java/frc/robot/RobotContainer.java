@@ -189,7 +189,7 @@ public class RobotContainer {
   // private final GyroSkilletCommand gyroSkilletCommand;
   // private final LoadedSkilletCommand loadedSkilletCommand;
   // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
-  private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
+  //private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
   //private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
   // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
   // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
@@ -218,6 +218,7 @@ public class RobotContainer {
   //private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
   private final KillHopperStateCommand killHopperStateCommand;
+  private final DefaultStopHopperCommand defaultStopHopperCommand;
 
   // --Intake commands
   private final DeployIntakeCommand deployIntakeCommand;
@@ -263,8 +264,6 @@ public class RobotContainer {
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-    Solenoid s = new Solenoid(2);
-    s.set(true);
     // --Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -326,6 +325,7 @@ public class RobotContainer {
     // hopper
     killHopperStateCommand = new KillHopperStateCommand();
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, killHopperStateCommand);
+    defaultStopHopperCommand = new DefaultStopHopperCommand(hopperSubsystem);
     
 
     // kicker
@@ -347,6 +347,7 @@ public class RobotContainer {
     // tower
     runTowerCommand = new RunTowerCommand(towerSubsystem);
     stopTowerCommand = new StopTowerCommand(towerSubsystem);
+    
 
     // turret
     autoAimTurretCommand = new AutoAimTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X);
@@ -354,15 +355,14 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
-    phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
+    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,flywheelSubsystem,towerSubsystem,hopperSubsystem, kickerSubsystem,limelightSubsystem,flywheelPistonSubsystem,new RunHopperCommand(hopperSubsystem));
+    //phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
     // --Default commands
-    beginRunCommands(); // Sets the default command
   } // end of constructor RobotContainer()
 
   // -------- METHODS --------\\
@@ -380,7 +380,7 @@ public class RobotContainer {
     manualModeButton.whileActiveOnce(new InstantCommand(() -> {
       inManualMode = !inManualMode;
       SmartDashboard.putBoolean("Safety", inManualMode);
-      beginRunCommands();
+      beginTelopRunCommands();
     }));
 
     configureDriverBindings();
@@ -425,7 +425,7 @@ public class RobotContainer {
 
       //Shooter command binds
       
-      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,new RunHopperCommand(hopperSubsystem)));
+      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,shootButton));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
@@ -515,7 +515,7 @@ public class RobotContainer {
 
   } // end of method configureCodriverBindings()
 
-  private void beginRunCommands() {
+  public void beginTelopRunCommands() {
 
     // --The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
@@ -535,17 +535,28 @@ public class RobotContainer {
 
   }
 
+  public void beginAutoRunCommands() {
+
+    // --The instance of the scheduler
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+    
+
+    scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, flywheelSubsystem, kickerSubsystem, towerSubsystem);
+    scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
+    scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, defaultStopHopperCommand);
+    scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+    scheduler.setDefaultCommand(limelightSubsystem, limelightLEDsOffCommand);
+
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    CommandScheduler scheduler = CommandScheduler.getInstance();
-    scheduler.setDefaultCommand(turretSubsystem, autoAimTurretCommand);
-    scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-    scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
-    return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
+    return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem), turretSubsystem);
     // Run path following command, then stop at the end.
   }
 

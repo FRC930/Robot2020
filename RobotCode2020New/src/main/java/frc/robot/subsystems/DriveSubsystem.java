@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -202,12 +203,12 @@ public class DriveSubsystem extends SubsystemBase {
     logger.log(Constants.LOG_LEVEL_FINE, "Drivetrain Moving: " + leftVolts + " " + rightVolts);
 
     //TODO: Change for Prac Robot
-    //right1.setVoltage(rightVolts);
-    //left1.setVoltage(-leftVolts);
+    // right1.setVoltage(rightVolts);
+    // left1.setVoltage(-leftVolts);
 
     //TODO: Change for Comp Robot
-    //right1.setVoltage(-rightVolts);
-    //left1.setVoltage(leftVolts);
+    right1.setVoltage(rightVolts);
+    left1.setVoltage(leftVolts);
 
     logger.exiting(this.getClass().getName(), "tankDriveVolts()");
   } // end of method tankDriveVolts()
@@ -257,14 +258,14 @@ public class DriveSubsystem extends SubsystemBase {
     //TODO: Uncomment shuffleboard stuff
     //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
 
-    //SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
-    //SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
-   //SmartDashboard.putNumber("Heading", getHeading());
-    //SmartDashboard.putNumber("RPM Left", getLeftWheelRotations());
-    //SmartDashboard.putNumber("RPM Right", getRightWheelRotations());
+    SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
+    SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
+   SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("RPM Left", getLeftWheelRotations());
+    SmartDashboard.putNumber("RPM Right", getRightWheelRotations());
 
-    //SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
-    //SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
     // logger.entering(this.getClass().getName(), "periodic()");
     // This method will be called once per scheduler run
     //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),

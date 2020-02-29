@@ -63,7 +63,7 @@ public class ShuffleboardUtility {
 
     private ShuffleboardUtility() {
         // Gets the pid controller data
-        pidController = testDebugTab.getComponents();
+        //pidController = testDebugTab.getComponents();
         
         // sets stating values -------------------------------------------
         intakeIndicator = false;
@@ -99,7 +99,7 @@ public class ShuffleboardUtility {
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
         distanceFromTargetEntry = driverStationTab.add("Distance from Target", distanceFromTarget).getEntry();
-        shotTypeEntry = driverStationTab.add("Distance from Target", shotType).getEntry();
+        //shotTypeEntry = driverStationTab.add("Distance from Target", shotType).getEntry();
     }
 
     private static ShuffleboardUtility instance = null;
