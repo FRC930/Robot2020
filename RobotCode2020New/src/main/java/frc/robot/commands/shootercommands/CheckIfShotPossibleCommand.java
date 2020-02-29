@@ -18,6 +18,7 @@ import frc.robot.utilities.DeadbandMath;
 import frc.robot.utilities.DeadbandMath.DeadbandZone;
 import frc.robot.utilities.DeadbandMath.ShotChance;
 import frc.robot.utilities.ShooterMath;
+import frc.robot.utilities.ShuffleboardUtility;
 import frc.robot.utilities.ShooterMath.ShotOutcome;
 
 import frc.robot.Constants;
@@ -31,6 +32,7 @@ public class CheckIfShotPossibleCommand extends CommandBase {
     // --Utilities (Singletons)
     private DeadbandMath deadbandMath = DeadbandMath.getInstance();
     private ShooterMath shooterMath = ShooterMath.getInstance();
+    private ShuffleboardUtility shuffleboardUtility = ShuffleboardUtility.getInstance();
 
     // --Subsystems
     private LimelightSubsystem limeLight;
@@ -64,7 +66,7 @@ public class CheckIfShotPossibleCommand extends CommandBase {
         deadbandMath.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
         this.deadbandZone = deadbandMath.getDeadbandZone();
         this.shotChance = deadbandMath.getShotChance();
-
+        
         // Return true if the shot types is best. We are not shooting at maybe or lower.
         if (this.shotOutcome == ShotOutcome.INNER && this.deadbandZone == DeadbandZone.GREEN && this.shotChance == ShotChance.HIGH) {
             return true;
