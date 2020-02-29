@@ -4,10 +4,7 @@ package frc.robot;
 
 // --Library Commands
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.commands.Endgamecommands.RetractArmCommand;
-import frc.robot.commands.Endgamecommands.ToggleShiftCommand;
-import frc.robot.commands.Endgamecommands.StopArmCommand;
-import frc.robot.commands.Endgamecommands.ExtendArmCommand;
+
 // --Our Commands
 import frc.robot.commands.autocommands.paths.*;
 
@@ -36,6 +33,11 @@ import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 import frc.robot.commands.towercommands.*;
 
 import frc.robot.commands.turretcommads.*;
+
+import frc.robot.commands.endgamecommands.RetractArmCommand;
+import frc.robot.commands.endgamecommands.ToggleShiftCommand;
+import frc.robot.commands.endgamecommands.StopArmCommand;
+import frc.robot.commands.endgamecommands.ExtendArmCommand;
 
 // --Subsystem imports
 import frc.robot.subsystems.*;
