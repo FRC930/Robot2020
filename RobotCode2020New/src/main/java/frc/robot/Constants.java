@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+import edu.wpi.first.wpilibj.DutyCycle;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -60,6 +61,7 @@ public final class Constants {
     // [-------------------ROBORIO PORT IDS---------------------------]
 
     public static final int ENCODER_PORT_ID = 0;
+	  public static final int HOPPER_ENCODER_PORT_ID = 1; 
     public static final int CLIMBER_ENCODER_PORT_ID = 2;
 
     // [-------------------ROBORIO PORT IDS---------------------------]
@@ -75,9 +77,9 @@ public final class Constants {
     public static final double HOPPER_DEFAULT_SPEED = 0.3;
     public static final double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
     public static final double TOWER_SPEED = 1.0;
-    public static final double KICKER_SPEED = 0.7; // 0.5
-    public static final double INTAKE_SPEED = 0.8; // 0.5
-    public static final double FLYWHEEL_SPEED = 0;//0.82;
+    public static final double KICKER_SPEED = 0.6; // 0.6
+    public static final double INTAKE_SPEED = 0.8; // 0.8
+    public static final double FLYWHEEL_SPEED = 0.62;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
     public static final double CLIMBER_RETRACT_SPEED = -0.1;
 
@@ -168,12 +170,16 @@ public final class Constants {
     */
 
     //TODO: We want to be able to change these values in Shuffleboard
-    public static final Level LOG_LEVEL_FINE = Level.FINE;
-    public static final Level LOG_LEVEL_FINER = Level.FINER;
-    public static final Level LOG_LEVEL_FINEST = Level.FINEST;
-    public static final Level LOG_LEVEL_INFO = Level.INFO;
-    public static final Level LOG_LEVEL_WARNING = Level.WARNING; 
+    public static final Level LOG_LEVEL_FINE = Level.OFF;
+    public static final Level LOG_LEVEL_FINER = Level.OFF;
+    public static final Level LOG_LEVEL_FINEST = Level.OFF;
+    public static final Level LOG_LEVEL_INFO = Level.OFF;
+    public static final Level LOG_LEVEL_WARNING = Level.OFF;
 
     //[-------------------LOGGER--------------------------]
+
+    // OFFSET
+    
+	public static final double KICKER_ENCODER_OFFSET = 0;
     
 } // end of constants
