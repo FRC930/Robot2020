@@ -62,8 +62,10 @@ public class ShuffleboardUtility {
     //-------- CONSTRUCTOR --------\\
 
     private ShuffleboardUtility() {
-        testDebugTab = Shuffleboard.getTab("Testing & Debugging");
+        // Gets the pid controller data
         pidController = testDebugTab.getComponents();
+        
+        // sets stating values -------------------------------------------
         intakeIndicator = false;
         shootIndicator = false;
         manualMode = false;
@@ -86,8 +88,13 @@ public class ShuffleboardUtility {
         kD = 0.0;
         kF = 0.0;
         kSetpoint = 0.0;
+        //end of stating values ---------------------------------------------------------
+
+        //gets all the tab data
         driverStationTab = Shuffleboard.getTab("Driver Station");
         testDebugTab = Shuffleboard.getTab("Testing & Debugging");
+
+        // data to add to shuffle board
         intakingEntry = driverStationTab.add("Intaking?", intakeIndicator).getEntry();
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
@@ -109,28 +116,34 @@ public class ShuffleboardUtility {
 
     // TODO: set methods to respective commands
 	public void setIntakeIndicator(boolean IntakeIndicator){
-		intakeIndicator = IntakeIndicator;
+        intakeIndicator = IntakeIndicator;
+        //sends the state to shuffle board
         intakingEntry.setBoolean(intakeIndicator);
 	}
 	public void setShootIndicator(boolean ShootIndicator){
-		shootIndicator = ShootIndicator;
+        shootIndicator = ShootIndicator;
+        //sends the state to shuffle board
 		shootingEntry.setBoolean(shootIndicator);
     }
     public void setManualMode(boolean ManualMode){
         manualMode = ManualMode;
+        //sends the state to shuffle board
         manualModeEntry.setBoolean(shootIndicator);
     }
 	public void setDistanceFromTarget(double DistanceFromTarget){
-		distanceFromTarget = DistanceFromTarget;
+        distanceFromTarget = DistanceFromTarget;
+        //sends the distance to shuffle board
         distanceFromTargetEntry.setNumber(distanceFromTarget);
     }
     // TODO: find method for shot types
 	public void setShotType(String ShotType){
-		shotType = ShotType;
+        shotType = ShotType;
+        //sends the type to shuffle board
 		shotTypeEntry.getString(shotType);
     }
     public void setLimelightFeed(HttpCamera LimelightCamera){
         limelightCamera = LimelightCamera;
+        //sends the limelight feed
         driverStationTab.add("Limelight Feed", limelightCamera);
         testDebugTab.add("Limelight Feed", limelightCamera);
     }
@@ -143,30 +156,33 @@ public class ShuffleboardUtility {
 
     public void setTurretSpeed(double turretSpeed){
         this.turretSpeed = turretSpeed;
+        //sends the speed to shuffle board
         SmartDashboard.putNumber("Turret Speed", turretSpeed);
     }
     public void setHopperSpeed(double hopperSpeed){
         this.hopperSpeed = hopperSpeed;
+        //sends the speed to shuffle board
         SmartDashboard.putNumber("Hopper Speed", hopperSpeed);
     }
+    // travis and josh are fixing rn
     public void setPistonAngle(double pistonAngle){
         this.pistonAngle = pistonAngle;
+        //sends the state to shuffle board
         SmartDashboard.putNumber("Piston Angle", pistonAngle);
     }
 	// public void getLogger(String logger){
 	// 	this.logger = logger;
 	// 	SmartDashboard.putString("Logger Level", logger);
 	// }
-	public void setPistonRPM(double pistonRPM){
-		this.pistonRPM = pistonRPM;
-		SmartDashboard.putNumber("Piston RPM", pistonRPM);
-	}
 	public void setTurretEncoderPosition(double turretEncoderPosition){
-		this.turretEncoderPosition = turretEncoderPosition;
+        this.turretEncoderPosition = turretEncoderPosition;
+        // sends the encoder pos to shuffle board
 		SmartDashboard.putNumber("Turret Encoder Pos", turretEncoderPosition);
     }
+
     public void setGyroYaw(double gyroYaw){
         this.gyroYaw = gyroYaw;
+        //sends the yaw to shuffle board
         SmartDashboard.putNumber("Gyro Yaw (LtoR Rotation)", gyroYaw);
     }
     // TODO: figure out how to get PID values into code
