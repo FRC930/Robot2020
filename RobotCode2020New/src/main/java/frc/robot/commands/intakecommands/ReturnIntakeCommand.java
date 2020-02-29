@@ -24,7 +24,7 @@ public class ReturnIntakeCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private static final Logger logger = Logger.getLogger(ReturnIntakeCommand.class.getName());
+  private final Logger logger = Logger.getLogger(getClass().toString());
 
   //-------- DECLARATIONS --------\\
 
@@ -34,13 +34,11 @@ public class ReturnIntakeCommand extends CommandBase {
 
   //-------- CONSTRUCTOR --------\\
 
-  public ReturnIntakeCommand(IntakePistonSubsystem intakePistonsSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
-    this.intakePistonsSubsystem = intakePistonsSubsystem;
-    this.intakeMotorsSubsystem = intakeMotorSubsystem;
-    
-    logger.log(Constants.LOG_LEVEL_FINE, "Initializing the ReturnIntakeCommand...");
+  public ReturnIntakeCommand(IntakePistonSubsystem iPistonsSubsystem, IntakeMotorSubsystem iMotorSubsystem) {
+    intakePistonsSubsystem = iPistonsSubsystem;
+    intakeMotorsSubsystem = iMotorSubsystem;
 
-    addRequirements(intakePistonsSubsystem, intakeMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(iPistonsSubsystem, iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
@@ -55,15 +53,10 @@ public class ReturnIntakeCommand extends CommandBase {
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
-    System.out.println("BIG ROBOT CODE THINGS YAY!  " + intakePistonsSubsystem.getIntakePistonState());
+    logger.log(Constants.LOG_LEVEL_FINE, "Intake piston state: " + intakePistonsSubsystem.getIntakePistonState());
     shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
   }
-  
-  @Override   // Called once the command ends or is interrupted.
-  public void end(boolean interrupted) {
-  }
 
-  
   @Override   // Returns true when the command should end.
   public boolean isFinished() {
     return true;

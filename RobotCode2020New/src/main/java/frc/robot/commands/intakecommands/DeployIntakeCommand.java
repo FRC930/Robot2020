@@ -24,7 +24,7 @@ public class DeployIntakeCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private static final Logger logger = Logger.getLogger(DeployIntakeCommand.class.getName());
+  private final Logger logger = Logger.getLogger(getClass().toString());
 
   //-------- DECLARATIONS --------\\
 
@@ -34,13 +34,11 @@ public class DeployIntakeCommand extends CommandBase {
 
   //-------- CONSTRUCTOR --------\\
 
-  public DeployIntakeCommand(IntakePistonSubsystem intakePistonSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
-    this.intakePistonSubsystem = intakePistonSubsystem;
-    this.intakeMotorSubsystem = intakeMotorSubsystem;
+  public DeployIntakeCommand(IntakePistonSubsystem iPistonSubsystem, IntakeMotorSubsystem iMotorSubsystem) {
+    intakePistonSubsystem = iPistonSubsystem;
+    intakeMotorSubsystem = iMotorSubsystem;
 
-    logger.log(Constants.LOG_LEVEL_FINE, "Initializing the DeployIntakeCommand...");
-
-    addRequirements(intakePistonSubsystem, intakeMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(iPistonSubsystem, iMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
   }
 
   //-------- COMMANDBASE METHODS --------\\
@@ -51,19 +49,14 @@ public class DeployIntakeCommand extends CommandBase {
     intakeMotorSubsystem.setMotorSpeed(Constants.INTAKE_SPEED);
     shuffleboardUtility = ShuffleboardUtility.getInstance();
     
-    logger.log(Constants.LOG_LEVEL_FINE, "Deploying the intake (command)..."); 
+    logger.log(Constants.LOG_LEVEL_FINE, "Deploying the intake (subsystem)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
-    System.out.println("BIG ROBOT CODE THINGS YAY!  " + intakePistonSubsystem.getIntakePistonState());
+    logger.log(Constants.LOG_LEVEL_FINE, "Intake piston state: " + intakePistonSubsystem.getIntakePistonState());
     shuffleboardUtility.setIntakeIndicator(intakePistonSubsystem.getIntakePistonState());
   } 
-  
-  @Override   // Called once the command ends or is interrupted.
-  public void end(boolean interrupted) {
-  }
-
   
   @Override   // Returns true when the command should end.
   public boolean isFinished() {
