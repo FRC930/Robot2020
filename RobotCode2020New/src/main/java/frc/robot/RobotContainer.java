@@ -53,6 +53,7 @@ import java.util.logging.Level;
 
 // --Other imports
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -126,6 +127,7 @@ public class RobotContainer {
   //-- Inline Class for Manual Mode Trigger
   private class ManualModeTrigger extends Trigger {
     public boolean get() {
+      shuffleboardUtility.setManualMode(inManualMode);
       return inManualMode;
     }
   }
@@ -188,7 +190,7 @@ public class RobotContainer {
   // private final LoadedSkilletCommand loadedSkilletCommand;
   // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
   private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
-  private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
+  //private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
   // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
   // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
   // private final VeggieSkilletCommand veggieSkilletCommand;
@@ -245,10 +247,11 @@ public class RobotContainer {
   // --Turret commands
   private final AutoAimTurretCommand autoAimTurretCommand;
   private final JoystickTurretCommand joystickTurretCommand;  // For manual
-
+  private final Logger logger = Logger.getLogger(RobotContainer.class.getName());;
   // --Utilities
   private final ShuffleboardUtility shuffleboardUtility;
 
+  
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
@@ -260,7 +263,8 @@ public class RobotContainer {
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-
+    Solenoid s = new Solenoid(2);
+    s.set(true);
     // --Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -350,8 +354,7 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, gyroSubsystem, deployIntakeCommand, returnIntakeCommand);
-    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem);
+    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
@@ -422,7 +425,7 @@ public class RobotContainer {
 
       //Shooter command binds
       
-      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,shootButton));
+      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,new RunHopperCommand(hopperSubsystem)));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
@@ -464,7 +467,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
       // manual hopper spinning
-      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem,shootButton)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual kicker spinning
       manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
       // manual tower spinning
@@ -538,7 +541,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return phillyCheesesteakAndEggSkilletCommand;
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+    //scheduler.setDefaultCommand(turretSubsystem, );
+    scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+    scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+    return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
     //return null;
     // Run path following command, then stop at the end.
   }

@@ -36,10 +36,17 @@ public class BigCountrySkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem drivesSubsystem;
-  GyroSubsystem gyroSubsystem;
+  private DriveSubsystem driveSubsystem;
+  private GyroSubsystem gyroSubsystem;
+
+  //private DeployIntakeCommand deployIntakeCommand;
+  //private ReturnIntakeCommand returnIntakeCommand;
+
+  //private IntakeMotorSubsystem intakeMotorSubsytem;
+  //private IntakePistonSubsystem intakePistonSubsytem;
+  
   public BigCountrySkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    drivesSubsystem = dSubsystem;
+    driveSubsystem = dSubsystem;
     gyroSubsystem = gSubsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -85,12 +92,12 @@ public class BigCountrySkilletCommand extends SequentialCommandGroup {
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        drivesSubsystem::getWheelSpeeds,
+        driveSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        drivesSubsystem::tankDriveVolts,
-        drivesSubsystem
+        driveSubsystem::tankDriveVolts,
+        driveSubsystem
     );
     
     /* 
