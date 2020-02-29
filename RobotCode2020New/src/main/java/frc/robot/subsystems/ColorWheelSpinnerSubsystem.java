@@ -14,50 +14,84 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import java.util.logging.*;
+import java.util.logging.Logger;
 
 import frc.robot.Constants;
 
 //-------- SUBSYSTEM CLASS --------\\
 
+/**
+ * <h3>ColorWheelSpinnerSubsystem</h3>
+ * This subsystem controls the motor that spins the color wheel
+ */
 public class ColorWheelSpinnerSubsystem extends SubsystemBase {
 
-    //-------- CONSTANTS --------\\
+    // -------- CONSTANTS --------\\
 
-    // Creates an instance of the logger class
+    /**
+     * The logger that we will use to output information to the user
+     */
     private static final Logger logger = Logger.getLogger(ColorWheelSpinnerSubsystem.class.getName());
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
+    /**
+     * The VictorSPX that will control the color wheel
+     */
     private VictorSPX wheelSpinnerMotor;
 
-    //-------- CONSTRUCTOR --------\\
+    // -------- CONSTRUCTOR --------\\
 
-    public ColorWheelSpinnerSubsystem(){
+    /**
+     * This is the default constructor that will initialize
+     * {@link #wheelSpinnerMotor} to the correct motor.
+     */
+    public ColorWheelSpinnerSubsystem() {
         wheelSpinnerMotor = new VictorSPX(Constants.COLOR_WHEEL_ID);
     }
 
-    //-------- METHODS --------\\
+    // -------- METHODS --------\\
 
-    // Returns the speed of the motor controller
+    /**
+     * <h3>getMotorSpeed</h3>
+     * 
+     * This method will return the current speed of the motor.
+     * 
+     * @return the speed of the motor
+     */
     public double getMotorSpeed() {
 
         logger.entering(this.getClass().getName(), "getMotorSpeed()");
         logger.exiting(this.getClass().getName(), "getMotorSpeed()");
-    
+
         return wheelSpinnerMotor.getMotorOutputPercent();
     }
 
-    // Sets the motor speed to a value between -1.0 and 1.0
-    public void setMotorSpeed(double speed){
-        
+    /**
+     * <h3>setMotorSpeed</h3>
+     * 
+     * This method will set the speed of the wheel spinner. 
+     * The speed is between -1.0 and 1.0
+     * 
+     * @param speed is the motor speed between -1.0 and 1.0
+     */
+    public void setMotorSpeed(double speed) {
+
         logger.entering(this.getClass().getName(), "setMotorSpeed()");
-    
+
+        // Bounds check the speed
+        if (speed > 1.0) {
+            speed = 1.0;
+        } else if (speed < -1.0) {
+            speed = -1.0;
+        }
+
+        // Set the spinner motor to the speed
         wheelSpinnerMotor.set(ControlMode.PercentOutput, speed);
-  
+
         // Logs the speed from the motor controller
         logger.log(Constants.LOG_LEVEL_FINE, "Motor Speed: " + getMotorSpeed());
         logger.exiting(this.getClass().getName(), "setMotorSpeed()");
     }
-    
+
 } // End of class ColorWheelSpinnerSubsystem
