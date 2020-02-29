@@ -23,7 +23,7 @@ public class RunIntakeMotorsCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(RunIntakeMotorsCommand.class.getName());
+  private static final Logger logger = Logger.getLogger(RunIntakeMotorsCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 

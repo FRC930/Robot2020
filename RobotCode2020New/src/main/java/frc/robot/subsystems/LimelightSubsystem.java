@@ -26,6 +26,9 @@ public class LimelightSubsystem extends SubsystemBase {
 
     // -------- CONSTANTS --------\\
 
+    // logger
+    private static final Logger logger = Logger.getLogger(LimelightSubsystem.class.getName());
+
     // default limelight value :)
     public final double IF_YOU_SEE_THIS_CODE_NO_WORK = 0.12345;
 
@@ -67,9 +70,6 @@ public class LimelightSubsystem extends SubsystemBase {
 
     private double targetArea;
 
-    // logger
-    private Logger logger = Logger.getLogger(LimelightSubsystem.class.getName());;
-
     // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
 
@@ -108,7 +108,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
-        logger.log(Constants.LOG_LEVEL_FINER, "Horizontal Offset = " + horizontalOffset + " " + logger.getLevel());
+        logger.log(Constants.LOG_LEVEL_FINER, "Horizontal Offset = " + horizontalOffset);
         logger.exiting(this.getClass().getName(), "getHorizontalOffset()");
 
         return horizontalOffset;
@@ -199,6 +199,11 @@ public class LimelightSubsystem extends SubsystemBase {
         }
 
         return pipelineName;
+    }
+
+    // used to turn the limelight LEDs on and off
+    public void setLightMode(int mode) {
+        limelightTable.getEntry("ledMode").setNumber(mode);
     }
 
     @Override

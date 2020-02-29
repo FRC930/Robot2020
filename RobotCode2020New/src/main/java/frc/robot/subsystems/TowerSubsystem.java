@@ -23,7 +23,7 @@ public class TowerSubsystem extends SubsystemBase {
   
     //-------- CONSTANTS --------\\
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(TowerSubsystem.class.getName());
 
     //-------- DECLARATIONS --------\\
 
@@ -34,7 +34,6 @@ public class TowerSubsystem extends SubsystemBase {
 
     public TowerSubsystem() {
         towerMotor = new VictorSPX(Constants.TOWER_ID);  
-        //logger.setLevel(Constants.LOG_LEVEL_FINE);
     }   
     
     //-------- METHODS --------\\

@@ -24,7 +24,7 @@ public class DeployIntakeCommand extends CommandBase {
 
   //-------- CONSTANTS --------\\
 
-  private final Logger logger = Logger.getLogger(DeployIntakeCommand.class.getName());
+  private static final Logger logger = Logger.getLogger(DeployIntakeCommand.class.getName());
 
   //-------- DECLARATIONS --------\\
 
