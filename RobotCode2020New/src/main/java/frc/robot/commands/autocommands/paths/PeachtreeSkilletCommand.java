@@ -37,11 +37,17 @@ public class PeachtreeSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem driveSubsystem;
-  GyroSubsystem gyroSubsystem;
+  private DriveSubsystem driveSubsystem;
+
+  //private DeployIntakeCommand deployIntakeCommand;
+  //private ReturnIntakeCommand returnIntakeCommand;
+
+  //private IntakeMotorSubsystem intakeMotorSubsytem;
+  //private IntakePistonSubsystem intakePistonSubsytem;
+
   public PeachtreeSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
     driveSubsystem = dSubsystem;
-    gyroSubsystem = gSubsystem;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -94,7 +100,7 @@ public class PeachtreeSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
