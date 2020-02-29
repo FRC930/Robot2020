@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
@@ -36,17 +35,7 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
  /**
    * Creates a new Autonomous.
    */
-
-  private DriveSubsystem driveSubsystem;
-
-  //private DeployIntakeCommand deployIntakeCommand;
-  //private ReturnIntakeCommand returnIntakeCommand;
-
-  //private IntakeMotorSubsystem intakeMotorSubsytem;
-  //private IntakePistonSubsystem intakePistonSubsytem;
-
-  public CheesyDenverSkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
+  public CheesyDenverSkilletCommand(DriveSubsystem dSubsystem) {
 
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -115,52 +104,52 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        dSubsystem::tankDriveVolts,
+        dSubsystem
     );
 
     // Creates RAMSETE Command for second trajectory
     RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        dSubsystem::tankDriveVolts,
+        dSubsystem
     );
 
     // Creates RAMSETE Command for third trajectory
     RamseteCommand ramseteCommand3 = new RamseteCommand(
         trajectory3,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        dSubsystem::tankDriveVolts,
+        dSubsystem
     );
     
     /* 
@@ -181,11 +170,12 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
         new WaitCommand(5), 
         ramseteCommand3,
         new WaitCommand(2));
-  }
+  } // End of Constructor
 
+  // Method to convert distances
   public double inchesToMeters(double inches) {
       double meters = inches / 39.37;
       return meters;
   }
 
-}
+} // End of Command
