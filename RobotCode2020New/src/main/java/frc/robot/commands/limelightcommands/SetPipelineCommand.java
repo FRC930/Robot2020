@@ -11,6 +11,7 @@ package frc.robot.commands.limelightcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import java.util.logging.*;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.LimelightPipelines;
 
@@ -27,6 +28,8 @@ public class SetPipelineCommand extends CommandBase {
     private final double DISTANCE_THRESHOLD = 10; //TODO: find this threshold, 10 is a placeholder
 
     //-------- CONSTRUCTOR --------\\
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
     public SetPipelineCommand(LimelightSubsystem limelightSubsystem){
 
         m_LimelightSubsystem = limelightSubsystem;
@@ -43,9 +46,11 @@ public class SetPipelineCommand extends CommandBase {
         distance = m_LimelightSubsystem.getDistance();
 
         if(distance > DISTANCE_THRESHOLD) {
+            logger.log(Level.FINER , distance + " > " + DISTANCE_THRESHOLD);
             m_LimelightSubsystem.setPipeline(LimelightPipelines.ZOOM_2X);
         } else {
             m_LimelightSubsystem.setPipeline(LimelightPipelines.NO_ZOOM);
+            logger.log(Level.FINER , distance + " < " + DISTANCE_THRESHOLD);
         }
     }
 
