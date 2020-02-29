@@ -34,7 +34,7 @@ public class RetractIntakePistonCommand extends CommandBase {
 
   public RetractIntakePistonCommand(IntakePistonSubsystem iPistons) {
     intakePistonsSubsystem = iPistons;
-
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
     logger.log(Constants.LOG_LEVEL_FINE, "Initializing the RetractIntakePistonCommand...");
 
     addRequirements(iPistons);  // Use addRequirements() here to declare subsystem dependencies.
@@ -45,15 +45,15 @@ public class RetractIntakePistonCommand extends CommandBase {
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
     intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
-
+    
+    shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
     logger.log(Constants.LOG_LEVEL_FINE, "Retracting the intake pistons (command)..."); 
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() { 
     // Sets the piston state into Shuffleboard
-    shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
+    
   } 
   
   @Override   // Called once the command ends or is interrupted.

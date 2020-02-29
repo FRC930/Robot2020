@@ -115,6 +115,7 @@ public class RobotContainer {
   //-- Inline Class for Manual Mode Trigger
   private class ManualModeTrigger extends Trigger {
     public boolean get() {
+      shuffleboardUtility.setManualMode(inManualMode);
       return inManualMode;
     }
   }
@@ -231,6 +232,7 @@ public class RobotContainer {
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
+    
     logger.setLevel(Level.OFF);
     ConsoleHandler handler = new ConsoleHandler();
     handler.setLevel(logger.getLevel());
@@ -446,7 +448,7 @@ public class RobotContainer {
     // --Buttons
 
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
-
+    
     // --Command binds
 
     // Toggle intake

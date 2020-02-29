@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakeMotorSubsystem;
 import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
@@ -29,13 +30,14 @@ public class ReturnIntakeCommand extends CommandBase {
 
   private IntakePistonSubsystem intakePistonsSubsystem;
   private IntakeMotorSubsystem intakeMotorsSubsystem;
+  private ShuffleboardUtility shuffleboardUtility;
 
   //-------- CONSTRUCTOR --------\\
 
   public ReturnIntakeCommand(IntakePistonSubsystem intakePistonsSubsystem, IntakeMotorSubsystem intakeMotorSubsystem) {
     this.intakePistonsSubsystem = intakePistonsSubsystem;
     this.intakeMotorsSubsystem = intakeMotorSubsystem;
-
+    
     logger.log(Constants.LOG_LEVEL_FINE, "Initializing the ReturnIntakeCommand...");
 
     addRequirements(intakePistonsSubsystem, intakeMotorSubsystem);  // Use addRequirements() here to declare subsystem dependencies.
@@ -47,12 +49,14 @@ public class ReturnIntakeCommand extends CommandBase {
   public void initialize() {
     intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
     intakeMotorsSubsystem.setMotorSpeed(0.0);
-
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
     logger.log(Constants.LOG_LEVEL_FINE, "Returning the intake (command)...");
   }
 
   @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() {       
+  public void execute() {
+    System.out.println("BIG ROBOT CODE THINGS YAY!  " + intakePistonsSubsystem.getIntakePistonState());
+    shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
   }
   
   @Override   // Called once the command ends or is interrupted.

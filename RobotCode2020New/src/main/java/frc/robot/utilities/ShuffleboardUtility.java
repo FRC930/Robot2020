@@ -27,7 +27,6 @@ public class ShuffleboardUtility {
 
     //-------- DECLARATIONS --------\\
     
-    private ShuffleboardTab testDebugTab;
     private List<ShuffleboardComponent<?>> pidController;
     private double kP;
     private double kI;
@@ -51,8 +50,13 @@ public class ShuffleboardUtility {
     private double turretEncoderPosition;
     private HttpCamera limelightCamera;
     private double gyroYaw;
-    private ShuffleboardTab driveTab;
-    private ShuffleboardTab testingTab;
+    private ShuffleboardTab testDebugTab;
+    private ShuffleboardTab driverStationTab;
+    private NetworkTableEntry intakingEntry;
+    private NetworkTableEntry shootingEntry;
+    private NetworkTableEntry manualModeEntry;
+    private NetworkTableEntry distanceFromTargetEntry;
+    private NetworkTableEntry shotTypeEntry;
     
 
     //-------- CONSTRUCTOR --------\\
@@ -60,8 +64,6 @@ public class ShuffleboardUtility {
     private ShuffleboardUtility() {
         testDebugTab = Shuffleboard.getTab("Testing & Debugging");
         pidController = testDebugTab.getComponents();
-        driveTab = Shuffleboard.getTab("Driver Station");
-        testingTab = Shuffleboard.getTab("Testing & Debugging");
         intakeIndicator = false;
         shootIndicator = false;
         manualMode = false;
@@ -84,6 +86,13 @@ public class ShuffleboardUtility {
         kD = 0.0;
         kF = 0.0;
         kSetpoint = 0.0;
+        driverStationTab = Shuffleboard.getTab("Driver Station");
+        testDebugTab = Shuffleboard.getTab("Testing & Debugging");
+        intakingEntry = driverStationTab.add("Intaking?", intakeIndicator).getEntry();
+        shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
+        manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
+        distanceFromTargetEntry = driverStationTab.add("Distance from Target", distanceFromTarget).getEntry();
+        shotTypeEntry = driverStationTab.add("Distance from Target", shotType).getEntry();
     }
 
     private static ShuffleboardUtility instance = null;
@@ -91,45 +100,44 @@ public class ShuffleboardUtility {
 	// Singleton
     public static ShuffleboardUtility getInstance() {
         if (instance == null){
-            return instance;
+            instance = new ShuffleboardUtility();
         }
-        else {
-            return instance = new ShuffleboardUtility();
-        }
+        return instance;
     }
 
     //------- Drive Tab -------\\
 
     // TODO: set methods to respective commands
-	public void setIntakeIndicator(boolean intakeIndicator){
-		this.intakeIndicator = intakeIndicator;
-		SmartDashboard.putBoolean("Intaking?", intakeIndicator);
+	public void setIntakeIndicator(boolean IntakeIndicator){
+		intakeIndicator = IntakeIndicator;
+        intakingEntry.setBoolean(intakeIndicator);
 	}
-	public void setShootIndicator(boolean shootIndicator){
-		this.shootIndicator = shootIndicator;
-		SmartDashboard.putBoolean("Shooting?", shootIndicator);
+	public void setShootIndicator(boolean ShootIndicator){
+		shootIndicator = ShootIndicator;
+		shootingEntry.setBoolean(shootIndicator);
     }
-    public void setManualMode(boolean manualMode){
-        this.manualMode = manualMode;
-        SmartDashboard.putBoolean("Manual Mode?", manualMode);
+    public void setManualMode(boolean ManualMode){
+        manualMode = ManualMode;
+        manualModeEntry.setBoolean(shootIndicator);
     }
-	public void setDistanceFromTarget(double distanceFromTarget){
-		this.distanceFromTarget = distanceFromTarget;
-		SmartDashboard.putNumber("Distance from Target", distanceFromTarget);
-	}
-	public void setShotType(String shotType){
-		this.shotType = shotType;
-		SmartDashboard.putString("Shot Type", shotType);
+	public void setDistanceFromTarget(double DistanceFromTarget){
+		distanceFromTarget = DistanceFromTarget;
+        distanceFromTargetEntry.setNumber(distanceFromTarget);
     }
-    public void setLimelightFeed(HttpCamera limelightCamera){
-        this.limelightCamera = limelightCamera;
-        driveTab.add("Limelight Feed", limelightCamera);
-        testingTab.add("Limelight Feed", limelightCamera);
+    // TODO: find method for shot types
+	public void setShotType(String ShotType){
+		shotType = ShotType;
+		shotTypeEntry.getString(shotType);
     }
-    public String getFMSColor(){
-		fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
-		return fmsColor;
+    public void setLimelightFeed(HttpCamera LimelightCamera){
+        limelightCamera = LimelightCamera;
+        driverStationTab.add("Limelight Feed", limelightCamera);
+        testDebugTab.add("Limelight Feed", limelightCamera);
     }
+    // public String getFMSColor(){
+	// 	fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
+	// 	return fmsColor;
+    // }
 
 	//----- Testing & Debugging -----\\
 
@@ -145,10 +153,10 @@ public class ShuffleboardUtility {
         this.pistonAngle = pistonAngle;
         SmartDashboard.putNumber("Piston Angle", pistonAngle);
     }
-	public void getLogger(String logger){
-		this.logger = logger;
-		SmartDashboard.putString("Logger Level", logger);
-	}
+	// public void getLogger(String logger){
+	// 	this.logger = logger;
+	// 	SmartDashboard.putString("Logger Level", logger);
+	// }
 	public void setPistonRPM(double pistonRPM){
 		this.pistonRPM = pistonRPM;
 		SmartDashboard.putNumber("Piston RPM", pistonRPM);
@@ -162,66 +170,66 @@ public class ShuffleboardUtility {
         SmartDashboard.putNumber("Gyro Yaw (LtoR Rotation)", gyroYaw);
     }
     // TODO: figure out how to get PID values into code
-    public String getShooterP(){
-        //  return string : set to error string, changes to valid string if object is found.
-        String rtn = "Nothing to Return...";
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    rtn = pidController.get(0).toString();
-                }
-            }
-        }
-        return rtn;
-    }
-    public String getShooterI(){
-        //  return string : set to error string, changes to valid string if object is found.
-        String rtn = "Nothing to Return...";
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    rtn = pidController.get(1).toString();
-                }
-            }
-        }
-        return rtn;
-    }
-    public String getShooterD(){
-        //  return string : set to error string, changes to valid string if object is found.
-        String rtn = "Nothing to Return...";
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    rtn = pidController.get(2).toString();
-                }
-            }
-        }
-        return rtn;
-    }
-    public String getShooterF(){
-        //  return string : set to error string, changes to valid string if object is found.
-        String rtn = "Nothing to Return...";
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    rtn = pidController.get(3).toString();
-                }
-            }
-        }
-        return rtn;
-    }
-    public String getShooterSetpoint(){
-        //  return string : set to error string, changes to valid string if object is found.
-        String rtn = "Nothing to Return...";
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    rtn = pidController.get(4).toString();
-                }
-            }
-        }
-        return rtn;
-    }
+    // public String getShooterP(){
+    //     //  return string : set to error string, changes to valid string if object is found.
+    //     String rtn = "Nothing to Return...";
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 rtn = pidController.get(0).toString();
+    //             }
+    //         }
+    //     }
+    //     return rtn;
+    // }
+    // public String getShooterI(){
+    //     //  return string : set to error string, changes to valid string if object is found.
+    //     String rtn = "Nothing to Return...";
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 rtn = pidController.get(1).toString();
+    //             }
+    //         }
+    //     }
+    //     return rtn;
+    // }
+    // public String getShooterD(){
+    //     //  return string : set to error string, changes to valid string if object is found.
+    //     String rtn = "Nothing to Return...";
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 rtn = pidController.get(2).toString();
+    //             }
+    //         }
+    //     }
+    //     return rtn;
+    // }
+    // public String getShooterF(){
+    //     //  return string : set to error string, changes to valid string if object is found.
+    //     String rtn = "Nothing to Return...";
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 rtn = pidController.get(3).toString();
+    //             }
+    //         }
+    //     }
+    //     return rtn;
+    // }
+    // public String getShooterSetpoint(){
+    //     //  return string : set to error string, changes to valid string if object is found.
+    //     String rtn = "Nothing to Return...";
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 rtn = pidController.get(4).toString();
+    //             }
+    //         }
+    //     }
+    //     return rtn;
+    // }
     /**
      * May or may not be applied later
      */
