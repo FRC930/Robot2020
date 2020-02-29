@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-
+import frc.robot.commands.intakecommands.DeployIntakeCommand;
+import frc.robot.commands.intakecommands.ReturnIntakeCommand;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.*;
 
@@ -35,9 +37,16 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem m_drive;
-  public CaliAvocadoSkilletCommand(DriveSubsystem subsystem) {
-    m_drive = subsystem;
+  private DriveSubsystem driveSubsystem;
+  private DeployIntakeCommand deployIntakeCommand;
+  private ReturnIntakeCommand returnIntakeCommand;
+  private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
+
+  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem,DeployIntakeCommand dICommand,ReturnIntakeCommand rICommand) {
+    driveSubsystem = dSubsystem;
+    deployIntakeCommand = dICommand;
+    returnIntakeCommand = rICommand;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -74,25 +83,24 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
 
     );
 
-
     // -------- RAMSETE Commands -------- \\
     // Creates a command that can be added to the command scheduler in the sequential command
     
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        m_drive::getPose,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        m_drive::getWheelSpeeds,
+        driveSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive
+        driveSubsystem::tankDriveVolts,
+        driveSubsystem
     );
     
     /*
@@ -102,11 +110,11 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
       move through trench to grab 3 balls
       Shoot 3 from trench position
     */
-
-    addCommands(new WaitCommand(3), // Shoot 3 balls
-        ramseteCommand1, // Moving trajectory
-        // Turn in place 180 degrees
-        new WaitCommand(5)); 
+    
+    addCommands(new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup),// Shoot 3 balls
+      new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand) , // Moving trajectory while intaking
+        returnIntakeCommand, // Stop intaking
+        new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup)); // Shooting final 3 balls 
         
   }
 

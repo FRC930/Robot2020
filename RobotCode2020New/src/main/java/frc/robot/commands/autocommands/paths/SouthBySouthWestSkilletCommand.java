@@ -37,12 +37,19 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  GyroSubsystem gyroSubsystem;
-  DriveSubsystem driveSubsystem;
-  SpinCommand spin;
+
+  private DriveSubsystem driveSubsystem;
+  private GyroSubsystem gyroSubsystem;
+  
+  //private DeployIntakeCommand deployIntakeCommand;
+  //private ReturnIntakeCommand returnIntakeCommand;
+
+  //private IntakeMotorSubsystem intakeMotorSubsytem;
+  //private IntakePistonSubsystem intakePistonSubsytem;
+
   public SouthBySouthWestSkilletCommand(DriveSubsystem subsystem,GyroSubsystem gSubsystem) {
     driveSubsystem = subsystem; 
-    gyroSubsystem = gSubsystem;
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -96,7 +103,7 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        gyroSubsystem::getPose,
+        driveSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
@@ -113,7 +120,7 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
     );
     RamseteCommand ramseteCommand2 = new RamseteCommand(
       trajectory2,
-      gyroSubsystem::getPose,
+      driveSubsystem::getPose,
       new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
       new SimpleMotorFeedforward(Constants.KSVOLTS,
                                  Constants.KVVOLT,

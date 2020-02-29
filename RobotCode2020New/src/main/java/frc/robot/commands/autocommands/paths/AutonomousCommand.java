@@ -34,18 +34,18 @@ public class AutonomousCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  DriveSubsystem drive;
-  GyroSubsystem gyroSubsystem;
+  private DriveSubsystem dSubsystem;
+  private GyroSubsystem gyroSubsystem;
 
-  DeployIntakeCommand deployIntakeCommand;
-  ReturnIntakeCommand returnIntakeCommand;
+  private DeployIntakeCommand deployIntakeCommand;
+  private ReturnIntakeCommand returnIntakeCommand;
 
-  IntakeMotorSubsystem intakeMotor;
-  IntakePistonSubsystem intakePiston;
+  private IntakeMotorSubsystem intakeMotorSubsytem;
+  private IntakePistonSubsystem intakePistonSubsytem;
   
 
-  public AutonomousCommand(DriveSubsystem dSubsystem, GyroSubsystem gSubsystem) {
-    drive = dSubsystem;
+  public AutonomousCommand(DriveSubsystem driveSubsystem, GyroSubsystem gSubsystem) {
+    dSubsystem = driveSubsystem;
     gyroSubsystem = gSubsystem;
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -81,12 +81,12 @@ public class AutonomousCommand extends SequentialCommandGroup {
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        drive::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        drive::tankDriveVolts,
-        drive
+        dSubsystem::tankDriveVolts,
+        dSubsystem
     );
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
@@ -105,13 +105,13 @@ public class AutonomousCommand extends SequentialCommandGroup {
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        drive::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        drive::tankDriveVolts,
-        drive
+        dSubsystem::tankDriveVolts,
+        dSubsystem
     );
-    addCommands(ramseteCommand1, new SpinCommand(drive, gyroSubsystem,340));
+    addCommands(ramseteCommand1, new SpinCommand(dSubsystem, gyroSubsystem,340));
   }
 }
