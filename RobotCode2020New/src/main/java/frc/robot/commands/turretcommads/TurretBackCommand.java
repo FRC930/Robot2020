@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- COMMAND CLASS --------\\
 
@@ -28,10 +29,12 @@ public class TurretBackCommand extends CommandBase {
     private double targetPosition = Constants.TURRET_BACK_POSITION;
     private double speed;
 
-    private TurretSubsystem turretSubsystem;    
+    private TurretSubsystem turretSubsystem;
+    private ShuffleboardUtility shuffleboardUtility; 
     
     public TurretBackCommand(TurretSubsystem turretSubsystem){
         this.turretSubsystem = turretSubsystem;
+        shuffleboardUtility = ShuffleboardUtility.getInstance(); 
         addRequirements(turretSubsystem);
     }
 
@@ -39,7 +42,7 @@ public class TurretBackCommand extends CommandBase {
     
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {   
+    public void initialize() {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -58,6 +61,8 @@ public class TurretBackCommand extends CommandBase {
         }
         
         turretSubsystem.setSpeed(speed);
+        shuffleboardUtility.setTurretSpeed(turretSubsystem.getSpeed());
+        shuffleboardUtility.setTurretEncoderPosition(turretSubsystem.getEncoderPosition());
     }
 
     // Called once the command ends or is interrupted.

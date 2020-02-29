@@ -103,25 +103,20 @@ public class FlywheelSubsystem extends SubsystemBase {
         return (motorLead.getEncoder().getVelocity() / 5880);
     }
 
-    public double getVoltage() {
-        return motorLead.getBusVoltage();
-    }
-
-    public boolean isFlywheelActive() {
-        if (getSpeed() != 0) {
+    public boolean isShooterUpToSpeed(){
+        if (getPercentOutput() >= Constants.FLYWHEEL_SPEED){
             return true;
-        } else {
+        }
+        else{
             return false;
         }
     }
 
+    public double getVoltage() {
+        return motorLead.getBusVoltage();
+    }
+
     @Override
     public void periodic() {
-        //TODO: This should be outputted by Shuffleboard stuff
-        /*
-        SmartDashboard.putNumber("LeftRPM", getSpeed());
-        SmartDashboard.putNumber("RightRPM", getSpeed());
-        SmartDashboard.putNumber("AppliedOutput", motorLead.getAppliedOutput());
-        */
     }
 } // end of class ShooterSubsystem

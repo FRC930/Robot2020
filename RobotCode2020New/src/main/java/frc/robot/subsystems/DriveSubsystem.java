@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -35,6 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX right2;
   private WPI_TalonFX left1;
   private WPI_TalonFX left2;
+  private ShuffleboardUtility shuffleboardUtility;
 
   // The intake talon motor controller, has the gyro attached to it
   private TalonSRX gyroTalon;
@@ -78,6 +80,8 @@ public class DriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(gyroTalon);
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
+
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
@@ -254,7 +258,8 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
-
+    // TODO: shuffleboard method needs to be fixed
+    shuffleboardUtility.setGyroYaw(getHeading());
     //TODO: Uncomment shuffleboard stuff
     //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
 

@@ -64,6 +64,7 @@ public class CheckIfShotPossibleCommand extends CommandBase {
         this.shotOutcome = shooterMath.getPossibleShot();
         
         deadbandMath.setPosition(limeLight.getHorizontalOffset(), limeLight.getDistance());
+        shuffleboardUtility.setDistanceFromTarget(limeLight.getDistance());
         this.deadbandZone = deadbandMath.getDeadbandZone();
         this.shotChance = deadbandMath.getShotChance();
         

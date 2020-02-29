@@ -38,14 +38,14 @@ public class ShuffleboardUtility {
     private boolean manualMode;
 	// private double turretEncoder;
 	private double distanceFromTarget;
-	private String shotType;
+    private String shotType;
+    private boolean shooterUpToSpeed;
     private String fmsColor;
     private String logger;
     private String fmsColorDebug;
     private double hopperSpeed;
     private double shooterRPM;
-    private double pistonAngle;
-    private double pistonRPM;
+    private boolean shooterAngle;
     private double turretSpeed;
     private double turretEncoderPosition;
     private HttpCamera limelightCamera;
@@ -57,12 +57,18 @@ public class ShuffleboardUtility {
     private NetworkTableEntry manualModeEntry;
     private NetworkTableEntry distanceFromTargetEntry;
     private NetworkTableEntry shotTypeEntry;
+    private NetworkTableEntry shooterUpToSpeedEntry;
+    private NetworkTableEntry turretSpeedEntry;
+    private NetworkTableEntry hopperSpeedEntry;
+    private NetworkTableEntry shooterAngleEntry;
+    private NetworkTableEntry shooterRPMEntry;
+    private NetworkTableEntry turretEncoderPositionEntry;
+    private NetworkTableEntry gyroYawEntry;
     
 
     //-------- CONSTRUCTOR --------\\
 
     private ShuffleboardUtility() {
-        testDebugTab = Shuffleboard.getTab("Testing & Debugging");
         pidController = testDebugTab.getComponents();
         intakeIndicator = false;
         shootIndicator = false;
@@ -70,13 +76,13 @@ public class ShuffleboardUtility {
         // turretEncoder = 0.0;
         distanceFromTarget = 0.0;
         shotType = "";
+        shooterUpToSpeed = false;
         fmsColor = "";
         logger = "";
         fmsColorDebug = "";
         hopperSpeed = 0.0;
         shooterRPM = 0.0;
-        pistonAngle = 0.0;
-        pistonRPM = 0.0;
+        shooterAngle = false;
         turretSpeed = 0.0;
         turretEncoderPosition = 0.0;
         gyroYaw = 0.0;
@@ -92,7 +98,14 @@ public class ShuffleboardUtility {
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
         distanceFromTargetEntry = driverStationTab.add("Distance from Target", distanceFromTarget).getEntry();
-        shotTypeEntry = driverStationTab.add("Distance from Target", shotType).getEntry();
+        shotTypeEntry = driverStationTab.add("Shot Type", shotType).getEntry();
+        shooterUpToSpeedEntry = driverStationTab.add("Is Shooter up to speed?", shooterUpToSpeed).getEntry();
+        turretSpeedEntry = testDebugTab.add("Turret Speed", turretSpeed).getEntry();
+        hopperSpeedEntry = testDebugTab.add("Hopper Speed", hopperSpeed).getEntry();
+        shooterAngleEntry = testDebugTab.add("Shooter Position (True = Far)", shooterAngle).getEntry();
+        shooterRPMEntry = testDebugTab.add("Shooter RPM", shooterRPM).getEntry();
+        turretEncoderPositionEntry = testDebugTab.add("Turret Encoder Position", turretEncoderPosition).getEntry();
+        gyroYawEntry = testDebugTab.add("Gyro Yaw", gyroYaw).getEntry();
     }
 
     private static ShuffleboardUtility instance = null;
@@ -127,12 +140,19 @@ public class ShuffleboardUtility {
     // TODO: find method for shot types
 	public void setShotType(String ShotType){
 		shotType = ShotType;
-		shotTypeEntry.getString(shotType);
+		shotTypeEntry.setString(shotType);
     }
     public void setLimelightFeed(HttpCamera LimelightCamera){
         limelightCamera = LimelightCamera;
         driverStationTab.add("Limelight Feed", limelightCamera);
         testDebugTab.add("Limelight Feed", limelightCamera);
+    }
+    public void setHopperFeed(){
+        
+    }
+    public void setShooterUpToSpeed(boolean ShooterUpToSpeed){
+        shooterUpToSpeed = ShooterUpToSpeed;
+        shooterUpToSpeedEntry.setBoolean(shooterUpToSpeed);
     }
     // public String getFMSColor(){
 	// 	fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
@@ -141,33 +161,33 @@ public class ShuffleboardUtility {
 
 	//----- Testing & Debugging -----\\
 
-    public void setTurretSpeed(double turretSpeed){
-        this.turretSpeed = turretSpeed;
-        SmartDashboard.putNumber("Turret Speed", turretSpeed);
+    public void setTurretSpeed(double TurretSpeed){
+        turretSpeed = TurretSpeed;
+        turretSpeedEntry.setNumber(turretSpeed);
     }
-    public void setHopperSpeed(double hopperSpeed){
-        this.hopperSpeed = hopperSpeed;
-        SmartDashboard.putNumber("Hopper Speed", hopperSpeed);
+    public void setHopperSpeed(double HopperSpeed){
+        hopperSpeed = HopperSpeed;
+        hopperSpeedEntry.setNumber(hopperSpeed);
     }
-    public void setPistonAngle(double pistonAngle){
-        this.pistonAngle = pistonAngle;
-        SmartDashboard.putNumber("Piston Angle", pistonAngle);
+    public void setShooterAngle(boolean ShooterAngle){
+        shooterAngle = ShooterAngle;
+        shooterAngleEntry.setBoolean(shooterAngle);
     }
 	// public void getLogger(String logger){
 	// 	this.logger = logger;
 	// 	SmartDashboard.putString("Logger Level", logger);
 	// }
-	public void setPistonRPM(double pistonRPM){
-		this.pistonRPM = pistonRPM;
-		SmartDashboard.putNumber("Piston RPM", pistonRPM);
+	public void setShooterRPM(double ShooterRPM){
+		shooterRPM = ShooterRPM;
+		shooterRPMEntry.setNumber(shooterRPM);
 	}
-	public void setTurretEncoderPosition(double turretEncoderPosition){
-		this.turretEncoderPosition = turretEncoderPosition;
-		SmartDashboard.putNumber("Turret Encoder Pos", turretEncoderPosition);
+	public void setTurretEncoderPosition(double TurretEncoderPosition){
+		turretEncoderPosition = TurretEncoderPosition;
+		turretEncoderPositionEntry.setNumber(turretEncoderPosition);
     }
-    public void setGyroYaw(double gyroYaw){
-        this.gyroYaw = gyroYaw;
-        SmartDashboard.putNumber("Gyro Yaw (LtoR Rotation)", gyroYaw);
+    public void setGyroYaw(double GyroYaw){
+        gyroYaw = GyroYaw;
+        gyroYawEntry.setNumber(gyroYaw);
     }
     // TODO: figure out how to get PID values into code
     // public String getShooterP(){
@@ -233,51 +253,51 @@ public class ShuffleboardUtility {
     /**
      * May or may not be applied later
      */
-    public void setShooterP(double kP){
-         if (pidController.size() > 0){
-             for (int i = 0; i < pidController.size(); i++){
-                 if (pidController.get(i).getTitle() == "Flywheel PID"){
-                     pidController.get(i).withProperties(Map.of("P", kP));
-                 }
-             }
-         }
-    }
-    public void setShooterI(double kI){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("I", kI));
-                }
-            }
-        }
-    }
-    public void setShooterD(double kD){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("D", kD));
-                }
-            }
-        }
-    }
-    public void setShooterF(double kF){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("F", kF));
-                }
-            }
-        }
-    }
-    public void setShooterSetpoint(double kSetpoint){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("Setpoint", kSetpoint));
-                }
-            }
-        }
-    }
+    // public void setShooterP(double kP){
+    //      if (pidController.size() > 0){
+    //          for (int i = 0; i < pidController.size(); i++){
+    //              if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                  pidController.get(i).withProperties(Map.of("P", kP));
+    //              }
+    //          }
+    //      }
+    // }
+    // public void setShooterI(double kI){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("I", kI));
+    //             }
+    //         }
+    //     }
+    // }
+    // public void setShooterD(double kD){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("D", kD));
+    //             }
+    //         }
+    //     }
+    // }
+    // public void setShooterF(double kF){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("F", kF));
+    //             }
+    //         }
+    //     }
+    // }
+    // public void setShooterSetpoint(double kSetpoint){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("Setpoint", kSetpoint));
+    //             }
+    //         }
+    //     }
+    // }
     
 	//-------- Autonomous --------\\
 

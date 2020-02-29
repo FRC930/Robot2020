@@ -45,7 +45,7 @@ public class RunIntakeMotorsCommand extends CommandBase {
   @Override   // Called when the command is initially scheduled.
   public void initialize() {
      intakeMotors.setMotorSpeed(Constants.INTAKE_SPEED);
-
+     shuffleboardUtility.setIntakeIndicator(true);
      logger.log(Constants.LOG_LEVEL_FINE, "Running the intake wheels (command)..."); 
   }
 
