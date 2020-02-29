@@ -24,7 +24,7 @@ public class StopKickerCommand extends CommandBase {
 
     public StopKickerCommand(KickerSubsystem kSubsystem) {
         kickerSubsystem = kSubsystem;
-        addRequirements(kickerSubsystem);
+        addRequirements(kSubsystem);
     }
 
     //-------- METHODS --------\\

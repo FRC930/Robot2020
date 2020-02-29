@@ -28,14 +28,12 @@ public class RunIntakeMotorsCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   private final IntakeMotorSubsystem intakeMotors;
-  private ShuffleboardUtility shuffleboardUtility;
+  private ShuffleboardUtility shuffleboardUtility = ShuffleboardUtility.getInstance();
 
   //-------- CONSTRUCTOR --------\\
 
   public RunIntakeMotorsCommand(IntakeMotorSubsystem iMotors) {
     intakeMotors = iMotors;
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
-    logger.log(Constants.LOG_LEVEL_FINE, "Initializing the RunIntakeMotorsCommand...");
 
     addRequirements(iMotors);  // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -48,15 +46,6 @@ public class RunIntakeMotorsCommand extends CommandBase {
 
      logger.log(Constants.LOG_LEVEL_FINE, "Running the intake wheels (command)..."); 
   }
-
-  @Override   // Called every time the scheduler runs while the command is scheduled.
-  public void execute() {
-  } 
-  
-  @Override   // Called once the command ends or is interrupted.
-  public void end(boolean interrupted) {
-  }
-
   
   @Override   // Returns true when the command should end.
   public boolean isFinished() {

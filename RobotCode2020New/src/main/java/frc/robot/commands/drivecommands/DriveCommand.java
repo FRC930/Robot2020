@@ -47,14 +47,6 @@ public class DriveCommand extends CommandBase {
   }
 
 
-  /*
-  //We comment out isFinished so we always have control of the drive and it gives contorl up easier
-  @Override   // Returns true when the command should end.
-  public boolean isFinished() {
-    return false;
-  }
-  */
-
   //-------- METHODS --------\\
   
   //sets up our two driver axis for driving

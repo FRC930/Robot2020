@@ -72,7 +72,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    logger.entering(this.getClass().getName(), "execute");
+    logger.entering(RotationalControlTrackerCommand.class.getName(), "execute");
     // Returns the color values from the sensors
     final Color color = colorSensorSubsystem.getSensorColor();
     String nearestColor = getNearestColor(color);
@@ -113,7 +113,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
       // Counts how many times the color has changed
       colorCounter++;
     }
-    logger.exiting(this.getClass().getName(), "execute");
+    logger.exiting(RotationalControlTrackerCommand.class.getName(), "execute");
   } // End of execute
 
   // Called once the command ends or is interrupted.
@@ -124,14 +124,14 @@ public class RotationalControlTrackerCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    logger.entering(this.getClass().getName(), "isFinished");
-    logger.exiting(this.getClass().getName(), "isFinished");
+    logger.entering(RotationalControlTrackerCommand.class.getName(), "isFinished");
+    logger.exiting(RotationalControlTrackerCommand.class.getName(), "isFinished");
     // Stops the code when the color has changed 24 times (3 rotations)
     return colorCounter > 24;
   }
 
   public String getNearestColor(Color c) {
-    logger.entering(this.getClass().getName(), "getNearestColor");
+    logger.entering(RotationalControlTrackerCommand.class.getName(), "getNearestColor");
     // Matches the color sensor RGB values to the closest true color inside of the ColorMatch class
     // Creates a ColorMatch object that finds and manages distance/difference between colors
     ColorMatchResult match = colorMatch.matchClosestColor(c);
@@ -156,7 +156,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
     else {
       colorOutput = "Unknown";
     }
-    logger.exiting(this.getClass().getName(), "getNearestColor");
+    logger.exiting(RotationalControlTrackerCommand.class.getName(), "getNearestColor");
     // Returns the name of the color being seen by the sensor
     return colorOutput;
   }

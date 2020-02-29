@@ -38,7 +38,7 @@ public class DeadbandMath {
     private static DeadbandMath lastInstance = null;
 
     //Constructs logger
-    private final Logger logger = Logger.getLogger(getClass().toString());
+    private static final Logger logger = Logger.getLogger(DeadbandMath.class.toString());
     
     //Class constructor - sets logger lever
     private DeadbandMath() {
@@ -91,7 +91,7 @@ public class DeadbandMath {
      * @param distanceFromGoal  is the distance away from the goal, in meters.
      */
     public void setPosition(double angle, double distanceFromGoal) {
-        logger.entering(this.getClass().getName(), "setPosition()");
+        logger.entering(DeadbandMath.class.getName(), "setPosition()");
         //Sets placeholder variables
         double robotX = 0;
         double robotY = 0;
@@ -122,7 +122,7 @@ public class DeadbandMath {
             }
         }   
         logger.log(Constants.LOG_LEVEL_INFO, "deadbandZone: " + deadbandZone + " || shotChance: " + shotChance);
-        logger.exiting(this.getClass().getName(), "setPosition");
+        logger.exiting(DeadbandMath.class.getName(), "setPosition");
     }
 
     /**
@@ -131,9 +131,9 @@ public class DeadbandMath {
      * @return deadbandZone
      */
     public DeadbandZone getDeadbandZone() {
-        logger.entering(this.getClass().getName(), "getDeadbandZone");
+        logger.entering(DeadbandMath.class.getName(), "getDeadbandZone");
         logger.log(Constants.LOG_LEVEL_INFO, "deadbandZone: " + deadbandZone);
-        logger.exiting(this.getClass().getName(), "getDeadbandZone");
+        logger.exiting(DeadbandMath.class.getName(), "getDeadbandZone");
         return deadbandZone;
     }
 
@@ -143,9 +143,9 @@ public class DeadbandMath {
      * @return shotChance
      */
     public ShotChance getShotChance() {
-        logger.entering(this.getClass().getName(), "getShotChance");
+        logger.entering(DeadbandMath.class.getName(), "getShotChance");
         logger.log(Constants.LOG_LEVEL_INFO, "shotChance: " + shotChance);
-        logger.exiting(this.getClass().getName(), "getShotChance");
+        logger.exiting(DeadbandMath.class.getName(), "getShotChance");
         return shotChance;
     }
 
@@ -160,7 +160,7 @@ public class DeadbandMath {
      * @param robotY is the current distance from the wall.
      */
     private void calculateDeadbandZone(double robotX, double robotY) {
-        logger.entering(this.getClass().getName(), "calculateDeadbandZone");
+        logger.entering(DeadbandMath.class.getName(), "calculateDeadbandZone");
         //
         //Figure out if the point is in the "GREEN" zone.
         double yOfLine2 = LINE_2_M * robotX + LINE_2_B;
@@ -190,7 +190,7 @@ public class DeadbandMath {
             }
         }
         logger.log(Constants.LOG_LEVEL_INFO, "Calculated DeadbandZone: " + deadbandZone);
-        logger.exiting(this.getClass().getName(), "calculateDeadbandZone");
+        logger.exiting(DeadbandMath.class.getName(), "calculateDeadbandZone");
     }
 
     /**
@@ -204,7 +204,7 @@ public class DeadbandMath {
      * @param robotY is the current distance from the wall.
      */
     private void calculateShotChance(double robotX, double robotY) {
-        logger.entering(this.getClass().getName(), "calculateShotChance");
+        logger.entering(DeadbandMath.class.getName(), "calculateShotChance");
         double targetArea = 0;
         if (robotX <= 0) { 
             targetArea = Math.sqrt(Math.pow(OUTER_RING_RADIUS + ((((OUTER_RING_RADIUS * robotX)/ robotY) + (-OUTER_RING_RADIUS * robotY)/(-OUTER_RING_RADIUS + robotX))/((-robotX/robotY) - (robotY/(-OUTER_RING_RADIUS + robotX)))), 2) +
@@ -222,5 +222,5 @@ public class DeadbandMath {
             shotChance = ShotChance.MISS;
         }
         logger.log(Constants.LOG_LEVEL_INFO, "Calculated ShotChance: " + shotChance);
-        logger.exiting(this.getClass().getName(), "calculateShotChance");    }
+        logger.exiting(DeadbandMath.class.getName(), "calculateShotChance");    }
 }

@@ -71,7 +71,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     // -------- METHODS --------\\
 
     public void setSpeed(double speed) {
-        logger.entering(this.getClass().getName(), "setSpeed()");
+        logger.entering(FlywheelSubsystem.class.getName(), "setSpeed()");
 
         // Set PID to speed up flywheel
         // this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
@@ -79,7 +79,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         motorLead.set(-speed);
 
         logger.log(Constants.LOG_LEVEL_FINE, "Set shooter speed to " + speed);
-        logger.exiting(this.getClass().getName(), "setSpeed()");
+        logger.exiting(FlywheelSubsystem.class.getName(), "setSpeed()");
     } // end of method setSpeed()
 
     public void setVelocity(double metersPerSecond) {
@@ -87,12 +87,12 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        logger.entering(this.getClass().getName(), "stop()");
+        logger.entering(FlywheelSubsystem.class.getName(), "stop()");
 
         // Set motors to stop without PID to allow them to coast down
         motorLead.set(0.0);
 
-        logger.exiting(this.getClass().getName(), "stop()");
+        logger.exiting(FlywheelSubsystem.class.getName(), "stop()");
     }
 
     public double getSpeed() {

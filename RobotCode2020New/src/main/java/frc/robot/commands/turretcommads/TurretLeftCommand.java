@@ -22,7 +22,7 @@ public class TurretLeftCommand extends CommandBase {
 
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(TurretLeftCommand.class.getName());
 
     private double turretPosition;
     private double targetPosition = Constants.TURRET_LEFT_POSITION;

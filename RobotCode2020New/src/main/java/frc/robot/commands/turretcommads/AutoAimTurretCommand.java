@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.subsystems.LimelightSubsystem.LimelightPipelines;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,9 +27,7 @@ public class AutoAimTurretCommand extends PIDCommand {
     // -------- DECLARATIONS --------\\
 
     private static final Logger logger = Logger.getLogger(AutoAimTurretCommand.class.getName());
-    private LimelightSubsystem limelight;
-    private TurretSubsystem turretSubsystem;
-    private double stickX;
+    private LimelightSubsystem limelightSubsystem;
     private final int LEDS_ON = 3;
 
     // -------- CONSTRUCTOR --------\\
@@ -79,9 +76,8 @@ public class AutoAimTurretCommand extends PIDCommand {
                 // Pass in the subsystems we will need
                 turret, limelight); // End of super constructor
 
-        logger.entering(this.getClass().getName(), "AutoAimTurretCommand");
-        this.limelight = limelight;
-        this.turretSubsystem = turret;
+        logger.entering(AutoAimTurretCommand.class.getName(), "AutoAimTurretCommand");
+        this.limelightSubsystem = limelight;
 
         // Enable the controller to continuously get input
         this.getController().enableContinuousInput(-27, 27);
@@ -97,7 +93,7 @@ public class AutoAimTurretCommand extends PIDCommand {
     @Override
     public void initialize() {
         // turn limelight LEDs on
-        limelight.setLightMode(LEDS_ON);
+        limelightSubsystem.setLightMode(LEDS_ON);
     }
 
     @Override
