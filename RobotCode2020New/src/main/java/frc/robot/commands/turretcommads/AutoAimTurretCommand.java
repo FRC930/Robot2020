@@ -67,6 +67,7 @@ public class AutoAimTurretCommand extends PIDCommand {
                     }
                     SmartDashboard.putNumber("controller", output);
 
+                    // manual control will override the auto tracking
                     if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > 0.1) {
                         turret.setSpeed(-Math.pow(coDriver.getRawAxis(coDriverAxis), 3) * 0.5);
                     } else {

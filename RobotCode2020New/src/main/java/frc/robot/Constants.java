@@ -102,14 +102,15 @@ public final class Constants {
     public static final double TURRET_D = 0.00081;
 
     // encoder positions for setting turret to one of four directions
-    public static final double TURRET_FRONT_POSITION = 0.659;//0.13;//.659
-    public static final double TURRET_BACK_POSITION = 0.415;//-0.13;//.415
-    public static final double TURRET_LEFT_POSITION = 0.532;//0.0;//.532
-    public static final double TURRET_RIGHT_POSITION = 0.26;//.
+    public static final double TURRET_FRONT_POSITION = 0.659;
+    public static final double TURRET_BACK_POSITION = 0.415;
+    public static final double TURRET_LEFT_POSITION = 0.532;
+    public static final double TURRET_RIGHT_POSITION = 0.26;
 
     // speed used for turning the turret
     public static final double TURRET_TURNING_SPEED = 0.1;
 
+    // deadband for the turret set position commands
     public static final double TURRET_DEADBAND = 0.001;
 
     // [-------------------TURRET--------------------------]
