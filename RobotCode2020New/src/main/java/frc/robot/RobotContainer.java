@@ -176,7 +176,7 @@ public class RobotContainer {
   // private final LoadedSkilletCommand loadedSkilletCommand;
   // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
   private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
-  private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
+  //private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
   // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
   // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
   // private final VeggieSkilletCommand veggieSkilletCommand;
@@ -322,7 +322,6 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    saltAndPepperSkilletCommand = new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand);
     caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
@@ -485,7 +484,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(turretSubsystem, defaultTurretCommand);
     scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
     scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
-    return phillyCheesesteakAndEggSkilletCommand;
+    return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem)));
     //return null;
     // Run path following command, then stop at the end.
   }

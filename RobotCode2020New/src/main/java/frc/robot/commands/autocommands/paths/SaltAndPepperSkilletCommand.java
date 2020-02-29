@@ -37,12 +37,12 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     private DeployIntakeCommand deployIntakeCommand;
     private ReturnIntakeCommand returnIntakeCommand;
     private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
-    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand/*, ShootPowerCellCommandGroup SPCCommand*/){
+    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand DICommand, ReturnIntakeCommand RICommand,ShootPowerCellCommandGroup SPCCommand){
         driveSubsystem = dSubsystem;
         // gyroSubsystem = gSubsystem;
         deployIntakeCommand = DICommand;
         returnIntakeCommand = RICommand;
-        //shootPowerCellCommandGroup = SPCCommand;
+        shootPowerCellCommandGroup = SPCCommand;
 
         //this is our config for how much power goes to the motors
         var autoVoltageConstraint =
@@ -159,7 +159,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         driveSubsystem 
     );
         // add commands here to run during auto
-        addCommands(ramseteCommand1, deployIntakeCommand, new WaitCommand(5), returnIntakeCommand, ramseteCommand2);//DeployIntakeAndDriveParrellelCommand,new WaitCommand(1),returnIntakeCommand);//shootPowerCellCommand);
+        addCommands(new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand), returnIntakeCommand, ramseteCommand2,shootPowerCellCommandGroup);
     }
     //converts our inches into meters
     private double inchesToMeters(double inch){
