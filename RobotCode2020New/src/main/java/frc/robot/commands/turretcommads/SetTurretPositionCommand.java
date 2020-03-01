@@ -9,7 +9,7 @@
 
 package frc.robot.commands.turretcommads;
 
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -18,20 +18,20 @@ import frc.robot.subsystems.TurretSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class TurretFrontCommand extends CommandBase {
-
+public class SetTurretPositionCommand extends CommandBase {
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(SetTurretPositionCommand.class.getName());
 
     private double turretPosition;
-    private double targetPosition = Constants.TURRET_FRONT_POSITION;
+    private double targetPosition;
     private double speed;
 
     private TurretSubsystem turretSubsystem;    
     
-    public TurretFrontCommand(TurretSubsystem turretSubsystem){
+    public SetTurretPositionCommand(TurretSubsystem turretSubsystem, double targetPosition){
         this.turretSubsystem = turretSubsystem;
+        this.targetPosition = targetPosition;
         addRequirements(turretSubsystem);
     }
 
@@ -47,13 +47,20 @@ public class TurretFrontCommand extends CommandBase {
     public void execute() {  
         turretPosition = turretSubsystem.getRawEncoderPosition();
 
+        logger.log(Level.INFO, "targetPosition = " + targetPosition);
+        logger.log(Level.INFO, "turretPosition = " + turretPosition);
+
         if(Math.abs(turretPosition - targetPosition) > Constants.TURRET_DEADBAND){
+            logger.log(Level.INFO, "| turretPosition - targetPosition | >  Constants.TURRET_DEADBAND("+Constants.TURRET_DEADBAND+")");
             if(turretPosition < targetPosition) {
-                speed = -Constants.TURRET_TURNING_SPEED;
-            } else if(turretPosition > targetPosition) {
+                logger.log(Level.INFO, "seting 'speed' to -Constants.TURRET_TURNING_SPEED("+-Constants.TURRET_TURNING_SPEED+")");
                 speed = Constants.TURRET_TURNING_SPEED;
-            }    
+            } else if(turretPosition > targetPosition) {
+                logger.log(Level.INFO, "seting 'speed' to Constants.TURRET_TURNING_SPEED("+Constants.TURRET_TURNING_SPEED+")");
+                speed = -Constants.TURRET_TURNING_SPEED;
+            }  
         } else {
+            logger.log(Level.INFO, "| turretPosition - targetPosition | <  Constants.TURRET_DEADBAND("+Constants.TURRET_DEADBAND+")");
             speed = 0;
         }
         
@@ -71,5 +78,5 @@ public class TurretFrontCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-} // end of class TurretFrontCommand 
+} // end of class TurretBackCommand 
 

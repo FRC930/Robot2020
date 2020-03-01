@@ -15,17 +15,27 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.robot.commands.hoppercommands.RunHopperCommand;
 import frc.robot.commands.intakecommands.DeployIntakeCommand;
 import frc.robot.commands.intakecommands.ReturnIntakeCommand;
+import frc.robot.commands.shootercommands.FlywheelVelocityCommand;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.KickerSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
@@ -35,46 +45,35 @@ import java.util.List;
 
 public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
   /**
-   * Creates a new Autonomous.
+   * Path Description: ----------------- Shoot 3 from initiation line move through
+   * trench to grab 3 balls Shoot 3 from trench position
    */
-  private DriveSubsystem driveSubsystem;
-  private DeployIntakeCommand deployIntakeCommand;
-  private ReturnIntakeCommand returnIntakeCommand;
-  private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
+  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem, IntakePistonSubsystem iPistonSubsystem,
+      IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem tSubsystem,
+      HopperSubsystem hSubsystem, KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem,
+      FlywheelPistonSubsystem fPistonSubsystem) {
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+        new SimpleMotorFeedforward(Constants.KSVOLTS, Constants.KVVOLT, Constants.KAVOLT), Constants.KDRIVEKINEMATICS,
+        10);
 
-  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem,DeployIntakeCommand dICommand,ReturnIntakeCommand rICommand) {
-    driveSubsystem = dSubsystem;
-    deployIntakeCommand = dICommand;
-    returnIntakeCommand = rICommand;
-
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.KSVOLTS,
-            Constants.KVVOLT,
-            Constants.KAVOLT),
-            Constants.KDRIVEKINEMATICS,10);
-    
     // Configurate the values of all trajectories for max velocity and acceleration
-    TrajectoryConfig config =
-      new TrajectoryConfig(Constants.KMAXSPEED,
-      Constants.KMAXACCELERATION)
-      // Add kinematics to ensure max speed is actually obeyed
-      .setKinematics(Constants.KDRIVEKINEMATICS)
-      // Apply the voltage constraint
-      .addConstraint(autoVoltageConstraint);
+    TrajectoryConfig config = new TrajectoryConfig(Constants.KMAXSPEED, Constants.KMAXACCELERATION)
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(Constants.KDRIVEKINEMATICS)
+        // Apply the voltage constraint
+        .addConstraint(autoVoltageConstraint);
 
     // -------- Trajectories -------- \\
 
     // Generates a trajectory for a path to move towards furthest ball in trench run
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
         // Start at the origin (initiation line) facing towards the field
-        new Pose2d(inchesToMeters(0.0), inchesToMeters(0.0), new Rotation2d(0)),
-        List.of(
-            // new Translation2d(inchesToMeters(14.38), inchesToMeters(4.63)),
-            // new Translation2d(inchesToMeters(43.15), inchesToMeters(13.88)),
-            // new Translation2d(inchesToMeters(71.92), inchesToMeters(23.15)),
-            // new Translation2d(inchesToMeters(104.63), inchesToMeters(27.75)),
-            // new Translation2d(inchesToMeters(122.63), inchesToMeters(27.75))
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0.0), new Rotation2d(0)), List.of(
+        // new Translation2d(inchesToMeters(14.38), inchesToMeters(4.63)),
+        // new Translation2d(inchesToMeters(43.15), inchesToMeters(13.88)),
+        // new Translation2d(inchesToMeters(71.92), inchesToMeters(23.15)),
+        // new Translation2d(inchesToMeters(104.63), inchesToMeters(27.75)),
+        // new Translation2d(inchesToMeters(122.63), inchesToMeters(27.75))
         ),
         // End at the furthest ball in the trench run (194.63 inches forward)
         new Pose2d(inchesToMeters(194.63), inchesToMeters(0.0), new Rotation2d(0)),
@@ -84,43 +83,41 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
     );
 
     // -------- RAMSETE Commands -------- \\
-    // Creates a command that can be added to the command scheduler in the sequential command
-    
+    // Creates a command that can be added to the command scheduler in the
+    // sequential command
+
     // Creates RAMSETE Command for first trajectory
-    RamseteCommand ramseteCommand1 = new RamseteCommand(
-        trajectory1,
-        driveSubsystem::getPose,
+    RamseteCommand ramseteCommand1 = new RamseteCommand(trajectory1, dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
-        new SimpleMotorFeedforward(Constants.KSVOLTS,
-                                   Constants.KVVOLT,
-                                   Constants.KAVOLT),
-        Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
-        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        new SimpleMotorFeedforward(Constants.KSVOLTS, Constants.KVVOLT, Constants.KAVOLT), Constants.KDRIVEKINEMATICS,
+        dSubsystem::getWheelSpeeds, new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
-    );
-    
+        dSubsystem::tankDriveVolts, dSubsystem);
+
     /*
-    Path Description:
-    -----------------
-      Shoot 3 from initiation line
-      move through trench to grab 3 balls
-      Shoot 3 from trench position
-    */
-    
-    addCommands(new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup),// Shoot 3 balls
-      new ParallelRaceGroup(ramseteCommand1,deployIntakeCommand) , // Moving trajectory while intaking
-        returnIntakeCommand, // Stop intaking
-        new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup)); // Shooting final 3 balls 
-        
-  }
+     * Path Description: ----------------- Shoot 3 from initiation line move through
+     * trench to grab 3 balls Shoot 3 from trench position
+     */
 
+    addCommands(
+        new ParallelRaceGroup(new WaitCommand(3),
+            new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem, kSubsystem, lLightSubsystem,
+                fPistonSubsystem)), // Shoot 3 balls
+        new ParallelRaceGroup(ramseteCommand1, new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem)), // Moving
+                                                                                                            // trajectory
+                                                                                                            // while
+                                                                                                            // intaking
+        new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem), // Stop intaking
+        new ParallelRaceGroup(new WaitCommand(3), new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem,
+            kSubsystem, lLightSubsystem, fPistonSubsystem))); // Shooting final 3 balls
+
+  } // End of Constructor
+
+  // Method to convert distances
   public double inchesToMeters(double inches) {
-      double meters = inches / 39.37;
-      return meters;
+    double meters = inches / 39.37;
+    return meters;
   }
 
-} // end of class
+} // End of class

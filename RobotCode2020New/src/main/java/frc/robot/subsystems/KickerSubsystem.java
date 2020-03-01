@@ -39,7 +39,6 @@ public class KickerSubsystem extends SubsystemBase {
     public KickerSubsystem() {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
         this.encoder = new DutyCycleEncoder(Constants.HOPPER_ENCODER_PORT_ID);
-        logger.setLevel(Constants.LOG_LEVEL_FINE);
         kickerMotor.setInverted(true);
     }   
     
@@ -47,20 +46,19 @@ public class KickerSubsystem extends SubsystemBase {
 
     //sets the speed to the tower motor 
     public void setSpeed(double speed) {
-        System.out.println("Kicker Speed: " + speed);
-        logger.entering(this.getClass().getName(), "setSpeed()");
+        logger.entering(KickerSubsystem.class.getName(), "setSpeed()");
         logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + speed);
 
         kickerMotor.set(ControlMode.PercentOutput, speed);
 
-        logger.exiting (this.getClass().getName(), "setSpeed()");
+        logger.exiting (KickerSubsystem.class.getName(), "setSpeed()");
     }
 
     // returns the speed from the tower motor
     public double getSpeed() { 
-        logger.entering(this.getClass().getName(), "getSpeed()");
+        logger.entering(KickerSubsystem.class.getName(), "getSpeed()");
         logger.log(Constants.LOG_LEVEL_INFO, "motorSpeed: " + kickerMotor.getMotorOutputPercent());
-        logger.exiting (this.getClass().getName(), "getSpeed()");
+        logger.exiting (KickerSubsystem.class.getName(), "getSpeed()");
         
         return kickerMotor.getMotorOutputPercent();
     }

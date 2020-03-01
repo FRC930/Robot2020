@@ -7,11 +7,6 @@
 
 package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -75,7 +70,6 @@ public class PositionalControlTrackerCommand extends CommandBase {
       colorMatch.addColorMatch(kBlueTarget);
       colorMatch.addColorMatch(kGreenTarget);
       colorMatch.addColorMatch(kRedTarget);
-      shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     /**
@@ -86,7 +80,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
      */
     @Override
     public void execute() {
-      logger.entering(this.getClass().getName(), "execute");
+      logger.entering(PositionalControlTrackerCommand.class.getName(), "execute");
       // Returns the color values from the sensors
       final Color color = colorSensorSubsystem.getSensorColor();
       // The color that we are currently seen
@@ -153,7 +147,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
       else {
         fieldColor = "Unknown";
       }
-      logger.exiting(this.getClass().getName(), "execute");
+      logger.exiting(PositionalControlTrackerCommand.class.getName(), "execute");
     }
 
     // Called once the command ends or is interrupted.
@@ -169,7 +163,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
     }
 
     public String getNearestColor(Color c) {
-      logger.entering(this.getClass().getName(), "getNearestColor");
+      logger.entering(PositionalControlTrackerCommand.class.getName(), "getNearestColor");
       // Creates a ColorMatch object that finds and manages distance/difference between colors
       ColorMatchResult match = colorMatch.matchClosestColor(c);
       String colorOutput;
@@ -193,7 +187,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
       else {
         colorOutput = "Unknown";
       }
-      logger.exiting(this.getClass().getName(), "getNearestColor");
+      logger.exiting(PositionalControlTrackerCommand.class.getName(), "getNearestColor");
       // Returns the name of the color being seen by the sensor
       return colorOutput;
     }

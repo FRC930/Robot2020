@@ -9,13 +9,16 @@
 
 package frc.robot.commands.kickercommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.utilities.JamState;
 import frc.robot.Constants;
 
+import java.util.logging.Logger;
+
+
+ 
 //-------- COMMAND CLASS --------\\
 
 public class RunKickerCommand extends CommandBase {
@@ -26,10 +29,13 @@ public class RunKickerCommand extends CommandBase {
     private JamState state = JamState.getInstance();
 
     // -------- CONSTRUCTOR --------\\
+    private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
+    
+    //-------- CONSTRUCTOR --------\\
 
     public RunKickerCommand(KickerSubsystem kSubsystem) {
         kickerSubsystem = kSubsystem;
-        addRequirements(kickerSubsystem);
+        addRequirements(kSubsystem);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

@@ -12,10 +12,10 @@ package frc.robot.utilities;
 import java.util.List;
 import java.util.Map;
 
-import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.autocommands.paths.SaltAndPepperSkilletCommand;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
@@ -36,69 +36,86 @@ public class ShuffleboardUtility {
 	private boolean intakeIndicator;
     private boolean shootIndicator;
     private boolean manualMode;
-	// private double turretEncoder;
 	private double distanceFromTarget;
-	private String shotType;
+    private String shotType;
+    private boolean shooterUpToSpeed;
     private String fmsColor;
     private String logger;
     private String fmsColorDebug;
     private double hopperSpeed;
     private double shooterRPM;
-    private double pistonAngle;
-    private double pistonRPM;
+    private boolean shooterAngle;
     private double turretSpeed;
     private double turretEncoderPosition;
-    private HttpCamera limelightCamera;
     private double gyroYaw;
+    private boolean saltAndPepper;
+    private boolean cheesyDenver;
+    private boolean caliAvocado;
     private ShuffleboardTab testDebugTab;
     private ShuffleboardTab driverStationTab;
+    private ShuffleboardTab autoTab;
     private NetworkTableEntry intakingEntry;
     private NetworkTableEntry shootingEntry;
     private NetworkTableEntry manualModeEntry;
     private NetworkTableEntry distanceFromTargetEntry;
     private NetworkTableEntry shotTypeEntry;
-    
+    private NetworkTableEntry shooterUpToSpeedEntry;
+    private NetworkTableEntry turretSpeedEntry;
+    private NetworkTableEntry hopperSpeedEntry;
+    private NetworkTableEntry shooterAngleEntry;
+    private NetworkTableEntry shooterRPMEntry;
+    private NetworkTableEntry turretEncoderPositionEntry;
+    private NetworkTableEntry gyroYawEntry;
+    private NetworkTableEntry saltAndPepperEntry;
+    private NetworkTableEntry cheesyDenverEntry;
+    private NetworkTableEntry caliAvocadoEntry;
 
-    // -------- CONSTRUCTOR --------\\
+    //-------- CONSTRUCTOR --------\\
+
     private ShuffleboardUtility() {
-        // Gets the pid controller data
         //pidController = testDebugTab.getComponents();
-        
-        // sets stating values -------------------------------------------
         intakeIndicator = false;
         shootIndicator = false;
         manualMode = false;
         // turretEncoder = 0.0;
         //distanceFromTarget = 0.0;
         shotType = "";
+        shooterUpToSpeed = false;
         fmsColor = "";
         logger = "";
         fmsColorDebug = "";
         hopperSpeed = 0.0;
         shooterRPM = 0.0;
-        pistonAngle = 0.0;
-        pistonRPM = 0.0;
+        shooterAngle = false;
         turretSpeed = 0.0;
         turretEncoderPosition = 0.0;
         gyroYaw = 0.0;
-        limelightCamera = new HttpCamera("limelight", "http://10.9.30.11:5801/stream.mjpg");
         kP = 0.0;
         kI = 0.0;
         kD = 0.0;
         kF = 0.0;
         kSetpoint = 0.0;
-        //end of stating values ---------------------------------------------------------
-
-        //gets all the tab data
+        saltAndPepper = false;
+        cheesyDenver = false;
+        caliAvocado = false;
         driverStationTab = Shuffleboard.getTab("Driver Station");
         testDebugTab = Shuffleboard.getTab("Testing & Debugging");
-
-        // data to add to shuffle board
+        autoTab = Shuffleboard.getTab("Autonomous");
         intakingEntry = driverStationTab.add("Intaking?", intakeIndicator).getEntry();
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
-        //distanceFromTargetEntry = driverStationTab.add("Distance from Target", distanceFromTarget).getEntry();
-        shotTypeEntry = driverStationTab.add("Distance from Target", shotType).getEntry();
+        distanceFromTargetEntry = driverStationTab.add("Distance from Target", distanceFromTarget).getEntry();
+        shotTypeEntry = driverStationTab.add("Shot Type", shotType).getEntry();
+        shooterUpToSpeedEntry = driverStationTab.add("Is Shooter up to speed?", shooterUpToSpeed).getEntry();
+        turretSpeedEntry = testDebugTab.add("Turret Speed", turretSpeed).getEntry();
+        hopperSpeedEntry = testDebugTab.add("Hopper Speed", hopperSpeed).getEntry();
+        shooterAngleEntry = testDebugTab.add("Shooter Position (True = Far)", shooterAngle).getEntry();
+        shooterRPMEntry = testDebugTab.add("Shooter RPM", shooterRPM).getEntry();
+        turretEncoderPositionEntry = testDebugTab.add("Turret Encoder Position", turretEncoderPosition).getEntry();
+        gyroYawEntry = testDebugTab.add("Gyro Yaw", gyroYaw).getEntry();
+        saltAndPepperEntry = autoTab.add("Salt and Pepper Skillet", saltAndPepper).getEntry();
+        cheesyDenverEntry = autoTab.add("Cheesy Denver Skillet", cheesyDenver).getEntry();
+        caliAvocadoEntry = autoTab.add("Cali Avocado Skillet", caliAvocado).getEntry();
     }
 
     private static ShuffleboardUtility instance = null;
@@ -115,36 +132,32 @@ public class ShuffleboardUtility {
 
     // TODO: set methods to respective commands
 	public void setIntakeIndicator(boolean IntakeIndicator){
-        intakeIndicator = IntakeIndicator;
-        //sends the state to shuffle board
+		intakeIndicator = IntakeIndicator;
         intakingEntry.setBoolean(intakeIndicator);
 	}
 	public void setShootIndicator(boolean ShootIndicator){
-        shootIndicator = ShootIndicator;
-        //sends the state to shuffle board
+		shootIndicator = ShootIndicator;
 		shootingEntry.setBoolean(shootIndicator);
     }
     public void setManualMode(boolean ManualMode){
         manualMode = ManualMode;
-        //sends the state to shuffle board
-        manualModeEntry.setBoolean(shootIndicator);
+        manualModeEntry.setBoolean(manualMode);
     }
 	public void setDistanceFromTarget(double DistanceFromTarget){
-        distanceFromTarget = DistanceFromTarget;
-        //sends the distance to shuffle board
+		distanceFromTarget = DistanceFromTarget;
         distanceFromTargetEntry.setNumber(distanceFromTarget);
     }
     // TODO: find method for shot types
 	public void setShotType(String ShotType){
-        shotType = ShotType;
-        //sends the type to shuffle board
-		shotTypeEntry.getString(shotType);
+		shotType = ShotType;
+		shotTypeEntry.setString(shotType);
     }
-    public void setLimelightFeed(HttpCamera LimelightCamera){
-        limelightCamera = LimelightCamera;
-        //sends the limelight feed
-        driverStationTab.add("Limelight Feed", limelightCamera);
-        testDebugTab.add("Limelight Feed", limelightCamera);
+    public void setHopperFeed(){
+        
+    }
+    public void setShooterUpToSpeed(boolean ShooterUpToSpeed){
+        shooterUpToSpeed = ShooterUpToSpeed;
+        shooterUpToSpeedEntry.setBoolean(shooterUpToSpeed);
     }
     // public String getFMSColor(){
 	// 	fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
@@ -153,36 +166,33 @@ public class ShuffleboardUtility {
 
 	//----- Testing & Debugging -----\\
 
-    public void setTurretSpeed(double turretSpeed){
-        this.turretSpeed = turretSpeed;
-        //sends the speed to shuffle board
-        SmartDashboard.putNumber("Turret Speed", turretSpeed);
+    public void setTurretSpeed(double TurretSpeed){
+        turretSpeed = TurretSpeed;
+        turretSpeedEntry.setNumber(turretSpeed);
     }
-    public void setHopperSpeed(double hopperSpeed){
-        this.hopperSpeed = hopperSpeed;
-        //sends the speed to shuffle board
-        SmartDashboard.putNumber("Hopper Speed", hopperSpeed);
+    public void setHopperSpeed(double HopperSpeed){
+        hopperSpeed = HopperSpeed;
+        hopperSpeedEntry.setNumber(hopperSpeed);
     }
-    // travis and josh are fixing rn
-    public void setPistonAngle(double pistonAngle){
-        this.pistonAngle = pistonAngle;
-        //sends the state to shuffle board
-        SmartDashboard.putNumber("Piston Angle", pistonAngle);
+    public void setShooterAngle(boolean ShooterAngle){
+        shooterAngle = ShooterAngle;
+        shooterAngleEntry.setBoolean(shooterAngle);
     }
 	// public void getLogger(String logger){
 	// 	this.logger = logger;
 	// 	SmartDashboard.putString("Logger Level", logger);
 	// }
-	public void setTurretEncoderPosition(double turretEncoderPosition){
-        this.turretEncoderPosition = turretEncoderPosition;
-        // sends the encoder pos to shuffle board
-		SmartDashboard.putNumber("Turret Encoder Pos", turretEncoderPosition);
+	public void setShooterRPM(double ShooterRPM){
+		shooterRPM = ShooterRPM;
+		shooterRPMEntry.setNumber(shooterRPM);
+	}
+	public void setTurretEncoderPosition(double TurretEncoderPosition){
+		turretEncoderPosition = TurretEncoderPosition;
+		turretEncoderPositionEntry.setNumber(turretEncoderPosition);
     }
-
-    public void setGyroYaw(double gyroYaw){
-        this.gyroYaw = gyroYaw;
-        //sends the yaw to shuffle board
-        SmartDashboard.putNumber("Gyro Yaw (LtoR Rotation)", gyroYaw);
+    public void setGyroYaw(double GyroYaw){
+        gyroYaw = GyroYaw;
+        gyroYawEntry.setNumber(gyroYaw);
     }
     // TODO: figure out how to get PID values into code
     // public String getShooterP(){
@@ -248,52 +258,82 @@ public class ShuffleboardUtility {
     /**
      * May or may not be applied later
      */
-    public void setShooterP(double kP){
-         if (pidController.size() > 0){
-             for (int i = 0; i < pidController.size(); i++){
-                 if (pidController.get(i).getTitle() == "Flywheel PID"){
-                     pidController.get(i).withProperties(Map.of("P", kP));
-                 }
-             }
-         }
-    }
-    public void setShooterI(double kI){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("I", kI));
-                }
-            }
-        }
-    }
-    public void setShooterD(double kD){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("D", kD));
-                }
-            }
-        }
-    }
-    public void setShooterF(double kF){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("F", kF));
-                }
-            }
-        }
-    }
-    public void setShooterSetpoint(double kSetpoint){
-        if (pidController.size() > 0){
-            for (int i = 0; i < pidController.size(); i++){
-                if (pidController.get(i).getTitle() == "Flywheel PID"){
-                    pidController.get(i).withProperties(Map.of("Setpoint", kSetpoint));
-                }
-            }
-        }
-    }
+    // public void setShooterP(double kP){
+    //      if (pidController.size() > 0){
+    //          for (int i = 0; i < pidController.size(); i++){
+    //              if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                  pidController.get(i).withProperties(Map.of("P", kP));
+    //              }
+    //          }
+    //      }
+    // }
+    // public void setShooterI(double kI){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("I", kI));
+    //             }
+    //         }
+    //     }
+    // }
+    // public void setShooterD(double kD){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("D", kD));
+    //             }
+    //         }
+    //     }
+    // }
+    // public void setShooterF(double kF){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("F", kF));
+    //             }
+    //         }
+    //     }
+    // }
+    // public void setShooterSetpoint(double kSetpoint){
+    //     if (pidController.size() > 0){
+    //         for (int i = 0; i < pidController.size(); i++){
+    //             if (pidController.get(i).getTitle() == "Flywheel PID"){
+    //                 pidController.get(i).withProperties(Map.of("Setpoint", kSetpoint));
+    //             }
+    //         }
+    //     }
+    // }
     
-	//-------- Autonomous --------\\
+    //-------- Autonomous --------\\
+    
+    // public boolean getSaltAndPepperSkillet(){
+    //     saltAndPepper = saltAndPepperEntry.getBoolean(saltAndPepper);
+    //     return saltAndPepper;
+    // }
+    // public boolean getCheesyDenverSkillet(){
+    //     cheesyDenver = cheesyDenverEntry.getBoolean(cheesyDenver);
+    //     return cheesyDenver;
+    // }
+    // public boolean getCaliAvocadoSkillet(){
+    //     caliAvocado = caliAvocadoEntry.getBoolean(caliAvocado);
+    //     return caliAvocado;
+    // }
 
+    // public int autonomousPaths(){
+
+    //     caliAvocado = caliAvocadoEntry.getBoolean(caliAvocado);
+    //     cheesyDenver = cheesyDenverEntry.getBoolean(cheesyDenver);
+    //     saltAndPepper = saltAndPepperEntry.getBoolean(saltAndPepper);
+
+    //     if (caliAvocado == true){
+    //         return 1;
+    //     } else if (cheesyDenver == true){
+    //         return 2;
+    //     } else if (saltAndPepper == true){
+    //         return 3;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
+    
 } //end of class Shuffleboard

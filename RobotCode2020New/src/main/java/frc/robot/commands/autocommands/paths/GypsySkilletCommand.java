@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
@@ -36,16 +35,7 @@ public class GypsySkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  private DriveSubsystem driveSubsystem;
-
-  //private DeployIntakeCommand deployIntakeCommand;
-  //private ReturnIntakeCommand returnIntakeCommand;
-
-  //private IntakeMotorSubsystem intakeMotorSubsytem;
-  //private IntakePistonSubsystem intakePistonSubsytem;
-
-  public GypsySkilletCommand(DriveSubsystem dSubsystem,GyroSubsystem gSubsystem) {
-    driveSubsystem = dSubsystem;
+  public GypsySkilletCommand(DriveSubsystem dSubsystem) {
 
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -85,18 +75,18 @@ public class GypsySkilletCommand extends SequentialCommandGroup {
     // Creates RAMSETE Command for first trajectory
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem
+        dSubsystem::tankDriveVolts,
+        dSubsystem
     );
     
     /* 
@@ -106,12 +96,13 @@ public class GypsySkilletCommand extends SequentialCommandGroup {
 
     addCommands(ramseteCommand1);
 
-  }
+  } // End of Constructor
 
+  // Method to convert distances
   public double inchesToMeters(double inches) {
       double meters = inches / 39.37;
       return meters;
   }
 
-}
+} // End of Class
 

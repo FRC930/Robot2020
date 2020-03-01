@@ -10,6 +10,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.utilities.ShuffleboardUtility;
 
 import java.util.logging.Logger;
 
@@ -37,6 +38,7 @@ public class TurretSubsystem extends SubsystemBase {
     // The motor controller that will control the turret
     private TalonSRX turretMotor;
     private DutyCycleEncoder encoder;
+    private ShuffleboardUtility shuffleboardUtility;
     private double encoderPosition;
 
     // -------- CONSTRUCTOR --------\\
@@ -44,8 +46,8 @@ public class TurretSubsystem extends SubsystemBase {
     public TurretSubsystem() {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
-
-        this.logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
     }
 
     // -------- METHODS --------\\
@@ -68,7 +70,7 @@ public class TurretSubsystem extends SubsystemBase {
 
         this.turretMotor.set(ControlMode.PercentOutput, speed);
         
-        this.logger.log(Constants.LOG_LEVEL_INFO, "Set speed to " + getSpeed());
+        logger.log(Constants.LOG_LEVEL_INFO, "Set speed to " + getSpeed());
     }
 
     public double getSpeed() {
@@ -98,5 +100,16 @@ public class TurretSubsystem extends SubsystemBase {
         }
         return speed;
     }
+    // @Override
+    // public void periodic() {
+    //     // TODO Auto-generated method stub
+    //     System.out.println(getRawEncoderPosition());
+    //     super.periodic();
+    // }
 
+    @Override
+    public void periodic() {
+        shuffleboardUtility.setTurretSpeed(getSpeed());
+        shuffleboardUtility.setTurretEncoderPosition(getEncoderPosition());
+    }
 } // end of class TurretSubsystem

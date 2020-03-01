@@ -4,13 +4,9 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 //-------- IMPORTS --------\\
-
 package frc.robot.commands.shootercommands;
-
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -26,20 +22,42 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.triggers.TriggerCommand;
-
 import frc.robot.subsystems.FlywheelPistonSubsystem;
-
 //-------- COMMANDGROUP CLASS --------\\
-
+/**
+ * There are two constructors for teleop and auton. The first is for auton and does not require a value to end the command group.
+ * The second takes a Joystick Button to stop the command group.
+ */
 public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
-    //-------- CONSTRUCTOR --------\\
+    //-------- CONSTRUCTORS --------\\
+    
     public ShootPowerCellCommandGroup(
-        FlywheelSubsystem flywheelSubsystem, 
-        TowerSubsystem towerSubsystem, 
-        HopperSubsystem hopperSubsystem, 
-        KickerSubsystem kickerSubsystem, 
-        LimelightSubsystem limeLight, 
-        FlywheelPistonSubsystem flywheelPistonSubsystem,
+        FlywheelSubsystem fSubsystem, 
+        TowerSubsystem tSubsystem, 
+        HopperSubsystem hSubsystem, 
+        KickerSubsystem kSubsystem, 
+        LimelightSubsystem lLightSubsystem, 
+        FlywheelPistonSubsystem fPistonSubsystem) 
+    {
+        //Run all required commands in order so we can shoot.
+        addCommands(//new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
+            new SequentialCommandGroup(
+                // new RampShooterCommand(flywheelSubsystem),
+                // new RunFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_SPEED),
+                    //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
+                    //limeLight.getDistance()).getVelocity()), 
+                new ParallelCommandGroup(new RunHopperCommand(hSubsystem), new RunTowerCommand(tSubsystem), new RunKickerCommand(kSubsystem))
+            )
+        );
+    } // End of Auton Constructor
+    
+    public ShootPowerCellCommandGroup(
+        FlywheelSubsystem fSubsystem, 
+        TowerSubsystem tSubsystem, 
+        HopperSubsystem hSubsystem, 
+        KickerSubsystem kSubsystem, 
+        LimelightSubsystem lLightSubsystem, 
+        FlywheelPistonSubsystem fPistonSubsystem,
         JoystickButton ZR)   
     {
         //Run all required commands in order so we can shoot.
@@ -50,15 +68,9 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
                 //new RunFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_SPEED)
                     //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
                     //limeLight.getDistance()).getVelocity()), 
-                new ParallelCommandGroup(new RunHopperCommand(hopperSubsystem), new RunTowerCommand(towerSubsystem), new RunKickerCommand(kickerSubsystem))
+                new ParallelCommandGroup(new RunHopperCommand(hSubsystem), new RunTowerCommand(tSubsystem), new RunKickerCommand(kSubsystem))
             )
         );
-    } // end of the constructor ShootPowerCellCommandGroup
-    
+    } // End of Teleop Constructor
 
-    @Override
-    public void end(boolean interrupted) {
-        System.out.println("### PARALLEL RACE GROUP ENDING ###");
-    }
-
-} // end of class ShootPowerCellCommandGroup
+} // End of Class

@@ -14,10 +14,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -35,6 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX right2;
   private WPI_TalonFX left1;
   private WPI_TalonFX left2;
+  private ShuffleboardUtility shuffleboardUtility;
 
   // The intake talon motor controller, has the gyro attached to it
   private TalonSRX gyroTalon;
@@ -79,6 +82,8 @@ public class DriveSubsystem extends SubsystemBase {
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
 
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
+
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
     // Inverts the direction of the drive motors
@@ -109,6 +114,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setShifterState(boolean state) {
+    logger.log(Constants.LOG_LEVEL_FINE, "New shifter state: " + state);
     shifter.set(state);
   }
 
@@ -120,15 +126,16 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rightSpeed The speed of the right drivetrain motors
    */
   public void runAt(double leftSpeed, double rightSpeed) {
-    //Logger.entering(this.getClass().getName(), "runAt()");
+    logger.entering(DriveSubsystem.class.getName(), "runAt()");
 
-    //TODO: Remove this logging, we should be seeing this on the Shuffleboard
-    //logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getLeftWheelRotations() + " | right encoder " + getRightWheelRotations());
+    //TODO: We should be seeing this on the Shuffleboard
+    logger.log(Constants.LOG_LEVEL_FINE, "New left speed: " + leftSpeed + "|| New right speed: " + rightSpeed);
+    logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getLeftWheelRotations() + " | right encoder " + getRightWheelRotations());
 
     left1.set(leftSpeed);
     right1.set(rightSpeed);
 
-    logger.exiting(this.getClass().getName(), "runAt()");
+    logger.exiting(DriveSubsystem.class.getName(), "runAt()");
   } // end of method runAt()
 
   /**
@@ -191,25 +198,26 @@ public class DriveSubsystem extends SubsystemBase {
      */
   public void resetOdometry(Pose2d pose) {
     driveOdometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    logger.log(Constants.LOG_LEVEL_FINE, "Odometer reset");
   }
 
   /**
      * Runs the drivetrain motors, but by sending the voltage amount instead  
      */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    logger.entering(this.getClass().getName(), "tankDriveVolts()");
+    logger.entering(DriveSubsystem.class.getName(), "tankDriveVolts()");
 
     logger.log(Constants.LOG_LEVEL_FINE, "Drivetrain Moving: " + leftVolts + " " + rightVolts);
 
     //TODO: Change for Prac Robot
-    //right1.setVoltage(rightVolts);
-    //left1.setVoltage(-leftVolts);
+    // right1.setVoltage(rightVolts);
+    // left1.setVoltage(-leftVolts);
 
     //TODO: Change for Comp Robot
-    //right1.setVoltage(-rightVolts);
-    //left1.setVoltage(leftVolts);
+    right1.setVoltage(rightVolts);
+    left1.setVoltage(leftVolts);
 
-    logger.exiting(this.getClass().getName(), "tankDriveVolts()");
+    logger.exiting(DriveSubsystem.class.getName(), "tankDriveVolts()");
   } // end of method tankDriveVolts()
 
   //-- TODO: Update getLeftEncoder() and getRightEncoder()
@@ -248,27 +256,18 @@ public class DriveSubsystem extends SubsystemBase {
      */
   public void setMaxOutput(double maxOutput) {
     differentialDrive.setMaxOutput(maxOutput);
+    logger.log(Constants.LOG_LEVEL_FINE, "New max output: " + maxOutput);
   }
 
   @Override
   public void periodic() {
+    logger.entering(DriveSubsystem.class.getName(), "periodic()");
+
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
+    shuffleboardUtility.setGyroYaw(getHeading());
 
-    //TODO: Uncomment shuffleboard stuff
-    //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
-
-    //SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
-    //SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
-   //SmartDashboard.putNumber("Heading", getHeading());
-    //SmartDashboard.putNumber("RPM Left", getLeftWheelRotations());
-    //SmartDashboard.putNumber("RPM Right", getRightWheelRotations());
-
-    //SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
-    //SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
-    // logger.entering(this.getClass().getName(), "periodic()");
-    // This method will be called once per scheduler run
-    //driveOdometry.update((Rotation2d.fromDegrees(getHeading())), left1.getRPMLeft(left1),
-    logger.exiting(this.getClass().getName(), "periodic()");  
+    logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
+    logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
   }
 
 } // end of the class DriveSubsystem

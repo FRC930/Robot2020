@@ -9,27 +9,29 @@
 
 package frc.robot.commands.limelightcommands;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.LimelightSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class LimelightLEDsOffCommand extends CommandBase {
+public class SetLimelightLEDStateCommand extends CommandBase {
 
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(SetLimelightLEDStateCommand.class.getName());
 
     private LimelightSubsystem limelightSubsystem;    
 
-    private final int LEDS_OFF = 1;
+    private int state;
     
-    public LimelightLEDsOffCommand(LimelightSubsystem limelightSubsystem){
+    // Constructor
+    public SetLimelightLEDStateCommand(LimelightSubsystem limelightSubsystem, int state){
         this.limelightSubsystem = limelightSubsystem;
+        this.state = state;
         addRequirements(limelightSubsystem);
     }
 
@@ -38,7 +40,8 @@ public class LimelightLEDsOffCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
-        limelightSubsystem.setLightMode(LEDS_OFF);
+        logger.log(Level.INFO, "LED State = " + state);
+        limelightSubsystem.setLightMode(state);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -57,5 +60,5 @@ public class LimelightLEDsOffCommand extends CommandBase {
     public boolean isFinished() {
         return false;
     }
-} // end of class LEDsOnCommand 
+} // end of class SetLimelightLEDStateCommand
 

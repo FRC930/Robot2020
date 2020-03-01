@@ -10,8 +10,11 @@
 package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.drivecommands.StopDriveCommand;
+import frc.robot.commands.hoppercommands.StopHopperStateCommand;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.utilities.JamState;
+import frc.robot.utilities.ShuffleboardUtility;
 import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
@@ -22,13 +25,17 @@ public class DefaultHopperCommand extends CommandBase {
 
     private HopperSubsystem m_HopperSubsystem;
     private JamState hopperState;
+    private ShuffleboardUtility shuffleboardUtility;
+    private StopHopperStateCommand m_StopHopperStateCommand;
 
     //private 
     //-------- CONSTRUCTOR --------\\
 
-    public DefaultHopperCommand(HopperSubsystem HopperSubsystem) {
+    public DefaultHopperCommand(HopperSubsystem HopperSubsystem, StopHopperStateCommand stopHopperStateCommand) {
         m_HopperSubsystem = HopperSubsystem;
         this.hopperState = JamState.getInstance();
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        m_StopHopperStateCommand = stopHopperStateCommand;
         addRequirements(m_HopperSubsystem);
     }
 
@@ -40,6 +47,7 @@ public class DefaultHopperCommand extends CommandBase {
         } else {
             m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
         }
+        shuffleboardUtility.setHopperSpeed(m_HopperSubsystem.getSpeed());
     }
 
     // Returns true when the command should end.

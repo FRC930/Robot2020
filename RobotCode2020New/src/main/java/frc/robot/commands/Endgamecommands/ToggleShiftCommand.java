@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 //-------- COMMAND CLASS --------\\
@@ -22,7 +21,7 @@ public class ToggleShiftCommand extends CommandBase {
 
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ToggleShiftCommand.class.getName());
 
     private boolean state;
 

@@ -9,31 +9,33 @@
 
 package frc.robot.commands.turretcommads;
 
-import java.util.logging.*;
+import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.Constants;
+import frc.robot.subsystems.LimelightSubsystem.LimelightPipelines;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //-------- PIDCOMMAND CLASS --------\\
 
-public class AutoAimTurretCommand extends PIDCommand {
+public class AutoAimAutonomousCommand extends PIDCommand {
 
     // -------- DECLARATIONS --------\\
 
     private static final Logger logger = Logger.getLogger(AutoAimTurretCommand.class.getName());
-    private LimelightSubsystem limelightSubsystem;
+    private LimelightSubsystem limelight;
+    private TurretSubsystem turretSubsystem;
+    private double stickX;
     private final int LEDS_ON = 3;
 
     // -------- CONSTRUCTOR --------\\
 
-    public AutoAimTurretCommand(LimelightSubsystem limelight, TurretSubsystem turret, PIDController controller, Joystick coDriver, int coDriverAxis) {
+    public AutoAimAutonomousCommand(LimelightSubsystem limelight, TurretSubsystem turret, PIDController controller) {
         // Initial P = 0.065
         // Oscillations over time: 3 cycles per 1 second
         // Period = 0.33   :    Took the oscillations over time and divided one by that number
@@ -65,23 +67,17 @@ public class AutoAimTurretCommand extends PIDCommand {
                     }
                     SmartDashboard.putNumber("controller", output);
 
-                    // manual control will override the auto tracking
-                    if(Math.abs(coDriver.getRawAxis(coDriverAxis)) > Constants.JOYSTICK_TURRET_DEADBAND) {
-                        logger.log(Level.INFO, "turret joytick value > Constants.JOYSTICK_TURRET_DEADBAND");
-                        turret.setSpeed(-Math.pow(coDriver.getRawAxis(coDriverAxis), 3) * 0.5);
-                    } else {
-                        logger.log(Level.INFO, "turret joytick value < Constants.JOYSTICK_TURRET_DEADBAND");
-                        if(Math.abs(limelight.getHorizontalOffset()) < 27) {
-                            logger.log(Level.INFO, "setting 'turret' speed ="+ output);
+                    if(Math.abs(limelight.getHorizontalOffset()) < 27) {
                             turret.setSpeed(output);
-                        }
+                        
                     }
                 },
                 // Pass in the subsystems we will need
                 turret, limelight); // End of super constructor
 
-        logger.entering(AutoAimTurretCommand.class.getName(), "AutoAimTurretCommand");
-        this.limelightSubsystem = limelight;
+        logger.entering(AutoAimAutonomousCommand.class.getName(), "AutoAimTurretCommand");
+        this.limelight = limelight;
+        this.turretSubsystem = turret;
 
         // Enable the controller to continuously get input
         this.getController().enableContinuousInput(-27, 27);
@@ -91,19 +87,28 @@ public class AutoAimTurretCommand extends PIDCommand {
 
         // Require the subsystems that we need
         addRequirements(limelight, turret);
-    
-        logger.exiting(AutoAimTurretCommand.class.getName(), "AutoAimTurretCommand");
+
     } // end of constructor AutoAimTurretCommand()
 
     @Override
     public void initialize() {
         // turn limelight LEDs on
-        limelightSubsystem.setLightMode(LEDS_ON);
+        limelight.setLightMode(LEDS_ON);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        double offset = limelight.getHorizontalOffset();
+        boolean inRange = false;
+
+        if(Math.abs(offset) < 0.4) {
+            inRange = true;
+        } 
+        else {
+            inRange = false;
+        }
+
+        return inRange;
     }
 
 } // End DefaultTurretCommand class

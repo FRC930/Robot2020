@@ -38,7 +38,6 @@ public class RunHopperCommand extends CommandBase {
     public void initialize() {
         m_HopperSubsystem.setSpeed(Constants.HOPPER_SHOOTING_SPEED);
     }
-  
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {

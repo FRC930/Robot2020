@@ -1,57 +1,39 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-//-------- IMPORTS --------\\
-
-package frc.robot.commands.hoppercommands;
+package frc.robot.commands.drivecommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
-//-------- COMMAND CLASS --------\\
+import frc.robot.subsystems.DriveSubsystem;
 
-public class KillHopperStateCommand extends CommandBase {
-
-    // -------- DECLARATIONS --------\\
-    private boolean state;
-
-    // private
-    // -------- CONSTRUCTOR --------\\
-
-    public KillHopperStateCommand() {
-        state = false;
+public class StopDriveCommand extends CommandBase {
+    private DriveSubsystem driveSubsystem;
+    public StopDriveCommand(DriveSubsystem dSubsystem){
+        driveSubsystem = dSubsystem;
     }
-
-    //-------- METHODS --------\\    
-
-    // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        state = !state;
+    public void initialize() {  
+        driveSubsystem.runAt(0, 0); 
     }
-
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {     
-
+    public void execute() {  
+        
     }
-
-    public boolean getState()
-    {
-        return state;
-    }
-
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
     }
-
+    
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
-} //end of class DefaultHopperCommand
+}
