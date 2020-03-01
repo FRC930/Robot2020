@@ -11,6 +11,7 @@ package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;;
 
 //-------- COMMANDBASE CLASS --------\\
 
@@ -20,6 +21,7 @@ public class RunFlywheelCommand extends CommandBase {
 
   private FlywheelSubsystem m_FlywheelSubsystem;
   private double m_Speed;
+  private ShuffleboardUtility shuffleboardUtility;
 
   // -------- CONSTRUCTOR --------\\
 

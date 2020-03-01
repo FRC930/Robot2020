@@ -29,22 +29,10 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
-import frc.robot.subsystems.FlywheelSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.subsystems.KickerSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.commands.hoppercommands.DefaultHopperCommand;
-import frc.robot.commands.hoppercommands.RunHopperCommand;
-import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
-import frc.robot.commands.turretcommads.TurretBackCommand;
-import frc.robot.commands.drivecommands.DriveCommand;
 import frc.robot.commands.drivecommands.StopDriveCommand;
 import frc.robot.commands.turretcommads.AutoAimAutonomousCommand;
-import frc.robot.commands.turretcommads.AutoAimTurretCommand;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 
 
