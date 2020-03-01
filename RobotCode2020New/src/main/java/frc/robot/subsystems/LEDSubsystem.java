@@ -22,7 +22,7 @@ public class LEDSubsystem extends SubsystemBase {
     //-------- CONSTANTS --------\\
     
     private final int PORT = 0;
-    private final int LEDS = 60;
+    public static final int LEDS = 150;
 
     private static final Logger logger = Logger.getLogger(LEDSubsystem.class.getName());
 

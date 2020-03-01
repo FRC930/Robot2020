@@ -34,7 +34,7 @@ public class DefaultFlywheelCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_FlywheelSubsystem.setSpeed(Constants.FLYWHEEL_SPEED);     //Set flywheel to default speed.
+        m_FlywheelSubsystem.setSpeed(0.3);     //Set flywheel to default speed.
     }
 
     // Called every time the scheduler runs while the command is scheduled.

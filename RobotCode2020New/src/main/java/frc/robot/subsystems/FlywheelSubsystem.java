@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.logging.Logger;
 
+import com.revrobotics.CANPIDController;
 //import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -30,12 +32,14 @@ public class FlywheelSubsystem extends SubsystemBase {
     // PID Derivitive Gain
     //private final double PID_D = 0.02;
     // PID Proportional Gain
-    //private final double PID_P = 0.0001;
+    private final double PID_P = 0.0001;
     // PID Feed-Forward Gain
     //private final double PID_FF = 0.00025;
 
     private final double SLOPE = 0.06;
     private final double Y_INTERCEPT = -0.05;
+
+    private final int MAX_NEO_RPM = 5880;
 
     // -------- DECLARATIONS --------\\
 
@@ -45,7 +49,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     private final CANSparkMax motorLead;
     private final CANSparkMax motor2;
 
-    //private CANPIDController pidcontroller;
+    private CANPIDController pidcontroller;
 
     // -------- CONSTRUCTOR --------\\
 
@@ -57,10 +61,10 @@ public class FlywheelSubsystem extends SubsystemBase {
 
         //TODO: Config PID
         // Setting our PID values
-        // this.pidcontroller = motorLead.getPIDController();
+        this.pidcontroller = motorLead.getPIDController();
         // this.pidcontroller.setFF(PID_FF);
-        // this.pidcontroller.setOutputRange(0, 1);
-        // this.pidcontroller.setP(PID_P);
+        //this.pidcontroller.setOutputRange(0, -1);
+        this.pidcontroller.setP(PID_P);
         // this.pidcontroller.setD(PID_D);
 
         // Follow lead reverse speed
@@ -70,15 +74,15 @@ public class FlywheelSubsystem extends SubsystemBase {
 
     // -------- METHODS --------\\
 
-    public void setSpeed(double speed) {
+    public void setSpeed(double percent) {
         logger.entering(this.getClass().getName(), "setSpeed()");
 
         // Set PID to speed up flywheel
-        // this.pidcontroller.setReference(speed * 5880, ControlType.kVelocity);
+        this.pidcontroller.setReference(-percent, ControlType.kDutyCycle);
         //motorLead.set(-speed * 5880 * PID_FF);
-        motorLead.set(-speed);
+        //motorLead.set(-speed);
 
-        logger.log(Constants.LOG_LEVEL_FINE, "Set shooter speed to " + speed);
+        logger.log(Constants.LOG_LEVEL_FINE, "Set shooter speed to " + percent);
         logger.exiting(this.getClass().getName(), "setSpeed()");
     } // end of method setSpeed()
 
@@ -100,7 +104,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public double getPercentOutput() {
-        return (motorLead.getEncoder().getVelocity() / 5880);
+        return Math.abs(motorLead.getEncoder().getVelocity() / MAX_NEO_RPM);
     }
 
     public double getVoltage() {

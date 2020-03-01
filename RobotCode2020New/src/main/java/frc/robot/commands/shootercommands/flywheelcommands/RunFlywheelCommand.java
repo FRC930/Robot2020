@@ -10,6 +10,7 @@
 package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.utilities.ShuffleboardUtility;
 
@@ -21,13 +22,11 @@ public class RunFlywheelCommand extends CommandBase {
 
   private FlywheelSubsystem m_FlywheelSubsystem;
   private ShuffleboardUtility shuffleboardUtility;
-  private double m_Speed;
 
   // -------- CONSTRUCTOR --------\\
 
-  public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
+  public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem) {
     m_FlywheelSubsystem = flywheelSubsystem;
-    m_Speed = speed;
     shuffleboardUtility = ShuffleboardUtility.getInstance();
     addRequirements(m_FlywheelSubsystem);
   }
@@ -37,7 +36,7 @@ public class RunFlywheelCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_FlywheelSubsystem.setSpeed(m_Speed);  //Run the flywheel at a certain speed
+    m_FlywheelSubsystem.setSpeed(Constants.FLYWHEEL_SPEED);  //Run the flywheel at a certain speed
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,6 +44,8 @@ public class RunFlywheelCommand extends CommandBase {
   public void execute() {
     // Sets the flywheel state into ShuffleboardUtility
     shuffleboardUtility.setShootIndicator(m_FlywheelSubsystem.isFlywheelActive());
+
+    System.out.println(m_FlywheelSubsystem.getPercentOutput());
   }
 
   // Called once the command ends or is interrupted.

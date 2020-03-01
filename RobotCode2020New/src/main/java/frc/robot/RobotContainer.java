@@ -188,7 +188,7 @@ public class RobotContainer {
   // --Auton command
   //TODO: Change this to accept any auton path from the shuffleboard
   //private final BigCountrySkilletCommand bigCountrySkilletCommand;
-  private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
+  //private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
   // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
   // private final EverythingSkilletCommand everythingSkilletCommand;
   // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
@@ -242,6 +242,7 @@ public class RobotContainer {
   private final DefaultFlywheelCommand defaultFlywheelCommand;
   private final RunFlywheelCommand runFlywheelCommand; // For manual mode
   private final StopFlywheelCommand stopFlywheelCommand; // For manual mode
+  private final RampFlywheelCommand rampFlywheelCommand;
 
   // --Flywheel piston commands
   private final RetractFlywheelPistonCommand retractFlywheelPistonCommand;
@@ -270,8 +271,8 @@ public class RobotContainer {
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-    Solenoid s = new Solenoid(2);
-    s.set(true);
+    //Solenoid s = new Solenoid(2);
+    //s.set(true);
     // --Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -341,8 +342,9 @@ public class RobotContainer {
 
     // Flywheel
     defaultFlywheelCommand = new DefaultFlywheelCommand(flywheelSubsystem);
-    runFlywheelCommand = new RunFlywheelCommand(flywheelSubsystem, 0.7);
+    runFlywheelCommand = new RunFlywheelCommand(flywheelSubsystem);
     stopFlywheelCommand = new StopFlywheelCommand(flywheelSubsystem);
+    rampFlywheelCommand = new RampFlywheelCommand(flywheelSubsystem);
 
     // Flywheel piston
     retractFlywheelPistonCommand = new RetractFlywheelPistonCommand(flywheelPistonSubsystem);
@@ -358,7 +360,7 @@ public class RobotContainer {
 
     // auto 
     //TODO: Change this to get the Shuffleboard selected command
-    caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
+    //caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem,deployIntakeCommand,returnIntakeCommand);
     phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
@@ -533,7 +535,7 @@ public class RobotContainer {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-      scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(flywheelSubsystem, runFlywheelCommand);//defaultFlywheelCommand);
       scheduler.setDefaultCommand(limelightSubsystem, limelightLEDsOffCommand);
     }
 
@@ -546,11 +548,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //return new RunWithAutonLEDs(saltAndPepperSkilletCommand, ledSubsystem);
-    CommandScheduler scheduler = CommandScheduler.getInstance();
+    //CommandScheduler scheduler = CommandScheduler.getInstance();
     //scheduler.setDefaultCommand(turretSubsystem, );
-    scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-    scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
-    return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem));
+    //scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+    //scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+    return new RunWithAutonLEDs(new InstantCommand(), ledSubsystem);//new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem));
     //return null;
     // Run path following command, then stop at the end.
   }

@@ -23,7 +23,6 @@ public class RunWithAutonLEDs extends ParallelCommandGroup {
     public RunWithAutonLEDs(Command command, LEDSubsystem ledSubsystem) {
         AutonLEDs autonLEDs = new AutonLEDs(ledSubsystem);
 
-        addRequirements(ledSubsystem);
         addCommands(autonLEDs, command);
     }
 
