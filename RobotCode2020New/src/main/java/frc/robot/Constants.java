@@ -137,6 +137,8 @@ public final class Constants {
 
     public static final boolean INTAKE_PISTONS_UP = false;
     public static final boolean INTAKE_PISTONS_DOWN = !INTAKE_PISTONS_UP;
+    public static final int LIMELIGHT_LEDS_ON = 3;
+    public static final int LIMELIGHT_LEDS_OFF = 1;
 
     //[--------------------AUTO--------------------------]
     

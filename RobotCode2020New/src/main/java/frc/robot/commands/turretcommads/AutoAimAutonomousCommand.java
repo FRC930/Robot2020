@@ -75,7 +75,7 @@ public class AutoAimAutonomousCommand extends PIDCommand {
                 // Pass in the subsystems we will need
                 turret, limelight); // End of super constructor
 
-        logger.entering(this.getClass().getName(), "AutoAimTurretCommand");
+        logger.entering(AutoAimAutonomousCommand.class.getName(), "AutoAimTurretCommand");
         this.limelight = limelight;
         this.turretSubsystem = turret;
 

@@ -19,9 +19,9 @@ public class RunFlywheelCommand extends CommandBase {
 
   // -------- DECLARATIONS --------\\
 
+  private ShuffleboardUtility shuffleboardUtility;
   private FlywheelSubsystem m_FlywheelSubsystem;
   private double m_Speed;
-  private ShuffleboardUtility shuffleboardUtility;
 
   // -------- CONSTRUCTOR --------\\
 

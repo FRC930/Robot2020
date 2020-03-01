@@ -47,7 +47,7 @@ public class TurretSubsystem extends SubsystemBase {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
         shuffleboardUtility = ShuffleboardUtility.getInstance();
-        this.logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
+        logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
     }
 
     // -------- METHODS --------\\
@@ -70,7 +70,7 @@ public class TurretSubsystem extends SubsystemBase {
 
         this.turretMotor.set(ControlMode.PercentOutput, speed);
         
-        this.logger.log(Constants.LOG_LEVEL_INFO, "Set speed to " + getSpeed());
+        logger.log(Constants.LOG_LEVEL_INFO, "Set speed to " + getSpeed());
     }
 
     public double getSpeed() {

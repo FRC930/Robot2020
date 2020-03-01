@@ -23,12 +23,13 @@ public class ClimberArmCommand extends CommandBase
 {
     //-------- CONSTANTS --------\\
     
-    private final Logger logger = Logger.getLogger(ClimberArmCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(ClimberArmCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
     private Joystick coDriver;
     private ClimberArmSubsystem climberArmSubsystem;    
     private double stickY;
+    private double position;
     private int coDriverAxis;
     private double speed;
     //-------- CONSTRUCTOR --------\\
@@ -54,9 +55,10 @@ public class ClimberArmCommand extends CommandBase
     public void execute() {  
 
         stickY = coDriver.getRawAxis(coDriverAxis);
+        position = climberArmSubsystem.getRawEncoderPosition();
 
         // if the coDriver pushes joystick up it will set the speed to the Climber Arm
-        if(Math.abs(stickY) > 0.1 && climberArmSubsystem.getRawEncoderPosition() > Constants.CLIMBER_LIMIT) {
+        if(Math.abs(stickY) > 0.1 && position > Constants.CLIMBER_LIMIT && position < 0) {
             speed = Math.pow(stickY, 3) * 0.5;
             this.logger.log(Constants.LOG_LEVEL_INFO, "Absolute Stick axis value: " + stickY + " > " + 0.1);
         } else {

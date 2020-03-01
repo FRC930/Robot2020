@@ -174,7 +174,6 @@ public class RobotContainer {
 
   // --Drive commands
   private final DriveCommand driveCommand;
-  private final LimelightLEDsOffCommand limelightLEDsOffCommand;
   private final ClimberArmCommandGroup climberArmCommandGroup;
 
   // --Hopper commands
@@ -235,7 +234,6 @@ public class RobotContainer {
     // --Commands
 
     // endgame
-    limelightLEDsOffCommand = new LimelightLEDsOffCommand(limelightSubsystem);
     climberArmCommandGroup = new ClimberArmCommandGroup(climberArmSubsystem,coDriverController,XB_AXIS_LEFT_Y,new JoystickButton(coDriverController,XB_RB));
 
     // drive (NOTE: This is where we bind the driver controls to the drivetrain)
@@ -307,10 +305,7 @@ public class RobotContainer {
       JoystickButton toggleAngle = new JoystickButton(driverController, GC_ZL);
       // ZR Button
       JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
-      // X Button
-      JoystickButton liftArm = new JoystickButton (driverController, GC_Y);
-      // Y Button 
-      JoystickButton lowerArm = new JoystickButton (driverController, GC_X);
+
       // --Command binds
 
       // Rotational control command bind
@@ -328,13 +323,6 @@ public class RobotContainer {
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
       // Endgame command binds
-
-      liftArm.whenPressed(new ExtendArmCommand(climberArmSubsystem));
-      liftArm.whenReleased(new StopArmCommand(climberArmSubsystem));
-
-      lowerArm.whenPressed(new RetractArmCommand(climberArmSubsystem));
-      lowerArm.whenReleased(new RetractArmCommand(climberArmSubsystem));
-
       toggleEndgame.toggleWhenActive(new ToggleShiftCommand(driveSubsystem));
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
@@ -390,11 +378,11 @@ public class RobotContainer {
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
     JoystickButton autoTrackTurret = new JoystickButton(coDriverController, XB_LB);
+    JoystickButton endgameSafetyButton = new JoystickButton(coDriverController, XB_RB);
 
     POVTrigger turretFront = new POVTrigger(coDriverController, 0, XB_POV_UP);
     POVTrigger turretBack = new POVTrigger(coDriverController, 0, XB_POV_DOWN);
     POVTrigger turretLeft = new POVTrigger(coDriverController, 0, XB_POV_LEFT);
-    JoystickButton endgameSafetyButton = new JoystickButton(coDriverController, XB_RB);
 
     // --Command binds
 
@@ -407,6 +395,7 @@ public class RobotContainer {
     turretLeft.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_LEFT_POSITION));
 
     endgameSafetyButton.whileActiveOnce(climberArmCommandGroup);
+
     // Toggle intake
     intakeAxisTrigger.toggleWhenActive(new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem))
         .whenInactive(new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem));
@@ -418,7 +407,7 @@ public class RobotContainer {
     // --The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
 
-    scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, flywheelSubsystem, kickerSubsystem, towerSubsystem);
+    scheduler.unregisterSubsystem(limelightSubsystem, hopperSubsystem, turretSubsystem, flywheelSubsystem, kickerSubsystem, towerSubsystem);
 
     if (inManualMode) {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
@@ -427,7 +416,7 @@ public class RobotContainer {
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
-      scheduler.setDefaultCommand(limelightSubsystem, limelightLEDsOffCommand);
+      scheduler.setDefaultCommand(limelightSubsystem, new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
     }
 
   }
@@ -443,7 +432,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, defaultStopHopperCommand);
     scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
-    scheduler.setDefaultCommand(limelightSubsystem, limelightLEDsOffCommand);
+    scheduler.setDefaultCommand(limelightSubsystem, new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
 
   }
 

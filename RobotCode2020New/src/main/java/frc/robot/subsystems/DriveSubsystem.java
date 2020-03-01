@@ -262,24 +262,10 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     logger.entering(DriveSubsystem.class.getName(), "periodic()");
+
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
-    // TODO: shuffleboard method needs to be fixed
     shuffleboardUtility.setGyroYaw(getHeading());
-    //TODO: Uncomment shuffleboard stuff
-    //System.out.println(driveOdometry.getPoseMeters().getTranslation().getX());
 
-    SmartDashboard.putNumber("Odometry X", driveOdometry.getPoseMeters().getTranslation().getX());
-    SmartDashboard.putNumber("Odometry Y", driveOdometry.getPoseMeters().getTranslation().getY());
-   SmartDashboard.putNumber("Heading", getHeading());
-    SmartDashboard.putNumber("RPM Left", getLeftWheelRotations());
-    SmartDashboard.putNumber("RPM Right", getRightWheelRotations());
-
-    SmartDashboard.putNumber("Left selected sensor pos", left1.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Right selected sensor pos", right1.getSelectedSensorPosition());
-    // logger.entering(this.getClass().getName(), "periodic()");
-    // This method will be called once per scheduler run
-    driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
-    
     logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
     logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
   }

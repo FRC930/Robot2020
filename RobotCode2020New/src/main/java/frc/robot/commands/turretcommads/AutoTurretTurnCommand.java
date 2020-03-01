@@ -13,7 +13,7 @@ import frc.robot.subsystems.TurretSubsystem;
 //-------- COMMAND CLASS --------\\
 public class AutoTurretTurnCommand extends CommandBase {
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(AutoTurretTurnCommand.class.getName());
     private double turretPosition;
     private double targetPosition = 0.3565;
     private double speed;

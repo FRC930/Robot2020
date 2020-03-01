@@ -58,9 +58,7 @@ public class SetTurretPositionCommand extends CommandBase {
             } else if(turretPosition > targetPosition) {
                 logger.log(Level.INFO, "seting 'speed' to Constants.TURRET_TURNING_SPEED("+Constants.TURRET_TURNING_SPEED+")");
                 speed = -Constants.TURRET_TURNING_SPEED;
-            } else if(turretPosition > targetPosition) {
-                speed = Constants.TURRET_TURNING_SPEED;
-            }    
+            }  
         } else {
             logger.log(Level.INFO, "| turretPosition - targetPosition | <  Constants.TURRET_DEADBAND("+Constants.TURRET_DEADBAND+")");
             speed = 0;

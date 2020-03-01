@@ -7,32 +7,32 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.endgamecommands;
+package frc.robot.commands.limelightcommands;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ClimberArmSubsystem;
+
+import frc.robot.subsystems.LimelightSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class RetractArmCommand extends CommandBase {
+public class SetLimelightLEDStateCommand extends CommandBase {
 
-    //-------- CONSTANTS --------\\
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private static final Logger logger = Logger.getLogger(RetractArmCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(SetLimelightLEDStateCommand.class.getName());
 
-    //-------- DECLARATIONS --------\\
+    private LimelightSubsystem limelightSubsystem;    
 
-    private ClimberArmSubsystem climberArmSubsystem;    
+    private int state;
     
-    //-------- CONSTRUCTOR --------\\
-
-    public RetractArmCommand(ClimberArmSubsystem climberArmSubsystem){
-        this.climberArmSubsystem = climberArmSubsystem;
-        addRequirements(climberArmSubsystem);
+    // Constructor
+    public SetLimelightLEDStateCommand(LimelightSubsystem limelightSubsystem, int state){
+        this.limelightSubsystem = limelightSubsystem;
+        this.state = state;
+        addRequirements(limelightSubsystem);
     }
 
     //-------- METHODS --------\\
@@ -40,7 +40,8 @@ public class RetractArmCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
-        climberArmSubsystem.setSpeed(Constants.CLIMBER_RETRACT_SPEED);  
+        logger.log(Level.INFO, "LED State = " + state);
+        limelightSubsystem.setLightMode(state);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -53,10 +54,11 @@ public class RetractArmCommand extends CommandBase {
     public void end(boolean interrupted) {
     }
 
+    
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
-} // end of class ClimberArmCommand 
+} // end of class SetLimelightLEDStateCommand
 
