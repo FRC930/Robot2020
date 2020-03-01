@@ -57,6 +57,7 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
      */
     public FlywheelPistonSubsystem() {
         flywheelPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     // -------- METHODS --------\\

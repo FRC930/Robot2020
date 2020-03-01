@@ -46,11 +46,14 @@ public class DefaultHopperCommand extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {     
+    public void execute() { 
+        //System.out.println("STATE " + m_StopHopperStateCommand.getState());   
         if(m_StopHopperStateCommand.getState()) {
             m_HopperSubsystem.setSpeed(0.0);
+            //System.out.println("STOOOOOOOOOPED");
         } else {
             m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
+            //System.out.println("RUNNNNNNING");
         }
         shuffleboardUtility.setHopperSpeed(m_HopperSubsystem.getSpeed());
     }
