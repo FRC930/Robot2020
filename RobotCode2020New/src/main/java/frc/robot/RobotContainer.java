@@ -25,6 +25,7 @@ import frc.robot.commands.shootercommands.flywheelcommands.*;
 import frc.robot.commands.shootercommands.pistoncommands.*;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 
+
 import frc.robot.commands.towercommands.*;
 
 import frc.robot.commands.turretcommads.*;
@@ -179,6 +180,7 @@ public class RobotContainer {
   // private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
   private final StopHopperStateCommand stopHopperStateCommand;
+  private final DefaultStopHopperCommand defaultStopHopperCommand;
 
   // --LED commands
   // TODO: Add LED commands here
@@ -195,15 +197,14 @@ public class RobotContainer {
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
-
-    // Setting Log level for entire robot code
-    // TODO: Edit this in Shuffleboard...?
+    new CameraUtil().startCapture();
+    //Setting Log level for entire robot code
+    //TODO: Edit this in Shuffleboard...?
     frcRobotLogger.setLevel(Level.OFF);
 
     // --Drive controllers
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
-
     // --Subsystems
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
@@ -239,6 +240,7 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
+    defaultStopHopperCommand = new DefaultStopHopperCommand(hopperSubsystem);
     stopHopperStateCommand = new StopHopperStateCommand();
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, stopHopperStateCommand);
 
@@ -257,7 +259,6 @@ public class RobotContainer {
     configureButtonBindings(); // Configures buttons for drive team
 
     // --Default commands
-    beginRunCommands(); // Sets the default command
   } // end of constructor RobotContainer()
 
   // -------- METHODS --------\\
@@ -275,8 +276,8 @@ public class RobotContainer {
     // This runnable method flips the manual mode and updates shuffleboard
     manualModeButton.whileActiveOnce(new InstantCommand(() -> {
       inManualMode = !inManualMode;
-      SmartDashboard.putBoolean("Safety", inManualMode);
-      beginRunCommands();
+      System.out.println("MANUAL MODE TOGGLE STATE:  " + inManualMode);
+      shuffleboardUtility.setManualMode(inManualMode);
     }));
 
     configureDriverBindings();
@@ -401,7 +402,7 @@ public class RobotContainer {
 
   } // end of method configureCodriverBindings()
 
-  private void beginRunCommands() {
+  public void beginTelopRunCommands() {
 
     // --The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
@@ -420,21 +421,28 @@ public class RobotContainer {
 
   }
 
+  public void beginAutoRunCommands() {
+
+    // --The instance of the scheduler
+    CommandScheduler scheduler = CommandScheduler.getInstance();
+    
+
+    scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, flywheelSubsystem, kickerSubsystem, towerSubsystem);
+    scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
+    scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+    scheduler.setDefaultCommand(hopperSubsystem, defaultStopHopperCommand);
+    scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+    scheduler.setDefaultCommand(limelightSubsystem, new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
+
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return new RunWithAutonLEDs(saltAndPepperSkilletCommand, ledSubsystem);
-    CommandScheduler scheduler = CommandScheduler.getInstance();
-    // scheduler.setDefaultCommand(turretSubsystem, );
-    scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-    scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
-    return new SaltAndPepperSkilletCommand(driveSubsystem, intakePistonSubsystem, intakeMotorSubsystem,
-        flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,
-        flywheelPistonSubsystem);
-    // return null;
+    return new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem);
     // Run path following command, then stop at the end.
   }
 

@@ -19,8 +19,8 @@ public class RunFlywheelCommand extends CommandBase {
 
   // -------- DECLARATIONS --------\\
 
-  private FlywheelSubsystem m_FlywheelSubsystem;
   private ShuffleboardUtility shuffleboardUtility;
+  private FlywheelSubsystem m_FlywheelSubsystem;
   private double m_Speed;
 
   // -------- CONSTRUCTOR --------\\
@@ -38,14 +38,11 @@ public class RunFlywheelCommand extends CommandBase {
   @Override
   public void initialize() {
     m_FlywheelSubsystem.setSpeed(m_Speed);  //Run the flywheel at a certain speed
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Sets the flywheel state into ShuffleboardUtility
-    shuffleboardUtility.setShootIndicator(m_FlywheelSubsystem.isFlywheelActive());
   }
 
   // Called once the command ends or is interrupted.

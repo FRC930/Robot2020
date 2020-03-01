@@ -12,6 +12,7 @@ package frc.robot.commands.hoppercommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- COMMAND CLASS --------\\
 
@@ -20,12 +21,14 @@ public class ReverseHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
+    private ShuffleboardUtility shuffleboardUtility;
     private JoystickButton home;
     
     //-------- CONSTRUCTOR --------\\
 
     public ReverseHopperCommand(HopperSubsystem hopperSubsystem, JoystickButton home) {
         m_HopperSubsystem = hopperSubsystem;
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
         this.home = home;
     }   
 
@@ -40,6 +43,7 @@ public class ReverseHopperCommand extends CommandBase {
     @Override
     public void execute() {   
         m_HopperSubsystem.setSpeed(-0.35);
+        shuffleboardUtility.setHopperSpeed(m_HopperSubsystem.getSpeed());
     }
 
     // Called once the command ends or is interrupted.

@@ -23,7 +23,7 @@ public class ClimberArmCommand extends CommandBase
 {
     //-------- CONSTANTS --------\\
     
-    private final Logger logger = Logger.getLogger(ClimberArmCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(ClimberArmCommand.class.getName());
 
     //-------- DECLARATIONS --------\\
     private Joystick coDriver;

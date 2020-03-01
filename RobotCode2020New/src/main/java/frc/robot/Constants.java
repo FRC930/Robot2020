@@ -96,8 +96,8 @@ public final class Constants {
 
     // When the turret encoder is reset, the turret faces forward and the encoder is
     // reset to 180 degrees. These units are in raw values.
-    public static final double UPPER_LIMIT = 0.763;//0.8;//.27
-    public static final double LOWER_LIMIT = 0.335;//0.2; //-.27
+    public static final double UPPER_LIMIT = 0.640;//0.8;//.27
+    public static final double LOWER_LIMIT = 0.247;//0.2; //-.27
 
     public static final double TURRET_MAX_SPEED = 0.6;//0.75;
     public static final double TURRET_MAX_SET_POSITION_SPEED = 0.4;
@@ -142,9 +142,9 @@ public final class Constants {
 
     //[--------------------AUTO--------------------------]
     
-    public static final double KSVOLTS = 0.22; //0.073 //0.22
-    public static final double KVVOLT = 0.289; //0.234; // seconds per meter 0.289
-    public static final double KAVOLT = 0.0161;//0.06; //0.0161 //this is in seconds squared per meter 0.06
+    public static final double KSVOLTS = 0.411;//0.22; //0.073 //0.22
+    public static final double KVVOLT = 0.227; //0.289; //0.234; // seconds per meter 0.289
+    public static final double KAVOLT = 0.0249;//0.06; //0.0161 //this is in seconds squared per meter 0.06
     public static final double KMAXSPEED = 3; //in meters per second
     public static final double KMAXACCELERATION = 3; //in meters per seconds squared //Originally 0.5
     //gyro values
@@ -152,8 +152,8 @@ public final class Constants {
     public static final double KRAMSETEZETA = 0.7;
     
     //Track width of our robot
-    public static final double KTRACKWIDTH = 0.69; //in meters .69
-    public static final double KPDRIVEVEL = 0.693; //0.673;//.693
+    public static final double KTRACKWIDTH = 0.69;//10.975; //in meters .69
+    public static final double KPDRIVEVEL =  0.693;//0.00175; //0.673;//.693
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
 
