@@ -80,8 +80,6 @@ public final class Constants {
     public static final double KICKER_SPEED = 0.6; // 0.6
     public static final double INTAKE_SPEED = 0.8; // 0.8
     public static final double FLYWHEEL_SPEED = 0.62;
-    public static final double CLIMBER_EXTEND_SPEED = 0.1;
-    public static final double CLIMBER_RETRACT_SPEED = -0.1;
 
     // [-------------------SPEEDS--------------------------]
 
