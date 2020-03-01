@@ -180,7 +180,7 @@ public class RobotContainer {
   // --Hopper commands
   // private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
-  private final KillHopperStateCommand killHopperStateCommand;
+  private final StopHopperStateCommand stopHopperStateCommand;
   private final DefaultStopHopperCommand defaultStopHopperCommand;
 
   // --LED commands
@@ -242,9 +242,9 @@ public class RobotContainer {
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
 
     // hopper
-    killHopperStateCommand = new KillHopperStateCommand();
-    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, killHopperStateCommand);
     defaultStopHopperCommand = new DefaultStopHopperCommand(hopperSubsystem);
+    stopHopperStateCommand = new StopHopperStateCommand();
+    defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, stopHopperStateCommand);
 
     // leds
     // TODO: Add LED commands here
@@ -352,7 +352,7 @@ public class RobotContainer {
       
       JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_B);
 
-      JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_START);
+      JoystickButton stopHopperButton = new JoystickButton(coDriverController, XB_START);
 
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
@@ -364,7 +364,7 @@ public class RobotContainer {
       // manual color wheel spinner
       manualColorSpinnerButton.whenActive(new ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem));
       // manual hopper spinning
-      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
+      manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem)).whenInactive(new ReverseHopperCommand(hopperSubsystem, stopHopperButton));
       // manual kicker spinning
       manualKickerButton.whenActive(new RunKickerCommand(kickerSubsystem)).whenInactive(new StopKickerCommand(kickerSubsystem));
       // manual tower spinning
@@ -374,9 +374,9 @@ public class RobotContainer {
       // manual flywheel piston stuff
       manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
 
-      reverseHopperButton.whileActiveOnce(new StopHopperCommand(hopperSubsystem, reverseHopperButton));
+      reverseHopperButton.whileActiveOnce(new ReverseHopperCommand(hopperSubsystem, reverseHopperButton));
       // manual
-      killHopperButton.whileActiveOnce(new KillHopperStateCommand());
+      stopHopperButton.whileActiveOnce(new StopHopperStateCommand());
     } else { // If we're using the Xbox controller
 
     } // end of if statement usingGamecube
