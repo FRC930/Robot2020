@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
+import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -59,6 +60,9 @@ public class LimelightSubsystem extends SubsystemBase {
     // network table that holds the limelight's settings
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
+    // shuffleboardUtility
+    private ShuffleboardUtility shuffleboardUtility;
+
     // tv Whether the limelight has any valid targets (0 or 1)
     private boolean validTarget;
 
@@ -94,7 +98,7 @@ public class LimelightSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public LimelightSubsystem() {
-        
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     // -------- METHODS --------\\
@@ -221,6 +225,7 @@ public class LimelightSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("distance", getDistance());
         SmartDashboard.putString("pipeline", getPipeline());
 
+        shuffleboardUtility.setDistanceFromTarget(getDistance());
     }
 
 } // end of class LimelightSubsystem

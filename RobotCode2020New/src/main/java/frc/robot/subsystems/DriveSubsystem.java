@@ -14,10 +14,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -35,6 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX right2;
   private WPI_TalonFX left1;
   private WPI_TalonFX left2;
+  private ShuffleboardUtility shuffleboardUtility;
 
   // The intake talon motor controller, has the gyro attached to it
   private TalonSRX gyroTalon;
@@ -78,6 +81,8 @@ public class DriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(gyroTalon);
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
+
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
@@ -205,12 +210,12 @@ public class DriveSubsystem extends SubsystemBase {
     logger.log(Constants.LOG_LEVEL_FINE, "Drivetrain Moving: " + leftVolts + " " + rightVolts);
 
     //TODO: Change for Prac Robot
-    //right1.setVoltage(rightVolts);
-    //left1.setVoltage(-leftVolts);
+    // right1.setVoltage(rightVolts);
+    // left1.setVoltage(-leftVolts);
 
     //TODO: Change for Comp Robot
-    //right1.setVoltage(-rightVolts);
-    //left1.setVoltage(leftVolts);
+    right1.setVoltage(rightVolts);
+    left1.setVoltage(leftVolts);
 
     logger.exiting(DriveSubsystem.class.getName(), "tankDriveVolts()");
   } // end of method tankDriveVolts()
@@ -258,9 +263,9 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     logger.entering(DriveSubsystem.class.getName(), "periodic()");
 
-    // This method will be called once per scheduler run
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
-    
+    shuffleboardUtility.setGyroYaw(getHeading());
+
     logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
     logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
   }

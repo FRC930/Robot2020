@@ -26,7 +26,7 @@ public class DriveCommand extends CommandBase {
   private int driverTurninAxis;
   private int driverThrottleAxis;
 
-  private final Logger logger = Logger.getLogger(DriveCommand.class.getName());
+  private static final Logger logger = Logger.getLogger(DriveCommand.class.getName());
 
   //-------- CONSTRUCTOR --------\\
 
