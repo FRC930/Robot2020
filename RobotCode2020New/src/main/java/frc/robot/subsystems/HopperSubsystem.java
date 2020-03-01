@@ -42,6 +42,8 @@ public class HopperSubsystem extends SubsystemBase {
 
     //sets the speed to the Hoppermotor
     public void setSpeed(double speed) {
+        System.out.println("Hopper speed: " + speed);
+
         //Logs the setSpeed method as INFO returning, "setSpeed()"
         logger.entering(this.getClass().getName(), "setSpeed()");
 

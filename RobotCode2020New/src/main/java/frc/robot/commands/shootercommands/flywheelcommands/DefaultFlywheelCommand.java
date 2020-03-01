@@ -11,7 +11,7 @@ package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FlywheelSubsystem;
-
+import frc.robot.utilities.JamState;
 import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
@@ -21,6 +21,7 @@ public class DefaultFlywheelCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private FlywheelSubsystem m_FlywheelSubsystem;
+    private JamState state = JamState.getInstance();
 
     //-------- CONSTRUCTOR --------\\
 
@@ -37,9 +38,13 @@ public class DefaultFlywheelCommand extends CommandBase {
         m_FlywheelSubsystem.setSpeed(0.3);     //Set flywheel to default speed.
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+      if (state.getState()) {
+        m_FlywheelSubsystem.setSpeed(0.0);
+      } else {
+        m_FlywheelSubsystem.setSpeed(Constants.FLYWHEEL_SPEED);
+      }
     }
 
     // Called once the command ends or is interrupted.

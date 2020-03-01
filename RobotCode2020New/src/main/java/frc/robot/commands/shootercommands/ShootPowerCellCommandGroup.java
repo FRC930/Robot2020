@@ -53,15 +53,6 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
                 new ParallelCommandGroup(new RunHopperCommand(hopperSubsystem), new RunTowerCommand(towerSubsystem), new RunKickerCommand(kickerSubsystem))
             )
         );
-        // addCommands(new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
-        //      new ParallelCommandGroup(
-                
-        //         new SequentialCommandGroup(new WaitCommand(0.5), new RunKickerCommand(kickerSubsystem)),//new WaitCommand(0.5), new RunKickerCommand(kickerSubsystem)),
-        //              //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
-        //              //limeLight.getDistance()).getVelocity()), 
-        //         new ParallelCommandGroup(new RunHopperCommand(hopperSubsystem, ZR), new RunTowerCommand(towerSubsystem), new RunFlywheelCommand(flywheelSubsystem, 0.7))
-        //      )
-        //  );
     } // end of the constructor ShootPowerCellCommandGroup
     
 

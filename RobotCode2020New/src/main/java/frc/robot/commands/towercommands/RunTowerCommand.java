@@ -12,6 +12,7 @@ package frc.robot.commands.towercommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.utilities.JamState;
 import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
@@ -21,6 +22,7 @@ public class RunTowerCommand extends CommandBase {
     // -------- DECLARATIONS --------\\
 
     private TowerSubsystem towerSubsystem;
+    private JamState jamState = JamState.getInstance();
 
     // -------- CONSTRUCTOR --------\\
 
@@ -35,6 +37,15 @@ public class RunTowerCommand extends CommandBase {
     @Override
     public void initialize() {
         towerSubsystem.setSpeed(Constants.TOWER_SPEED);
+    }
+
+    @Override
+    public void execute() {
+        if (jamState.getState()) {
+            towerSubsystem.setSpeed(-Constants.TOWER_SPEED);
+        } else {
+            towerSubsystem.setSpeed(Constants.TOWER_SPEED);
+        }
     }
 
     // Returns true when the command should end.

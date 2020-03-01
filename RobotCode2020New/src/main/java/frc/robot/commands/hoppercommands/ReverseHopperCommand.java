@@ -10,41 +10,46 @@
 package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.utilities.JamState;
-import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class DefaultHopperCommand extends CommandBase {
+public class ReverseHopperCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-    private JamState hopperState;
-
-    //private 
+    private JoystickButton home;
+    
     //-------- CONSTRUCTOR --------\\
 
-    public DefaultHopperCommand(HopperSubsystem HopperSubsystem) {
-        m_HopperSubsystem = HopperSubsystem;
-        this.hopperState = JamState.getInstance();
-        addRequirements(m_HopperSubsystem);
+    public ReverseHopperCommand(HopperSubsystem hopperSubsystem, JoystickButton home) {
+        m_HopperSubsystem = hopperSubsystem;
+        this.home = home;
+    }   
+
+    //-------- METHODS --------\\
+
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {     
-        if(this.hopperState.getState()) {
-            m_HopperSubsystem.setSpeed(0.0);
-        } else {
-            m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
-        }
+    public void execute() {   
+        m_HopperSubsystem.setSpeed(-0.35);
+    }
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return !home.get();
     }
-} //end of class DefaultHopperCommand
+} // end of class StopTowerCommand
