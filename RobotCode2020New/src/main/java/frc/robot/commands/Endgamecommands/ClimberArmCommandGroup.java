@@ -7,22 +7,26 @@
 
 //-------- IMPORTS --------\\
 
+package frc.robot.commands.endgamecommands;
+
 import frc.robot.commands.endgamecommands.ClimberArmCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import java.util.logging.Logger;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.subsystems.ClimberArmSubsystem;
 import frc.robot.triggers.TriggerCommand;
-import frc.robot.Constants;
 
+import java.util.logging.Logger;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 
 //-------- COMMANDGROUP CLASS --------\\
 
 public class ClimberArmCommandGroup extends ParallelRaceGroup {
-    private final Logger logger = Logger.getLogger(ClimberArmCommand.class.getName());
+
+    //-------- CONSTANTS --------\\
+    
+    private static final Logger logger = Logger.getLogger(ClimberArmCommand.class.getName());
+
     //-------- CONSTRUCTOR --------\\
     
     public ClimberArmCommandGroup(
