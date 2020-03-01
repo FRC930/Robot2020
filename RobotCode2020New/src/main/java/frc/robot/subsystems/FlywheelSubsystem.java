@@ -107,7 +107,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public boolean isShooterUpToSpeed(){
-        if (getPercentOutput() >= Constants.FLYWHEEL_SPEED){
+        if (getPercentOutput() >= Constants.FLYWHEEL_TELEOP_SPEED){
             return true;
         }
         else{

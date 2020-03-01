@@ -75,11 +75,13 @@ public final class Constants {
     // [-------------------SPEEDS--------------------------]
 
     public static final double HOPPER_DEFAULT_SPEED = 0.3;
-    public static final double HOPPER_SHOOTING_SPEED = 0.6;//0.85;//0.6
+    public static final double HOPPER_SHOOTING_SPEED = 0.5;//0.6;//0.85;//0.6
     public static final double TOWER_SPEED = 1.0;
-    public static final double KICKER_SPEED = 0.6; // 0.6
+    public static final double TOWER_REVERSE_SPEED = -0.5;
+    public static final double KICKER_SPEED = 0.5;//0.6; // 0.6
     public static final double INTAKE_SPEED = 0.6; // 0.8
-    public static final double FLYWHEEL_SPEED = 0.62;//0.8;//0.65;
+    public static final double FLYWHEEL_TELEOP_SPEED = 0.62;//0.8;//0.65;
+    public static final double FLYWHEEL_AUTON_SPEED = 0.8;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
     public static final double CLIMBER_RETRACT_SPEED = -0.1;
 
@@ -111,10 +113,14 @@ public final class Constants {
     public static final double TURRET_SET_POSITION_D = 0.0;
 
     // encoder positions for setting turret to one of four directions
-    public static final double TURRET_FRONT_POSITION = 0.635;//0.659;
-    public static final double TURRET_BACK_POSITION = 0.383;//0.415;
-    public static final double TURRET_LEFT_POSITION = 0.51;//0.532;
-    public static final double TURRET_RIGHT_POSITION = 0.256;
+    public static final double TURRET_BACK_POSITION = 0.635;//0.659;
+    public static final double TURRET_FRONT_POSITION = 0.383;//0.415;
+    public static final double TURRET_RIGHT_POSITION = 0.51;//0.532;
+    public static final double TURRET_LEFT_POSITION = 0.256;
+
+    public static final double FRONT_LEFT_POSITION = 0.3195;
+    public static final double FRONT_RIGHT_POSITION = 0.4465;
+    public static final double BACK_RIGHT_POSITION = 0.5725;
 
     // speed used for turning the turret
     public static final double TURRET_TURNING_SPEED = 0.4;
