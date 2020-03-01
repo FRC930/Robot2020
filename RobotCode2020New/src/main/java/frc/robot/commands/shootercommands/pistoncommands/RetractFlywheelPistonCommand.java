@@ -13,17 +13,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.FlywheelPistonSubsystem.SolenoidValues;
+import frc.robot.utilities.ShuffleboardUtility;
 
 public class RetractFlywheelPistonCommand extends CommandBase {
 
   //-------- DECLARATIONS --------\\
 
   private FlywheelPistonSubsystem flywheelPistonSubsystem;
+  private ShuffleboardUtility shuffleboardUtility;
 
   //-------- CONSTRUCTOR --------\\
     
   public RetractFlywheelPistonCommand(FlywheelPistonSubsystem flywheelPistonSubsystem){
     this.flywheelPistonSubsystem = flywheelPistonSubsystem;
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
     addRequirements(flywheelPistonSubsystem);
   }  
   
@@ -33,6 +36,8 @@ public class RetractFlywheelPistonCommand extends CommandBase {
   @Override
   public void initialize() {
     flywheelPistonSubsystem.set(SolenoidValues.RETRACT);
+    // False = close shot
+    shuffleboardUtility.setShooterAngle(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

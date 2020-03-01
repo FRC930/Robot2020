@@ -28,7 +28,7 @@ public class TurretLeftCommand extends CommandBase {
     private double targetPosition = Constants.TURRET_LEFT_POSITION;
     private double speed;
 
-    private TurretSubsystem turretSubsystem;    
+    private TurretSubsystem turretSubsystem;
     
     public TurretLeftCommand(TurretSubsystem turretSubsystem){
         this.turretSubsystem = turretSubsystem;

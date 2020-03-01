@@ -12,7 +12,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
+import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.logging.Logger;
@@ -40,6 +40,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     // -------- DECLARATIONS --------\\
 
     private static final Logger logger = Logger.getLogger(FlywheelSubsystem.class.getName());
+    private ShuffleboardUtility shuffleboardUtility;
 
     // motor controllers for the NEO motors on the shooter
     private final CANSparkMax motorLead;
@@ -66,6 +67,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         // Follow lead reverse speed
         motor2.follow(motorLead, true);
 
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     // -------- METHODS --------\\
@@ -103,25 +105,22 @@ public class FlywheelSubsystem extends SubsystemBase {
         return (motorLead.getEncoder().getVelocity() / 5880);
     }
 
-    public double getVoltage() {
-        return motorLead.getBusVoltage();
-    }
-
-    public boolean isFlywheelActive() {
-        if (getSpeed() != 0) {
+    public boolean isShooterUpToSpeed(){
+        if (getPercentOutput() >= Constants.FLYWHEEL_SPEED){
             return true;
-        } else {
+        }
+        else{
             return false;
         }
     }
 
+    public double getVoltage() {
+        return motorLead.getBusVoltage();
+    }
+
     @Override
     public void periodic() {
-        //TODO: This should be outputted by Shuffleboard stuff
-        /*
-        SmartDashboard.putNumber("LeftRPM", getSpeed());
-        SmartDashboard.putNumber("RightRPM", getSpeed());
-        SmartDashboard.putNumber("AppliedOutput", motorLead.getAppliedOutput());
-        */
+        shuffleboardUtility.setShooterRPM(getSpeed());
+        shuffleboardUtility.setShootIndicator(isShooterUpToSpeed());
     }
 } // end of class ShooterSubsystem
