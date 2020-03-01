@@ -121,6 +121,7 @@ public class FlywheelSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        System.out.println("flywheel speed " + getSpeed());
         shuffleboardUtility.setShooterRPM(getSpeed());
         shuffleboardUtility.setShootIndicator(isShooterUpToSpeed());
     }

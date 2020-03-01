@@ -102,14 +102,11 @@ public class AutoAimAutonomousCommand extends PIDCommand {
 
     @Override
     public boolean isFinished() {
-        System.out.println("horizontal offset: " + limelight.getHorizontalOffset());
-        System.out.println("turret speed " + turretSubsystem.getSpeed());
 
         double offset = limelight.getHorizontalOffset();
         boolean inRange = false;
 
         if(Math.abs(offset) < 1.5) {
-            System.out.println("TRUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             counter++;
             if(counter >= 10) {
                 inRange = true;

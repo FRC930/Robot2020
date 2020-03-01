@@ -79,7 +79,7 @@ public final class Constants {
     public static final double TOWER_SPEED = 1.0;
     public static final double KICKER_SPEED = 0.6; // 0.6
     public static final double INTAKE_SPEED = 0.6; // 0.8
-    public static final double FLYWHEEL_SPEED = 0.65;//0.62;
+    public static final double FLYWHEEL_SPEED = 0.62;//0.8;//0.65;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
     public static final double CLIMBER_RETRACT_SPEED = -0.1;
 
@@ -146,7 +146,7 @@ public final class Constants {
     public static final double KSVOLTS = 0.411;//0.22; //0.073 //0.22
     public static final double KVVOLT = 0.227; //0.289; //0.234; // seconds per meter 0.289
     public static final double KAVOLT = 0.0249;//0.06; //0.0161 //this is in seconds squared per meter 0.06
-    public static final double KMAXSPEED = 3; //in meters per second
+    public static final double KMAXSPEED = 3.5;//3; //in meters per second
     public static final double KMAXACCELERATION = 3; //in meters per seconds squared //Originally 0.5
     //gyro values
     public static final double KRAMSETEB = 2;
