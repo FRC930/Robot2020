@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+import edu.wpi.first.wpilibj.DutyCycle;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -60,6 +61,8 @@ public final class Constants {
     // [-------------------ROBORIO PORT IDS---------------------------]
 
     public static final int ENCODER_PORT_ID = 0;
+	  public static final int HOPPER_ENCODER_PORT_ID = 1; 
+    public static final int CLIMBER_ENCODER_PORT_ID = 2;
 
     // [-------------------ROBORIO PORT IDS---------------------------]
 
@@ -74,9 +77,9 @@ public final class Constants {
     public static final double HOPPER_DEFAULT_SPEED = 0.3;
     public static final double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
     public static final double TOWER_SPEED = 1.0;
-    public static final double KICKER_SPEED = 0.7; // 0.5
-    public static final double INTAKE_SPEED = 0.8; // 0.5
-    public static final double FLYWHEEL_SPEED = 0;//0.82;
+    public static final double KICKER_SPEED = 0.6; // 0.6
+    public static final double INTAKE_SPEED = 0.8; // 0.8
+    public static final double FLYWHEEL_SPEED = 0.62;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
     public static final double CLIMBER_RETRACT_SPEED = -0.1;
 
@@ -85,6 +88,7 @@ public final class Constants {
     // [-------------------LIMITS--------------------------]
 
     public static final double ENCODER_ROTATION_LIMIT = 190;
+    public static final double CLIMBER_LIMIT = -2.3;
 
     // [-------------------LIMITS--------------------------]
 
@@ -95,20 +99,27 @@ public final class Constants {
     public static final double UPPER_LIMIT = 0.640;//0.8;//.27
     public static final double LOWER_LIMIT = 0.247;//0.2; //-.27
 
-    public static final double TURRET_MAX_SPEED = 0.75;
+    public static final double TURRET_MAX_SPEED = 0.6;//0.75;
+    public static final double TURRET_MAX_SET_POSITION_SPEED = 0.4;
 
-    public static final double TURRET_P = 0.025;
-    public static final double TURRET_I = 0.0;
-    public static final double TURRET_D = 0.0008;
+    public static final double TURRET_P = 0.025;//0.021;
+    public static final double TURRET_I = 0.0;//0.135;
+    public static final double TURRET_D = 0.0008;//0.00081;
+
+    public static final double TURRET_SET_POSITION_P = 1.0;
+    public static final double TURRET_SET_POSITION_I = 0.0;
+    public static final double TURRET_SET_POSITION_D = 0.0;
 
     // encoder positions for setting turret to one of four directions
     public static final double TURRET_FRONT_POSITION = 0.659;
     public static final double TURRET_BACK_POSITION = 0.415;
     public static final double TURRET_LEFT_POSITION = 0.532;
-    public static final double TURRET_RIGHT_POSITION = 0.26;
 
     // speed used for turning the turret
     public static final double TURRET_TURNING_SPEED = 0.4;
+
+    // deadband for the turret joystick
+    public static final double JOYSTICK_TURRET_DEADBAND = 0.1;
 
     // deadband for the turret set position commands
     public static final double TURRET_DEADBAND = 0.001;
@@ -162,12 +173,16 @@ public final class Constants {
     */
 
     //TODO: We want to be able to change these values in Shuffleboard
-    public static final Level LOG_LEVEL_FINE = Level.FINE;
-    public static final Level LOG_LEVEL_FINER = Level.FINER;
-    public static final Level LOG_LEVEL_FINEST = Level.FINEST;
-    public static final Level LOG_LEVEL_INFO = Level.INFO;
-    public static final Level LOG_LEVEL_WARNING = Level.WARNING; 
+    public static final Level LOG_LEVEL_FINE = Level.OFF;
+    public static final Level LOG_LEVEL_FINER = Level.OFF;
+    public static final Level LOG_LEVEL_FINEST = Level.OFF;
+    public static final Level LOG_LEVEL_INFO = Level.OFF;
+    public static final Level LOG_LEVEL_WARNING = Level.OFF;
 
     //[-------------------LOGGER--------------------------]
+
+    // OFFSET
+    
+	public static final double KICKER_ENCODER_OFFSET = 0;
     
 } // end of constants

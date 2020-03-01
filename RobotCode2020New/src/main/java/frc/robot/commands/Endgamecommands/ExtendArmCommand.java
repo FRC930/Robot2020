@@ -11,6 +11,8 @@ package frc.robot.commands.endgamecommands;
 
 import java.util.logging.Logger;
 
+import javax.swing.text.Position;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
@@ -22,7 +24,7 @@ public class ExtendArmCommand extends CommandBase {
 
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Logger logger = Logger.getLogger(ExtendArmCommand.class.getName());
 
     private ClimberArmSubsystem climberArmSubsystem;    
     
@@ -35,13 +37,19 @@ public class ExtendArmCommand extends CommandBase {
     
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {   
-        climberArmSubsystem.setSpeed(Constants.CLIMBER_EXTEND_SPEED);
+    public void initialize() {     
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {  
+        double postition = climberArmSubsystem.getRawEncoderPosition();
+        if (postition > Constants.CLIMBER_LIMIT) {
+            climberArmSubsystem.setSpeed(Constants.CLIMBER_EXTEND_SPEED);
+        }
+        else {
+            climberArmSubsystem.stopMotor();
+        }
     }
 
     // Called once the command ends or is interrupted.

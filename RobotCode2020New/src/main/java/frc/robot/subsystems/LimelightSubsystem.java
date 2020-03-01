@@ -102,14 +102,14 @@ public class LimelightSubsystem extends SubsystemBase {
     // this returns the horizontal angle between the limelights crosshair and the target crosshair :)
     public double getHorizontalOffset() {
 
-        logger.entering(this.getClass().getName(), "getHorizontalOffset()");
+        logger.entering(LimelightSubsystem.class.getName(), "getHorizontalOffset()");
 
         //smoother.insert(limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET));
 
         horizontalOffset = limelightTable.getEntry("tx").getDouble(DEFAULT_HORIZ_ANGLE_OFFSET);
 
         logger.log(Constants.LOG_LEVEL_FINER, "Horizontal Offset = " + horizontalOffset);
-        logger.exiting(this.getClass().getName(), "getHorizontalOffset()");
+        logger.exiting(LimelightSubsystem.class.getName(), "getHorizontalOffset()");
 
         return horizontalOffset;
     }
@@ -117,7 +117,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // the distance between the robot and the goal :)
     public double getDistance() {
 
-        logger.entering(this.getClass().getName(), "getDistance()");
+        logger.entering(LimelightSubsystem.class.getName(), "getDistance()");
 
         // initial calculated distance
         double estDistance;
@@ -135,7 +135,7 @@ public class LimelightSubsystem extends SubsystemBase {
         logger.log(Constants.LOG_LEVEL_FINE, "Estimated distance = " + estDistance);
         logger.log(Constants.LOG_LEVEL_FINE, "Error = " + error);
         logger.log(Constants.LOG_LEVEL_FINE, "estDistance + error = " + distanceAndError);
-        logger.exiting(this.getClass().getName(), "getDistance()");
+        logger.exiting(LimelightSubsystem.class.getName(), "getDistance()");
 
         return distanceAndError;
     }
@@ -143,12 +143,12 @@ public class LimelightSubsystem extends SubsystemBase {
     // whether the limelight sees a target or not :)
     public boolean getValidTargets() {
 
-        // logger.entering(this.getClass().getName(), "getValidTargets()");
+        // logger.entering(LimelightSubsystem.class.getName(), "getValidTargets()");
 
         validTarget = limelightTable.getEntry("tv").getDouble(DEFAULT_VALID_TARGET) > 0.0 ? true : false;
 
         // logger.log(Level.FINE, "Valid Target?: " + validTarget);
-        // logger.exiting(this.getClass().getName(), "getValidTargets()");
+        // logger.exiting(LimelightSubsystem.class.getName(), "getValidTargets()");
 
         return validTarget;
     }
@@ -156,12 +156,12 @@ public class LimelightSubsystem extends SubsystemBase {
     // this returns the verticle offset between the limelights crosshair and the target crosshair :)
     public double getVerticleOffset() {
 
-        // logger.entering(this.getClass().getName(), "getVerticleOffset()");
+        // logger.entering(LimelightSubsystem.class.getName(), "getVerticleOffset()");
 
         verticleOffset = limelightTable.getEntry("ty").getDouble(DEFAULT_VERT_ANGLE_OFFSET);
 
         // logger.log(Level.FINER, "Verticle Offset = " + verticleOffset);
-        // logger.exiting(this.getClass().getName(), "getVerticleOffset()");
+        // logger.exiting(LimelightSubsystem.class.getName(), "getVerticleOffset()");
 
         return verticleOffset;
     }
@@ -176,14 +176,14 @@ public class LimelightSubsystem extends SubsystemBase {
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
 
-        // logger.entering(this.getClass().getName(), "setPipeline()");
+        // logger.entering(LimelightSubsystem.class.getName(), "setPipeline()");
 
         // sets the pipeline to the associated number of the pipeline enum
         limelightTable.getEntry("pipeline").setNumber(pipeline.getPipeline());
         currentPipeline = pipeline;
 
         // logger.log(Level.FINE, "Pipeline: " + pipeline);
-        // logger.exiting(this.getClass().getName(), "setPipeline()");
+        // logger.exiting(LimelightSubsystem.class.getName(), "setPipeline()");
     }
 
     // returns the Limelight's pipeline, returns "error" if no pipeline can be found

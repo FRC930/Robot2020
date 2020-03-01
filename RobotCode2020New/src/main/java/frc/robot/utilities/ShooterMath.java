@@ -5,7 +5,7 @@ package frc.robot.utilities;
  */
 public class ShooterMath {
 
-    //All measurements are in meters
+    // All measurements are in meters
     private final double BALL_RADIUS = 0.0889;
     private final double GOAL_HEIGHT_OUTER_LOW = 2.11455;
     private final double GOAL_HEIGHT_OUTER_TOP = 2.87655;
@@ -16,12 +16,12 @@ public class ShooterMath {
     private final double START_HEIGHT = 0; // Change for robot
     private final double GRAVITY = 9.8;
 
-    //Flag for singleton
+    // Flag for singleton
     private static ShooterMath lastInstance = null;
 
-    //Variables stored for later use.
-    //Distance is only assigned to, but is kept just in case we want to
-    //add more functionality later.
+    // Variables stored for later use.
+    // Distance is only assigned to, but is kept just in case we want to
+    // add more functionality later.
     private double angle;
     private double distance;
     private double velocity;
@@ -40,7 +40,7 @@ public class ShooterMath {
         setPosition(this.angle, this.distance);
     }
 
-    //Methods to get instance from singleton
+    // Methods to get instance from singleton
     public static ShooterMath getInstance() {
         if (lastInstance == null) {
             lastInstance = new ShooterMath();
@@ -100,9 +100,9 @@ public class ShooterMath {
      */
     private void calculateVelocity(double angle, double distance) {
         if (angle > 0 && angle < Math.toRadians(90) && distance > 0 && distance <= 13) {
-            this.velocity = (Math.sqrt(9.8 / (2 * (Math.tan(angle) * (distance + INNER_GOAL_FROM_WALL)
-                    - (GOAL_HEIGHT_INNER_MIDDLE - START_HEIGHT)))) * (distance + INNER_GOAL_FROM_WALL))
-                    / Math.cos(angle);
+            this.velocity = Math.sqrt((-this.GRAVITY * Math.pow(this.distance + this.INNER_GOAL_FROM_WALL, 2))
+                    / (2 * this.GOAL_HEIGHT_INNER_MIDDLE * Math.pow(Math.cos(this.angle), 2)
+                            - 2 * (this.distance + this.INNER_GOAL_FROM_WALL) * Math.cos(this.angle) * Math.sin(this.angle)));
         } else {
             this.velocity = -1.0;
         }
@@ -124,14 +124,15 @@ public class ShooterMath {
         double yAtWallHit = calculateY(yVelocity, tAtWallHit);
         double tAtInnerWallHit = (INNER_GOAL_FROM_WALL + distance) / xVelocity;
         double yAtInnerWallHit = calculateY(yVelocity, tAtInnerWallHit);
-        if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS && velocity != -1.0) {
-            shotOutcome = shotOutcome.OUTER;
+        if (yAtWallHit > GOAL_HEIGHT_OUTER_LOW + BALL_RADIUS && yAtInnerWallHit < GOAL_HEIGHT_OUTER_TOP - BALL_RADIUS
+                && velocity != -1.0) {
+            shotOutcome = ShotOutcome.OUTER;
             if (yAtInnerWallHit > GOAL_HEIGHT_INNER_LOW + BALL_RADIUS
                     && yAtInnerWallHit < GOAL_HEIGHT_INNER_TOP - BALL_RADIUS) {
-                shotOutcome = shotOutcome.INNER;
+                shotOutcome = ShotOutcome.INNER;
             }
         } else {
-            shotOutcome = shotOutcome.NONE;
+            shotOutcome = ShotOutcome.NONE;
         }
     }
 

@@ -10,20 +10,15 @@ import frc.robot.commands.autocommands.paths.*;
 
 import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
-import frc.robot.commands.colorwheelcommands.positionalcontrolcommands.*;
 
-import frc.robot.commands.compressorcommands.*;
 
 import frc.robot.commands.drivecommands.*;
 
 import frc.robot.commands.hoppercommands.*;
 
 import frc.robot.commands.intakecommands.*;
-import frc.robot.commands.intakecommands.intakemotorcommands.*;
-import frc.robot.commands.intakecommands.intakepistoncommands.*;
 
 import frc.robot.commands.kickercommands.*;
-//import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.limelightcommands.*;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.*;
@@ -35,10 +30,8 @@ import frc.robot.commands.towercommands.*;
 
 import frc.robot.commands.turretcommads.*;
 
-import frc.robot.commands.endgamecommands.RetractArmCommand;
-import frc.robot.commands.endgamecommands.ToggleShiftCommand;
-import frc.robot.commands.endgamecommands.StopArmCommand;
-import frc.robot.commands.endgamecommands.ExtendArmCommand;
+import frc.robot.commands.endgamecommands.*;
+
 
 // --Subsystem imports
 import frc.robot.subsystems.*;
@@ -65,7 +58,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
-  //-------- CONSTANTS --------\\
+  // -------- CONSTANTS --------\\
 
   // --Gamecube button map
   private final int GC_Y = 1;
@@ -87,7 +80,7 @@ public class RobotContainer {
   private final int GC_AXIS_LEFT_Y = 1;
   private final int GC_AXIS_RIGHT_X = 2;
   private final int GC_AXIS_RIGHT_Y = 3;
-  
+
   // --XBox button map
   private final int XB_AXIS_LEFT_X = 0;
   private final int XB_AXIS_LEFT_Y = 1;
@@ -116,16 +109,17 @@ public class RobotContainer {
   private final int DRIVER_CONTROLLER_ID = 0; // The gamecube controller
   private final int CODRIVER_CONTROLLER_ID = 1; // The xbox controller
 
+  // -------- DECLARATIONS --------\\
   private static final Logger frcRobotLogger = Logger.getLogger(RobotContainer.class.getPackageName());
 
-  //-------- DECLARATIONS --------\\
+  // -------- DECLARATIONS --------\\
 
   private static boolean usingGamecube = true; // Default, this should be true
   private static boolean inManualMode = false; // Default, this should be false
   private Joystick driverController;
   private Joystick coDriverController;
 
-  //-- Inline Class for Manual Mode Trigger
+  // -- Inline Class for Manual Mode Trigger
   private class ManualModeTrigger extends Trigger {
     public boolean get() {
       //shuffleboardUtility.setManualMode(inManualMode);
@@ -133,27 +127,20 @@ public class RobotContainer {
     }
   }
 
-  //-------- SUBSYSTEMS --------\\
+  // -------- SUBSYSTEMS --------\\
 
-  //--Endgame subsystem
+  // --Endgame subsystem
   private final ClimberArmSubsystem climberArmSubsystem;
 
   // --Color wheel stuff subsystems
   private final ColorSensorSubsystem colorSensorSubsystem;
   private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
 
-  // --Compressor subsystem
-  private final CompresserSubsystem compressorSubsystem;
-
   // --Drive subsystem
   private final DriveSubsystem driveSubsystem;
 
   // --Shooter stuff subsystems
-  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
   private final FlywheelSubsystem flywheelSubsystem;
-
-  // --Gyro subsystem
-  private final GyroSubsystem gyroSubsystem;
 
   // --Hopper subsystem
   private final HopperSubsystem hopperSubsystem;
@@ -171,89 +158,43 @@ public class RobotContainer {
   // --Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
 
+  // --Flywheel Angle Subsystem
+  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
+
   // --Tower subsystem
   private final TowerSubsystem towerSubsystem;
 
   // --Turret subsystem
   private final TurretSubsystem turretSubsystem;
 
-  //-------- COMMANDS --------\\
+  // --LED subsystem
+  LEDSubsystem ledSubsystem = new LEDSubsystem();
 
-  // --Auton command
-  //TODO: Change this to accept any auton path from the shuffleboard
-  //private final BigCountrySkilletCommand bigCountrySkilletCommand;
-  //private final CaliAvocadoSkilletCommand caliAvocadoSkilletCommand;
-  // private final CheesyDenverSkilletCommand cheesyDenverSkilletCommand;
-  // private final EverythingSkilletCommand everythingSkilletCommand;
-  // private final FarmersBreakfastSkilletCommand farmersBreakfastSkilletCommand;
-  // private final GypsySkilletCommand gypsySkilletCommand;
-  // private final GyroSkilletCommand gyroSkilletCommand;
-  // private final LoadedSkilletCommand loadedSkilletCommand;
-  // private final PeachtreeSkilletCommand peachtreeSkilletCommand;
-  //private final PhillyCheesesteakAndEggSkilletCommand phillyCheesesteakAndEggSkilletCommand;
-  //private final SaltAndPepperSkilletCommand saltAndPepperSkilletCommand;
-  // private final SouthBySouthWestSkilletCommand southBySouthWestSkilletCommand;
-  // private final SpinachAndMushroomSkilletCommand spinachAndMushroomSkilletCommand;
-  // private final VeggieSkilletCommand veggieSkilletCommand;
-
-  // --Color wheel commands
-  private final RotationalControlCommandGroup rotationalControlCommandGroup;
-  private final ColorWheelSpinnerCommand colorWheelSpinnerCommand;
-
-  // --Compressor commands
-  private final CompressorOnCommand compressorOnCommand;
-  private final CompressorOffCommand compressorOffCommand;
+  // -------- COMMANDS --------\\
 
   // --Drive commands
   private final DriveCommand driveCommand;
-
-  // --Endgame commands
-  private final ExtendArmCommand extendArmCommand;
-  private final RetractArmCommand retractArmCommand;
-  private final StopArmCommand stopArmCommand;
-  private final ToggleShiftCommand toggleShiftCommand;
-  private final LimelightLEDsOnCommand limelightLEDsOnCommand;
   private final LimelightLEDsOffCommand limelightLEDsOffCommand;
-  
+  private final ClimberArmCommandGroup climberArmCommandGroup;
+
   // --Hopper commands
-  //private final StopHopperCommand stopHopperCommand;
+  // private final StopHopperCommand stopHopperCommand;
   private final DefaultHopperCommand defaultHopperCommand;
   private final KillHopperStateCommand killHopperStateCommand;
   private final DefaultStopHopperCommand defaultStopHopperCommand;
 
-  // --Intake commands
-  private final DeployIntakeCommand deployIntakeCommand;
-  private final ReturnIntakeCommand returnIntakeCommand;
-
-  // --Kicker commands
-  private final RunKickerCommand runKickerCommand;
-  private final StopKickerCommand stopKickerCommand;
-
   // --LED commands
   // TODO: Add LED commands here
 
-  //--Shooter commands
+  // --Shooter commands
   // --Flywheel commands
   private final DefaultFlywheelCommand defaultFlywheelCommand;
-  private final RunFlywheelCommand runFlywheelCommand;    // For manual mode
-  private final StopFlywheelCommand stopFlywheelCommand;  // For manual mode
-
-  // --Flywheel piston commands
-  private final RetractFlywheelPistonCommand retractFlywheelPistonCommand;
-  private final ExtendFlywheelPistonCommand extendFlywheelPistonCommand;
-
-  // --Tower commands
-  private final RunTowerCommand runTowerCommand;
-  private final StopTowerCommand stopTowerCommand;
 
   // --Turret commands
-  private final AutoAimTurretCommand autoAimTurretCommand;
-  private final JoystickTurretCommand joystickTurretCommand;  // For manual
-  private final Logger logger = Logger.getLogger(RobotContainer.class.getName());;
+  private final JoystickTurretCommand joystickTurretCommand; // For manual
   // --Utilities
-  //private final ShuffleboardUtility shuffleboardUtility;
+  private final ShuffleboardUtility shuffleboardUtility;
 
-  
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
@@ -269,11 +210,7 @@ public class RobotContainer {
     colorSensorSubsystem = new ColorSensorSubsystem();
     colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
 
-    compressorSubsystem = new CompresserSubsystem();
-
     driveSubsystem = new DriveSubsystem();
-
-    gyroSubsystem = new GyroSubsystem();
 
     hopperSubsystem = new HopperSubsystem();
 
@@ -295,30 +232,11 @@ public class RobotContainer {
 
     turretSubsystem = new TurretSubsystem();
 
-    
-
     // --Commands
-    
+
     // endgame
-    extendArmCommand = new ExtendArmCommand(climberArmSubsystem);
-    retractArmCommand = new RetractArmCommand(climberArmSubsystem);
-    stopArmCommand = new StopArmCommand(climberArmSubsystem);
-    toggleShiftCommand = new ToggleShiftCommand(driveSubsystem);
-    limelightLEDsOnCommand = new LimelightLEDsOnCommand(limelightSubsystem);
     limelightLEDsOffCommand = new LimelightLEDsOffCommand(limelightSubsystem);
-
-    // intake
-    deployIntakeCommand = new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
-    returnIntakeCommand = new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem);
-
-    // colorwheel
-    // TODO: Add color wheel commmands down here
-    rotationalControlCommandGroup = new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem);
-    colorWheelSpinnerCommand = new ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem);
-
-    // compressor
-    compressorOnCommand = new CompressorOnCommand(compressorSubsystem);
-    compressorOffCommand = new CompressorOffCommand(compressorSubsystem);
+    climberArmCommandGroup = new ClimberArmCommandGroup(climberArmSubsystem,coDriverController,XB_AXIS_LEFT_Y,new JoystickButton(coDriverController,XB_RB));
 
     // drive (NOTE: This is where we bind the driver controls to the drivetrain)
     driveCommand = new DriveCommand(driveSubsystem, driverController, GC_AXIS_LEFT_X, GC_AXIS_RIGHT_Y);
@@ -327,39 +245,18 @@ public class RobotContainer {
     killHopperStateCommand = new KillHopperStateCommand();
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, killHopperStateCommand);
     defaultStopHopperCommand = new DefaultStopHopperCommand(hopperSubsystem);
-    
-
-    // kicker
-    runKickerCommand = new RunKickerCommand(kickerSubsystem);
-    stopKickerCommand = new StopKickerCommand(kickerSubsystem);
 
     // leds
     // TODO: Add LED commands here
 
     // Flywheel
     defaultFlywheelCommand = new DefaultFlywheelCommand(flywheelSubsystem);
-    runFlywheelCommand = new RunFlywheelCommand(flywheelSubsystem, 0.7);
-    stopFlywheelCommand = new StopFlywheelCommand(flywheelSubsystem);
-
-    // Flywheel piston
-    retractFlywheelPistonCommand = new RetractFlywheelPistonCommand(flywheelPistonSubsystem);
-    extendFlywheelPistonCommand = new ExtendFlywheelPistonCommand(flywheelPistonSubsystem);
-
-    // tower
-    runTowerCommand = new RunTowerCommand(towerSubsystem);
-    stopTowerCommand = new StopTowerCommand(towerSubsystem);
-    
 
     // turret
-    autoAimTurretCommand = new AutoAimTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X);
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
 
-    // auto 
-    //TODO: Change this to get the Shuffleboard selected command
-    //caliAvocadoSkilletCommand = new CaliAvocadoSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,flywheelSubsystem,towerSubsystem,hopperSubsystem, kickerSubsystem,limelightSubsystem,flywheelPistonSubsystem,new RunHopperCommand(hopperSubsystem));
-    //phillyCheesesteakAndEggSkilletCommand = new PhillyCheesesteakAndEggSkilletCommand(driveSubsystem);
+    shuffleboardUtility = ShuffleboardUtility.getInstance();
 
-    //shuffleboardUtility = ShuffleboardUtility.getInstance();
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
 
@@ -376,7 +273,8 @@ public class RobotContainer {
     // Manual mode, which is mainly only used for debugging purposes only
     JoystickButton manualModeButton = new JoystickButton(coDriverController, XB_BACK);
 
-    // InstantCommand takes a runnable, which we're sending an anonymous runnable method through
+    // InstantCommand takes a runnable, which we're sending an anonymous runnable
+    // method through
     // This runnable method flips the manual mode and updates shuffleboard
     manualModeButton.whileActiveOnce(new InstantCommand(() -> {
       inManualMode = !inManualMode;
@@ -416,29 +314,28 @@ public class RobotContainer {
       // --Command binds
 
       // Rotational control command bind
-      rotationalButton.whileActiveOnce(rotationalControlCommandGroup);
+      rotationalButton.whileActiveOnce(new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem));
 
       // Positional control command bind TODO: Uncomment this when ready for testing
-      // positionalButton.whileActiveOnce(positionalControlCommandGroup); 
-  
+      // positionalButton.whileActiveOnce(positionalControlCommandGroup);
+
       // Drive command binds
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //Shooter command binds
-      
-      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,shootButton));
+      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, shootButton));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
       // Endgame command binds
 
-      liftArm.whenPressed(extendArmCommand);
-      liftArm.whenReleased(stopArmCommand);
+      liftArm.whenPressed(new ExtendArmCommand(climberArmSubsystem));
+      liftArm.whenReleased(new StopArmCommand(climberArmSubsystem));
 
-      lowerArm.whenPressed(retractArmCommand);
-      lowerArm.whenReleased(stopArmCommand);
+      lowerArm.whenPressed(new RetractArmCommand(climberArmSubsystem));
+      lowerArm.whenReleased(new RetractArmCommand(climberArmSubsystem));
 
-      toggleEndgame.toggleWhenActive(toggleShiftCommand);
+      toggleEndgame.toggleWhenActive(new ToggleShiftCommand(driveSubsystem));
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
@@ -447,7 +344,7 @@ public class RobotContainer {
       // A Button
       Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(inManualModeTrigger);
       // B Button
-      Trigger manualHopperButton = new JoystickButton(driverController, GC_B).and(inManualModeTrigger);
+      Trigger manualHopperButton = new JoystickButton(driverController, GC_B);//.and(inManualModeTrigger);
       // X Button
       Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(inManualModeTrigger);
       // Y Button
@@ -456,31 +353,30 @@ public class RobotContainer {
       JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_B);
 
       JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_START);
-      
 
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
       // ZL Button
-      AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);//.and(inManualModeTrigger);
+      AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);// .and(inManualModeTrigger);
 
       // --Command binds
 
       // manual color wheel spinner
-      manualColorSpinnerButton.whenActive(colorWheelSpinnerCommand);
+      manualColorSpinnerButton.whenActive(new ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem));
       // manual hopper spinning
       manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem)).whenInactive(new StopHopperCommand(hopperSubsystem,killHopperButton));
       // manual kicker spinning
-      manualKickerButton.whenActive(runKickerCommand).whenInactive(stopKickerCommand);
+      manualKickerButton.whenActive(new RunKickerCommand(kickerSubsystem)).whenInactive(new StopKickerCommand(kickerSubsystem));
       // manual tower spinning
-      manualTowerEndgame.whenActive(runTowerCommand).whenInactive(stopTowerCommand);
+      manualTowerEndgame.whenActive(new RunTowerCommand(towerSubsystem)).whenInactive(new StopTowerCommand(towerSubsystem));
       // manual flywheel spinning
-      manualFlywheelButton.whenActive(runFlywheelCommand).whenInactive(stopFlywheelCommand);
+      manualFlywheelButton.whenActive(new RunFlywheelCommand(flywheelSubsystem, 0.7)).whenInactive(new StopFlywheelCommand(flywheelSubsystem));
       // manual flywheel piston stuff
-      manualFlywheelPistonButton.whenActive(extendFlywheelPistonCommand).whenInactive(retractFlywheelPistonCommand);
- 
+      manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
+
       reverseHopperButton.whileActiveOnce(new StopHopperCommand(hopperSubsystem, reverseHopperButton));
       // manual
-      killHopperButton.whileActiveOnce(killHopperStateCommand);
+      killHopperButton.whileActiveOnce(new KillHopperStateCommand());
     } else { // If we're using the Xbox controller
 
     } // end of if statement usingGamecube
@@ -493,26 +389,27 @@ public class RobotContainer {
 
     AxisTrigger intakeAxisTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
 
-    JoystickButton limelightLEDsOn = new JoystickButton(coDriverController, XB_LB);
+    JoystickButton autoTrackTurret = new JoystickButton(coDriverController, XB_LB);
 
     POVTrigger turretFront = new POVTrigger(coDriverController, 0, XB_POV_UP);
     POVTrigger turretBack = new POVTrigger(coDriverController, 0, XB_POV_DOWN);
     POVTrigger turretLeft = new POVTrigger(coDriverController, 0, XB_POV_LEFT);
+    JoystickButton endgameSafetyButton = new JoystickButton(coDriverController, XB_RB);
 
     // --Command binds
-    // limelightLEDsOn.whenPressed(limelightLEDsOnCommand);
-    // limelightLEDsOn.whenReleased(limelightLEDsOffCommand);
-    // limelightLEDsOn.whenPressed(autoAimTurretCommand);
-    // limelightLEDsOn.whenReleased(limelightLEDsOffCommand);
 
-    limelightLEDsOn.whileActiveOnce(autoAimTurretCommand);
+    autoTrackTurret.whileActiveOnce(new AutoAimTurretCommand(limelightSubsystem, turretSubsystem,
+        new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController,
+        XB_AXIS_LEFT_X));
 
-    turretFront.whileActiveContinuous(new TurretFrontCommand(turretSubsystem));
-    turretBack.whileActiveContinuous(new TurretBackCommand(turretSubsystem));
-    turretLeft.whileActiveContinuous(new TurretLeftCommand(turretSubsystem));
+    turretFront.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_FRONT_POSITION));
+    turretBack.whileActiveOnce(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_BACK_POSITION));
+    turretLeft.whileActiveContinuous(new SetTurretPositionPIDCommand(turretSubsystem, new PIDController(Constants.TURRET_SET_POSITION_P, Constants.TURRET_SET_POSITION_I, Constants.TURRET_SET_POSITION_D), Constants.TURRET_LEFT_POSITION));
 
+    endgameSafetyButton.whileActiveOnce(climberArmCommandGroup);
     // Toggle intake
-    intakeAxisTrigger.toggleWhenActive(deployIntakeCommand).whenInactive(returnIntakeCommand);
+    intakeAxisTrigger.toggleWhenActive(new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem))
+        .whenInactive(new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem));
 
   } // end of method configureCodriverBindings()
 
@@ -520,13 +417,12 @@ public class RobotContainer {
 
     // --The instance of the scheduler
     CommandScheduler scheduler = CommandScheduler.getInstance();
-    
 
     scheduler.unregisterSubsystem(hopperSubsystem, turretSubsystem, flywheelSubsystem, kickerSubsystem, towerSubsystem);
 
     if (inManualMode) {
-      scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand); 
-    } else { 
+      scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
+    } else {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
@@ -557,11 +453,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new SaltAndPepperSkilletCommand(driveSubsystem, deployIntakeCommand, returnIntakeCommand,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, new RunHopperCommand(hopperSubsystem), turretSubsystem);
+    return new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem);
     // Run path following command, then stop at the end.
   }
 
-  //-------- METHODS FOR SHUFFLEBOARD --------\\
+  // -------- METHODS FOR SHUFFLEBOARD --------\\
 
   public static boolean getUsingGamecube() {
     return usingGamecube;

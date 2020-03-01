@@ -28,12 +28,14 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.FlywheelPistonSubsystem;
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.IntakePistonSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.Constants;
 
 import java.util.List;
@@ -46,17 +48,10 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
    * Path Description: ----------------- Shoot 3 from initiation line move through
    * trench to grab 3 balls Shoot 3 from trench position
    */
-
-  private DriveSubsystem driveSubsystem;
-
-  private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
-
-  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem, DeployIntakeCommand deployIntakeCommand,
-      ReturnIntakeCommand returnIntakeCommand, FlywheelSubsystem flywheelSubsystem, TowerSubsystem towerSubsystem,
-      HopperSubsystem hopperSubsystem, KickerSubsystem kickerSubsystem, LimelightSubsystem limelightSubsystem,
-      FlywheelPistonSubsystem flywheelPistonSubsystem, RunHopperCommand runHopperCommand) {
-    driveSubsystem = dSubsystem;
-
+  public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem, IntakePistonSubsystem iPistonSubsystem,
+      IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem tSubsystem,
+      HopperSubsystem hSubsystem, KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem,
+      FlywheelPistonSubsystem fPistonSubsystem) {
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(Constants.KSVOLTS, Constants.KVVOLT, Constants.KAVOLT), Constants.KDRIVEKINEMATICS,
         10);
@@ -92,32 +87,37 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
     // sequential command
 
     // Creates RAMSETE Command for first trajectory
-    RamseteCommand ramseteCommand1 = new RamseteCommand(trajectory1, driveSubsystem::getPose,
+    RamseteCommand ramseteCommand1 = new RamseteCommand(trajectory1, dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS, Constants.KVVOLT, Constants.KAVOLT), Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds, new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        dSubsystem::getWheelSpeeds, new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts, driveSubsystem);
+        dSubsystem::tankDriveVolts, dSubsystem);
 
     /*
      * Path Description: ----------------- Shoot 3 from initiation line move through
      * trench to grab 3 balls Shoot 3 from trench position
      */
 
-    addCommands( ramseteCommand1
-        //new ParallelRaceGroup(new WaitCommand(3),
-            //new InstantCommand(() -> new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem,
-                //kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, runHopperCommand))), // Shoot 3 balls
-        //new ParallelRaceGroup(ramseteCommand1, deployIntakeCommand), // Moving trajectory while intaking
-        //returnIntakeCommand, // Stop intaking
-        //new ParallelRaceGroup(new WaitCommand(3), shootPowerCellCommandGroup)
-        ); // Shooting final 3 balls
-  }
+    addCommands(
+        new ParallelRaceGroup(new WaitCommand(3),
+            new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem, kSubsystem, lLightSubsystem,
+                fPistonSubsystem)), // Shoot 3 balls
+        new ParallelRaceGroup(ramseteCommand1, new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem)), // Moving
+                                                                                                            // trajectory
+                                                                                                            // while
+                                                                                                            // intaking
+        new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem), // Stop intaking
+        new ParallelRaceGroup(new WaitCommand(3), new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem,
+            kSubsystem, lLightSubsystem, fPistonSubsystem))); // Shooting final 3 balls
 
+  } // End of Constructor
+
+  // Method to convert distances
   public double inchesToMeters(double inches) {
     double meters = inches / 39.37;
     return meters;
   }
 
-} // end of class
+} // End of class

@@ -1,16 +1,20 @@
 package frc.robot.commands.autocommands.paths;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-// import frc.robot.commands.intakecommands.DeployIntakeCommand;
-// import frc.robot.commands.intakecommands.ReturnIntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
-// import frc.robot.subsystems.GyroSubsystem;
+import frc.robot.subsystems.IntakePistonSubsystem;
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.KickerSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.FlywheelPistonSubsystem;
+
 import frc.robot.commands.intakecommands.*;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
 import java.util.List;
@@ -37,6 +41,7 @@ import frc.robot.subsystems.FlywheelPistonSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
 import frc.robot.commands.turretcommads.TurretBackCommand;
+import frc.robot.commands.drivecommands.DriveCommand;
 import frc.robot.commands.drivecommands.StopDriveCommand;
 import frc.robot.commands.turretcommads.AutoAimAutonomousCommand;
 import frc.robot.commands.turretcommads.AutoAimTurretCommand;
@@ -49,16 +54,12 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
 
 public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
-
-    private DriveSubsystem driveSubsystem;
-    // private GyroSubsystem gyroSubsystem;
-    private DeployIntakeCommand deployIntakeCommand;
-    private ReturnIntakeCommand returnIntakeCommand;
-    private ShootPowerCellCommandGroup shootPowerCellCommandGroup;
-    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem,  DeployIntakeCommand deployIntakeCommand, ReturnIntakeCommand returnIntakeCommand,FlywheelSubsystem flywheelSubsystem,TowerSubsystem towerSubsystem,HopperSubsystem hopperSubsystem,KickerSubsystem kickerSubsystem,LimelightSubsystem limelightSubsystem,FlywheelPistonSubsystem flywheelPistonSubsystem,RunHopperCommand runHopperCommand,TurretSubsystem turretSubsystem){
-        driveSubsystem = dSubsystem;
-        // gyroSubsystem = gSubsystem;
-
+    /**
+   * Creates a new Autonomous.
+   */
+    public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, IntakePistonSubsystem iPistonSubsystem, 
+    IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem towSubsystem, HopperSubsystem hSubsystem, 
+    KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fPistonSubsystem,TurretSubsystem turSubsystem){
         //this is our config for how much power goes to the motors
         var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -133,54 +134,54 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     // This is our first atuo command this will run the drivetrain using the first trajectory we made
     RamseteCommand ramseteCommand1 = new RamseteCommand(
         trajectory1,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         // pid info***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem 
+        dSubsystem::tankDriveVolts,
+        dSubsystem 
     );
     
     // this is our second auto command it uses the second trajectory which is an inverse of the first one as seen earlier
     RamseteCommand ramseteCommand2 = new RamseteCommand(
         trajectory2,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         // pid info***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem 
+        dSubsystem::tankDriveVolts,
+        dSubsystem 
     );
     
     RamseteCommand ramseteCommand3 = new RamseteCommand(
         trajectory3,
-        driveSubsystem::getPose,
+        dSubsystem::getPose,
         new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
         new SimpleMotorFeedforward(Constants.KSVOLTS,
                                    Constants.KVVOLT,
                                    Constants.KAVOLT),
         Constants.KDRIVEKINEMATICS,
-        driveSubsystem::getWheelSpeeds,
+        dSubsystem::getWheelSpeeds,
         // pid info***
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         new PIDController(Constants.KPDRIVEVEL, 0, 0),
         // RamseteCommand passes volts to the callback
-        driveSubsystem::tankDriveVolts,
-        driveSubsystem 
+        dSubsystem::tankDriveVolts,
+        dSubsystem 
     );
     /*
     Path Description:
@@ -192,20 +193,20 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     */
 
         // add commands here to run during auto
-        addCommands(deployIntakeCommand,
+        addCommands(new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem),
         ramseteCommand1,
-        new StopDriveCommand(driveSubsystem),
+        new StopDriveCommand(dSubsystem),
         ramseteCommand2,
-        new StopDriveCommand(driveSubsystem),
-        new AutoTurretTurnCommand(turretSubsystem),
-        new AutoAimAutonomousCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
-        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem)),
-        new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem),
+        new StopDriveCommand(dSubsystem),
+        new AutoTurretTurnCommand(turSubsystem),
+        new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
+        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)),
+        new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
         ramseteCommand3,
-        new StopDriveCommand(driveSubsystem),
-        new AutoAimAutonomousCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
-        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem)), 
-        new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem)
+        new StopDriveCommand(dSubsystem),
+        new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
+        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)), 
+        new StopTowerKickerCommandGroup(towSubsystem, kSubsystem)
         );
         //returnIntakeCommand);
     }
@@ -213,4 +214,5 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     private double inchesToMeters(double inch){
         return inch/39.3701;
     }
-}
+
+} // End of Class

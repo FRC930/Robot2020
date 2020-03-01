@@ -24,7 +24,7 @@ public class StopKickerCommand extends CommandBase {
 
     public StopKickerCommand(KickerSubsystem kSubsystem) {
         kickerSubsystem = kSubsystem;
-        addRequirements(kickerSubsystem);
+        addRequirements(kSubsystem);
     }
 
     //-------- METHODS --------\\
@@ -35,19 +35,9 @@ public class StopKickerCommand extends CommandBase {
         kickerSubsystem.stopMotor();
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-    }
-
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 } // end of class StopKickerCommand

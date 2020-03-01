@@ -58,9 +58,8 @@ public class ShuffleboardUtility {
     private NetworkTableEntry distanceFromTargetEntry;
     private NetworkTableEntry shotTypeEntry;
     
-
-    //-------- CONSTRUCTOR --------\\
-
+    // -------- CONSTRUCTOR --------\\
+    
     private ShuffleboardUtility() {
         // Gets the pid controller data
         //pidController = testDebugTab.getComponents();
@@ -98,7 +97,7 @@ public class ShuffleboardUtility {
         intakingEntry = driverStationTab.add("Intaking?", intakeIndicator).getEntry();
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
-        distanceFromTargetEntry = driverStationTab.add("Distance from Target", distanceFromTarget).getEntry();
+        //distanceFromTargetEntry = driverStationTab.add("Distance from Target", distanceFromTarget).getEntry();
         //shotTypeEntry = driverStationTab.add("Distance from Target", shotType).getEntry();
     }
 

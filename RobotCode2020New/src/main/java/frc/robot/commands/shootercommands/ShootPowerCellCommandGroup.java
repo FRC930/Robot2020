@@ -14,6 +14,7 @@ import frc.robot.Constants;
 import frc.robot.commands.hoppercommands.RunHopperCommand;
 import frc.robot.commands.kickercommands.RunKickerCommand;
 import frc.robot.commands.towercommands.RunTowerCommand;
+import frc.robot.commands.shootercommands.flywheelcommands.RampShooterCommand;
 import frc.robot.commands.shootercommands.flywheelcommands.RunFlywheelCommand;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
@@ -71,4 +72,5 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
             )
         );
     } // End of Teleop Constructor
+
 } // End of Class
