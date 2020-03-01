@@ -70,7 +70,6 @@ public class PositionalControlTrackerCommand extends CommandBase {
       colorMatch.addColorMatch(kBlueTarget);
       colorMatch.addColorMatch(kGreenTarget);
       colorMatch.addColorMatch(kRedTarget);
-      shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     /**

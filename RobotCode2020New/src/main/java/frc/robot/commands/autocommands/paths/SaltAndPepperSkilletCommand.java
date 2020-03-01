@@ -1,6 +1,7 @@
 package frc.robot.commands.autocommands.paths;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -28,6 +29,23 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
+import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.KickerSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.commands.hoppercommands.DefaultHopperCommand;
+import frc.robot.commands.hoppercommands.RunHopperCommand;
+import frc.robot.subsystems.FlywheelPistonSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
+
+import frc.robot.commands.drivecommands.StopDriveCommand;
+import frc.robot.commands.turretcommads.AutoAimAutonomousCommand;
+import frc.robot.commands.turretcommads.AutoAimTurretCommand;
+import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
+
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -39,8 +57,8 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
     public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, IntakePistonSubsystem iPistonSubsystem, 
-    IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem tSubsystem, HopperSubsystem hSubsystem, 
-    KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fPistonSubsystem){
+    IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem towSubsystem, HopperSubsystem hSubsystem, 
+    KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fPistonSubsystem,TurretSubsystem turSubsystem){
         //this is our config for how much power goes to the motors
         var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -75,19 +93,9 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
         List.of( 
             // Midpoints
-            //new Translation2d(inchesToMeters(40), inchesToMeters(0)),
-            //new Translation2d(inchesToMeters(80), inchesToMeters(30))
-            // new Translation2d(inchesToMeters(12.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(27.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(52.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(67.5), inchesToMeters(2)),
-            // new Translation2d(inchesToMeters(75), inchesToMeters(3)),
-            // new Translation2d(inchesToMeters(90), inchesToMeters(7)),
-            // new Translation2d(inchesToMeters(100), inchesToMeters(13)),
-            // new Translation2d(inchesToMeters(110), inchesToMeters(24))
         ),
         //this is our end point we end our first trajectory at X: 80 inches Y:-80 inches and -65 degrees from orgin
-        new Pose2d(inchesToMeters(114.94), inchesToMeters(-20), new Rotation2d(Math.toRadians(-65))),
+        new Pose2d(inchesToMeters(115), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))),
         // Pass config
         config
     );
@@ -95,24 +103,26 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     //this is our second trajectory it should be a inverse of the first one
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Starts X: 0 inches Y: 0 inches and -65 degrees 
-        new Pose2d(inchesToMeters(114.94), inchesToMeters(-20), new Rotation2d(Math.toRadians(-65))), //-65
+        new Pose2d(inchesToMeters(115), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))), //-65
         List.of( 
             // Midpoints
-            //new Translation2d(inchesToMeters(40), inchesToMeters(0)),
-            //new Translation2d(inchesToMeters(80), inchesToMeters(30))
-            // new Translation2d(inchesToMeters(12.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(27.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(52.5), inchesToMeters(1)),
-            // new Translation2d(inchesToMeters(67.5), inchesToMeters(2)),
-            // new Translation2d(inchesToMeters(75), inchesToMeters(3)),
-            // new Translation2d(inchesToMeters(90), inchesToMeters(7)),
-            // new Translation2d(inchesToMeters(100), inchesToMeters(13)),
-            // new Translation2d(inchesToMeters(110), inchesToMeters(24))
         ),
         // return to intial position
-        new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
+        new Pose2d(inchesToMeters(-20), inchesToMeters(-20), new Rotation2d(Math.toRadians(15))),
         // uses the second config
         reverseConfig
+    );
+
+    Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
+        // Robot starts at X: 0 Y: 0 and a rotation of 0 
+        new Pose2d(inchesToMeters(-20), inchesToMeters(-20), new Rotation2d(Math.toRadians(15))),
+        List.of( 
+            // Midpoints
+        ),
+        //this is our end point we end our first trajectory at X: 80 inches Y:-80 inches and -65 degrees from orgin
+        new Pose2d(inchesToMeters(240), inchesToMeters(-20), new Rotation2d(Math.toRadians(0))),
+        // Pass config
+        config
     );
 
     // -------- RAMSETE Commands -------- \\
@@ -155,7 +165,23 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         dSubsystem::tankDriveVolts,
         dSubsystem 
     );
-
+    
+    RamseteCommand ramseteCommand3 = new RamseteCommand(
+        trajectory3,
+        dSubsystem::getPose,
+        new RamseteController(Constants.KRAMSETEB, Constants.KRAMSETEZETA),
+        new SimpleMotorFeedforward(Constants.KSVOLTS,
+                                   Constants.KVVOLT,
+                                   Constants.KAVOLT),
+        Constants.KDRIVEKINEMATICS,
+        dSubsystem::getWheelSpeeds,
+        // pid info***
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        new PIDController(Constants.KPDRIVEVEL, 0, 0),
+        // RamseteCommand passes volts to the callback
+        dSubsystem::tankDriveVolts,
+        dSubsystem 
+    );
     /*
     Path Description:
     -----------------
@@ -166,13 +192,24 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     */
 
         // add commands here to run during auto
-        addCommands(new ParallelRaceGroup(ramseteCommand1, new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem)), 
-            new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem),
-            ramseteCommand2,
-            new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem));
-    } // End of Constructor
-
-    // Method to convert distances
+        addCommands(new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem),
+        ramseteCommand1,
+        new StopDriveCommand(dSubsystem),
+        ramseteCommand2,
+        new StopDriveCommand(dSubsystem),
+        new AutoTurretTurnCommand(turSubsystem),
+        new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
+        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)),
+        new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
+        ramseteCommand3,
+        new StopDriveCommand(dSubsystem),
+        new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
+        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)), 
+        new StopTowerKickerCommandGroup(towSubsystem, kSubsystem)
+        );
+        //returnIntakeCommand);
+    }
+    //converts our inches into meters
     private double inchesToMeters(double inch){
         return inch/39.3701;
     }

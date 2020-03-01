@@ -10,29 +10,22 @@
 package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.drivecommands.StopDriveCommand;
-import frc.robot.commands.hoppercommands.StopHopperStateCommand;
 import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.utilities.ShuffleboardUtility;
 import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class DefaultHopperCommand extends CommandBase {
+public class DefaultStopHopperCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-    private ShuffleboardUtility shuffleboardUtility;
-    private StopHopperStateCommand m_StopHopperStateCommand;
 
     //private 
     //-------- CONSTRUCTOR --------\\
 
-    public DefaultHopperCommand(HopperSubsystem HopperSubsystem, StopHopperStateCommand stopHopperStateCommand) {
+    public DefaultStopHopperCommand(HopperSubsystem HopperSubsystem) {
         m_HopperSubsystem = HopperSubsystem;
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
-        m_StopHopperStateCommand = stopHopperStateCommand;
         addRequirements(m_HopperSubsystem);
     }
 
@@ -47,12 +40,7 @@ public class DefaultHopperCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {     
-        if(m_StopHopperStateCommand.getState()) {
-            m_HopperSubsystem.setSpeed(0.0);
-        } else {
-            m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
-        }
-        shuffleboardUtility.setHopperSpeed(m_HopperSubsystem.getSpeed());
+        m_HopperSubsystem.setSpeed(0.0); 
     }
 
     // Called once the command ends or is interrupted.

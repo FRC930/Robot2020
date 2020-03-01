@@ -15,13 +15,15 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.robot.commands.hoppercommands.RunHopperCommand;
 import frc.robot.commands.intakecommands.DeployIntakeCommand;
 import frc.robot.commands.intakecommands.ReturnIntakeCommand;
+import frc.robot.commands.shootercommands.FlywheelVelocityCommand;
+import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.*;
 
@@ -43,7 +45,8 @@ import java.util.List;
 
 public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
   /**
-   * Creates a new Autonomous.
+   * Path Description: ----------------- Shoot 3 from initiation line move through
+   * trench to grab 3 balls Shoot 3 from trench position
    */
   public CaliAvocadoSkilletCommand(DriveSubsystem dSubsystem, IntakePistonSubsystem iPistonSubsystem,
       IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem tSubsystem,

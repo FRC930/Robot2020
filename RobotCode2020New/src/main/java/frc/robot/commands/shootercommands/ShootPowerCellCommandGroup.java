@@ -4,11 +4,8 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 //-------- IMPORTS --------\\
-
 package frc.robot.commands.shootercommands;
-
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -25,16 +22,13 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.triggers.TriggerCommand;
-
 import frc.robot.subsystems.FlywheelPistonSubsystem;
-
 //-------- COMMANDGROUP CLASS --------\\
 /**
  * There are two constructors for teleop and auton. The first is for auton and does not require a value to end the command group.
  * The second takes a Joystick Button to stop the command group.
  */
 public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
-
     //-------- CONSTRUCTORS --------\\
     
     public ShootPowerCellCommandGroup(
