@@ -10,6 +10,7 @@
 package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.hoppercommands.StopHopperStateCommand;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.Constants;
 
@@ -20,12 +21,12 @@ public class DefaultHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-    private KillHopperStateCommand m_KillHopperStateCommand;
+    private StopHopperStateCommand m_KillHopperStateCommand;
 
     //private 
     //-------- CONSTRUCTOR --------\\
 
-    public DefaultHopperCommand(HopperSubsystem HopperSubsystem, KillHopperStateCommand killHopperStateCommand) {
+    public DefaultHopperCommand(HopperSubsystem HopperSubsystem, StopHopperStateCommand killHopperStateCommand) {
         m_HopperSubsystem = HopperSubsystem;
         m_KillHopperStateCommand = killHopperStateCommand;
         addRequirements(m_HopperSubsystem);
