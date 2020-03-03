@@ -39,21 +39,21 @@ public class RunKickerCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-
+        kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        logger.log(Constants.LOG_LEVEL_FINE, "Math.round((((" + kickerSubsystem.getEncoder() + " - " + Constants.KICKER_ENCODER_OFFSET +"-" + "/ 10) % 2) * 100)) % 2) == 1");
-        if(((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100)) % 2) == 1)
-        {
-            logger.log(Constants.LOG_LEVEL_FINE, "kickers running");
-            kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
-        } else {
-            kickerSubsystem.setSpeed(0.0);
-            logger.log(Constants.LOG_LEVEL_FINE, "kickers not running");
-        }
+        // logger.log(Constants.LOG_LEVEL_FINE, "Math.round((((" + kickerSubsystem.getEncoder() + " - " + Constants.KICKER_ENCODER_OFFSET +"-" + "/ 10) % 2) * 100)) % 2) == 1");
+        // if(((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100)) % 2) == 1)
+        // {
+        //     logger.log(Constants.LOG_LEVEL_FINE, "kickers running");
+        //     kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+        // } else {
+        //     kickerSubsystem.setSpeed(0.0);
+        //     logger.log(Constants.LOG_LEVEL_FINE, "kickers not running");
+        // }
     }
 
     // Called once the command ends or is interrupted.

@@ -63,11 +63,11 @@ public class DriveCommand extends CommandBase {
   private void run(double stickX, double stickY) {
         
     // Cubing values to create smoother function
-    stickX = -Math.pow(stickX, 3);
+    //stickX = -Math.pow(stickX, 3);
     stickY = -Math.pow(stickY, 3);
 
     // Multiplies for smoothing turning
-    stickX *= Constants.DRIVE_TURNING_MULTIPLIER;
+    stickX *= -Constants.DRIVE_TURNING_MULTIPLIER;
 
     // Dead band after the cube sets to zero if under the dead band
     if (Math.abs(stickX) < Constants.DRIVE_DEADBAND_JOYSTICK) {

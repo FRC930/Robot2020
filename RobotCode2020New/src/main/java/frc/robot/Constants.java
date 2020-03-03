@@ -76,18 +76,23 @@ public final class Constants {
     // [-------------------SPEEDS--------------------------]
 
     public static final double HOPPER_DEFAULT_SPEED = 0.3;
-    public static final double HOPPER_SHOOTING_SPEED = 0.85; // 0.6
+    public static final double HOPPER_SHOOTING_SPEED = 0.5;//0.6;//0.85;//0.6
     public static final double TOWER_SPEED = 1.0;
-    public static final double KICKER_SPEED = 0.6; // 0.6
-    public static final double INTAKE_SPEED = 0.8; // 0.8
-    public static final double FLYWHEEL_SPEED = 0.62;
 
+    public static final double TOWER_REVERSE_SPEED = -0.5;
+    public static final double KICKER_SPEED = 0.5;//0.6; // 0.6
+    public static final double INTAKE_SPEED = 0.6; // 0.8
+    public static final double FLYWHEEL_TELEOP_SPEED = 0.62;//0.8;//0.65;
+    public static final double FLYWHEEL_AUTON_SPEED = 0.8;
+    public static final double CLIMBER_EXTEND_SPEED = 0.1;
+    public static final double CLIMBER_RETRACT_SPEED = -0.1;
+  
     // [-------------------SPEEDS--------------------------]
 
     // [-------------------LIMITS--------------------------]
 
     public static final double ENCODER_ROTATION_LIMIT = 190;
-    public static final double CLIMBER_LIMIT = -2.3;
+    public static final double CLIMBER_LIMIT = -2.4;
 
     // [-------------------LIMITS--------------------------]
 
@@ -105,14 +110,19 @@ public final class Constants {
     public static final double TURRET_I = 0.0;//0.135;
     public static final double TURRET_D = 0.0008;//0.00081;
 
-    public static final double TURRET_SET_POSITION_P = 1.0;
+    public static final double TURRET_SET_POSITION_P = 2.5;
     public static final double TURRET_SET_POSITION_I = 0.0;
     public static final double TURRET_SET_POSITION_D = 0.0;
 
     // encoder positions for setting turret to one of four directions
-    public static final double TURRET_FRONT_POSITION = 0.659;
-    public static final double TURRET_BACK_POSITION = 0.415;
-    public static final double TURRET_LEFT_POSITION = 0.532;
+    public static final double TURRET_BACK_POSITION = 0.635;//0.659;
+    public static final double TURRET_FRONT_POSITION = 0.383;//0.415;
+    public static final double TURRET_RIGHT_POSITION = 0.51;//0.532;
+    public static final double TURRET_LEFT_POSITION = 0.256;
+
+    public static final double FRONT_LEFT_POSITION = 0.3195;
+    public static final double FRONT_RIGHT_POSITION = 0.4465;
+    public static final double BACK_RIGHT_POSITION = 0.5725;
 
     // speed used for turning the turret
     public static final double TURRET_TURNING_SPEED = 0.4;
@@ -121,7 +131,7 @@ public final class Constants {
     public static final double JOYSTICK_TURRET_DEADBAND = 0.1;
 
     // deadband for the turret set position commands
-    public static final double TURRET_DEADBAND = 0.001;
+    public static final double TURRET_DEADBAND = 0.01;
 
     // [-------------------TURRET--------------------------]
 
@@ -144,7 +154,7 @@ public final class Constants {
     public static final double KSVOLTS = 0.411;//0.22; //0.073 //0.22
     public static final double KVVOLT = 0.227; //0.289; //0.234; // seconds per meter 0.289
     public static final double KAVOLT = 0.0249;//0.06; //0.0161 //this is in seconds squared per meter 0.06
-    public static final double KMAXSPEED = 3; //in meters per second
+    public static final double KMAXSPEED = 3.5;//3; //in meters per second
     public static final double KMAXACCELERATION = 3; //in meters per seconds squared //Originally 0.5
     //gyro values
     public static final double KRAMSETEB = 2;
