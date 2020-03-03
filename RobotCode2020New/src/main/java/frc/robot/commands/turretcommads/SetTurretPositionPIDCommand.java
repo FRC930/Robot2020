@@ -47,8 +47,8 @@ public class SetTurretPositionPIDCommand extends PIDCommand {
                     speed = -Constants.TURRET_MAX_SET_POSITION_SPEED;
                 }
 
-                System.out.println("SETTING SPEED: " + speed);
-                turretSubsystem.setSpeed(speed);
+                //System.out.println("SETTING SPEED: " + speed);
+                turretSubsystem.setSpeed(-speed);
             },
 
             turretSubsystem);
