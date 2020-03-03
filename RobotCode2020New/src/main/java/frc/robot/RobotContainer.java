@@ -305,6 +305,8 @@ public class RobotContainer {
       JoystickButton toggleAngle = new JoystickButton(driverController, GC_ZL);
       // ZR Button
       JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+      // R Button\
+      JoystickButton endgameClampButton = new JoystickButton(driverController, GC_R);
 
       // --Command binds
 
@@ -324,6 +326,9 @@ public class RobotContainer {
       
       // Endgame command binds
       toggleEndgame.toggleWhenActive(new ToggleShiftCommand(driveSubsystem));
+
+      // Toggle endgame clamp
+      endgameClampButton.toggleWhenActive(new ToggleEndgameClampCommand(driveSubsystem));
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 

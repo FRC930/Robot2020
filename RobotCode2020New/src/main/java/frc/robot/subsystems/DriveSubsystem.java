@@ -46,6 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
   private PigeonIMU gyro;
 
   private Solenoid shifter;
+  private Solenoid endgameClamp;
 
   // Values, used to store the yaw, pitch, and roll (the robot's rotation)
   private double yawPitchRollValues[] = new double[3];
@@ -81,6 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(gyroTalon);
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
+    endgameClamp = new Solenoid(Constants.ENDGAME_CLAMP_ID);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
 
@@ -111,11 +113,17 @@ public class DriveSubsystem extends SubsystemBase {
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
     shifter.set(true);
+    endgameClamp.set(true);
   }
 
   public void setShifterState(boolean state) {
     logger.log(Constants.LOG_LEVEL_FINE, "New shifter state: " + state);
     shifter.set(state);
+  }
+
+  public void setEndgameClampState(boolean state) {
+    logger.log(Constants.LOG_LEVEL_FINE, "Endgame clamp state: " + state);
+    endgameClamp.set(state);
   }
 
   /**
