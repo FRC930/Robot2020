@@ -11,7 +11,6 @@ import frc.robot.commands.autocommands.paths.*;
 import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
 
-
 import frc.robot.commands.drivecommands.*;
 
 import frc.robot.commands.hoppercommands.*;
@@ -19,6 +18,7 @@ import frc.robot.commands.hoppercommands.*;
 import frc.robot.commands.intakecommands.*;
 
 import frc.robot.commands.kickercommands.*;
+import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.limelightcommands.*;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.*;
@@ -153,7 +153,7 @@ public class RobotContainer {
   private final KickerSubsystem kickerSubsystem;
 
   // --LED subsystems
-  // private final LEDSubsystem ledSubsystem;
+  private final LEDSubsystem ledSubsystem;
 
   // --Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
@@ -166,9 +166,6 @@ public class RobotContainer {
 
   // --Turret subsystem
   private final TurretSubsystem turretSubsystem;
-
-  // --LED subsystem
-  LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   // -------- COMMANDS --------\\
 
@@ -183,7 +180,11 @@ public class RobotContainer {
   private final DefaultStopHopperCommand defaultStopHopperCommand;
 
   // --LED commands
-  // TODO: Add LED commands here
+  private final AutonLEDs autonLEDs;
+  private final EndgameLEDs endgameLEDs;
+  private final IdleLEDs idleLEDs;
+  private final IntakeLEDs intakeLEDs;
+  private final ShooterLEDs shooterLEDs;
 
   // --Shooter commands
   // --Flywheel commands
@@ -220,7 +221,7 @@ public class RobotContainer {
 
     climberArmSubsystem = new ClimberArmSubsystem();
 
-    // ledSubsystem = new LEDSubsystem();
+    ledSubsystem = new LEDSubsystem();
 
     limelightSubsystem = new LimelightSubsystem();
 
@@ -245,7 +246,11 @@ public class RobotContainer {
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, stopHopperStateCommand);
 
     // leds
-    // TODO: Add LED commands here
+    autonLEDs = new AutonLEDs(ledSubsystem);
+    endgameLEDs = new EndgameLEDs(ledSubsystem);
+    idleLEDs = new IdleLEDs(ledSubsystem);
+    intakeLEDs = new IntakeLEDs(ledSubsystem);
+    shooterLEDs = new ShooterLEDs(ledSubsystem);
 
     // Flywheel
     defaultFlywheelCommand = new DefaultFlywheelCommand(flywheelSubsystem);
@@ -318,12 +323,12 @@ public class RobotContainer {
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //Shooter command binds
-      shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, shootButton));
+      shootButton.whileActiveOnce(new ParallelCommandGroup(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, shootButton), shooterLEDs));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
       // Endgame command binds
-      toggleEndgame.toggleWhenActive(new ToggleShiftCommand(driveSubsystem));
+      toggleEndgame.toggleWhenActive(new ParallelCommandGroup(new ToggleShiftCommand(driveSubsystem), endgameLEDs));
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
@@ -393,7 +398,7 @@ public class RobotContainer {
     endgameSafetyButton.whileActiveOnce(climberArmCommandGroup);
 
     // Toggle intake
-    intakeAxisTrigger.toggleWhenActive(new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem))
+    intakeAxisTrigger.toggleWhenActive(new ParallelCommandGroup(new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem), intakeLEDs))
         .whenInactive(new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem));
 
     JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_B);
@@ -404,7 +409,7 @@ public class RobotContainer {
     AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);// .and(inManualModeTrigger);
     // manual flywheel piston stuff
     manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
-    reverseHopperButton.whileActiveOnce(new StopHopperCommand(hopperSubsystem, reverseHopperButton));
+    reverseHopperButton.whileActiveOnce(new StopHopperStateCommand());
     killHopperButton.whileActiveOnce(new InstantCommand(() -> JamState.getInstance().invertState()));
     
 
@@ -425,6 +430,7 @@ public class RobotContainer {
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
       scheduler.setDefaultCommand(limelightSubsystem, new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
+      scheduler.setDefaultCommand(ledSubsystem, idleLEDs);
     }
 
   }
