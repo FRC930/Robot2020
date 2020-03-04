@@ -29,6 +29,8 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
+import frc.robot.commands.shootercommands.flywheelcommands.DefaultFlywheelCommand;
+
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
 
@@ -189,13 +191,14 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new StopDriveCommand(dSubsystem),
         new AutoTurretTurnCommand(turSubsystem),
         new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
-        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)),
+        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem),new DefaultFlywheelCommand(fSubsystem)),
         new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
         ramseteCommand3,
         new StopDriveCommand(dSubsystem),
         new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
         new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)), 
-        new StopTowerKickerCommandGroup(towSubsystem, kSubsystem)
+        new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
+        new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem)
         );
         //returnIntakeCommand);
     }
