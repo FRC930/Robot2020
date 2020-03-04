@@ -11,13 +11,15 @@ import frc.robot.commands.autocommands.paths.*;
 import frc.robot.commands.colorwheelcommands.*;
 import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
 
-
 import frc.robot.commands.drivecommands.*;
 
 import frc.robot.commands.hoppercommands.*;
 
 import frc.robot.commands.intakecommands.*;
-
+import frc.robot.commands.intakecommands.intakemotorcommands.RunIntakeMotorsCommand;
+import frc.robot.commands.intakecommands.intakemotorcommands.StopIntakeMotorsCommand;
+import frc.robot.commands.intakecommands.intakepistoncommands.ExtendIntakePistonCommand;
+import frc.robot.commands.intakecommands.intakepistoncommands.RetractIntakePistonCommand;
 import frc.robot.commands.kickercommands.*;
 import frc.robot.commands.limelightcommands.*;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
@@ -311,6 +313,8 @@ public class RobotContainer {
       JoystickButton toggleAngle = new JoystickButton(driverController, GC_ZL);
       // ZR Button
       JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+      // R Button
+      JoystickButton endgameClampButton = new JoystickButton(driverController, GC_R);
 
       // codriver stop jam button
       JoystickButton stopJamButton = new JoystickButton(coDriverController, XB_X);
@@ -334,7 +338,10 @@ public class RobotContainer {
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
       // Endgame command binds
-      toggleEndgame.toggleWhenActive(new ToggleShiftCommand(driveSubsystem));
+      toggleEndgame.toggleWhenActive(new EndgameCommandGroup(driveSubsystem, flywheelSubsystem));
+
+      // Toggle endgame clamp
+      endgameClampButton.toggleWhenActive(new ToggleEndgameClampCommand(driveSubsystem));
 
       // ---- BUTTONS AND TRIGGERS (MANUAL) ----\\
 
@@ -356,7 +363,7 @@ public class RobotContainer {
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
       // ZL Button
-      AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);// .and(inManualModeTrigger);
+      //AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);// .and(inManualModeTrigger);
 
       // --Command binds
 
@@ -371,7 +378,7 @@ public class RobotContainer {
       // manual flywheel spinning
       manualFlywheelButton.whenActive(new RunFlywheelCommand(flywheelSubsystem, 0.7)).whenInactive(new StopFlywheelCommand(flywheelSubsystem));
       // manual flywheel piston stuff
-      manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
+      //manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
 
       reverseHopperButton.whileActiveOnce(new ReverseHopperCommand(hopperSubsystem, reverseHopperButton));
       // manual
@@ -387,7 +394,7 @@ public class RobotContainer {
     // --Buttons
 
     AxisTrigger intakePistonTrigger = new AxisTrigger(coDriverController, XB_AXIS_RT);
-    AxisTrigger intakeMotorTrigger = new AxisTrigger(coDriverController, XB_AXIS_RIGHT_Y);
+    AxisTrigger intakeMotorTrigger = new AxisTrigger(coDriverController, XB_AXIS_LT);
 
     JoystickButton autoTrackTurret = new JoystickButton(coDriverController, XB_LB);
     JoystickButton endgameSafetyButton = new JoystickButton(coDriverController, XB_RB);
@@ -425,9 +432,11 @@ public class RobotContainer {
     // intakePistonTrigger.toggleWhenActive(new ManualIntakeCommandGroup(intakeMotorSubsystem, intakePistonSubsystem, coDriverController, XB_AXIS_RIGHT_Y))
     //     .whenInactive(new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem));
 
-    intakePistonTrigger.toggleWhenActive(new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem))
-        .whenInactive(new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem));//.and(intakeMotorTrigger.negate());
+    // intakePistonTrigger.toggleWhenActive(new DeployIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem))
+    //     .whenInactive(new ReturnIntakeCommand(intakePistonSubsystem, intakeMotorSubsystem));//.and(intakeMotorTrigger.negate());
     //intakePistonTrigger.whenActive(new ManualIntakeCommand(intakeMotorSubsystem, coDriverController, XB_AXIS_RIGHT_Y));
+    intakePistonTrigger.toggleWhenActive(new ExtendIntakePistonCommand(intakePistonSubsystem)).whenInactive(new RetractIntakePistonCommand(intakePistonSubsystem));
+    intakeMotorTrigger.toggleWhenActive(new RunIntakeMotorsCommand(intakeMotorSubsystem)).whenInactive(new StopIntakeMotorsCommand(intakeMotorSubsystem));
 
   } // end of method configureCodriverBindings()
 

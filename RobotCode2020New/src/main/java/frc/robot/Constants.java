@@ -53,6 +53,7 @@ public final class Constants {
     public static final int INTAKE_SOLENOID_ID = 0;
     public static final int SHOOTER_SOLENOID_ID = 1;
     public static final int SHIFTER_SOLENOID_ID = 2;
+    public static final int ENDGAME_CLAMP_ID = 3;
 
     public static final int COMPRESSOR_PORT = 0;
 
