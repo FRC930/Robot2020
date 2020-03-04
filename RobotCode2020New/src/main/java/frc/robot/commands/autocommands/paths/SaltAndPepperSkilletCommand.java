@@ -29,9 +29,8 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
-import frc.robot.commands.shootercommands.flywheelcommands.DefaultFlywheelCommand;
-
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.commands.hoppercommands.SetAutonomousHopperCommand;
 import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
 
 import frc.robot.commands.drivecommands.StopDriveCommand;
@@ -40,7 +39,6 @@ import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.Constants;
 
@@ -100,7 +98,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
             // Midpoints
         ),
         // return to intial position
-        new Pose2d(inchesToMeters(-20), inchesToMeters(-20), new Rotation2d(Math.toRadians(15))),
+        new Pose2d(inchesToMeters(0), inchesToMeters(-20), new Rotation2d(Math.toRadians(15))),
         // uses the second config
         reverseConfig
     );
@@ -191,11 +189,13 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new StopDriveCommand(dSubsystem),
         new AutoTurretTurnCommand(turSubsystem),
         new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
-        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem),new DefaultFlywheelCommand(fSubsystem)),
+        //new WaitCommand(1),
+        new ParallelRaceGroup(new WaitCommand(2), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)),
         new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
-        ramseteCommand3,
+        new ParallelRaceGroup(ramseteCommand3, new SetAutonomousHopperCommand(hSubsystem)),
         new StopDriveCommand(dSubsystem),
         new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
+        //new WaitCommand(1),
         new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)), 
         new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
         new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem)

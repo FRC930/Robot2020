@@ -54,10 +54,10 @@ public class SetTurretPositionCommand extends CommandBase {
             logger.log(Level.INFO, "| turretPosition - targetPosition | >  Constants.TURRET_DEADBAND("+Constants.TURRET_DEADBAND+")");
             if(turretPosition < targetPosition) {
                 logger.log(Level.INFO, "seting 'speed' to -Constants.TURRET_TURNING_SPEED("+-Constants.TURRET_TURNING_SPEED+")");
-                speed = Constants.TURRET_TURNING_SPEED;
+                speed = -Constants.TURRET_TURNING_SPEED;
             } else if(turretPosition > targetPosition) {
                 logger.log(Level.INFO, "seting 'speed' to Constants.TURRET_TURNING_SPEED("+Constants.TURRET_TURNING_SPEED+")");
-                speed = -Constants.TURRET_TURNING_SPEED;
+                speed = Constants.TURRET_TURNING_SPEED;
             }  
         } else {
             logger.log(Level.INFO, "| turretPosition - targetPosition | <  Constants.TURRET_DEADBAND("+Constants.TURRET_DEADBAND+")");
@@ -76,7 +76,7 @@ public class SetTurretPositionCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return speed == 0;
     }
 } // end of class TurretBackCommand 
 

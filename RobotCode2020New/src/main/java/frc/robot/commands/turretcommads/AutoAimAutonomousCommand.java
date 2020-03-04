@@ -31,6 +31,7 @@ public class AutoAimAutonomousCommand extends PIDCommand {
     private LimelightSubsystem limelight;
     private TurretSubsystem turretSubsystem;
     private double stickX;
+    private int counter;
     private final int LEDS_ON = 3;
 
     // -------- CONSTRUCTOR --------\\
@@ -67,6 +68,8 @@ public class AutoAimAutonomousCommand extends PIDCommand {
                     }
                     SmartDashboard.putNumber("controller", output);
 
+                    
+
                     if(Math.abs(limelight.getHorizontalOffset()) < 27) {
                             turret.setSpeed(output);
                         
@@ -78,12 +81,13 @@ public class AutoAimAutonomousCommand extends PIDCommand {
         logger.entering(AutoAimAutonomousCommand.class.getName(), "AutoAimTurretCommand");
         this.limelight = limelight;
         this.turretSubsystem = turret;
+        counter = 0;
 
         // Enable the controller to continuously get input
         this.getController().enableContinuousInput(-27, 27);
 
         // Set the tolerance of the controller
-        this.getController().setTolerance(0.4);
+        this.getController().setTolerance(0.2);
 
         // Require the subsystems that we need
         addRequirements(limelight, turret);
@@ -98,13 +102,18 @@ public class AutoAimAutonomousCommand extends PIDCommand {
 
     @Override
     public boolean isFinished() {
+
         double offset = limelight.getHorizontalOffset();
         boolean inRange = false;
 
-        if(Math.abs(offset) < 0.4) {
-            inRange = true;
+        if(Math.abs(offset) < 1.5) {
+            counter++;
+            if(counter >= 10) {
+                inRange = true;
+            }
         } 
         else {
+            counter = 0;
             inRange = false;
         }
 

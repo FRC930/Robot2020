@@ -7,37 +7,40 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.kickercommands;
+package frc.robot.commands.towercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.KickerSubsystem;
+
+import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class StopKickerCommand extends CommandBase {
+public class ReverseTowerCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
-    private KickerSubsystem kickerSubsystem;
+    private TowerSubsystem towerSubsystem;
 
-    //-------- CONSTRUCTOR --------\\
+    // -------- CONSTRUCTOR --------\\
 
-    public StopKickerCommand(KickerSubsystem kSubsystem) {
-        kickerSubsystem = kSubsystem;
-        addRequirements(kSubsystem);
+    public ReverseTowerCommand(TowerSubsystem towerSubsystem) {
+        this.towerSubsystem = towerSubsystem;
+        addRequirements(towerSubsystem);
     }
 
-    //-------- METHODS --------\\
+    // -------- METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        kickerSubsystem.stopMotor();
+        towerSubsystem.setSpeed(Constants.TOWER_REVERSE_SPEED);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
-} // end of class StopKickerCommand
+
+} // end of class RunTowerCommand

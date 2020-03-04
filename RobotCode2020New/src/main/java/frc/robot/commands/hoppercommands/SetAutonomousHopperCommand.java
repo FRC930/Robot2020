@@ -9,50 +9,38 @@
 
 package frc.robot.commands.hoppercommands;
 
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class StopHopperStateCommand extends CommandBase {
+public class SetAutonomousHopperCommand extends CommandBase {
 
     // -------- DECLARATIONS --------\\
-    private boolean state;
+    private HopperSubsystem m_HopperSubsystem;
 
-    // private
     // -------- CONSTRUCTOR --------\\
 
-    public StopHopperStateCommand() {
-        state = false;
+    public SetAutonomousHopperCommand(HopperSubsystem HopperSubsystem) {
+        m_HopperSubsystem = HopperSubsystem;
+        addRequirements(m_HopperSubsystem);
     }
 
-    //-------- METHODS --------\\    
+    // -------- METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        System.out.println("Hopper state: " + state);
-        state = !state;
+        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED);
     }
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {     
-
-    }
-
-    public boolean getState()
-    {
-        return state;
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-    }
-
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return false;
     }
-} //end of class StopHopperStateCommand
+} // end of class SetAuonomousHopperCommand

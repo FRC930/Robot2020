@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 //import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -106,7 +107,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public boolean isShooterUpToSpeed(){
-        if (getPercentOutput() >= Constants.FLYWHEEL_SPEED){
+        if (getPercentOutput() >= Constants.FLYWHEEL_TELEOP_SPEED){
             return true;
         }
         else{
@@ -120,6 +121,7 @@ public class FlywheelSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        System.out.println("flywheel speed " + getSpeed());
         shuffleboardUtility.setShooterRPM(getSpeed());
         shuffleboardUtility.setShootIndicator(isShooterUpToSpeed());
     }
