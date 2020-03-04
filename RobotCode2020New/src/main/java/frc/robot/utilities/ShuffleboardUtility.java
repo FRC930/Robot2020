@@ -14,6 +14,7 @@ import java.util.Map;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.autocommands.paths.SaltAndPepperSkilletCommand;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
@@ -51,6 +52,7 @@ public class ShuffleboardUtility {
     private boolean saltAndPepper;
     private boolean cheesyDenver;
     private boolean caliAvocado;
+    private double shootSpeed;
     private ShuffleboardTab testDebugTab;
     private ShuffleboardTab driverStationTab;
     private ShuffleboardTab autoTab;
@@ -69,6 +71,7 @@ public class ShuffleboardUtility {
     private NetworkTableEntry saltAndPepperEntry;
     private NetworkTableEntry cheesyDenverEntry;
     private NetworkTableEntry caliAvocadoEntry;
+    private NetworkTableEntry shooterSetEntry;
 
     //-------- CONSTRUCTOR --------\\
 
@@ -95,6 +98,7 @@ public class ShuffleboardUtility {
         kD = 0.0;
         kF = 0.0;
         kSetpoint = 0.0;
+        shootSpeed = Constants.FLYWHEEL_TELEOP_SPEED;
         saltAndPepper = false;
         cheesyDenver = false;
         caliAvocado = false;
@@ -116,6 +120,7 @@ public class ShuffleboardUtility {
         saltAndPepperEntry = autoTab.add("Salt and Pepper Skillet", saltAndPepper).getEntry();
         cheesyDenverEntry = autoTab.add("Cheesy Denver Skillet", cheesyDenver).getEntry();
         caliAvocadoEntry = autoTab.add("Cali Avocado Skillet", caliAvocado).getEntry();
+        shooterSetEntry = driverStationTab.add("set Shooter DEFUALT IS 0.8",shootSpeed).getEntry();
     }
 
     private static ShuffleboardUtility instance = null;
@@ -134,31 +139,38 @@ public class ShuffleboardUtility {
 	public void setIntakeIndicator(boolean IntakeIndicator){
 		intakeIndicator = IntakeIndicator;
         intakingEntry.setBoolean(intakeIndicator);
-	}
+    }
+    
 	public void setShootIndicator(boolean ShootIndicator){
 		shootIndicator = ShootIndicator;
 		shootingEntry.setBoolean(shootIndicator);
     }
+
     public void setManualMode(boolean ManualMode){
         manualMode = ManualMode;
         manualModeEntry.setBoolean(manualMode);
     }
+
 	public void setDistanceFromTarget(double DistanceFromTarget){
 		distanceFromTarget = DistanceFromTarget;
         distanceFromTargetEntry.setNumber(distanceFromTarget);
     }
+
     // TODO: find method for shot types
 	public void setShotType(String ShotType){
 		shotType = ShotType;
 		shotTypeEntry.setString(shotType);
     }
+
     public void setHopperFeed(){
         
     }
+
     public void setShooterUpToSpeed(boolean ShooterUpToSpeed){
         shooterUpToSpeed = ShooterUpToSpeed;
         shooterUpToSpeedEntry.setBoolean(shooterUpToSpeed);
     }
+
     // public String getFMSColor(){
 	// 	fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
 	// 	return fmsColor;
@@ -170,30 +182,41 @@ public class ShuffleboardUtility {
         turretSpeed = TurretSpeed;
         turretSpeedEntry.setNumber(turretSpeed);
     }
+
     public void setHopperSpeed(double HopperSpeed){
         hopperSpeed = HopperSpeed;
         hopperSpeedEntry.setNumber(hopperSpeed);
     }
+
     public void setShooterAngle(boolean ShooterAngle){
         shooterAngle = ShooterAngle;
         shooterAngleEntry.setBoolean(shooterAngle);
     }
+
 	// public void getLogger(String logger){
 	// 	this.logger = logger;
 	// 	SmartDashboard.putString("Logger Level", logger);
-	// }
+    // }
+    
 	public void setShooterRPM(double ShooterRPM){
 		shooterRPM = ShooterRPM;
 		shooterRPMEntry.setNumber(shooterRPM);
-	}
+    }
+    
 	public void setTurretEncoderPosition(double TurretEncoderPosition){
 		turretEncoderPosition = TurretEncoderPosition;
 		turretEncoderPositionEntry.setNumber(turretEncoderPosition);
     }
+
     public void setGyroYaw(double GyroYaw){
         gyroYaw = GyroYaw;
         gyroYawEntry.setNumber(gyroYaw);
     }
+
+    public double getShooterSpeed(){
+        return shooterSetEntry.getDouble(shootSpeed);
+    }
+
     // TODO: figure out how to get PID values into code
     // public String getShooterP(){
     //     //  return string : set to error string, changes to valid string if object is found.

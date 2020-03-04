@@ -36,7 +36,9 @@ import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
 import frc.robot.commands.drivecommands.StopDriveCommand;
 import frc.robot.commands.turretcommads.AutoAimAutonomousCommand;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
-
+import frc.robot.commands.shootercommands.flywheelcommands.DefaultFlywheelCommand;
+import frc.robot.commands.hoppercommands.DefaultHopperCommand;
+import frc.robot.commands.hoppercommands.StopHopperStateCommand;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -46,6 +48,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     /**
    * Creates a new Autonomous.
    */
+  private final double AUTO_SHOOTER_SPEED = 0.6;
     public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, IntakePistonSubsystem iPistonSubsystem, 
     IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem towSubsystem, HopperSubsystem hSubsystem, 
     KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fPistonSubsystem,TurretSubsystem turSubsystem){
@@ -189,16 +192,16 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new StopDriveCommand(dSubsystem),
         new AutoTurretTurnCommand(turSubsystem),
         new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
-        //new WaitCommand(1),
         new ParallelRaceGroup(new WaitCommand(2), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)),
         new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
         new ParallelRaceGroup(ramseteCommand3, new SetAutonomousHopperCommand(hSubsystem)),
         new StopDriveCommand(dSubsystem),
         new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
-        //new WaitCommand(1),
-        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)), 
+        new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem), new DefaultFlywheelCommand(fSubsystem, AUTO_SHOOTER_SPEED)), 
         new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
-        new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem)
+        new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem),
+        new DefaultHopperCommand(hSubsystem, new StopHopperStateCommand()),
+        new DefaultFlywheelCommand(fSubsystem, AUTO_SHOOTER_SPEED)
         );
         //returnIntakeCommand);
     }
