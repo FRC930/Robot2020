@@ -338,7 +338,7 @@ public class RobotContainer {
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
       // Endgame command binds
-      toggleEndgame.toggleWhenActive(new EndgameCommandGroup(driveSubsystem, flywheelSubsystem));
+      toggleEndgame.toggleWhenActive(new EndgameCommandGroup(driveSubsystem, flywheelSubsystem, turretSubsystem));
 
       // Toggle endgame clamp
       endgameClampButton.toggleWhenActive(new ToggleEndgameClampCommand(driveSubsystem));
