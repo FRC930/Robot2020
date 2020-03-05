@@ -10,19 +10,20 @@
 package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.HopperSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class StopHopperStateCommand extends CommandBase {
+public class StopHopperCommand extends CommandBase {
 
     // -------- DECLARATIONS --------\\
-    private boolean state;
+    HopperSubsystem hopperSubsystem;
 
     // private
     // -------- CONSTRUCTOR --------\\
 
-    public StopHopperStateCommand() {
-        state = false;
+    public StopHopperCommand(HopperSubsystem hopperSubsystem) {
+        this.hopperSubsystem = hopperSubsystem;
     }
 
     //-------- METHODS --------\\    
@@ -31,18 +32,13 @@ public class StopHopperStateCommand extends CommandBase {
     @Override
     public void initialize() {
         //System.out.println("Hopper state: " + state);
-        state = !state;
+        hopperSubsystem.setSpeed(0.0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {     
 
-    }
-
-    public boolean getState()
-    {
-        return state;
     }
 
     // Called once the command ends or is interrupted.
@@ -53,6 +49,6 @@ public class StopHopperStateCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 } //end of class StopHopperStateCommand

@@ -46,7 +46,7 @@ public class EndgameCommandGroup extends SequentialCommandGroup {
         addCommands(
             new ToggleShiftCommand(driveSubsystem),
             new KillFlywheelCommand(flywheelSubsystem),
-            new SetTurretPositionCommand(turretSubsystem, Constants.TURRET_FRONT_POSITION)
+            new SetTurretPositionCommand(turretSubsystem, Constants.TURRET_RIGHT_POSITION)
         );
        
     } // end of the constructor EndgameCommandGroup

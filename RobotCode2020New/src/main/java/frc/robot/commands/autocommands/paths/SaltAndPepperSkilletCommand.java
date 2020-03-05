@@ -31,12 +31,14 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.commands.hoppercommands.SetAutonomousHopperCommand;
+import frc.robot.commands.hoppercommands.StopHopperCommand;
 import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
 
 import frc.robot.commands.drivecommands.StopDriveCommand;
 import frc.robot.commands.turretcommads.AutoAimAutonomousCommand;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.DefaultFlywheelCommand;
+import frc.robot.commands.shootercommands.flywheelcommands.RunFlywheelAutoCommand;
 import frc.robot.commands.hoppercommands.DefaultHopperCommand;
 import frc.robot.commands.hoppercommands.StopHopperStateCommand;
 
@@ -48,7 +50,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     /**
    * Creates a new Autonomous.
    */
-  private final double AUTO_SHOOTER_SPEED = 0.6;
+  private final double AUTO_SHOOTER_SPEED = 0.8;
     public SaltAndPepperSkilletCommand(DriveSubsystem dSubsystem, IntakePistonSubsystem iPistonSubsystem, 
     IntakeMotorSubsystem iMotorSubsystem, FlywheelSubsystem fSubsystem, TowerSubsystem towSubsystem, HopperSubsystem hSubsystem, 
     KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fPistonSubsystem,TurretSubsystem turSubsystem){
@@ -88,7 +90,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
             // Midpoints
         ),
         //this is our end point we end our first trajectory at X: 80 inches Y:-80 inches and -65 degrees from orgin
-        new Pose2d(inchesToMeters(115), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))),
+        new Pose2d(inchesToMeters(130), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))),
         // Pass config
         config
     );
@@ -96,7 +98,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     //this is our second trajectory it should be a inverse of the first one
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Starts X: 0 inches Y: 0 inches and -65 degrees 
-        new Pose2d(inchesToMeters(115), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))), //-65
+        new Pose2d(inchesToMeters(130), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))), //-65
         List.of( 
             // Midpoints
         ),
@@ -185,7 +187,10 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     */
 
         // add commands here to run during auto
-        addCommands(new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem),
+        addCommands(
+            // not sure why we had to do this; default command should do this
+            new RunFlywheelAutoCommand(fSubsystem, AUTO_SHOOTER_SPEED),
+            new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem),
         ramseteCommand1,
         new StopDriveCommand(dSubsystem),
         ramseteCommand2,
@@ -200,8 +205,9 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new ParallelRaceGroup(new WaitCommand(1.5), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem), new DefaultFlywheelCommand(fSubsystem, AUTO_SHOOTER_SPEED)), 
         new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
         new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem),
-        new DefaultHopperCommand(hSubsystem, new StopHopperStateCommand()),
-        new DefaultFlywheelCommand(fSubsystem, AUTO_SHOOTER_SPEED)
+        
+        // not sure why we had to do this; default command should do this
+        new StopHopperCommand(hSubsystem)
         );
         //returnIntakeCommand);
     }

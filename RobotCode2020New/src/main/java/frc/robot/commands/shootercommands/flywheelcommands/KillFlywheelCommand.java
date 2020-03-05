@@ -12,6 +12,7 @@ package frc.robot.commands.shootercommands.flywheelcommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- COMMAND CLASS --------\\
 
@@ -20,16 +21,18 @@ public class KillFlywheelCommand extends CommandBase {
     // -------- DECLARATIONS --------\\
 
     private FlywheelSubsystem m_FlywheelSubsystem;
-
+    private boolean state;
     private CommandScheduler scheduler;
+    private ShuffleboardUtility shuffleboardUtility;
 
     // -------- CONSTRUCTOR --------\\
 
     public KillFlywheelCommand(FlywheelSubsystem flywheelSubsystem) {
         m_FlywheelSubsystem = flywheelSubsystem;
         addRequirements(m_FlywheelSubsystem);
-
+        state = false;
         scheduler = CommandScheduler.getInstance();
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     //-------- COMMANDBASE METHODS --------\\
@@ -37,10 +40,16 @@ public class KillFlywheelCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_FlywheelSubsystem.setSpeed(0.0);
-
-        //Kil default command
         scheduler.unregisterSubsystem(m_FlywheelSubsystem);
+        
+        state = !state;
+        if(state){
+            m_FlywheelSubsystem.setSpeed(0.0);
+        }
+        else{
+            //Kil default command
+            m_FlywheelSubsystem.setSpeed(shuffleboardUtility.getShooterSpeed());
+        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
