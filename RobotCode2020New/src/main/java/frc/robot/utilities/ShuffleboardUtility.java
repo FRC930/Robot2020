@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.autocommands.paths.SaltAndPepperSkilletCommand;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -124,7 +125,7 @@ public class ShuffleboardUtility {
     }
 
     private static ShuffleboardUtility instance = null;
-
+    
 	// Singleton
     public static ShuffleboardUtility getInstance() {
         if (instance == null){
@@ -216,7 +217,7 @@ public class ShuffleboardUtility {
     public double getShooterSpeed(){
         return shooterSetEntry.getDouble(shootSpeed);
     }
-
+    
     // TODO: figure out how to get PID values into code
     // public String getShooterP(){
     //     //  return string : set to error string, changes to valid string if object is found.

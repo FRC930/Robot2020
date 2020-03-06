@@ -29,6 +29,7 @@ import frc.robot.commands.shootercommands.pistoncommands.*;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 import frc.robot.commands.shootercommands.StopJamCommandGroup;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.commands.towercommands.*;
 
@@ -202,6 +203,8 @@ public class RobotContainer {
   // --Utilities
   private final ShuffleboardUtility shuffleboardUtility;
 
+  private SendableChooser<Command> sendableChooser;
+
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
@@ -262,6 +265,8 @@ public class RobotContainer {
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
+    //sendableChooser.addOption("salt and pepper",new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem));
+    //sendableChooser.addOption("none",null);
 
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
@@ -484,6 +489,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem);
+    //sendableChooser.getSelected();
     // Run path following command, then stop at the end.
   }
 

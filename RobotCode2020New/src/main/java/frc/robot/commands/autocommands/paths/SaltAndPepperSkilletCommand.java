@@ -90,7 +90,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
             // Midpoints
         ),
         //this is our end point we end our first trajectory at X: 80 inches Y:-80 inches and -65 degrees from orgin
-        new Pose2d(inchesToMeters(130), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))),
+        new Pose2d(inchesToMeters(130), inchesToMeters(-115), new Rotation2d(Math.toRadians(-65))), //y is -135
         // Pass config
         config
     );
@@ -98,7 +98,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
     //this is our second trajectory it should be a inverse of the first one
     Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
         // Starts X: 0 inches Y: 0 inches and -65 degrees 
-        new Pose2d(inchesToMeters(130), inchesToMeters(-135), new Rotation2d(Math.toRadians(-65))), //-65
+        new Pose2d(inchesToMeters(130), inchesToMeters(-115), new Rotation2d(Math.toRadians(-65))), //-65
         List.of( 
             // Midpoints
         ),
@@ -110,12 +110,12 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
 
     Trajectory trajectory3 = TrajectoryGenerator.generateTrajectory(
         // Robot starts at X: 0 Y: 0 and a rotation of 0 
-        new Pose2d(inchesToMeters(-20), inchesToMeters(-20), new Rotation2d(Math.toRadians(15))),
+        new Pose2d(inchesToMeters(0), inchesToMeters(-20), new Rotation2d(Math.toRadians(15))),//set x to 0 was -20
         List.of( 
             // Midpoints
         ),
         //this is our end point we end our first trajectory at X: 80 inches Y:-80 inches and -65 degrees from orgin
-        new Pose2d(inchesToMeters(240), inchesToMeters(-20), new Rotation2d(Math.toRadians(0))),
+        new Pose2d(inchesToMeters(240), inchesToMeters(0), new Rotation2d(Math.toRadians(0))), //Y: -20
         // Pass config
         config
     );
@@ -188,9 +188,9 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
 
         // add commands here to run during auto
         addCommands(
-            // not sure why we had to do this; default command should do this
-            new RunFlywheelAutoCommand(fSubsystem, AUTO_SHOOTER_SPEED),
-            new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem),
+        // not sure why we had to do this; default command should do this
+        new RunFlywheelAutoCommand(fSubsystem, AUTO_SHOOTER_SPEED),
+        new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem),
         ramseteCommand1,
         new StopDriveCommand(dSubsystem),
         ramseteCommand2,
@@ -198,6 +198,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new AutoTurretTurnCommand(turSubsystem),
         new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
         new ParallelRaceGroup(new WaitCommand(2), new ShootPowerCellCommandGroup(fSubsystem, towSubsystem, hSubsystem, kSubsystem, lLightSubsystem, fPistonSubsystem)),
+        new RunFlywheelAutoCommand(fSubsystem, Constants.FLYWHEEL_TELEOP_SPEED),
         new StopTowerKickerCommandGroup(towSubsystem, kSubsystem),
         new ParallelRaceGroup(ramseteCommand3, new SetAutonomousHopperCommand(hSubsystem)),
         new StopDriveCommand(dSubsystem),

@@ -140,6 +140,11 @@ public class DriveSubsystem extends SubsystemBase {
     logger.log(Constants.LOG_LEVEL_FINE, "New left speed: " + leftSpeed + "|| New right speed: " + rightSpeed);
     logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getLeftWheelRotations() + " | right encoder " + getRightWheelRotations());
 
+    if(!shifter.get()) {
+      leftSpeed *= 0.3;
+      rightSpeed *= 0.3;
+    }
+    
     left1.set(leftSpeed);
     right1.set(rightSpeed);
 
