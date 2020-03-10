@@ -462,7 +462,7 @@ public class RobotContainer {
     scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);//new AutoAimTurretCommand(limelightSubsystem, turretSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D), coDriverController, XB_AXIS_LEFT_X));
     scheduler.setDefaultCommand(driveSubsystem, driveCommand);
     scheduler.setDefaultCommand(hopperSubsystem, defaultStopHopperCommand);
-    scheduler.setDefaultCommand(flywheelSubsystem, new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_AUTON_SPEED));
+    scheduler.setDefaultCommand(flywheelSubsystem, new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_TELEOP_SPEED));
     scheduler.setDefaultCommand(limelightSubsystem, new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
 
   }
