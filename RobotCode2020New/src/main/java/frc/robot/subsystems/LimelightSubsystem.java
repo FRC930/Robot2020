@@ -210,22 +210,22 @@ public class LimelightSubsystem extends SubsystemBase {
         limelightTable.getEntry("ledMode").setNumber(mode);
     }
 
-    @Override
-    public void periodic() {    
+    // @Override
+    // public void periodic() {    
 
-        if(getDistance() > DISTANCE_THRESHOLD) {
-            setPipeline(LimelightPipelines.ZOOM_2X);
-        } else {
-            setPipeline(LimelightPipelines.NO_ZOOM);
-        }
+    //     // if(getDistance() > DISTANCE_THRESHOLD) {
+    //     //     setPipeline(LimelightPipelines.ZOOM_2X);
+    //     // } else {
+    //     //     setPipeline(LimelightPipelines.NO_ZOOM);
+    //     // }
 
-        SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
-        SmartDashboard.putNumber("verical offset", getVerticleOffset());
-        SmartDashboard.putBoolean("valid targets", getValidTargets());
-        SmartDashboard.putNumber("distance", getDistance());
-        SmartDashboard.putString("pipeline", getPipeline());
+    //     // SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
+    //     // SmartDashboard.putNumber("verical offset", getVerticleOffset());
+    //     // SmartDashboard.putBoolean("valid targets", getValidTargets());
+    //     // SmartDashboard.putNumber("distance", getDistance());
+    //     // SmartDashboard.putString("pipeline", getPipeline());
 
-        shuffleboardUtility.setDistanceFromTarget(getDistance());
-    }
+    //     // shuffleboardUtility.setDistanceFromTarget(getDistance());
+    // }
 
 } // end of class LimelightSubsystem

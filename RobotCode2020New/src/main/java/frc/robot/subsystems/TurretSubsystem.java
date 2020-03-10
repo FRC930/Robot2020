@@ -107,9 +107,9 @@ public class TurretSubsystem extends SubsystemBase {
     //     super.periodic();
     // }
 
-    @Override
-    public void periodic() {
-        shuffleboardUtility.setTurretSpeed(getSpeed());
-        shuffleboardUtility.setTurretEncoderPosition(getEncoderPosition());
-    }
+    // @Override
+    // public void periodic() {
+    //     // shuffleboardUtility.setTurretSpeed(getSpeed());
+    //     // shuffleboardUtility.setTurretEncoderPosition(getEncoderPosition());
+    // }
 } // end of class TurretSubsystem

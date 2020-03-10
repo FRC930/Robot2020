@@ -274,13 +274,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    logger.entering(DriveSubsystem.class.getName(), "periodic()");
+    //logger.entering(DriveSubsystem.class.getName(), "periodic()");
 
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
-    shuffleboardUtility.setGyroYaw(getHeading());
+    //shuffleboardUtility.setGyroYaw(getHeading());
 
-    logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
-    logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
+    //logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
+    //logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
   }
 
 } // end of the class DriveSubsystem
