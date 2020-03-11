@@ -66,8 +66,8 @@ public class LEDSubsystem extends SubsystemBase {
         leds.setData(ledsBuffer);
     }
 
-    @Override
-    public void periodic() {      
-    }
+    // @Override
+    // public void periodic() {      
+    // }
     
 } // end of class LEDSubsystem

@@ -23,34 +23,19 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.FlywheelSubsystem;
-import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.subsystems.IntakeMotorSubsystem;
-import frc.robot.subsystems.IntakePistonSubsystem;
-import frc.robot.subsystems.KickerSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.Constants;
-import frc.robot.commands.drivecommands.StopDriveCommand;
-import frc.robot.commands.intakecommands.DeployIntakeCommand;
-import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
-import frc.robot.commands.shootercommands.flywheelcommands.RunFlywheelAutoCommand;
-import frc.robot.commands.turretcommads.AutoAimAutonomousCommand;
-import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
 
 import java.util.List;
 
 // -------- PATH DESCRIPTION -------- \\
-// Mid Field - Move off intiation & Initial 3
+// Mid Field - Off Initiation Line, Drop 3 Power Cells off robot
 
-public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
+public class NoSkilletCommand extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
    */
-  private final double AUTO_SHOOTER_SPEED = 0.8;
-  public FarmersBreakfastSkilletCommand(DriveSubsystem dSubsystem,FlywheelSubsystem fSubsystem,IntakeMotorSubsystem iMotorSubsystem, IntakePistonSubsystem iPistonSubsystem,TurretSubsystem turSubsystem,LimelightSubsystem lLightSubsystem,TowerSubsystem towSubsystem,HopperSubsystem hSubsystem,KickerSubsystem kSubsystem) {
-    
+  public NoSkilletCommand(DriveSubsystem dSubsystem) {
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.KSVOLTS,
@@ -71,13 +56,13 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
 
     // Generates a trajectory 
     Trajectory trajectory1 = TrajectoryGenerator.generateTrajectory(
-        // Start 
+        // Start at initiation line
         new Pose2d(inchesToMeters(0), inchesToMeters(0), new Rotation2d(0)),
         List.of(
             // Midpoints
         ),
-        // End 5 feet infront of initiation line
-        new Pose2d(inchesToMeters(60.0), inchesToMeters(0), new Rotation2d(0)),
+        // End infront of the rendezvous point. Simply move forward 5 feet 
+        new Pose2d(inchesToMeters(0.0), inchesToMeters(0), new Rotation2d(0)),
         // Pass config
         config
 
@@ -103,21 +88,12 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
         dSubsystem
     );
     
-    /*
-    Path Description:
-    -----------------
-        Robot has 3 power cells set on top of the robot
-        Robot Shoots 3 power cells and moves off initiation linE
+    /* 
+    Robot has 3 power cells set on top of the robot
+    Robot moves from initiation line to rendezvous point and 3 power cells drop
     */
 
-    addCommands(new RunFlywheelAutoCommand(fSubsystem, AUTO_SHOOTER_SPEED),
-    new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem),
-    new StopDriveCommand(dSubsystem),
-    new AutoTurretTurnCommand(turSubsystem),
-    new AutoAimAutonomousCommand(lLightSubsystem, turSubsystem, new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D)),
-    new ParallelRaceGroup(new WaitCommand(2), new ShootPowerCellCommandGroup(towSubsystem, hSubsystem, kSubsystem)),
-    ramseteCommand1
-    );
+    addCommands(ramseteCommand1);
 
   } // End of Constructor
 
@@ -128,3 +104,4 @@ public class FarmersBreakfastSkilletCommand extends SequentialCommandGroup {
   }
 
 } // End of Class
+

@@ -64,7 +64,7 @@ public class AutoAimTurretCommand extends PIDCommand {
                         output = -1;
                     }
                     
-                    System.out.println("horizontal offset: " + limelight.getHorizontalOffset());
+                    //System.out.println("horizontal offset: " + limelight.getHorizontalOffset());
                     SmartDashboard.putNumber("controller", output);
 
                     // manual control will override the auto tracking

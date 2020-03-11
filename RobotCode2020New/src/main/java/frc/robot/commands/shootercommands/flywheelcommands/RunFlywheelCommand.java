@@ -11,7 +11,7 @@ package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FlywheelSubsystem;
-import frc.robot.utilities.ShuffleboardUtility;
+import frc.robot.utilities.ShuffleboardUtility;;
 
 //-------- COMMANDBASE CLASS --------\\
 

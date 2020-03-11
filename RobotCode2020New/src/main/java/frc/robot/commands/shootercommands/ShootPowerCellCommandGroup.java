@@ -31,21 +31,14 @@ import frc.robot.subsystems.FlywheelPistonSubsystem;
 public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
     //-------- CONSTRUCTORS --------\\
     
-    public ShootPowerCellCommandGroup(
-        FlywheelSubsystem fSubsystem, 
+    public ShootPowerCellCommandGroup( 
         TowerSubsystem tSubsystem, 
         HopperSubsystem hSubsystem, 
-        KickerSubsystem kSubsystem, 
-        LimelightSubsystem lLightSubsystem, 
-        FlywheelPistonSubsystem fPistonSubsystem) 
+        KickerSubsystem kSubsystem) 
     {
         //Run all required commands in order so we can shoot.
         addCommands(//new CheckIfShotPossibleCommand(limeLight, flywheelPistonSubsystem),
-            new SequentialCommandGroup(
-                // new RampShooterCommand(flywheelSubsystem),
-                // new RunFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_SPEED),
-                    //ShooterMath.getInstance(limeLight.getHorizontalOffset(), 
-                    //limeLight.getDistance()).getVelocity()), 
+            new SequentialCommandGroup( 
                 new ParallelCommandGroup(new RunHopperCommand(hSubsystem), new RunTowerCommand(tSubsystem), new RunKickerCommand(kSubsystem))
             )
         );

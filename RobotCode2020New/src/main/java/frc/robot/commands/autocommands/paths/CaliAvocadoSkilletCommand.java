@@ -15,10 +15,8 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import frc.robot.commands.hoppercommands.RunHopperCommand;
 import frc.robot.commands.intakecommands.DeployIntakeCommand;
 import frc.robot.commands.intakecommands.ReturnIntakeCommand;
-import frc.robot.commands.shootercommands.FlywheelVelocityCommand;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -102,15 +100,14 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
 
     addCommands(
         new ParallelRaceGroup(new WaitCommand(3),
-            new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem, kSubsystem, lLightSubsystem,
-                fPistonSubsystem)), // Shoot 3 balls
+            new ShootPowerCellCommandGroup(tSubsystem, hSubsystem, kSubsystem)), // Shoot 3 balls
         new ParallelRaceGroup(ramseteCommand1, new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem)), // Moving
                                                                                                             // trajectory
                                                                                                             // while
                                                                                                             // intaking
         new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem), // Stop intaking
-        new ParallelRaceGroup(new WaitCommand(3), new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem,
-            kSubsystem, lLightSubsystem, fPistonSubsystem))); // Shooting final 3 balls
+        new ParallelRaceGroup(new WaitCommand(3), new ShootPowerCellCommandGroup(tSubsystem, hSubsystem,
+            kSubsystem))); // Shooting final 3 balls
 
   } // End of Constructor
 

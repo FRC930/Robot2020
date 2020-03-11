@@ -119,10 +119,10 @@ public class FlywheelSubsystem extends SubsystemBase {
         return motorLead.getBusVoltage();
     }
 
-    @Override
-    public void periodic() {
-        System.out.println("flywheel speed " + getSpeed());
-        shuffleboardUtility.setShooterRPM(getSpeed());
-        shuffleboardUtility.setShootIndicator(isShooterUpToSpeed());
-    }
+    // @Override
+    // public void periodic() {
+    //     //System.out.println("flywheel speed " + getSpeed());
+    //     // shuffleboardUtility.setShooterRPM(getSpeed());
+    //     // shuffleboardUtility.setShootIndicator(isShooterUpToSpeed());
+    // }
 } // end of class ShooterSubsystem

@@ -29,6 +29,7 @@ import frc.robot.commands.shootercommands.pistoncommands.*;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 import frc.robot.commands.shootercommands.StopJamCommandGroup;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.commands.towercommands.*;
 
@@ -141,8 +142,8 @@ public class RobotContainer {
   private final ClimberArmSubsystem climberArmSubsystem;
 
   // --Color wheel stuff subsystems
-  private final ColorSensorSubsystem colorSensorSubsystem;
-  private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
+  // private final ColorSensorSubsystem colorSensorSubsystem;
+  // private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
 
   // --Drive subsystem
   private final DriveSubsystem driveSubsystem;
@@ -171,6 +172,8 @@ public class RobotContainer {
 
   // --Tower subsystem
   private final TowerSubsystem towerSubsystem;
+
+  private final EndgameSubsystem endgameSubsystem;
 
   // --Turret subsystem
   private final TurretSubsystem turretSubsystem;
@@ -202,6 +205,8 @@ public class RobotContainer {
   // --Utilities
   private final ShuffleboardUtility shuffleboardUtility;
 
+  private SendableChooser<Command> sendableChooser;
+
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
@@ -214,8 +219,8 @@ public class RobotContainer {
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
     // --Subsystems
-    colorSensorSubsystem = new ColorSensorSubsystem();
-    colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
+    // colorSensorSubsystem = new ColorSensorSubsystem();
+    // colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
 
     driveSubsystem = new DriveSubsystem();
 
@@ -238,6 +243,8 @@ public class RobotContainer {
     towerSubsystem = new TowerSubsystem();
 
     turretSubsystem = new TurretSubsystem();
+
+    endgameSubsystem = new EndgameSubsystem();
 
     // --Commands
 
@@ -262,6 +269,13 @@ public class RobotContainer {
     joystickTurretCommand = new JoystickTurretCommand(turretSubsystem, coDriverController, XB_AXIS_LEFT_X);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
+    sendableChooser = new SendableChooser<Command>();
+    SmartDashboard.putData(sendableChooser);
+    sendableChooser.addOption("Salt And Pepper", new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem));
+    sendableChooser.setDefaultOption("Farmers Breakfast", new FarmersBreakfastSkilletCommand(driveSubsystem, flywheelSubsystem, intakeMotorSubsystem, intakePistonSubsystem, turretSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem));
+    //sendableChooser.addOption("",);
+    sendableChooser.addOption("none", null);//new NoSkilletCommand(driveSubsystem));
+
 
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
@@ -322,7 +336,7 @@ public class RobotContainer {
       // --Command binds
 
       // Rotational control command bind
-      rotationalButton.whileActiveOnce(new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem));
+      //rotationalButton.whileActiveOnce(new RotationalControlCommandGroup(colorSensorSubsystem, colorWheelSpinnerSubsystem));
 
       // Positional control command bind TODO: Uncomment this when ready for testing
       // positionalButton.whileActiveOnce(positionalControlCommandGroup);
@@ -338,7 +352,7 @@ public class RobotContainer {
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
       // Endgame command binds
-      toggleEndgame.toggleWhenActive(new EndgameCommandGroup(driveSubsystem, flywheelSubsystem));
+      toggleEndgame.toggleWhenActive(new EndgameCommandGroup(driveSubsystem, flywheelSubsystem, turretSubsystem));
 
       // Toggle endgame clamp
       endgameClampButton.toggleWhenActive(new ToggleEndgameClampCommand(driveSubsystem));
@@ -348,7 +362,7 @@ public class RobotContainer {
       // --Buttons and Triggers
 
       // A Button
-      Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(inManualModeTrigger);
+      //Trigger manualColorSpinnerButton = new JoystickButton(driverController, GC_A).and(inManualModeTrigger);
       // B Button
       Trigger manualHopperButton = new JoystickButton(driverController, GC_B);//.and(inManualModeTrigger);
       // X Button
@@ -368,7 +382,7 @@ public class RobotContainer {
       // --Command binds
 
       // manual color wheel spinner
-      manualColorSpinnerButton.whenActive(new ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem));
+      //manualColorSpinnerButton.whenActive(new ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem));
       // manual hopper spinning
       manualHopperButton.whileActiveOnce(new RunHopperCommand(hopperSubsystem)).whenInactive(new ReverseHopperCommand(hopperSubsystem, reverseHopperButton));//stopHopperButton));
       // manual kicker spinning
@@ -476,13 +490,15 @@ public class RobotContainer {
 
   }
 
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem);
+    //return new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem);
+    return sendableChooser.getSelected();
     // Run path following command, then stop at the end.
   }
 
