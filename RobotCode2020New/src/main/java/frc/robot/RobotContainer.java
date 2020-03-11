@@ -27,7 +27,7 @@ import frc.robot.commands.shootercommands.StopJamCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.*;
 import frc.robot.commands.shootercommands.pistoncommands.*;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
-import frc.robot.commands.shootercommands.StopJamCommandGroup;
+import frc.robot.commands.autocommands.paths.DefaultAutoPath;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -272,8 +272,8 @@ public class RobotContainer {
     sendableChooser = new SendableChooser<Command>();
     SmartDashboard.putData(sendableChooser);
     sendableChooser.addOption("Salt And Pepper", new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem));
-    sendableChooser.setDefaultOption("Farmers Breakfast", new FarmersBreakfastSkilletCommand(driveSubsystem, flywheelSubsystem, intakeMotorSubsystem, intakePistonSubsystem, turretSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem));
-    //sendableChooser.addOption("",);
+    sendableChooser.addOption("Farmers Breakfast", new FarmersBreakfastSkilletCommand(driveSubsystem, flywheelSubsystem, intakeMotorSubsystem, intakePistonSubsystem, turretSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem));
+    sendableChooser.setDefaultOption("Default Path", new DefaultAutoPath(driveSubsystem, flywheelSubsystem));
     sendableChooser.addOption("none", null);//new NoSkilletCommand(driveSubsystem));
 
 
