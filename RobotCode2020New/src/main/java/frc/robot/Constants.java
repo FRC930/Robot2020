@@ -6,11 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-import edu.wpi.first.wpilibj.DutyCycle;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.util.logging.*;
 
 /**
@@ -19,7 +16,7 @@ import java.util.logging.*;
  * purpose. All constants should be declared globally (i.e. public static). Do
  * not put anything functional in this class.
  *
- * <p>
+ * 
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity.
  */
@@ -77,13 +74,13 @@ public final class Constants {
 
     public static final double HOPPER_DEFAULT_SPEED = 0.3;
 
-    public static final double HOPPER_SHOOTING_SPEED = 1.0;//0.9;//0.8;//0.7;//0.5;//0.6;//0.85;//0.6
+    public static final double HOPPER_SHOOTING_SPEED = 1.0;
     public static final double TOWER_SPEED = 1.0;
 
     public static final double TOWER_REVERSE_SPEED = -0.5;
-    public static final double KICKER_SPEED = 1.0;//0.95;//0.9;//0.8;//0.7;//0.5;//0.6; // 0.6
-    public static final double INTAKE_SPEED = 0.6; // 0.8
-    public static final double FLYWHEEL_TELEOP_SPEED = 0.5;//0.8;//0.6;//0.5;//0.45;//0.55;//0.7;//0.62;//0.8;//0.65;
+    public static final double KICKER_SPEED = 1.0;
+    public static final double INTAKE_SPEED = 0.6; 
+    public static final double FLYWHEEL_TELEOP_SPEED = 0.5;
 
     public static final double FLYWHEEL_AUTON_SPEED = 0.8;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
@@ -102,24 +99,24 @@ public final class Constants {
 
     // When the turret encoder is reset, the turret faces forward and the encoder is
     // reset to 180 degrees. These units are in raw values.
-    public static final double UPPER_LIMIT = 0.640;//0.8;//.27
-    public static final double LOWER_LIMIT = 0.247;//0.2; //-.27
+    public static final double UPPER_LIMIT = 0.640;
+    public static final double LOWER_LIMIT = 0.247;
 
-    public static final double TURRET_MAX_SPEED = 0.6;//0.75;
+    public static final double TURRET_MAX_SPEED = 0.6;
     public static final double TURRET_MAX_SET_POSITION_SPEED = 0.4;
 
-    public static final double TURRET_P = 0.025;//0.021;
-    public static final double TURRET_I = 0.0;//0.135;
-    public static final double TURRET_D = 0.0008;//0.00081;
+    public static final double TURRET_P = 0.025;
+    public static final double TURRET_I = 0.0;
+    public static final double TURRET_D = 0.0008;
 
     public static final double TURRET_SET_POSITION_P = 2.5;
     public static final double TURRET_SET_POSITION_I = 0.0;
     public static final double TURRET_SET_POSITION_D = 0.0;
 
     // encoder positions for setting turret to one of four directions
-    public static final double TURRET_BACK_POSITION = 0.635;//0.659;
-    public static final double TURRET_FRONT_POSITION = 0.383;//0.415;
-    public static final double TURRET_RIGHT_POSITION = 0.51;//0.532;
+    public static final double TURRET_BACK_POSITION = 0.635;
+    public static final double TURRET_FRONT_POSITION = 0.383;
+    public static final double TURRET_RIGHT_POSITION = 0.51;
     public static final double TURRET_LEFT_POSITION = 0.256;
 
     public static final double FRONT_LEFT_POSITION = 0.3195;
@@ -153,18 +150,18 @@ public final class Constants {
 
     //[--------------------AUTO--------------------------]
     
-    public static final double KSVOLTS = 0.411;//0.22; //0.073 //0.22
-    public static final double KVVOLT = 0.227; //0.289; //0.234; // seconds per meter 0.289
-    public static final double KAVOLT = 0.0249;//0.06; //0.0161 //this is in seconds squared per meter 0.06
-    public static final double KMAXSPEED = 3.5;//3; //in meters per second
-    public static final double KMAXACCELERATION = 3; //in meters per seconds squared //Originally 0.5
+    public static final double KSVOLTS = 0.411;
+    public static final double KVVOLT = 0.227; 
+    public static final double KAVOLT = 0.0249; //this is in seconds squared per meter 
+    public static final double KMAXSPEED = 3.5; //in meters per second
+    public static final double KMAXACCELERATION = 3; //in meters per seconds squared 
     //gyro values
     public static final double KRAMSETEB = 2;
     public static final double KRAMSETEZETA = 0.7;
     
     //Track width of our robot
-    public static final double KTRACKWIDTH = 0.69;//10.975; //in meters .69
-    public static final double KPDRIVEVEL =  0.693;//0.00175; //0.673;//.693
+    public static final double KTRACKWIDTH = 0.69; //in meters 
+    public static final double KPDRIVEVEL =  0.693;
     public static final DifferentialDriveKinematics KDRIVEKINEMATICS = new DifferentialDriveKinematics(KTRACKWIDTH);
     // AUTO code values---------------------------------------]
 
