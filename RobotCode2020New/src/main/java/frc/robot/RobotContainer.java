@@ -173,6 +173,8 @@ public class RobotContainer {
   // --Tower subsystem
   private final TowerSubsystem towerSubsystem;
 
+  private final EndgameSubsystem endgameSubsystem;
+
   // --Turret subsystem
   private final TurretSubsystem turretSubsystem;
 
@@ -242,6 +244,8 @@ public class RobotContainer {
 
     turretSubsystem = new TurretSubsystem();
 
+    endgameSubsystem = new EndgameSubsystem();
+
     // --Commands
 
     // endgame
@@ -268,7 +272,7 @@ public class RobotContainer {
     sendableChooser = new SendableChooser<Command>();
     SmartDashboard.putData(sendableChooser);
     sendableChooser.addOption("Salt And Pepper", new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem));
-    sendableChooser.addOption("Farmers Breakfast", new FarmersBreakfastSkilletCommand(driveSubsystem, flywheelSubsystem, intakeMotorSubsystem, intakePistonSubsystem, turretSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem));
+    sendableChooser.setDefaultOption("Farmers Breakfast", new FarmersBreakfastSkilletCommand(driveSubsystem, flywheelSubsystem, intakeMotorSubsystem, intakePistonSubsystem, turretSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem));
     //sendableChooser.addOption("",);
     sendableChooser.addOption("none", null);//new NoSkilletCommand(driveSubsystem));
 
