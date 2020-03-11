@@ -53,6 +53,7 @@ public final class Constants {
     public static final int INTAKE_SOLENOID_ID = 0;
     public static final int SHOOTER_SOLENOID_ID = 1;
     public static final int SHIFTER_SOLENOID_ID = 2;
+    public static final int ENDGAME_CLAMP_ID = 3;
 
     public static final int COMPRESSOR_PORT = 0;
 
@@ -81,7 +82,7 @@ public final class Constants {
     public static final double TOWER_REVERSE_SPEED = -0.5;
     public static final double KICKER_SPEED = 1.0;//0.95;//0.9;//0.8;//0.7;//0.5;//0.6; // 0.6
     public static final double INTAKE_SPEED = 0.6; // 0.8
-    public static final double FLYWHEEL_TELEOP_SPEED = 0.5;//0.8;//0.6;//0.5;//0.45;//0.55;//0.7;//0.62;//0.8;//0.65;
+    public static final double FLYWHEEL_TELEOP_SPEED = 0.8;//0.75;//0.8;//0.65;
     public static final double FLYWHEEL_AUTON_SPEED = 0.8;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
     public static final double CLIMBER_RETRACT_SPEED = -0.1;

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,42 +7,48 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.hoppercommands;
+package frc.robot.commands.endgamecommands;
+
+import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.subsystems.DriveSubsystem;
+
 //-------- COMMAND CLASS --------\\
 
-public class StopHopperStateCommand extends CommandBase {
+public class ToggleEndgameClampCommand extends CommandBase {
 
-    // -------- DECLARATIONS --------\\
+
+    //You must include logger as a constant variable, and you must have logging in your files
+    private static final Logger logger = Logger.getLogger(ToggleShiftCommand.class.getName());
+
     private boolean state;
 
-    // private
-    // -------- CONSTRUCTOR --------\\
+    private DriveSubsystem driveSubsystem;    
+    
+    public ToggleEndgameClampCommand(DriveSubsystem driveSubsystem){
+        this.driveSubsystem = driveSubsystem;
 
-    public StopHopperStateCommand() {
-        state = false;
+        state = true;
+
+        addRequirements(driveSubsystem);
     }
 
-    //-------- METHODS --------\\    
-
+    //-------- METHODS --------\\
+    
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        //System.out.println("Hopper state: " + state);
+    public void initialize() {   
+
         state = !state;
+
+        driveSubsystem.setEndgameClampState(state);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {     
-
-    }
-
-    public boolean getState()
-    {
-        return state;
+    public void execute() {  
     }
 
     // Called once the command ends or is interrupted.
@@ -50,9 +56,11 @@ public class StopHopperStateCommand extends CommandBase {
     public void end(boolean interrupted) {
     }
 
+    
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
-} //end of class StopHopperStateCommand
+} // end of class ToggleShiftCommand 
+

@@ -71,10 +71,10 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
         this.logger.log(Constants.LOG_LEVEL_FINE, "set(" + state + ")");
 
     }
-  @Override
-  public void periodic() {
-    shuffleboardUtility.setShooterAngle(get());
-  }
+//   @Override
+//   public void periodic() {
+//     //shuffleboardUtility.setShooterAngle(get());
+//   }
 
     /**
      * This method will get the solenoid position

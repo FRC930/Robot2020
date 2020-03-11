@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2020 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,42 +7,42 @@
 
 //-------- IMPORTS --------\\
 
-package frc.robot.commands.hoppercommands;
+package frc.robot.commands.shootercommands.flywheelcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.FlywheelSubsystem;
+
+import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class StopHopperStateCommand extends CommandBase {
+public class RunFlywheelAutoCommand extends CommandBase {
 
-    // -------- DECLARATIONS --------\\
-    private boolean state;
+    //-------- DECLARATIONS --------\\
 
-    // private
-    // -------- CONSTRUCTOR --------\\
+    private FlywheelSubsystem m_FlywheelSubsystem;
 
-    public StopHopperStateCommand() {
-        state = false;
+    private double speed;
+
+    //-------- CONSTRUCTOR --------\\
+
+    public RunFlywheelAutoCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
+        m_FlywheelSubsystem = flywheelSubsystem;
+        this.speed = speed;
+        addRequirements(m_FlywheelSubsystem);
     }
 
-    //-------- METHODS --------\\    
+    //-------- COMMANDBASE METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        //System.out.println("Hopper state: " + state);
-        state = !state;
+        m_FlywheelSubsystem.setSpeed(speed);     //Set flywheel to default speed.
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {     
-
-    }
-
-    public boolean getState()
-    {
-        return state;
+    public void execute() {
     }
 
     // Called once the command ends or is interrupted.
@@ -50,9 +50,9 @@ public class StopHopperStateCommand extends CommandBase {
     public void end(boolean interrupted) {
     }
 
-    // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
-} //end of class StopHopperStateCommand
+
+} // end of class RunDefaultFlywheelCommand

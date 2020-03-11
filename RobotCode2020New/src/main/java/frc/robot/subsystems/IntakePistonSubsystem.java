@@ -51,9 +51,9 @@ public class IntakePistonSubsystem extends SubsystemBase {
         return intakePistonController.get();
     }
 
-    @Override
-    public void periodic() {    // This method will be called once per scheduler run     
-        shuffleboardUtility.setIntakeIndicator(getIntakePistonState());
-    }
+    // @Override
+    // public void periodic() {    // This method will be called once per scheduler run     
+    //     //shuffleboardUtility.setIntakeIndicator(getIntakePistonState());
+    // }
     
 } // end of class IntakePistonSubsystem

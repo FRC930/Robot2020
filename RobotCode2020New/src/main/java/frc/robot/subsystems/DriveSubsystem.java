@@ -46,6 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
   private PigeonIMU gyro;
 
   private Solenoid shifter;
+  private Solenoid endgameClamp;
 
   // Values, used to store the yaw, pitch, and roll (the robot's rotation)
   private double yawPitchRollValues[] = new double[3];
@@ -81,6 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(gyroTalon);
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
+    endgameClamp = new Solenoid(Constants.ENDGAME_CLAMP_ID);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
 
@@ -111,11 +113,17 @@ public class DriveSubsystem extends SubsystemBase {
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
     shifter.set(true);
+    endgameClamp.set(true);
   }
 
   public void setShifterState(boolean state) {
     logger.log(Constants.LOG_LEVEL_FINE, "New shifter state: " + state);
     shifter.set(state);
+  }
+
+  public void setEndgameClampState(boolean state) {
+    logger.log(Constants.LOG_LEVEL_FINE, "Endgame clamp state: " + state);
+    endgameClamp.set(state);
   }
 
   /**
@@ -132,6 +140,11 @@ public class DriveSubsystem extends SubsystemBase {
     logger.log(Constants.LOG_LEVEL_FINE, "New left speed: " + leftSpeed + "|| New right speed: " + rightSpeed);
     logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getLeftWheelRotations() + " | right encoder " + getRightWheelRotations());
 
+    if(!shifter.get()) {
+      leftSpeed *= 0.3;
+      rightSpeed *= 0.3;
+    }
+    
     left1.set(leftSpeed);
     right1.set(rightSpeed);
 
@@ -261,13 +274,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    logger.entering(DriveSubsystem.class.getName(), "periodic()");
+    //logger.entering(DriveSubsystem.class.getName(), "periodic()");
 
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
-    shuffleboardUtility.setGyroYaw(getHeading());
+    //shuffleboardUtility.setGyroYaw(getHeading());
 
-    logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
-    logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
+    //logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
+    //logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
   }
 
 } // end of the class DriveSubsystem
