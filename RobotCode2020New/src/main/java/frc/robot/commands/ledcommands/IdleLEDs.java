@@ -47,7 +47,7 @@ public class IdleLEDs extends CommandBase {
   {
 	counter++;
 
-    if(counter >= 32)
+    if(counter >= 10)
     {
 		m_LEDSubsystem.setLEDs(0, 0, 255);
         if(animCheck == true)

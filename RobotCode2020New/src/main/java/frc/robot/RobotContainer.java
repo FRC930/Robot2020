@@ -159,7 +159,7 @@ public class RobotContainer {
   private final LimelightSubsystem limelightSubsystem;
 
   // --Flywheel Angle Subsystem
-  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
+  //private final FlywheelPistonSubsystem flywheelPistonSubsystem;
 
   // --Tower subsystem
   private final TowerSubsystem towerSubsystem;
@@ -226,7 +226,7 @@ public class RobotContainer {
     limelightSubsystem = new LimelightSubsystem();
 
     flywheelSubsystem = new FlywheelSubsystem();
-    flywheelPistonSubsystem = new FlywheelPistonSubsystem();
+    //flywheelPistonSubsystem = new FlywheelPistonSubsystem();
 
     towerSubsystem = new TowerSubsystem();
 
@@ -323,7 +323,7 @@ public class RobotContainer {
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //Shooter command binds
-      shootButton.whileActiveOnce(new ParallelCommandGroup(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, shootButton), shooterLEDs));
+      //shootButton.whileActiveOnce(new ParallelCommandGroup(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, shootButton), shooterLEDs));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
@@ -408,7 +408,7 @@ public class RobotContainer {
     // ZL Button
     AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);// .and(inManualModeTrigger);
     // manual flywheel piston stuff
-    manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
+    //manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
     reverseHopperButton.whileActiveOnce(new StopHopperStateCommand());
     killHopperButton.whileActiveOnce(new InstantCommand(() -> JamState.getInstance().invertState()));
     
@@ -456,7 +456,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem);
+    return null;//return new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem);
     // Run path following command, then stop at the end.
   }
 
