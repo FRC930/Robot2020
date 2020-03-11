@@ -74,6 +74,8 @@ public class LimelightSubsystem extends SubsystemBase {
 
     private double targetArea;
 
+    private double skew;
+
     // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
 
@@ -176,6 +178,13 @@ public class LimelightSubsystem extends SubsystemBase {
         return targetArea;
 
     }
+    
+    public double getSkew() {
+
+        skew = limelightTable.getEntry("ts").getDouble(-1000);
+        return skew;
+
+    }
 
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
@@ -210,22 +219,23 @@ public class LimelightSubsystem extends SubsystemBase {
         limelightTable.getEntry("ledMode").setNumber(mode);
     }
 
-    // @Override
-    // public void periodic() {    
+    @Override
+    public void periodic() {    
 
-    //     // if(getDistance() > DISTANCE_THRESHOLD) {
-    //     //     setPipeline(LimelightPipelines.ZOOM_2X);
-    //     // } else {
-    //     //     setPipeline(LimelightPipelines.NO_ZOOM);
-    //     // }
+        // if(getDistance() > DISTANCE_THRESHOLD) {
+        //     setPipeline(LimelightPipelines.ZOOM_2X);
+        // } else {
+        //     setPipeline(LimelightPipelines.NO_ZOOM);
+        // }
 
-    //     // SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
-    //     // SmartDashboard.putNumber("verical offset", getVerticleOffset());
-    //     // SmartDashboard.putBoolean("valid targets", getValidTargets());
-    //     // SmartDashboard.putNumber("distance", getDistance());
-    //     // SmartDashboard.putString("pipeline", getPipeline());
+        // SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
+        // SmartDashboard.putNumber("verical offset", getVerticleOffset());
+        // SmartDashboard.putBoolean("valid targets", getValidTargets());
+        // SmartDashboard.putNumber("distance", getDistance());
+        // SmartDashboard.putString("pipeline", getPipeline());
+        SmartDashboard.putNumber("skew", getSkew());
 
-    //     // shuffleboardUtility.setDistanceFromTarget(getDistance());
-    // }
+        //shuffleboardUtility.setDistanceFromTarget(getDistance());
+    }
 
 } // end of class LimelightSubsystem
