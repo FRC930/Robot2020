@@ -82,7 +82,6 @@ public class DriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(gyroTalon);
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
-    endgameClamp = new Solenoid(Constants.ENDGAME_CLAMP_ID);
 
     shuffleboardUtility = ShuffleboardUtility.getInstance();
 

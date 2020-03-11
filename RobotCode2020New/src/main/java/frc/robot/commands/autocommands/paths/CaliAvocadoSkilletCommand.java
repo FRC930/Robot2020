@@ -100,15 +100,14 @@ public class CaliAvocadoSkilletCommand extends SequentialCommandGroup {
 
     addCommands(
         new ParallelRaceGroup(new WaitCommand(3),
-            new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem, kSubsystem, lLightSubsystem,
-                fPistonSubsystem)), // Shoot 3 balls
+            new ShootPowerCellCommandGroup(tSubsystem, hSubsystem, kSubsystem)), // Shoot 3 balls
         new ParallelRaceGroup(ramseteCommand1, new DeployIntakeCommand(iPistonSubsystem, iMotorSubsystem)), // Moving
                                                                                                             // trajectory
                                                                                                             // while
                                                                                                             // intaking
         new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem), // Stop intaking
-        new ParallelRaceGroup(new WaitCommand(3), new ShootPowerCellCommandGroup(fSubsystem, tSubsystem, hSubsystem,
-            kSubsystem, lLightSubsystem, fPistonSubsystem))); // Shooting final 3 balls
+        new ParallelRaceGroup(new WaitCommand(3), new ShootPowerCellCommandGroup(tSubsystem, hSubsystem,
+            kSubsystem))); // Shooting final 3 balls
 
   } // End of Constructor
 

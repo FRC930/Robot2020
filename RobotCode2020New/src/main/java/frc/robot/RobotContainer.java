@@ -267,8 +267,11 @@ public class RobotContainer {
     shuffleboardUtility = ShuffleboardUtility.getInstance();
     sendableChooser = new SendableChooser<Command>();
     SmartDashboard.putData(sendableChooser);
-    sendableChooser.addOption("salt and pepper",new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem));
+    sendableChooser.addOption("Salt And Pepper", new SaltAndPepperSkilletCommand(driveSubsystem,intakePistonSubsystem,intakeMotorSubsystem,flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem,flywheelPistonSubsystem,turretSubsystem));
+    sendableChooser.addOption("Farmers Breakfast", new FarmersBreakfastSkilletCommand(driveSubsystem, flywheelSubsystem, intakeMotorSubsystem, intakePistonSubsystem, turretSubsystem, limelightSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem));
+    //sendableChooser.addOption("",);
     sendableChooser.addOption("none", null);//new NoSkilletCommand(driveSubsystem));
+
 
     // --Bindings
     configureButtonBindings(); // Configures buttons for drive team
