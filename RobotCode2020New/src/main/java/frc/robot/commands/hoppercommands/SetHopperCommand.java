@@ -9,38 +9,44 @@
 
 package frc.robot.commands.hoppercommands;
 
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class RunHopperCommand extends CommandBase {
+public class SetHopperCommand extends CommandBase {
 
-    // -------- DECLARATIONS --------\\
+    //-------- DECLARATIONS --------\\
+
     private HopperSubsystem m_HopperSubsystem;
+    private double speed;
+    private boolean isInverted;
 
-    // -------- CONSTRUCTOR --------\\
+    //private 
+    //-------- CONSTRUCTOR --------\\
 
-    public RunHopperCommand(HopperSubsystem HopperSubsystem) {
+    public SetHopperCommand(HopperSubsystem HopperSubsystem, double speed, boolean isInverted) {
         m_HopperSubsystem = HopperSubsystem;
+        this.speed = speed;
+        this.isInverted = isInverted;
         addRequirements(m_HopperSubsystem);
     }
 
-    // -------- METHODS --------\\
+    //-------- METHODS --------\\    
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_SHOOTING_SPEED);
+        if(isInverted){
+            m_HopperSubsystem.setSpeed(-speed);
+        }
+        else{
+            m_HopperSubsystem.setSpeed(speed);
+        }
     }
-    // Returns true when the command should end.
+
+    // Called once the command ends or is interrupted.
     @Override
-    public boolean isFinished() {
-        return false;
+    public void end(boolean interrupted) {
     }
-} // end of class RunHopperCommand
+} //end of class DefaultHopperCommand

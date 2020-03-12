@@ -10,7 +10,8 @@ package frc.robot.commands.shootercommands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.hoppercommands.RunHopperCommand;
+import frc.robot.Constants;
+import frc.robot.commands.hoppercommands.SetHopperCommand;
 import frc.robot.commands.kickercommands.RunKickerCommand;
 import frc.robot.commands.shootercommands.flywheelcommands.RunFlywheelCommand;
 import frc.robot.commands.towercommands.RunTowerCommand;
@@ -32,7 +33,7 @@ public class ShootPowerCellCommand extends ParallelRaceGroup {
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(new RunFlywheelCommand(fSubsystem,
                                                         ShooterMath.getInstance(lLightSubsystem.getHorizontalOffset(), lLightSubsystem.getDistance()).getVelocity()),
-                                                                new RunHopperCommand(hSubsystem),
+                                                                new SetHopperCommand(hSubsystem,Constants.HOPPER_SHOOTING_SPEED,false),
                         new ParallelCommandGroup(new RunTowerCommand(tSubsystem), 
                                                  new RunKickerCommand(kSubsystem)))));
     } // End of Constructor

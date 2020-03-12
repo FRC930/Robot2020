@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.commands.hoppercommands.SetAutonomousHopperCommand;
-import frc.robot.commands.hoppercommands.StopHopperCommand;
+import frc.robot.commands.hoppercommands.SetHopperCommand;
 import frc.robot.commands.turretcommads.AutoTurretTurnCommand;
 
 import frc.robot.commands.drivecommands.StopDriveCommand;
@@ -39,8 +39,6 @@ import frc.robot.commands.turretcommads.AutoAimAutonomousCommand;
 import frc.robot.commands.shootercommands.StopTowerKickerCommandGroup;
 import frc.robot.commands.shootercommands.flywheelcommands.DefaultFlywheelCommand;
 import frc.robot.commands.shootercommands.flywheelcommands.RunFlywheelAutoCommand;
-import frc.robot.commands.hoppercommands.DefaultHopperCommand;
-import frc.robot.commands.hoppercommands.StopHopperStateCommand;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -220,7 +218,7 @@ public class SaltAndPepperSkilletCommand extends SequentialCommandGroup {
         new ReturnIntakeCommand(iPistonSubsystem, iMotorSubsystem),
         new RunFlywheelAutoCommand(fSubsystem, Constants.FLYWHEEL_TELEOP_SPEED),
         // not sure why we had to do this; default command should do this
-        new StopHopperCommand(hSubsystem)
+        new SetHopperCommand(hSubsystem,0.0,false)
         );
         //returnIntakeCommand);
     }

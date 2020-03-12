@@ -10,7 +10,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 
 import java.util.logging.Logger;
 
@@ -38,7 +38,7 @@ public class TurretSubsystem extends SubsystemBase {
     // The motor controller that will control the turret
     private TalonSRX turretMotor;
     private DutyCycleEncoder encoder;
-    private ShuffleboardUtility shuffleboardUtility;
+    //private ShuffleboardUtility shuffleboardUtility;
     private double encoderPosition;
 
     // -------- CONSTRUCTOR --------\\
@@ -46,7 +46,7 @@ public class TurretSubsystem extends SubsystemBase {
     public TurretSubsystem() {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
         this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
         logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
     }
 

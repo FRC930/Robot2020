@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakeMotorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utilities.ShuffleboardUtility;
 
 import frc.robot.Constants;
 
@@ -28,7 +27,7 @@ public class RunIntakeMotorsCommand extends CommandBase {
   //-------- DECLARATIONS --------\\
 
   private final IntakeMotorSubsystem intakeMotors;
-  private ShuffleboardUtility shuffleboardUtility = ShuffleboardUtility.getInstance();
+  
 
   //-------- CONSTRUCTOR --------\\
 

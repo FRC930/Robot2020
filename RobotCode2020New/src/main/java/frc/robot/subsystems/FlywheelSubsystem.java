@@ -12,14 +12,13 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.logging.Logger;
 
 //import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //-------- SUBSYSTEM CLASS --------\\
@@ -41,7 +40,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     // -------- DECLARATIONS --------\\
 
     private static final Logger logger = Logger.getLogger(FlywheelSubsystem.class.getName());
-    private ShuffleboardUtility shuffleboardUtility;
+    //private ShuffleboardUtility shuffleboardUtility;
 
     // motor controllers for the NEO motors on the shooter
     private final CANSparkMax motorLead;
@@ -68,7 +67,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         // Follow lead reverse speed
         motor2.follow(motorLead, true);
 
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     // -------- METHODS --------\\
@@ -119,10 +118,4 @@ public class FlywheelSubsystem extends SubsystemBase {
         return motorLead.getBusVoltage();
     }
 
-    // @Override
-    // public void periodic() {
-    //     //System.out.println("flywheel speed " + getSpeed());
-    //     // shuffleboardUtility.setShooterRPM(getSpeed());
-    //     // shuffleboardUtility.setShootIndicator(isShooterUpToSpeed());
-    // }
 } // end of class ShooterSubsystem

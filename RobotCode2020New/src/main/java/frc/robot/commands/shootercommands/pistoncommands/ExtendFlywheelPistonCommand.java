@@ -30,7 +30,7 @@ public class ExtendFlywheelPistonCommand extends CommandBase {
   public void initialize() {
     flywheelAngleSubsystem.set(SolenoidValues.EXTEND);
     // True = far shot
-    shuffleboardUtility.setShooterAngle(true);
+    shuffleboardUtility.putShooterAngle(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

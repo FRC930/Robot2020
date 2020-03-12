@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.Constants;
 
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 
  
@@ -25,7 +25,7 @@ public class RunKickerCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private KickerSubsystem kickerSubsystem;
-    private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
+    //private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
     
     //-------- CONSTRUCTOR --------\\
 

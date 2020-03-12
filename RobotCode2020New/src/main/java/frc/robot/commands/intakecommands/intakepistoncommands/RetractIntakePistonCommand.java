@@ -45,7 +45,7 @@ public class RetractIntakePistonCommand extends CommandBase {
   public void initialize() {
     intakePistonsSubsystem.setIntakePistonState(Constants.INTAKE_PISTONS_UP);
     
-    shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
+    shuffleboardUtility.putIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
     logger.log(Constants.LOG_LEVEL_FINE, "Retracting the intake pistons (command)..."); 
   }
   
