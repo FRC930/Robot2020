@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import java.util.logging.Logger;
 
 import frc.robot.Constants;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -28,13 +28,13 @@ public class IntakePistonSubsystem extends SubsystemBase {
     //-------- DECLARATIONS --------\\
 
     private Solenoid intakePistonController;
-    private ShuffleboardUtility shuffleboardUtility;
+    //private ShuffleboardUtility shuffleboardUtility;
    
     //-------- CONSTRUCTOR --------\\
 
     public IntakePistonSubsystem() {
         intakePistonController = new Solenoid(Constants.INTAKE_SOLENOID_ID);
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     //-------- METHODS --------\\

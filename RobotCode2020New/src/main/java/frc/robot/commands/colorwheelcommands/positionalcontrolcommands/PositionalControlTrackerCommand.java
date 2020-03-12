@@ -7,7 +7,7 @@
 
 package frc.robot.commands.colorwheelcommands.positionalcontrolcommands;
 
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -47,7 +47,7 @@ public class PositionalControlTrackerCommand extends CommandBase {
     // Creates an instance of the ColorSensorSubsystem subsystem
     private ColorSensorSubsystem colorSensorSubsystem;
 
-    private ShuffleboardUtility shuffleboardUtility;
+    //private ShuffleboardUtility shuffleboardUtility;
     private String fmsColor;
 
     //-------- CONSTRUCTOR --------\\

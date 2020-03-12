@@ -9,7 +9,7 @@
 
 package frc.robot.commands.endgamecommands;
 
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -22,7 +22,7 @@ public class ClimbCommand extends CommandBase {
 
 
     //You must include logger as a constant variable, and you must have logging in your files
-    private static final Logger logger = Logger.getLogger(ClimbCommand.class.getName());
+    //private static final Logger logger = Logger.getLogger(ClimbCommand.class.getName());
 
     private DriveSubsystem driveSubsystem;    
     private Joystick driver;

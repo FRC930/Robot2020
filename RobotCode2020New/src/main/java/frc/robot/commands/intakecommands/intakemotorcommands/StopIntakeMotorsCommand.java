@@ -12,7 +12,6 @@ package frc.robot.commands.intakecommands.intakemotorcommands;
 import java.util.logging.Logger;
 
 import frc.robot.subsystems.IntakeMotorSubsystem;
-import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;

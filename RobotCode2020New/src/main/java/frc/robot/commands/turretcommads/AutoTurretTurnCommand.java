@@ -4,16 +4,22 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+
 //-------- IMPORTS --------\\
+
 package frc.robot.commands.turretcommads;
-import java.util.logging.Logger;
+
+//import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.TurretSubsystem;
+
 //-------- COMMAND CLASS --------\\
+
 public class AutoTurretTurnCommand extends CommandBase {
     //You must include logger as a constant variable, and you must have logging in your files
-    private static final Logger logger = Logger.getLogger(AutoTurretTurnCommand.class.getName());
+    //private static final Logger logger = Logger.getLogger(AutoTurretTurnCommand.class.getName());
     private double turretPosition;
     private double targetPosition = 0.3565;
     private double speed;
@@ -23,6 +29,7 @@ public class AutoTurretTurnCommand extends CommandBase {
         this.turretSubsystem = turretSubsystem;
         addRequirements(turretSubsystem);
     }
+    
     //-------- METHODS --------\\
     
     // Called when the command is initially scheduled.
@@ -45,10 +52,12 @@ public class AutoTurretTurnCommand extends CommandBase {
         
         turretSubsystem.setSpeed(speed);
     }
+    
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
     }
+    
     
     // Returns true when the command should end.
     @Override

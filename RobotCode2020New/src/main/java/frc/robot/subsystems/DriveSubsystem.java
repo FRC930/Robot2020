@@ -14,12 +14,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -37,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX right2;
   private WPI_TalonFX left1;
   private WPI_TalonFX left2;
-  private ShuffleboardUtility shuffleboardUtility;
+  //private ShuffleboardUtility shuffleboardUtility;
 
   // The intake talon motor controller, has the gyro attached to it
   private TalonSRX gyroTalon;
@@ -83,7 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
 
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
+    //shuffleboardUtility = ShuffleboardUtility.getInstance();
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 

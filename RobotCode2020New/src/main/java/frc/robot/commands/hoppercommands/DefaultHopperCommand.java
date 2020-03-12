@@ -54,7 +54,7 @@ public class DefaultHopperCommand extends CommandBase {
             m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED); 
             //System.out.println("RUNNNNNNING");
         }
-        shuffleboardUtility.setHopperSpeed(m_HopperSubsystem.getSpeed());
+        shuffleboardUtility.putHopperSpeed(m_HopperSubsystem.getSpeed());
     }
 
     // Called once the command ends or is interrupted.

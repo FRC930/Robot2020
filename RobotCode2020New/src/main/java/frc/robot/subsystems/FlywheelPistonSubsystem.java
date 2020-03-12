@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import java.util.logging.Logger;
 
 import frc.robot.Constants;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 
 //--------- SUBSYSTEM CLASS ---------\\
 
@@ -29,8 +29,8 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
      * This Solenoid will be used for changing the shooting angle
      */
     private Solenoid flywheelPiston;
-  private Solenoid FlywheelPiston;
-  private ShuffleboardUtility shuffleboardUtility;
+
+  //private ShuffleboardUtility shuffleboardUtility;
 
     /**
      * This enum will be used for choosing piston state
@@ -57,7 +57,7 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
      */
     public FlywheelPistonSubsystem() {
         flywheelPiston = new Solenoid(Constants.SHOOTER_SOLENOID_ID);
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     // -------- METHODS --------\\
@@ -68,20 +68,16 @@ public class FlywheelPistonSubsystem extends SubsystemBase {
      */
     public void set(SolenoidValues state) {
         flywheelPiston.set(state.getSolenoidState());
-        this.logger.log(Constants.LOG_LEVEL_FINE, "set(" + state + ")");
+        logger.log(Constants.LOG_LEVEL_FINE, "set(" + state + ")");
 
     }
-//   @Override
-//   public void periodic() {
-//     //shuffleboardUtility.setShooterAngle(get());
-//   }
 
     /**
      * This method will get the solenoid position
      * @return the solenoid position using the custom enum
      */
     public boolean get() {
-        this.logger.log(Constants.LOG_LEVEL_FINE, "getPistonValue: " + (flywheelPiston.get() ? "True" : "False"));
+        logger.log(Constants.LOG_LEVEL_FINE, "getPistonValue: " + (flywheelPiston.get() ? "True" : "False"));
         return flywheelPiston.get();
     }
 } // end of class FlywheelPistonSubsystem
