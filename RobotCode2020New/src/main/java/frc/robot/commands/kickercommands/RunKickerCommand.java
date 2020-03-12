@@ -27,6 +27,7 @@ public class RunKickerCommand extends CommandBase {
 
     private KickerSubsystem kickerSubsystem;
     private JamState state = JamState.getInstance();
+    private boolean kickerFlag = false;
 
     // -------- CONSTRUCTOR --------\\
     private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
@@ -38,18 +39,42 @@ public class RunKickerCommand extends CommandBase {
         addRequirements(kSubsystem);
     }
 
+    @Override
+    public void initialize() {
+        kickerSubsystem.setSpeed(0.0);
+        kickerFlag = false;
+    }
+
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (state.getState()) {
-            kickerSubsystem.setSpeed(0.0);
-        } else {
-            if (((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100))
-                    % 2) == 1) {
-                kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
-            } else {
-                kickerSubsystem.setSpeed(0.0);
+        // if (state.getState()) {
+        //     kickerSubsystem.setSpeed(0.0);
+        // } else {
+            //If we havent started kicker...
+            if(kickerFlag == false) {
+                double encoderValue = kickerSubsystem.getEncoder();
+
+                //Calculate if we are in position
+                boolean value = calculateStart(encoderValue);
+                if (true == value) {
+                    //Start kicker once
+                    kickerFlag = true;
+                    kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+                }
             }
+        //}
+    }
+
+    public boolean calculateStart(double encoderValue)
+    {
+        int value = (int)((encoderValue - Math.floor(encoderValue)) * 100);
+
+        //Math for finding the location of where kicker should start
+        if (((Math.round((value / 10) % 2))) == 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

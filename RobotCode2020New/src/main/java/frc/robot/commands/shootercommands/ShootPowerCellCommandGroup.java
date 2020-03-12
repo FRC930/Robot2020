@@ -56,8 +56,7 @@ public class ShootPowerCellCommandGroup extends ParallelRaceGroup {
         TowerSubsystem tSubsystem, 
         HopperSubsystem hSubsystem, 
         KickerSubsystem kSubsystem, 
-        LimelightSubsystem lLightSubsystem, 
-        FlywheelPistonSubsystem fPistonSubsystem,
+        LimelightSubsystem lLightSubsystem,
         JoystickButton ZR)   
     {
         //Run all required commands in order so we can shoot.

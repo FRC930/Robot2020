@@ -39,9 +39,10 @@ public class KickerSubsystem extends SubsystemBase {
     public KickerSubsystem() {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
         this.encoder = new DutyCycleEncoder(Constants.HOPPER_ENCODER_PORT_ID);
+        this.encoder.reset();
         kickerMotor.setInverted(true);
     }   
-    
+
     //-------- METHODS --------\\
 
     //sets the speed to the tower motor 
@@ -64,7 +65,7 @@ public class KickerSubsystem extends SubsystemBase {
     }
 
     public double getEncoder(){
-        return encoder.get();
+        return encoder.getDistance();
     }
 
     //stops the motor
@@ -72,4 +73,11 @@ public class KickerSubsystem extends SubsystemBase {
         kickerMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
+    @Override
+    public void periodic()
+    {
+        //System.out.println(getEncoder());
+        //System.out.println("Encoder offset: " + encoder.getPositionOffset());
+        //System.out.println("Encoder distance: " + encoder.getDistance());
+    }
 } //end of class KickerSubsystem

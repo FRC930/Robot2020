@@ -323,7 +323,7 @@ public class RobotContainer {
       driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
 
       //Shooter command binds
-      //shootButton.whileActiveOnce(new ParallelCommandGroup(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, flywheelPistonSubsystem, shootButton), shooterLEDs));
+      shootButton.whileActiveOnce(new ParallelCommandGroup(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem, kickerSubsystem, limelightSubsystem, shootButton), shooterLEDs));
       shootButton.whenReleased(new StopTowerKickerCommandGroup(towerSubsystem, kickerSubsystem));
       //shootButton.whenPressed(new RunFlywheelCommand(flywheelSubsystem, 0.8));
       
@@ -428,7 +428,7 @@ public class RobotContainer {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-      scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      //scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
       scheduler.setDefaultCommand(limelightSubsystem, new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
       scheduler.setDefaultCommand(ledSubsystem, idleLEDs);
     }
