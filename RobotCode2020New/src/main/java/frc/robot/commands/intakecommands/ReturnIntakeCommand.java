@@ -54,7 +54,7 @@ public class ReturnIntakeCommand extends CommandBase {
   @Override   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
     logger.log(Constants.LOG_LEVEL_FINE, "Intake piston state: " + intakePistonsSubsystem.getIntakePistonState());
-    shuffleboardUtility.setIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
+    shuffleboardUtility.putIntakeIndicator(intakePistonsSubsystem.getIntakePistonState());
   }
 
   @Override   // Returns true when the command should end.

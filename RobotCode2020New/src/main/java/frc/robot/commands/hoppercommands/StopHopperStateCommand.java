@@ -30,7 +30,7 @@ public class StopHopperStateCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        System.out.println("Hopper state: " + state);
+        //System.out.println("Hopper state: " + state);
         state = !state;
     }
 

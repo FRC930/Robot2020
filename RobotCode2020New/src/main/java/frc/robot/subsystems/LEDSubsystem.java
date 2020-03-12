@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.logging.Logger;
 
 // //-------- SUBSYSTEM CLASS --------\\
 
@@ -23,8 +22,6 @@ public class LEDSubsystem extends SubsystemBase {
     
     private final int PORT = 0;
     private final int LEDS = 60;
-
-    private static final Logger logger = Logger.getLogger(LEDSubsystem.class.getName());
 
 //     //-------- DECLARATIONS --------\\
 
@@ -66,8 +63,8 @@ public class LEDSubsystem extends SubsystemBase {
         leds.setData(ledsBuffer);
     }
 
-    @Override
-    public void periodic() {      
-    }
+    // @Override
+    // public void periodic() {      
+    // }
     
 } // end of class LEDSubsystem

@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
@@ -127,7 +126,10 @@ public class SouthBySouthWestSkilletCommand extends SequentialCommandGroup {
     Robot in autonomous moves forward off of initiation line
     */
 
-    addCommands(new SpinCommand(dSubsystem, gSubsystem,40) /*ramseteCommand1,new WaitCommand(5),ramseteCommand2*/);
+    addCommands(new SpinCommand(dSubsystem,gSubsystem,90),
+    ramseteCommand1,
+    new WaitCommand(5),
+    ramseteCommand2);
 
   } // End of Constructor
   

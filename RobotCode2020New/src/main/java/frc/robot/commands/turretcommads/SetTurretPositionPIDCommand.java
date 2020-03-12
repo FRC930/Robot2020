@@ -9,7 +9,7 @@
 
 package frc.robot.commands.turretcommads;
 
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -22,9 +22,8 @@ import frc.robot.subsystems.TurretSubsystem;
 public class SetTurretPositionPIDCommand extends PIDCommand {
 
     //You must include logger as a constant variable, and you must have logging in your file
-    private static final Logger logger = Logger.getLogger(SetTurretPositionPIDCommand.class.getName());
+    //private static final Logger logger = Logger.getLogger(SetTurretPositionPIDCommand.class.getName());
 
-    private TurretSubsystem turretSubsystem;    
     
     public SetTurretPositionPIDCommand(TurretSubsystem turretSubsystem, PIDController controller, double targetPosition){
 
@@ -52,8 +51,6 @@ public class SetTurretPositionPIDCommand extends PIDCommand {
             },
 
             turretSubsystem);
-
-        this.turretSubsystem = turretSubsystem;
 
         // Enable the controller to continuously get input
         this.getController().enableContinuousInput(0, 1);

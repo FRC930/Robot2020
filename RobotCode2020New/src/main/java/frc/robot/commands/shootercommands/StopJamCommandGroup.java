@@ -7,27 +7,14 @@
 //-------- IMPORTS --------\\
 package frc.robot.commands.shootercommands;
 
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.commands.hoppercommands.RunHopperCommand;
 import frc.robot.commands.hoppercommands.StopHopperStateCommand;
-import frc.robot.commands.kickercommands.RunKickerCommand;
 import frc.robot.commands.kickercommands.StopKickerCommand;
 import frc.robot.commands.towercommands.ReverseTowerCommand;
-import frc.robot.commands.towercommands.RunTowerCommand;
-import frc.robot.commands.shootercommands.flywheelcommands.RampShooterCommand;
-import frc.robot.commands.shootercommands.flywheelcommands.RunFlywheelCommand;
-import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.triggers.TriggerCommand;
-import frc.robot.subsystems.FlywheelPistonSubsystem;
 //-------- COMMANDGROUP CLASS --------\\
 /**
  * There are two constructors for teleop and auton. The first is for auton and does not require a value to end the command group.

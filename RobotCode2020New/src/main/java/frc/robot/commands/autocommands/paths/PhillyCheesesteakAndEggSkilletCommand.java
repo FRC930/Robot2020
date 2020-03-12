@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
 import edu.wpi.first.wpilibj2.command.*;
@@ -97,18 +96,18 @@ public class PhillyCheesesteakAndEggSkilletCommand extends SequentialCommandGrou
         config
     );
 
-    // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
-    Trajectory trajectory4 = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing towards the field
-        new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
-        List.of(
-            // Pass through no interior waypoints, so this field is empty
-        ),
-        // End about 80 inches forward from previous point, moved in y direction to end at rendevous point balls
-        new Pose2d(inchesToMeters(130.25), inchesToMeters(-86.7), new Rotation2d(Math.toRadians(-135))),
-        // Pass config
-        config
-    );
+    // // Generates a trajectory for moving towards the center square for 2 ball pickup and shoot
+    // Trajectory trajectory4 = TrajectoryGenerator.generateTrajectory(
+    //     // Start at the origin facing towards the field
+    //     new Pose2d(inchesToMeters(194.63), inchesToMeters(0), new Rotation2d(Math.toRadians(0))),
+    //     List.of(
+    //         // Pass through no interior waypoints, so this field is empty
+    //     ),
+    //     // End about 80 inches forward from previous point, moved in y direction to end at rendevous point balls
+    //     new Pose2d(inchesToMeters(130.25), inchesToMeters(-86.7), new Rotation2d(Math.toRadians(-135))),
+    //     // Pass config
+    //     config
+    // );
 
     // -------- RAMSETE Commands -------- \\
     // Creates a command that can be added to the command scheduler in the sequential command

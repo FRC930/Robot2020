@@ -37,7 +37,7 @@ public class RetractFlywheelPistonCommand extends CommandBase {
   public void initialize() {
     flywheelPistonSubsystem.set(SolenoidValues.RETRACT);
     // False = close shot
-    shuffleboardUtility.setShooterAngle(false);
+    shuffleboardUtility.putShooterAngle(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

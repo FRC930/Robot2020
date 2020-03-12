@@ -31,7 +31,6 @@ public class ClimberArmSubsystem extends SubsystemBase {
     //-------- DECLARATIONS --------\\
 
     private DutyCycleEncoder encoder;
-    private double encoderPostition;
     
     /**
      * ClimberArmMotor is a motor controller that makes the arm go up and down for
