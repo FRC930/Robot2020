@@ -43,7 +43,7 @@ public class ToggleEndgameClampCommand extends CommandBase {
 
         state = !state;
 
-        driveSubsystem.setEndgameClampState(state);
+        //driveSubsystem.setEndgameClampState(state);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

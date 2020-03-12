@@ -49,4 +49,9 @@ public class SetHopperCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 } //end of class DefaultHopperCommand

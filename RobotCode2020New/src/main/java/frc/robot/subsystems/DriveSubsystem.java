@@ -111,7 +111,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
     shifter.set(true);
-    endgameClamp.set(true);
+    //endgameClamp.set(true);
   }
 
   public void setShifterState(boolean state) {
@@ -119,10 +119,10 @@ public class DriveSubsystem extends SubsystemBase {
     shifter.set(state);
   }
 
-  public void setEndgameClampState(boolean state) {
-    logger.log(Constants.LOG_LEVEL_FINE, "Endgame clamp state: " + state);
-    endgameClamp.set(state);
-  }
+  // public void setEndgameClampState(boolean state) {
+  //   logger.log(Constants.LOG_LEVEL_FINE, "Endgame clamp state: " + state);
+  //   endgameClamp.set(state);
+  // }
 
   /**
    * Sets the left and right drivetrain motors to the speeds passed through the

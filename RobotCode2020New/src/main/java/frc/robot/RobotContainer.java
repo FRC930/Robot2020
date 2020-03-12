@@ -178,6 +178,7 @@ public class RobotContainer {
   private final DefaultHopperCommand defaultHopperCommand;
   private final StopHopperStateCommand stopHopperStateCommand;
   private final DefaultStopHopperCommand defaultStopHopperCommand;
+  private final DefaultHopperCommandGroup defaultHopperCommandGroup;
 
   // --LED commands
   // TODO: Add LED commands here
@@ -199,7 +200,7 @@ public class RobotContainer {
   // -------- CONSTRUCTOR ---------\\
 
   public RobotContainer() {
-    new CameraUtil().startCapture();
+    //new CameraUtil().startCapture();
     // Setting Log level for entire robot code
     // TODO: Edit this in Shuffleboard...?
     frcRobotLogger.setLevel(Level.OFF);
@@ -248,6 +249,7 @@ public class RobotContainer {
     defaultStopHopperCommand = new DefaultStopHopperCommand(hopperSubsystem);
     stopHopperStateCommand = new StopHopperStateCommand();
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, stopHopperStateCommand);
+    defaultHopperCommandGroup = new DefaultHopperCommandGroup(hopperSubsystem);
 
     // leds
     // TODO: Add LED commands here
@@ -391,7 +393,7 @@ public class RobotContainer {
     // ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new
     // RetractFlywheelPistonCommand(flywheelPistonSubsystem));
 
-    reverseHopperButton.whileActiveOnce(new SetHopperCommand(hopperSubsystem, Constants.HOPPER_REVERSE_SPEED, true));
+    reverseHopperButton.whileActiveOnce(new ParallelCommandGroup(new SetHopperCommand(hopperSubsystem, Constants.HOPPER_REVERSE_SPEED, true), new TriggerCommand(reverseHopperButton)));
     // manual
     stopHopperButton.whileActiveOnce(stopHopperStateCommand);
 
@@ -455,7 +457,7 @@ public class RobotContainer {
       // XB_AXIS_RIGHT_Y));
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommandGroup);
       scheduler.setDefaultCommand(flywheelSubsystem,
           new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_TELEOP_SPEED));
       scheduler.setDefaultCommand(limelightSubsystem,

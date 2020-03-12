@@ -6,25 +6,25 @@
 /*----------------------------------------------------------------------------*/
 
 //-------- IMPORTS --------\\
+package frc.robot.commands.hoppercommands;
+
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.HopperSubsystem;
 
 //-------- COMMANDGROUP CLASS --------\\
-/**
- * There are two constructors for teleop and auton. The first is for auton and does not require a value to end the command group.
- * The second takes a Joystick Button to stop the command group.
- */
 public class DefaultHopperCommandGroup extends SequentialCommandGroup {
     //-------- CONSTRUCTORS --------\\
     
     public DefaultHopperCommandGroup(HopperSubsystem hSubsystem) {
-        //Run all required commands in order so we can shoot.
         addCommands(
-            // new SetHopperCommand(hSubsystem, Constants.HOPPER_DEFAULT_SPEED, false),
-            // new WaitCommand(2),
-            // new SetHopperCommand(hSubsystem, Constants.HOPPER_REVERSE_SPEED, true),
-            // new WaitCommand(1)
+            new PrintCommand("STARTING DEFAULT HOPPER"),
+            new SetHopperCommand(hSubsystem, Constants.HOPPER_DEFAULT_SPEED, false),
+            new WaitCommand(1.25),
+            new SetHopperCommand(hSubsystem, Constants.HOPPER_REVERSE_SPEED, true),
+            new WaitCommand(0.5)
         );
-    } // End of Auton Constructor
+    } // End of Constructor
 } // End of Class
