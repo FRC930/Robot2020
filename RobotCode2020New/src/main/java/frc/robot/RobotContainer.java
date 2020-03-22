@@ -395,7 +395,7 @@ public class RobotContainer {
 
     reverseHopperButton.whileActiveOnce(new ParallelCommandGroup(new SetHopperCommand(hopperSubsystem, Constants.HOPPER_REVERSE_SPEED, true), new TriggerCommand(reverseHopperButton)));
     // manual
-    stopHopperButton.whileActiveOnce(stopHopperStateCommand);
+    stopHopperButton.whileActiveOnce(new ParallelCommandGroup(new SetHopperCommand(hopperSubsystem, 0.0, false), new TriggerCommand(stopHopperButton)));
 
   } // end of method configureDriverBindings()
 
