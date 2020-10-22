@@ -81,6 +81,7 @@ public class DriveSubsystem extends SubsystemBase {
     gyro = new PigeonIMU(gyroTalon);
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
+    //endgameClamp = new Solenoid(Constants.ENDGAME_CLAMP_ID);
 
     //shuffleboardUtility = ShuffleboardUtility.getInstance();
 
@@ -111,7 +112,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
     shifter.set(true);
-    endgameClamp.set(true);
+    //endgameClamp.set(true);
   }
 
   public void setShifterState(boolean state) {

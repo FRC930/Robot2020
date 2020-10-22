@@ -37,7 +37,7 @@ public class KickerSubsystem extends SubsystemBase {
 
     public KickerSubsystem() {
         kickerMotor = new VictorSPX(Constants.KICKER_ID);  
-        this.encoder = new DutyCycleEncoder(Constants.HOPPER_ENCODER_PORT_ID);
+        //this.encoder = new DutyCycleEncoder(Constants.HOPPER_ENCODER_PORT_ID);
         kickerMotor.setInverted(true);
     }   
     
@@ -63,7 +63,7 @@ public class KickerSubsystem extends SubsystemBase {
     }
 
     public double getEncoder(){
-        return encoder.get();
+        return 0.0; //encoder.get();
     }
 
     //stops the motor

@@ -46,8 +46,8 @@ public class ClimberArmSubsystem extends SubsystemBase {
      */
     public ClimberArmSubsystem() {
         climberArmMotor = new VictorSPX(Constants.CLIMBER_ARM_ID);
-        this.encoder = new DutyCycleEncoder(Constants.CLIMBER_ENCODER_PORT_ID);
-        this.encoder.reset();
+        //this.encoder = new DutyCycleEncoder(Constants.CLIMBER_ENCODER_PORT_ID);
+        //this.encoder.reset();
     }
 
     // -------- METHODS --------\\
@@ -94,6 +94,6 @@ public class ClimberArmSubsystem extends SubsystemBase {
     }
 
     public double getRawEncoderPosition(){
-        return this.encoder.get();
+        return 0.0; //this.encoder.get();
     }
 }  // End of ClimberArm Subsystem

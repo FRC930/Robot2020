@@ -29,7 +29,14 @@ public class ShootPowerCellCommand extends ParallelRaceGroup {
         KickerSubsystem kSubsystem, LimelightSubsystem lLightSubsystem, FlywheelPistonSubsystem fAngleSubsystem)
     {
         //Run all required commands in order so we can shoot.
-        addCommands(new CheckIfShotPossible(lLightSubsystem, fAngleSubsystem),
+        /*addCommands(new CheckIfShotPossible(lLightSubsystem, fAngleSubsystem),
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(new RunFlywheelCommand(fSubsystem,
+                                                        ShooterMath.getInstance(lLightSubsystem.getHorizontalOffset(), lLightSubsystem.getDistance()).getVelocity()),
+                                                                new SetHopperCommand(hSubsystem,Constants.HOPPER_SHOOTING_SPEED,false),
+                        new ParallelCommandGroup(new RunTowerCommand(tSubsystem), 
+                                                 new RunKickerCommand(kSubsystem)))));*/
+        addCommands(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(new RunFlywheelCommand(fSubsystem,
                                                         ShooterMath.getInstance(lLightSubsystem.getHorizontalOffset(), lLightSubsystem.getDistance()).getVelocity()),

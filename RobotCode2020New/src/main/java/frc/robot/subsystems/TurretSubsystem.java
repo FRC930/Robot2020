@@ -45,7 +45,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     public TurretSubsystem() {
         this.turretMotor = new TalonSRX(Constants.TURRET_ID);
-        this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
+        //this.encoder = new DutyCycleEncoder(Constants.ENCODER_PORT_ID);
         //shuffleboardUtility = ShuffleboardUtility.getInstance();
         logger.log(Constants.LOG_LEVEL_INFO, "Starting TurretSubsystem");
     }
@@ -54,7 +54,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     public void setSpeed(double speed) {
 
-        encoderPosition = encoder.get();
+        encoderPosition = 0.0; //encoder.get();
 
         SmartDashboard.putNumber("Turret speed unclamped", speed);
         speed = clamp(speed);
@@ -79,17 +79,17 @@ public class TurretSubsystem extends SubsystemBase {
 
     // converts encoder units to degrees
     public double unitsToDegrees(double units) {
-        return this.encoder.get() / DEGREE_CONVERSION_NUMBER;
+        return 0.0; //this.encoder.get() / DEGREE_CONVERSION_NUMBER;
     }
 
     // returns the current encoder position in degrees
     public double getEncoderPosition() {
         // return this.turretMotor.getSelectedSensorPosition();
-        return unitsToDegrees(this.encoder.get());
+        return unitsToDegrees(0.0/*this.encoder.get()*/);
     }
 
     public double getRawEncoderPosition() {
-        return this.encoder.get();
+        return 0.0; //this.encoder.get();
     }
 
     private double clamp(double speed) {
