@@ -143,7 +143,7 @@ public class LimelightSubsystem extends SubsystemBase {
         return distanceAndError;
     }
 
-    // whether the limelight sees a target or not :)
+    // If the limelight sees a target or not :)
     public boolean getValidTargets() {
 
         // logger.entering(LimelightSubsystem.class.getName(), "getValidTargets()");
@@ -156,7 +156,7 @@ public class LimelightSubsystem extends SubsystemBase {
         return validTarget;
     }
 
-    // this returns the verticle offset between the limelights crosshair and the target crosshair :)
+    // This returns the verticle offset between the limelights crosshair and the target crosshair :)
     public double getVerticleOffset() {
 
         // logger.entering(LimelightSubsystem.class.getName(), "getVerticleOffset()");
@@ -183,7 +183,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     }
 
-    // sets the pipeline, or configuration, of the limelight
+    // Sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
 
         // logger.entering(LimelightSubsystem.class.getName(), "setPipeline()");
@@ -196,10 +196,10 @@ public class LimelightSubsystem extends SubsystemBase {
         // logger.exiting(LimelightSubsystem.class.getName(), "setPipeline()");
     }
 
-    // returns the Limelight's pipeline, returns "error" if no pipeline can be found
+    // Returns the Limelight's pipeline, returns "error" if no pipeline can be found
     public String getPipeline() {
 
-        // holds the name of the current pipeline
+        // Holds the name of the current pipeline
         String pipelineName = "error";
 
         if(currentPipeline.getPipeline() == 0) {
@@ -211,7 +211,7 @@ public class LimelightSubsystem extends SubsystemBase {
         return pipelineName;
     }
 
-    // used to turn the limelight LEDs on and off
+    // Used to turn the limelight LEDs on and off
     public void setLightMode(int mode) {
         limelightTable.getEntry("ledMode").setNumber(mode);
     }

@@ -191,8 +191,9 @@ public final class Constants {
 
     //[-------------------LOGGER--------------------------]
 
-    // OFFSET
+    //[-------------------OFFSET--------------------------]
     
 	public static final double KICKER_ENCODER_OFFSET = 0;
     
+    //[-------------------OFFSET--------------------------]
 } // end of constants
