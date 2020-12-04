@@ -159,7 +159,7 @@ public class RobotContainer {
   private final LimelightSubsystem limelightSubsystem;
 
   // --Flywheel Angle Subsystem
-  //private final FlywheelPistonSubsystem flywheelPistonSubsystem;
+  private final FlywheelPistonSubsystem flywheelPistonSubsystem;
 
   // --Tower subsystem
   private final TowerSubsystem towerSubsystem;
@@ -226,7 +226,7 @@ public class RobotContainer {
     limelightSubsystem = new LimelightSubsystem();
 
     flywheelSubsystem = new FlywheelSubsystem();
-    //flywheelPistonSubsystem = new FlywheelPistonSubsystem();
+    flywheelPistonSubsystem = new FlywheelPistonSubsystem();
 
     towerSubsystem = new TowerSubsystem();
 
@@ -349,6 +349,8 @@ public class RobotContainer {
 
       // ZR Button
       Trigger manualFlywheelButton = new JoystickButton(driverController, GC_ZR).and(inManualModeTrigger);
+       // ZL Button
+       AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);// .and(inManualModeTrigger);
 
       // --Command binds
 
@@ -363,6 +365,8 @@ public class RobotContainer {
       // manual flywheel spinning
       manualFlywheelButton.whenActive(new RunFlywheelCommand(flywheelSubsystem)).whenInactive(new StopFlywheelCommand(flywheelSubsystem));
       // manual flywheel piston stuff
+      manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
+      
       reverseHopperButton.whileActiveOnce(new ReverseHopperCommand(hopperSubsystem, reverseHopperButton));
       // manual
       stopHopperButton.whileActiveOnce(new StopHopperStateCommand());
