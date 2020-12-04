@@ -324,7 +324,7 @@ public class RobotContainer {
     // --Buttons and Triggers
 
     // A Button
-    JoystickButton rotationalButton = new JoystickButton(driverController, XB_X);
+    JoystickButton rotationalButton = new JoystickButton(driverController, GC_A);
     // B Button
     JoystickButton positionalButton = new JoystickButton(driverController, GC_B);
     // L Button
@@ -461,19 +461,16 @@ public class RobotContainer {
     if (inManualMode) {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
     } 
-    // else {
-    //   // CHANGE ISFINISHED TO FALSE BEFORE UNCOMMENTING
-    //   scheduler.setDefaultCommand(intakeMotorSubsystem, new
-    //   ManualIntakeCommand(intakeMotorSubsystem, coDriverController,
-    //   XB_AXIS_RIGHT_Y));
-    //   scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
-    //   scheduler.setDefaultCommand(driveSubsystem, driveCommand);
-    //   scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-    //   scheduler.setDefaultCommand(flywheelSubsystem,
-    //       new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_TELEOP_SPEED));
-    //   scheduler.setDefaultCommand(limelightSubsystem,
-    //       new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
-    // }
+    else {
+      // CHANGE ISFINISHED TO FALSE BEFORE UNCOMMENTING
+      scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
+      scheduler.setDefaultCommand(driveSubsystem, driveCommand);
+      scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
+      scheduler.setDefaultCommand(flywheelSubsystem,
+          new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_TELEOP_SPEED));
+      scheduler.setDefaultCommand(limelightSubsystem,
+          new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
+    }
 
   }
 
