@@ -135,8 +135,8 @@ public class RobotContainer {
   private final ClimberArmSubsystem climberArmSubsystem;
 
   // --Color wheel stuff subsystems
-  private final ColorSensorSubsystem colorSensorSubsystem;
-  private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
+  // private final ColorSensorSubsystem colorSensorSubsystem;
+  // private final ColorWheelSpinnerSubsystem colorWheelSpinnerSubsystem;
 
   // --Drive subsystem
   private final DriveSubsystem driveSubsystem;
@@ -172,7 +172,7 @@ public class RobotContainer {
   private final TurretSubsystem turretSubsystem;
 
   // --LED subsystem
-  LEDSubsystem ledSubsystem = new LEDSubsystem();
+  //LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   // -------- COMMANDS --------\\
 
@@ -216,8 +216,8 @@ public class RobotContainer {
     driverController = new Joystick(DRIVER_CONTROLLER_ID);
     coDriverController = new Joystick(CODRIVER_CONTROLLER_ID);
     // --Subsystems
-    colorSensorSubsystem = new ColorSensorSubsystem();
-    colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
+    // colorSensorSubsystem = new ColorSensorSubsystem();
+    // colorWheelSpinnerSubsystem = new ColorWheelSpinnerSubsystem();
 
     driveSubsystem = new DriveSubsystem();
 
@@ -230,7 +230,7 @@ public class RobotContainer {
 
     climberArmSubsystem = new ClimberArmSubsystem();
 
-    ledSubsystem = new LEDSubsystem();
+    //ledSubsystem = new LEDSubsystem();
 
     limelightSubsystem = new LimelightSubsystem();
 
@@ -330,7 +330,7 @@ public class RobotContainer {
     // L Button
     JoystickButton toggleEndgame = new JoystickButton(driverController, GC_L);
     // ZR Button
-    JoystickButton shootButton = new JoystickButton(driverController, GC_ZR);
+    JoystickButton shootButton = new JoystickButton(driverController, XB_A);
 
     // codriver stop jam button
     JoystickButton stopJamButton = new JoystickButton(coDriverController, XB_X);
@@ -338,15 +338,15 @@ public class RobotContainer {
     // --Command binds
 
     // Rotational control command bind
-    rotationalButton.whileActiveOnce(new
-    RotationalControlCommandGroup(colorSensorSubsystem,
-    colorWheelSpinnerSubsystem));
+    //rotationalButton.whileActiveOnce(new
+    // RotationalControlCommandGroup(colorSensorSubsystem,
+    // colorWheelSpinnerSubsystem));
 
     // Positional control command bind TODO: Uncomment this when ready for testing
-    positionalButton.whileActiveOnce(new PositionalControlCommandGroup(colorSensorSubsystem,colorWheelSpinnerSubsystem));
+    //positionalButton.whileActiveOnce(new PositionalControlCommandGroup(colorSensorSubsystem,colorWheelSpinnerSubsystem));
 
     // Drive command binds
-    driveCommand.setTurningAndThrottleAxis(GC_AXIS_RIGHT_X, GC_AXIS_LEFT_Y);
+    driveCommand.setTurningAndThrottleAxis(XB_AXIS_RIGHT_X, XB_AXIS_LEFT_Y);
 
     // Shooter command binds
     shootButton.whileActiveOnce(new ShootPowerCellCommandGroup(flywheelSubsystem, towerSubsystem, hopperSubsystem,
@@ -364,8 +364,8 @@ public class RobotContainer {
     // --Buttons and Triggers
 
     // A Button
-    Trigger manualColorSpinnerButton = new JoystickButton(driverController,
-     GC_A).and(inManualModeTrigger);
+    // Trigger manualColorSpinnerButton = new JoystickButton(driverController,
+    //  GC_A).and(inManualModeTrigger);
     // X Button
     Trigger manualKickerButton = new JoystickButton(driverController, GC_X).and(inManualModeTrigger);
     // Y Button
@@ -386,8 +386,8 @@ public class RobotContainer {
 
     // manual color wheel spinner
     
-    manualColorSpinnerButton.whenActive(new
-    ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem));
+    // manualColorSpinnerButton.whenActive(new
+    // ColorWheelSpinnerCommand(colorWheelSpinnerSubsystem));
     // manual hopper spinning
     // manual kicker spinning
     manualKickerButton.whenActive(new RunKickerCommand(kickerSubsystem))
@@ -468,9 +468,9 @@ public class RobotContainer {
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
       scheduler.setDefaultCommand(flywheelSubsystem,
           new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_TELEOP_SPEED));
-      scheduler.setDefaultCommand(limelightSubsystem,
-          new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
-    }
+    //   scheduler.setDefaultCommand(limelightSubsystem,
+    //       new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
+     }
 
   }
 
@@ -489,8 +489,8 @@ public class RobotContainer {
     scheduler.setDefaultCommand(hopperSubsystem, defaultStopHopperCommand);
     scheduler.setDefaultCommand(flywheelSubsystem,
         new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_TELEOP_SPEED));
-    scheduler.setDefaultCommand(limelightSubsystem,
-        new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
+    // scheduler.setDefaultCommand(limelightSubsystem,
+    //     new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
 
   }
 

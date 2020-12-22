@@ -80,7 +80,7 @@ public final class Constants {
     public static final double TOWER_REVERSE_SPEED = -0.5;
     public static final double KICKER_SPEED = 1.0;
     public static final double INTAKE_SPEED = 0.6; 
-    public static final double FLYWHEEL_TELEOP_SPEED = 0.5;
+    public static final double FLYWHEEL_TELEOP_SPEED = 0.8;
 
     public static final double FLYWHEEL_AUTON_SPEED = 0.8;
     public static final double CLIMBER_EXTEND_SPEED = 0.1;
