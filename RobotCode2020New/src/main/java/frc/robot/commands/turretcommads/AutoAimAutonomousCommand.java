@@ -11,12 +11,10 @@ package frc.robot.commands.turretcommads;
 
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.subsystems.LimelightSubsystem.LimelightPipelines;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,13 +27,12 @@ public class AutoAimAutonomousCommand extends PIDCommand {
 
     private static final Logger logger = Logger.getLogger(AutoAimTurretCommand.class.getName());
     private LimelightSubsystem limelight;
-    private TurretSubsystem turretSubsystem;
-    private double stickX;
+    private int counter;
     private final int LEDS_ON = 3;
 
     // -------- CONSTRUCTOR --------\\
 
-    public AutoAimAutonomousCommand(LimelightSubsystem limelight, TurretSubsystem turret, PIDController controller) {
+    public AutoAimAutonomousCommand(LimelightSubsystem limelight, TurretSubsystem turretSubsystem, PIDController controller) {
         // Initial P = 0.065
         // Oscillations over time: 3 cycles per 1 second
         // Period = 0.33   :    Took the oscillations over time and divided one by that number
@@ -67,26 +64,28 @@ public class AutoAimAutonomousCommand extends PIDCommand {
                     }
                     SmartDashboard.putNumber("controller", output);
 
+                    
+
                     if(Math.abs(limelight.getHorizontalOffset()) < 27) {
-                            turret.setSpeed(output);
+                            turretSubsystem.setSpeed(output);
                         
                     }
                 },
                 // Pass in the subsystems we will need
-                turret, limelight); // End of super constructor
+                turretSubsystem, limelight); // End of super constructor
 
         logger.entering(AutoAimAutonomousCommand.class.getName(), "AutoAimTurretCommand");
         this.limelight = limelight;
-        this.turretSubsystem = turret;
+        counter = 0;
 
         // Enable the controller to continuously get input
         this.getController().enableContinuousInput(-27, 27);
 
         // Set the tolerance of the controller
-        this.getController().setTolerance(0.4);
+        this.getController().setTolerance(0.2);
 
         // Require the subsystems that we need
-        addRequirements(limelight, turret);
+        addRequirements(limelight, turretSubsystem);
 
     } // end of constructor AutoAimTurretCommand()
 
@@ -98,13 +97,18 @@ public class AutoAimAutonomousCommand extends PIDCommand {
 
     @Override
     public boolean isFinished() {
+
         double offset = limelight.getHorizontalOffset();
         boolean inRange = false;
 
-        if(Math.abs(offset) < 0.4) {
-            inRange = true;
+        if(Math.abs(offset) < 1.5) {
+            counter++;
+            if(counter >= 10) {
+                inRange = true;
+            }
         } 
         else {
+            counter = 0;
             inRange = false;
         }
 

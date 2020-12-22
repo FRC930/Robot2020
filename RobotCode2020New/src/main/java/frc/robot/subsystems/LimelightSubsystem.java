@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- SUBSYSTEM CLASS --------\\
 
@@ -52,16 +52,13 @@ public class LimelightSubsystem extends SubsystemBase {
     private final double DEFAULT_VERT_ANGLE_OFFSET = -200;
     private final double DEFAULT_VALID_TARGET = -1;
 
-    // distance at which we change pipelines
-    private final double DISTANCE_THRESHOLD = 30; //TODO: find this threshold, 10 is a placeholder
-
     // -------- DECLARATIONS --------\\
 
     // network table that holds the limelight's settings
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
     // shuffleboardUtility
-    private ShuffleboardUtility shuffleboardUtility;
+    //private ShuffleboardUtility shuffleboardUtility;
 
     // tv Whether the limelight has any valid targets (0 or 1)
     private boolean validTarget;
@@ -73,6 +70,8 @@ public class LimelightSubsystem extends SubsystemBase {
     private double verticleOffset;
 
     private double targetArea;
+
+    private double skew;
 
     // the Limelight's current pipeline
     private LimelightPipelines currentPipeline;
@@ -98,7 +97,7 @@ public class LimelightSubsystem extends SubsystemBase {
     //-------- CONSTRUCTOR --------\\
 
     public LimelightSubsystem() {
-        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        //shuffleboardUtility = ShuffleboardUtility.getInstance();
     }
 
     // -------- METHODS --------\\
@@ -176,6 +175,13 @@ public class LimelightSubsystem extends SubsystemBase {
         return targetArea;
 
     }
+    
+    public double getSkew() {
+
+        skew = limelightTable.getEntry("ts").getDouble(-1000);
+        return skew;
+
+    }
 
     // sets the pipeline, or configuration, of the limelight
     public void setPipeline(LimelightPipelines pipeline) {
@@ -213,19 +219,20 @@ public class LimelightSubsystem extends SubsystemBase {
     @Override
     public void periodic() {    
 
-        if(getDistance() > DISTANCE_THRESHOLD) {
-            setPipeline(LimelightPipelines.ZOOM_2X);
-        } else {
-            setPipeline(LimelightPipelines.NO_ZOOM);
-        }
+        // if(getDistance() > DISTANCE_THRESHOLD) {
+        //     setPipeline(LimelightPipelines.ZOOM_2X);
+        // } else {
+        //     setPipeline(LimelightPipelines.NO_ZOOM);
+        // }
 
-        SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
-        SmartDashboard.putNumber("verical offset", getVerticleOffset());
-        SmartDashboard.putBoolean("valid targets", getValidTargets());
-        SmartDashboard.putNumber("distance", getDistance());
-        SmartDashboard.putString("pipeline", getPipeline());
+        // SmartDashboard.putNumber("horiz offset", getHorizontalOffset());
+        // SmartDashboard.putNumber("verical offset", getVerticleOffset());
+        // SmartDashboard.putBoolean("valid targets", getValidTargets());
+        // SmartDashboard.putNumber("distance", getDistance());
+        // SmartDashboard.putString("pipeline", getPipeline());
+        SmartDashboard.putNumber("skew", getSkew());
 
-        shuffleboardUtility.setDistanceFromTarget(getDistance());
+        //shuffleboardUtility.setDistanceFromTarget(getDistance());
     }
 
 } // end of class LimelightSubsystem

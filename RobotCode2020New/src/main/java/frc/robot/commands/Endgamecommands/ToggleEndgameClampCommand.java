@@ -11,30 +11,27 @@ package frc.robot.commands.endgamecommands;
 
 //import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class ClimbCommand extends CommandBase {
+public class ToggleEndgameClampCommand extends CommandBase {
 
 
     //You must include logger as a constant variable, and you must have logging in your files
-    //private static final Logger logger = Logger.getLogger(ClimbCommand.class.getName());
+    //private static final Logger logger = Logger.getLogger(ToggleShiftCommand.class.getName());
+
+    private boolean state;
 
     private DriveSubsystem driveSubsystem;    
-    private Joystick driver;
-    private int climbAxis;
-
-    private double climbSpeed;
     
-    public ClimbCommand(DriveSubsystem driveSubsystem, Joystick driver, int climbAxis){
+    public ToggleEndgameClampCommand(DriveSubsystem driveSubsystem){
         this.driveSubsystem = driveSubsystem;
-        this.driver = driver;
-        this.climbAxis = climbAxis;
-        this.climbSpeed = 0;
+
+        state = true;
+
         addRequirements(driveSubsystem);
     }
 
@@ -43,13 +40,10 @@ public class ClimbCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {   
-        if(Math.abs(driver.getRawAxis(climbAxis)) > 0.1) {
-            climbSpeed = Math.pow(driver.getRawAxis(climbAxis), 3);
-        } else {
-            climbSpeed = 0;
-        }
 
-        driveSubsystem.runAt(climbSpeed, -climbSpeed);
+        state = !state;
+
+        driveSubsystem.setEndgameClampState(state);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -68,5 +62,5 @@ public class ClimbCommand extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-} // end of class ClimbCommand 
+} // end of class ToggleShiftCommand 
 

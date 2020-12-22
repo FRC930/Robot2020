@@ -12,7 +12,7 @@ package frc.robot.commands.shootercommands.flywheelcommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.FlywheelSubsystem;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;;
 
 //-------- COMMANDBASE CLASS --------\\
 
@@ -20,7 +20,7 @@ public class RunFlywheelCommand extends CommandBase {
 
   // -------- DECLARATIONS --------\\
 
-  private ShuffleboardUtility shuffleboardUtility;
+  //private ShuffleboardUtility shuffleboardUtility;
   private FlywheelSubsystem m_FlywheelSubsystem;
 
   // -------- CONSTRUCTOR --------\\
@@ -28,6 +28,9 @@ public class RunFlywheelCommand extends CommandBase {
   public RunFlywheelCommand(FlywheelSubsystem flywheelSubsystem) {
     m_FlywheelSubsystem = flywheelSubsystem;
     shuffleboardUtility = ShuffleboardUtility.getInstance();
+
+    //shuffleboardUtility = ShuffleboardUtility.getInstance();
+
     addRequirements(m_FlywheelSubsystem);
   }
 

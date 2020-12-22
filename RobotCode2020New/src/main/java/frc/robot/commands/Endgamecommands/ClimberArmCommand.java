@@ -48,6 +48,7 @@ public class ClimberArmCommand extends CommandBase
     
     @Override
     public void initialize() {   
+        speed = 0;
     }
 
     // Runs everytime condisions are met(RB button is being held).
@@ -58,17 +59,19 @@ public class ClimberArmCommand extends CommandBase
         position = climberArmSubsystem.getRawEncoderPosition();
 
         // if the coDriver pushes joystick up it will set the speed to the Climber Arm
-        if(Math.abs(stickY) > 0.1 && position > Constants.CLIMBER_LIMIT && position < 0) {
-            speed = Math.pow(stickY, 3) * 0.5;
-            this.logger.log(Constants.LOG_LEVEL_INFO, "Absolute Stick axis value: " + stickY + " > " + 0.1);
+        if(Math.abs(stickY) > 0.1 && position > Constants.CLIMBER_LIMIT) {  //&& position <= 0) {
+            speed = -Math.pow(stickY, 3) * 0.75;
+            //System.out.println("Speed " + speed);
+            logger.log(Constants.LOG_LEVEL_INFO, "Absolute Stick axis value: " + stickY + " > " + 0.1);
         } else {
             speed = 0;
-            this.logger.log(Constants.LOG_LEVEL_INFO, "Stick value too low to run");
+            logger.log(Constants.LOG_LEVEL_INFO, "Stick value too low to run");
         }
 
         this.climberArmSubsystem.setSpeed(speed);
         SmartDashboard.putNumber("co driver axis", stickY);
         SmartDashboard.putNumber("joystick ClimberArm speed", speed);
+        SmartDashboard.putNumber("encoder position", position);
     }
     
     // Called once the command ends or is interrupted.

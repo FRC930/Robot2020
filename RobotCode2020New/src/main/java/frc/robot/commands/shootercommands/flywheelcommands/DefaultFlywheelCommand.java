@@ -14,6 +14,7 @@ import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.utilities.JamState;
 import frc.robot.Constants;
 
+
 //-------- COMMAND CLASS --------\\
 
 public class DefaultFlywheelCommand extends CommandBase {
@@ -23,10 +24,13 @@ public class DefaultFlywheelCommand extends CommandBase {
     private FlywheelSubsystem m_FlywheelSubsystem;
     private JamState state = JamState.getInstance();
 
+    private double speed;
+
     //-------- CONSTRUCTOR --------\\
 
-    public DefaultFlywheelCommand(FlywheelSubsystem flywheelSubsystem) {
+    public DefaultFlywheelCommand(FlywheelSubsystem flywheelSubsystem, double speed) {
         m_FlywheelSubsystem = flywheelSubsystem;
+        this.speed = speed;
         addRequirements(m_FlywheelSubsystem);
     }
 
@@ -35,7 +39,7 @@ public class DefaultFlywheelCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_FlywheelSubsystem.setSpeed(0.3);     //Set flywheel to default speed.
+        m_FlywheelSubsystem.setSpeed(0.3);     //Set flywheel to default speed
     }
 
     @Override

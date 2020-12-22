@@ -15,7 +15,7 @@ import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.utilities.JamState;
 import frc.robot.Constants;
 
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 
  
@@ -31,6 +31,8 @@ public class RunKickerCommand extends CommandBase {
 
     // -------- CONSTRUCTOR --------\\
     private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
+
+    //private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
     
     //-------- CONSTRUCTOR --------\\
 
@@ -41,6 +43,7 @@ public class RunKickerCommand extends CommandBase {
 
     @Override
     public void initialize() {
+
         kickerSubsystem.setSpeed(0.0);
         kickerFlag = false;
     }
@@ -48,6 +51,7 @@ public class RunKickerCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+
         // if (state.getState()) {
         //     kickerSubsystem.setSpeed(0.0);
         // } else {
@@ -63,7 +67,6 @@ public class RunKickerCommand extends CommandBase {
                     kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
                 }
             }
-        //}
     }
 
     public boolean calculateStart(double encoderValue)

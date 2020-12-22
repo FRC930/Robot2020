@@ -15,13 +15,8 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import frc.robot.commands.drivecommands.StopDriveCommand;
-import frc.robot.commands.intakecommands.DeployIntakeCommand;
-import frc.robot.commands.intakecommands.ReturnIntakeCommand;
-import frc.robot.commands.shootercommands.ShootPowerCellCommandGroup;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
 import edu.wpi.first.wpilibj2.command.*;
@@ -91,9 +86,6 @@ public class CheesyDenverSkilletCommand extends SequentialCommandGroup {
         new Pose2d(inchesToMeters(0), inchesToMeters(160.5), new Rotation2d(Math.toRadians(0))),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(
-            // Move to first two of three balls first to grab balls
-            //new Translation2d(inchesToMeters(107.83), inchesToMeters(0)),
-            //new Translation2d(inchesToMeters(7.0), inchesToMeters(-15.0))
         ),
         // Endpoint
         new Pose2d(inchesToMeters(120.51), inchesToMeters(175.8), new Rotation2d(Math.toRadians(0))),

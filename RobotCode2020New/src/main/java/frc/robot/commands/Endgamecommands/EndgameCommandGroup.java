@@ -9,19 +9,19 @@
 
 package frc.robot.commands.endgamecommands;
 
-import frc.robot.commands.endgamecommands.ClimberArmCommand;
-import frc.robot.subsystems.ClimberArmSubsystem;
-import frc.robot.triggers.TriggerCommand;
+import frc.robot.Constants;
+import frc.robot.commands.shootercommands.flywheelcommands.KillFlywheelCommand;
+import frc.robot.commands.turretcommads.SetTurretPositionCommand;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 //import java.util.logging.Logger;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 //-------- COMMANDGROUP CLASS --------\\
 
-public class ClimberArmCommandGroup extends ParallelRaceGroup {
+public class EndgameCommandGroup extends SequentialCommandGroup {
 
     //-------- CONSTANTS --------\\
     
@@ -29,25 +29,24 @@ public class ClimberArmCommandGroup extends ParallelRaceGroup {
 
     //-------- CONSTRUCTOR --------\\
     
-    public ClimberArmCommandGroup(
-        ClimberArmSubsystem climberArmSubsystem,
-         Joystick coDriver,
-         int coDriverAxis,
-        JoystickButton RB)   
-    {
-        // adding commands to use for our climber arm
+    public EndgameCommandGroup(
+        DriveSubsystem driveSubsystem,
+        FlywheelSubsystem flywheelSubsystem,
+        TurretSubsystem turretSubsystem
+        )   
+    {   
         
         addCommands(
-            new TriggerCommand(RB),
-            new ClimberArmCommand(climberArmSubsystem, coDriver, coDriverAxis)
+            new ToggleShiftCommand(driveSubsystem),
+            new KillFlywheelCommand(flywheelSubsystem),
+            new SetTurretPositionCommand(turretSubsystem, Constants.TURRET_RIGHT_POSITION)
         );
        
-    } // end of the constructor ClimberArmCommandGroup
-    
+    } // end of the constructor EndgameCommandGroup
 
     @Override
     public void end(boolean interrupted) {
       
     }
 
-} // end of class ClimberArmCommandGroup
+} // end of class EndgameCommandGroup

@@ -9,14 +9,12 @@
 
 package frc.robot.utilities;
 
-import java.util.List;
-import java.util.Map;
-
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.autocommands.paths.SaltAndPepperSkilletCommand;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
 //-------- CLASS --------\\
@@ -27,33 +25,31 @@ public class ShuffleboardUtility {
 
     //-------- DECLARATIONS --------\\
     
-    private List<ShuffleboardComponent<?>> pidController;
-    private double kP;
-    private double kI;
-    private double kD;
-    private double kF;
-    private double kSetpoint;
+    private SendableChooser<Command> sendableChooser;
+    // private List<ShuffleboardComponent<?>> pidController;
+    // private double kP;
+    // private double kI;
+    // private double kD;
+    // private double kF;
+    // private double kSetpoint;
 	private boolean intakeIndicator;
     private boolean shootIndicator;
     private boolean manualMode;
 	private double distanceFromTarget;
     private String shotType;
     private boolean shooterUpToSpeed;
-    private String fmsColor;
-    private String logger;
-    private String fmsColorDebug;
+    // private String fmsColor;
+    // private String logger;
+    // private String fmsColorDebug;
     private double hopperSpeed;
     private double shooterRPM;
     private boolean shooterAngle;
     private double turretSpeed;
     private double turretEncoderPosition;
     private double gyroYaw;
-    private boolean saltAndPepper;
-    private boolean cheesyDenver;
-    private boolean caliAvocado;
+    private double shootSpeed;
     private ShuffleboardTab testDebugTab;
     private ShuffleboardTab driverStationTab;
-    private ShuffleboardTab autoTab;
     private NetworkTableEntry intakingEntry;
     private NetworkTableEntry shootingEntry;
     private NetworkTableEntry manualModeEntry;
@@ -66,13 +62,12 @@ public class ShuffleboardUtility {
     private NetworkTableEntry shooterRPMEntry;
     private NetworkTableEntry turretEncoderPositionEntry;
     private NetworkTableEntry gyroYawEntry;
-    private NetworkTableEntry saltAndPepperEntry;
-    private NetworkTableEntry cheesyDenverEntry;
-    private NetworkTableEntry caliAvocadoEntry;
+    private NetworkTableEntry shooterSetEntry;
 
     //-------- CONSTRUCTOR --------\\
 
     private ShuffleboardUtility() {
+
         //pidController = testDebugTab.getComponents();
         intakeIndicator = false;
         shootIndicator = false;
@@ -81,26 +76,23 @@ public class ShuffleboardUtility {
         //distanceFromTarget = 0.0;
         shotType = "";
         shooterUpToSpeed = false;
-        fmsColor = "";
-        logger = "";
-        fmsColorDebug = "";
+        // fmsColor = "";
+        // logger = "";
+        // fmsColorDebug = "";
         hopperSpeed = 0.0;
         shooterRPM = 0.0;
         shooterAngle = false;
         turretSpeed = 0.0;
         turretEncoderPosition = 0.0;
         gyroYaw = 0.0;
-        kP = 0.0;
-        kI = 0.0;
-        kD = 0.0;
-        kF = 0.0;
-        kSetpoint = 0.0;
-        saltAndPepper = false;
-        cheesyDenver = false;
-        caliAvocado = false;
+        // kP = 0.0;
+        // kI = 0.0;
+        // kD = 0.0;
+        // kF = 0.0;
+        // kSetpoint = 0.0;
+        shootSpeed = Constants.FLYWHEEL_TELEOP_SPEED;
         driverStationTab = Shuffleboard.getTab("Driver Station");
         testDebugTab = Shuffleboard.getTab("Testing & Debugging");
-        autoTab = Shuffleboard.getTab("Autonomous");
         intakingEntry = driverStationTab.add("Intaking?", intakeIndicator).getEntry();
         shootingEntry = driverStationTab.add("Shooting?", shootIndicator).getEntry();
         manualModeEntry = driverStationTab.add("Manual Mode?", manualMode).getEntry();
@@ -113,13 +105,13 @@ public class ShuffleboardUtility {
         shooterRPMEntry = testDebugTab.add("Shooter RPM", shooterRPM).getEntry();
         turretEncoderPositionEntry = testDebugTab.add("Turret Encoder Position", turretEncoderPosition).getEntry();
         gyroYawEntry = testDebugTab.add("Gyro Yaw", gyroYaw).getEntry();
-        saltAndPepperEntry = autoTab.add("Salt and Pepper Skillet", saltAndPepper).getEntry();
-        cheesyDenverEntry = autoTab.add("Cheesy Denver Skillet", cheesyDenver).getEntry();
-        caliAvocadoEntry = autoTab.add("Cali Avocado Skillet", caliAvocado).getEntry();
+        shooterSetEntry = driverStationTab.add("set Shooter DEFUALT IS 0.8",shootSpeed).getEntry();
+
+        sendableChooser = new SendableChooser<Command>();
     }
 
     private static ShuffleboardUtility instance = null;
-
+    
 	// Singleton
     public static ShuffleboardUtility getInstance() {
         if (instance == null){
@@ -131,34 +123,41 @@ public class ShuffleboardUtility {
     //------- Drive Tab -------\\
 
     // TODO: set methods to respective commands
-	public void setIntakeIndicator(boolean IntakeIndicator){
+	public void putIntakeIndicator(boolean IntakeIndicator){
 		intakeIndicator = IntakeIndicator;
         intakingEntry.setBoolean(intakeIndicator);
-	}
-	public void setShootIndicator(boolean ShootIndicator){
+    }
+    
+	public void putShootIndicator(boolean ShootIndicator){
 		shootIndicator = ShootIndicator;
 		shootingEntry.setBoolean(shootIndicator);
     }
-    public void setManualMode(boolean ManualMode){
+
+    public void putManualMode(boolean ManualMode){
         manualMode = ManualMode;
         manualModeEntry.setBoolean(manualMode);
     }
-	public void setDistanceFromTarget(double DistanceFromTarget){
+
+	public void putDistanceFromTarget(double DistanceFromTarget){
 		distanceFromTarget = DistanceFromTarget;
         distanceFromTargetEntry.setNumber(distanceFromTarget);
     }
+
     // TODO: find method for shot types
-	public void setShotType(String ShotType){
+	public void putShotType(String ShotType){
 		shotType = ShotType;
 		shotTypeEntry.setString(shotType);
     }
-    public void setHopperFeed(){
+
+    public void putHopperFeed(){
         
     }
-    public void setShooterUpToSpeed(boolean ShooterUpToSpeed){
+
+    public void putShooterUpToSpeed(boolean ShooterUpToSpeed){
         shooterUpToSpeed = ShooterUpToSpeed;
         shooterUpToSpeedEntry.setBoolean(shooterUpToSpeed);
     }
+
     // public String getFMSColor(){
 	// 	fmsColor = SmartDashboard.getString("FMS Color", "No Color Available");
 	// 	return fmsColor;
@@ -166,34 +165,56 @@ public class ShuffleboardUtility {
 
 	//----- Testing & Debugging -----\\
 
-    public void setTurretSpeed(double TurretSpeed){
+    public void putTurretSpeed(double TurretSpeed){
         turretSpeed = TurretSpeed;
         turretSpeedEntry.setNumber(turretSpeed);
     }
-    public void setHopperSpeed(double HopperSpeed){
+
+    public void putHopperSpeed(double HopperSpeed){
         hopperSpeed = HopperSpeed;
         hopperSpeedEntry.setNumber(hopperSpeed);
     }
-    public void setShooterAngle(boolean ShooterAngle){
+
+    public void putShooterAngle(boolean ShooterAngle){
         shooterAngle = ShooterAngle;
         shooterAngleEntry.setBoolean(shooterAngle);
     }
+
 	// public void getLogger(String logger){
 	// 	this.logger = logger;
 	// 	SmartDashboard.putString("Logger Level", logger);
-	// }
-	public void setShooterRPM(double ShooterRPM){
+    // }
+    
+	public void putShooterRPM(double ShooterRPM){
 		shooterRPM = ShooterRPM;
 		shooterRPMEntry.setNumber(shooterRPM);
-	}
-	public void setTurretEncoderPosition(double TurretEncoderPosition){
+    }
+    
+	public void putTurretEncoderPosition(double TurretEncoderPosition){
 		turretEncoderPosition = TurretEncoderPosition;
 		turretEncoderPositionEntry.setNumber(turretEncoderPosition);
     }
-    public void setGyroYaw(double GyroYaw){
+
+    public void putGyroYaw(double GyroYaw){
         gyroYaw = GyroYaw;
         gyroYawEntry.setNumber(gyroYaw);
     }
+
+    public double getShooterSpeed(){
+        return shooterSetEntry.getDouble(shootSpeed);
+    }
+
+    public void addAutonOptions(String pathName,CommandBase autoCommand){
+        sendableChooser.addOption(pathName,autoCommand);
+    }
+
+    public void setDefaultAutonOptions(String pathName,CommandBase autoCommand){
+        sendableChooser.setDefaultOption(pathName,autoCommand);
+    }
+    public Command getSelectedAutonPath(){
+        return sendableChooser.getSelected();
+    }
+    
     // TODO: figure out how to get PID values into code
     // public String getShooterP(){
     //     //  return string : set to error string, changes to valid string if object is found.
@@ -302,38 +323,5 @@ public class ShuffleboardUtility {
     //             }
     //         }
     //     }
-    // }
-    
-    //-------- Autonomous --------\\
-    
-    // public boolean getSaltAndPepperSkillet(){
-    //     saltAndPepper = saltAndPepperEntry.getBoolean(saltAndPepper);
-    //     return saltAndPepper;
-    // }
-    // public boolean getCheesyDenverSkillet(){
-    //     cheesyDenver = cheesyDenverEntry.getBoolean(cheesyDenver);
-    //     return cheesyDenver;
-    // }
-    // public boolean getCaliAvocadoSkillet(){
-    //     caliAvocado = caliAvocadoEntry.getBoolean(caliAvocado);
-    //     return caliAvocado;
-    // }
-
-    // public int autonomousPaths(){
-
-    //     caliAvocado = caliAvocadoEntry.getBoolean(caliAvocado);
-    //     cheesyDenver = cheesyDenverEntry.getBoolean(cheesyDenver);
-    //     saltAndPepper = saltAndPepperEntry.getBoolean(saltAndPepper);
-
-    //     if (caliAvocado == true){
-    //         return 1;
-    //     } else if (cheesyDenver == true){
-    //         return 2;
-    //     } else if (saltAndPepper == true){
-    //         return 3;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
-    
+    // }    
 } //end of class Shuffleboard

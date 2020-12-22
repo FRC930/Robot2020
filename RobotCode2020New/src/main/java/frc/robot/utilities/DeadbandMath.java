@@ -66,10 +66,10 @@ public class DeadbandMath {
     public static enum ShotChance {
         ERROR(-1), MISS(0), LOW(1), HIGH(2);
 
-        private int type;
+        //private int type;
 
         private ShotChance(int type) {
-            this.type = type;
+            //this.type = type;
         }
     }
 

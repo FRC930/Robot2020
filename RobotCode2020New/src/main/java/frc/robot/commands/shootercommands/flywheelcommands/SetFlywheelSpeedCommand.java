@@ -8,31 +8,31 @@
 //-------- IMPORTS --------\\
 
 package frc.robot.commands.shootercommands.flywheelcommands;
-
+import frc.robot.commands.shootercommands.flywheelcommands.DefaultFlywheelCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.utilities.ShuffleboardUtility;
+import frc.robot.Constants;
+import frc.robot.subsystems.FlywheelSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class KillFlywheelCommand extends CommandBase {
+public class SetFlywheelSpeedCommand extends CommandBase {
 
     // -------- DECLARATIONS --------\\
 
     private FlywheelSubsystem m_FlywheelSubsystem;
-    private boolean state;
-    private CommandScheduler scheduler;
     private ShuffleboardUtility shuffleboardUtility;
+    private CommandScheduler scheduler;
 
     // -------- CONSTRUCTOR --------\\
 
-    public KillFlywheelCommand(FlywheelSubsystem flywheelSubsystem) {
+    public SetFlywheelSpeedCommand(FlywheelSubsystem flywheelSubsystem) {
         m_FlywheelSubsystem = flywheelSubsystem;
-        addRequirements(m_FlywheelSubsystem);
-        state = false;
-        scheduler = CommandScheduler.getInstance();
         shuffleboardUtility = ShuffleboardUtility.getInstance();
+        addRequirements(m_FlywheelSubsystem);
+
+        scheduler = CommandScheduler.getInstance();
     }
 
     //-------- COMMANDBASE METHODS --------\\
@@ -40,16 +40,10 @@ public class KillFlywheelCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        //Kil default command
         scheduler.unregisterSubsystem(m_FlywheelSubsystem);
-        
-        state = !state;
-        if(state){
-            m_FlywheelSubsystem.setSpeed(0.0);
-        }
-        else{
-            //Kil default command
-            m_FlywheelSubsystem.setSpeed(shuffleboardUtility.getShooterSpeed());
-        }
+        new DefaultFlywheelCommand(m_FlywheelSubsystem, shuffleboardUtility.getShooterSpeed());
+        scheduler.setDefaultCommand(m_FlywheelSubsystem, new DefaultFlywheelCommand(m_FlywheelSubsystem, Constants.FLYWHEEL_AUTON_SPEED));
     }
 
     // Called every time the scheduler runs while the command is scheduled.

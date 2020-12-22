@@ -14,12 +14,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.robot.Constants;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -37,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX right2;
   private WPI_TalonFX left1;
   private WPI_TalonFX left2;
-  private ShuffleboardUtility shuffleboardUtility;
+  //private ShuffleboardUtility shuffleboardUtility;
 
   // The intake talon motor controller, has the gyro attached to it
   private TalonSRX gyroTalon;
@@ -46,6 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
   private PigeonIMU gyro;
 
   private Solenoid shifter;
+  private Solenoid endgameClamp;
 
   // Values, used to store the yaw, pitch, and roll (the robot's rotation)
   private double yawPitchRollValues[] = new double[3];
@@ -82,7 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
    
     shifter = new Solenoid(Constants.SHIFTER_SOLENOID_ID);
 
-    shuffleboardUtility = ShuffleboardUtility.getInstance();
+    //shuffleboardUtility = ShuffleboardUtility.getInstance();
 
     driveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
@@ -111,11 +111,17 @@ public class DriveSubsystem extends SubsystemBase {
     // Sets up the differntial drive
     // drive = new DifferentialDrive(right1, left1);
     shifter.set(true);
+    endgameClamp.set(true);
   }
 
   public void setShifterState(boolean state) {
     logger.log(Constants.LOG_LEVEL_FINE, "New shifter state: " + state);
     shifter.set(state);
+  }
+
+  public void setEndgameClampState(boolean state) {
+    logger.log(Constants.LOG_LEVEL_FINE, "Endgame clamp state: " + state);
+    endgameClamp.set(state);
   }
 
   /**
@@ -132,6 +138,11 @@ public class DriveSubsystem extends SubsystemBase {
     logger.log(Constants.LOG_LEVEL_FINE, "New left speed: " + leftSpeed + "|| New right speed: " + rightSpeed);
     logger.log(Constants.LOG_LEVEL_FINE, "running " + "left encoder " + getLeftWheelRotations() + " | right encoder " + getRightWheelRotations());
 
+    if(!shifter.get()) {
+      leftSpeed *= 0.3;
+      rightSpeed *= 0.3;
+    }
+    
     left1.set(leftSpeed);
     right1.set(rightSpeed);
 
@@ -261,13 +272,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    logger.entering(DriveSubsystem.class.getName(), "periodic()");
+    //logger.entering(DriveSubsystem.class.getName(), "periodic()");
 
     driveOdometry.update(Rotation2d.fromDegrees(getHeading()), getLeftWheelRotations(), getRightWheelRotations());
-    shuffleboardUtility.setGyroYaw(getHeading());
+    //shuffleboardUtility.setGyroYaw(getHeading());
 
-    logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
-    logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
+    //logger.log(Constants.LOG_LEVEL_FINE, "Rotations: " + Rotation2d.fromDegrees(getHeading()) + "|| Left wheel rotations: " + getLeftWheelRotations() + "|| Right wheel rotations " + getRightWheelRotations());
+    //logger.exiting(DriveSubsystem.class.getName(), "periodic()");  
   }
 
 } // end of the class DriveSubsystem

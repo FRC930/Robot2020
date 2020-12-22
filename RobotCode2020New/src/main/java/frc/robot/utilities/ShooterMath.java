@@ -153,10 +153,10 @@ public class ShooterMath {
     public static enum ShotOutcome {
         NONE(0), OUTER(1), INNER(2);
 
-        private int type;
+        //private int type;
 
         private ShotOutcome(int type) {
-            this.type = type;
+            //this.type = type;
         }
     }
 

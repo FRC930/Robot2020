@@ -9,9 +9,6 @@
 
 package frc.robot.commands.hoppercommands;
 
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.HopperSubsystem;
@@ -19,14 +16,14 @@ import frc.robot.Constants;
 
 //-------- COMMAND CLASS --------\\
 
-public class RunHopperCommand extends CommandBase {
+public class SetAutonomousHopperCommand extends CommandBase {
 
     // -------- DECLARATIONS --------\\
     private HopperSubsystem m_HopperSubsystem;
 
     // -------- CONSTRUCTOR --------\\
 
-    public RunHopperCommand(HopperSubsystem HopperSubsystem) {
+    public SetAutonomousHopperCommand(HopperSubsystem HopperSubsystem) {
         m_HopperSubsystem = HopperSubsystem;
         addRequirements(m_HopperSubsystem);
     }
@@ -36,11 +33,11 @@ public class RunHopperCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_HopperSubsystem.setSpeed(Constants.HOPPER_SHOOTING_SPEED);
+        m_HopperSubsystem.setSpeed(Constants.HOPPER_DEFAULT_SPEED);
     }
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return false;
     }
-} // end of class RunHopperCommand
+} // end of class SetAuonomousHopperCommand

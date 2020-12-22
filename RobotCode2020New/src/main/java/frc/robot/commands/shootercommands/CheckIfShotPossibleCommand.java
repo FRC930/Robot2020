@@ -19,7 +19,7 @@ import frc.robot.utilities.DeadbandMath.DeadbandZone;
 import frc.robot.utilities.DeadbandMath.ShotChance;
 import frc.robot.utilities.ShooterMath;
 import frc.robot.utilities.ShooterMath.ShotOutcome;
-import frc.robot.utilities.ShuffleboardUtility;
+//import frc.robot.utilities.ShuffleboardUtility;
 
 import frc.robot.Constants;
 
@@ -32,7 +32,7 @@ public class CheckIfShotPossibleCommand extends CommandBase {
     // --Utilities (Singletons)
     private DeadbandMath deadbandMathUtil = DeadbandMath.getInstance();
     private ShooterMath shooterMathUtil = ShooterMath.getInstance();
-    private ShuffleboardUtility shuffleboardUtil = ShuffleboardUtility.getInstance();
+    //private ShuffleboardUtility shuffleboardUtil = ShuffleboardUtility.getInstance();
 
     // --Subsystems
     private LimelightSubsystem limeLightSubsystem;
