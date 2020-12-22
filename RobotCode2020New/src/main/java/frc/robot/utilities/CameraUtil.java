@@ -9,7 +9,7 @@ public class CameraUtil {
 
     }
     // Starts the capture for the cameras
-        public void startCapture() {
+        public void PSstartCapture() {
 
             // creates a thread which runs concurrently with the program
             new Thread(() -> {

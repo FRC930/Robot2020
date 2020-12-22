@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import org.mockito.internal.matchers.Null;
+
 import java.util.logging.Logger;
 
 import frc.robot.Constants;
@@ -38,7 +40,7 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
     /**
      * The VictorSPX that will control the color wheel
      */
-    private VictorSPX wheelSpinnerMotor;
+    // private VictorSPX wheelSpinnerMotor;
 
     // -------- CONSTRUCTOR --------\\
 
@@ -47,7 +49,7 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
      * {@link #wheelSpinnerMotor} to the correct motor.
      */
     public ColorWheelSpinnerSubsystem() {
-        wheelSpinnerMotor = new VictorSPX(Constants.COLOR_WHEEL_ID);
+        //wheelSpinnerMotor = new VictorSPX(Constants.COLOR_WHEEL_ID);
     }
 
     // -------- METHODS --------\\
@@ -59,13 +61,13 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
      * 
      * @return the speed of the motor
      */
-    public double getMotorSpeed() {
+    // public double getMotorSpeed() {
 
-        logger.entering(ColorWheelSpinnerSubsystem.class.getName(), "getMotorSpeed()");
-        logger.exiting(ColorWheelSpinnerSubsystem.class.getName(), "getMotorSpeed()");
+    //     logger.entering(ColorWheelSpinnerSubsystem.class.getName(), "getMotorSpeed()");
+    //     logger.exiting(ColorWheelSpinnerSubsystem.class.getName(), "getMotorSpeed()");
 
-        return wheelSpinnerMotor.getMotorOutputPercent();
-    }
+    //    return wheelSpinnerMotor.getMotorOutputPercent();
+    // }
 
     /**
      * <h3>setMotorSpeed</h3>
@@ -87,10 +89,10 @@ public class ColorWheelSpinnerSubsystem extends SubsystemBase {
         }
 
         // Set the spinner motor to the speed
-        wheelSpinnerMotor.set(ControlMode.PercentOutput, speed);
+        //wheelSpinnerMotor.set(ControlMode.PercentOutput, speed);
 
         // Logs the speed from the motor controller
-        logger.log(Constants.LOG_LEVEL_FINE, "Motor Speed: " + getMotorSpeed());
+        //logger.log(Constants.LOG_LEVEL_FINE, "Motor Speed: " + getMotorSpeed());
         logger.exiting(ColorWheelSpinnerSubsystem.class.getName(), "setMotorSpeed()");
     }
 
