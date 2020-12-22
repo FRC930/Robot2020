@@ -31,7 +31,7 @@ public class AutonLEDs extends CommandBase {
      */
     public AutonLEDs(LEDSubsystem ledSubsystem) {
         m_LEDSubsystem = ledSubsystem;
-        buffer = new AddressableLEDBuffer(60);
+        buffer = new AddressableLEDBuffer(LEDSubsystem.LEDS);
         counter = 0;
         animCheck = false;
         driverStation = DriverStation.getInstance();
@@ -50,7 +50,7 @@ public class AutonLEDs extends CommandBase {
     public void execute() {
         counter++;
 
-        if (counter >= 32) {
+        if (counter >= 3) {
             if (allianceColor == Alliance.Blue) {
                 if (animCheck == true) {
                     for (int i = 0; i < buffer.getLength(); i++) {

@@ -73,7 +73,7 @@ public class ShuffleboardUtility {
         shootIndicator = false;
         manualMode = false;
         // turretEncoder = 0.0;
-        distanceFromTarget = 0.0;
+        //distanceFromTarget = 0.0;
         shotType = "";
         shooterUpToSpeed = false;
         // fmsColor = "";

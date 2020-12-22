@@ -12,6 +12,7 @@ package frc.robot.commands.kickercommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.KickerSubsystem;
+import frc.robot.utilities.JamState;
 import frc.robot.Constants;
 
 //import java.util.logging.Logger;
@@ -22,43 +23,62 @@ import frc.robot.Constants;
 
 public class RunKickerCommand extends CommandBase {
 
-    //-------- DECLARATIONS --------\\
+    // -------- DECLARATIONS --------\\
 
     private KickerSubsystem kickerSubsystem;
+    private JamState state = JamState.getInstance();
+    private boolean kickerFlag = false;
+
+    // -------- CONSTRUCTOR --------\\
+    private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
+
     //private static final Logger logger = Logger.getLogger(RunKickerCommand.class.getName());
     
     //-------- CONSTRUCTOR --------\\
 
-    public RunKickerCommand(KickerSubsystem kSubsystem){
+    public RunKickerCommand(KickerSubsystem kSubsystem) {
         kickerSubsystem = kSubsystem;
         addRequirements(kSubsystem);
     }
 
-    //-------- METHODS --------\\
-    
-    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+
+        kickerSubsystem.setSpeed(0.0);
+        kickerFlag = false;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // logger.log(Constants.LOG_LEVEL_FINE, "Math.round((((" + kickerSubsystem.getEncoder() + " - " + Constants.KICKER_ENCODER_OFFSET +"-" + "/ 10) % 2) * 100)) % 2) == 1");
-        // if(((Math.round((((kickerSubsystem.getEncoder() - Constants.KICKER_ENCODER_OFFSET) / 10) % 2) * 100)) % 2) == 1)
-        // {
-        //     logger.log(Constants.LOG_LEVEL_FINE, "kickers running");
-        //     kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
-        // } else {
+
+        // if (state.getState()) {
         //     kickerSubsystem.setSpeed(0.0);
-        //     logger.log(Constants.LOG_LEVEL_FINE, "kickers not running");
-        // }
+        // } else {
+            //If we havent started kicker...
+            if(kickerFlag == false) {
+                double encoderValue = kickerSubsystem.getEncoder();
+
+                //Calculate if we are in position
+                boolean value = calculateStart(encoderValue);
+                if (true == value) {
+                    //Start kicker once
+                    kickerFlag = true;
+                    kickerSubsystem.setSpeed(Constants.KICKER_SPEED);
+                }
+            }
     }
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
+    public boolean calculateStart(double encoderValue)
+    {
+        int value = (int)((encoderValue - Math.floor(encoderValue)) * 100);
+
+        //Math for finding the location of where kicker should start
+        if (((Math.round((value / 10) % 2))) == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Returns true when the command should end.
