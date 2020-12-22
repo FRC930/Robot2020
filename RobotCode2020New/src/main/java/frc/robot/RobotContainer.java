@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj2.command.*;
 // --Our Commands
 import frc.robot.commands.autocommands.paths.*;
 
+
+import frc.robot.commands.colorwheelcommands.*;
+import frc.robot.commands.colorwheelcommands.rotationalcontrolcommands.*;
+
+
 import frc.robot.commands.drivecommands.*;
 
 import frc.robot.commands.hoppercommands.*;
@@ -20,6 +25,7 @@ import frc.robot.commands.colorwheelcommands.positionalcontrolcommands.Positiona
 import frc.robot.commands.intakecommands.intakemotorcommands.*;
 import frc.robot.commands.intakecommands.intakepistoncommands.*;
 import frc.robot.commands.kickercommands.*;
+import frc.robot.commands.ledcommands.*;
 import frc.robot.commands.limelightcommands.*;
 
 import frc.robot.commands.shootercommands.*;
@@ -155,7 +161,7 @@ public class RobotContainer {
   private final KickerSubsystem kickerSubsystem;
 
   // --LED subsystems
-  // private final LEDSubsystem ledSubsystem;
+  private final LEDSubsystem ledSubsystem;
 
   // --Limelight subsystem
   private final LimelightSubsystem limelightSubsystem;
@@ -173,7 +179,6 @@ public class RobotContainer {
 
   // --LED subsystem
   //LEDSubsystem ledSubsystem = new LEDSubsystem();
-
   // -------- COMMANDS --------\\
 
   // --Drive commands
@@ -187,7 +192,11 @@ public class RobotContainer {
   private final DefaultStopHopperCommand defaultStopHopperCommand;
 
   // --LED commands
-  // TODO: Add LED commands here
+  private final AutonLEDs autonLEDs;
+  private final EndgameLEDs endgameLEDs;
+  private final IdleLEDs idleLEDs;
+  private final IntakeLEDs intakeLEDs;
+  private final ShooterLEDs shooterLEDs;
 
   // --Shooter commands
   // --Flywheel commands
@@ -261,7 +270,11 @@ public class RobotContainer {
     defaultHopperCommand = new DefaultHopperCommand(hopperSubsystem, stopHopperStateCommand);
 
     // leds
-    // TODO: Add LED commands here
+    autonLEDs = new AutonLEDs(ledSubsystem);
+    endgameLEDs = new EndgameLEDs(ledSubsystem);
+    idleLEDs = new IdleLEDs(ledSubsystem);
+    intakeLEDs = new IntakeLEDs(ledSubsystem);
+    shooterLEDs = new ShooterLEDs(ledSubsystem);
 
     // Flywheel
     //defaultFlywheelCommand = new DefaultFlywheelCommand(flywheelSubsystem);
@@ -443,10 +456,23 @@ public class RobotContainer {
     turretBackRight.toggleWhenActive(new SetTurretPositionCommand(turretSubsystem, Constants.BACK_RIGHT_POSITION));
 
     endgameSafetyButton.whileActiveOnce(climberArmCommandGroup);
+
     intakePistonTrigger.toggleWhenActive(new ExtendIntakePistonCommand(intakePistonSubsystem))
         .whenInactive(new RetractIntakePistonCommand(intakePistonSubsystem));
     intakeMotorTrigger.toggleWhenActive(new RunIntakeMotorsCommand(intakeMotorSubsystem))
         .whenInactive(new StopIntakeMotorsCommand(intakeMotorSubsystem));
+
+    JoystickButton reverseHopperButton = new JoystickButton(coDriverController, XB_B);
+
+    JoystickButton killHopperButton = new JoystickButton(coDriverController, XB_X);
+
+    // ZL Button
+    AxisTrigger manualFlywheelPistonButton = new AxisTrigger(coDriverController, XB_AXIS_LT);// .and(inManualModeTrigger);
+    // manual flywheel piston stuff
+    //manualFlywheelPistonButton.whenActive(new ExtendFlywheelPistonCommand(flywheelPistonSubsystem)).whenInactive(new RetractFlywheelPistonCommand(flywheelPistonSubsystem));
+    reverseHopperButton.whileActiveOnce(new StopHopperStateCommand());
+    killHopperButton.whileActiveOnce(new InstantCommand(() -> JamState.getInstance().invertState()));
+    
 
   } // end of method configureCodriverBindings()
 
@@ -466,12 +492,11 @@ public class RobotContainer {
       scheduler.setDefaultCommand(turretSubsystem, joystickTurretCommand);
       scheduler.setDefaultCommand(driveSubsystem, driveCommand);
       scheduler.setDefaultCommand(hopperSubsystem, defaultHopperCommand);
-      scheduler.setDefaultCommand(flywheelSubsystem,
-          new DefaultFlywheelCommand(flywheelSubsystem, Constants.FLYWHEEL_TELEOP_SPEED));
-    //   scheduler.setDefaultCommand(limelightSubsystem,
-    //       new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
-     }
 
+      //scheduler.setDefaultCommand(flywheelSubsystem, defaultFlywheelCommand);
+      scheduler.setDefaultCommand(limelightSubsystem, new SetLimelightLEDStateCommand(limelightSubsystem, Constants.LIMELIGHT_LEDS_OFF));
+      scheduler.setDefaultCommand(ledSubsystem, idleLEDs);
+     }
   }
 
   public void beginAutoRunCommands() {

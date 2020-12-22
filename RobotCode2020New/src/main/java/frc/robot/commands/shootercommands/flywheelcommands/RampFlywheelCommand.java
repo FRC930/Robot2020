@@ -14,7 +14,7 @@ import frc.robot.subsystems.FlywheelSubsystem;
 
 //-------- COMMAND CLASS --------\\
 
-public class RampShooterCommand extends CommandBase {
+public class RampFlywheelCommand extends CommandBase {
 
     // -------- DECLARATIONS --------\\
 
@@ -22,7 +22,7 @@ public class RampShooterCommand extends CommandBase {
 
     // -------- CONSTRUCTOR --------\\
 
-    public RampShooterCommand(FlywheelSubsystem flywheelSubsystem) {
+    public RampFlywheelCommand(FlywheelSubsystem flywheelSubsystem) {
         m_FlywheelSubsystem = flywheelSubsystem;
         addRequirements(m_FlywheelSubsystem);
     }
@@ -47,7 +47,15 @@ public class RampShooterCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (m_FlywheelSubsystem.getPercentOutput() >= 0.5);
+        // boolean vreturn = false;
+        // System.out.println(m_FlywheelSubsystem.getPercentOutput());
+        // if(m_FlywheelSubsystem.getPercentOutput() >= 0.5)
+        // {
+        //     //m_FlywheelSubsystem.setSpeed(Constants.FLYWHEEL_SPEED);
+        //     vreturn = true;
+        // }
+        System.out.println(m_FlywheelSubsystem.getPercentOutput());
+        return m_FlywheelSubsystem.getPercentOutput() >= 0.6;
     }
 
 } // end of class RunDefaultFlywheelCommand

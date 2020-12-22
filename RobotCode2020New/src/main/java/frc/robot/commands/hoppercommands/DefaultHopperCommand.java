@@ -12,6 +12,7 @@ package frc.robot.commands.hoppercommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.hoppercommands.StopHopperStateCommand;
 import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.utilities.JamState;
 import frc.robot.utilities.ShuffleboardUtility;
 import frc.robot.Constants;
 
@@ -22,6 +23,7 @@ public class DefaultHopperCommand extends CommandBase {
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
+    private JamState hopperState;
     private ShuffleboardUtility shuffleboardUtility;
     private StopHopperStateCommand m_StopHopperStateCommand;
 
@@ -30,24 +32,16 @@ public class DefaultHopperCommand extends CommandBase {
 
     public DefaultHopperCommand(HopperSubsystem HopperSubsystem, StopHopperStateCommand stopHopperStateCommand) {
         m_HopperSubsystem = HopperSubsystem;
+        this.hopperState = JamState.getInstance();
         shuffleboardUtility = ShuffleboardUtility.getInstance();
         m_StopHopperStateCommand = stopHopperStateCommand;
         addRequirements(m_HopperSubsystem);
     }
 
-    //-------- METHODS --------\\    
-
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        
-    }
-
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() { 
-        //System.out.println("STATE " + m_StopHopperStateCommand.getState());   
-        if(m_StopHopperStateCommand.getState()) {
+    public void execute() {     
+        if(this.hopperState.getState()) {
             m_HopperSubsystem.setSpeed(0.0);
             //System.out.println("STOOOOOOOOOPED");
         } else {
@@ -55,11 +49,6 @@ public class DefaultHopperCommand extends CommandBase {
             //System.out.println("RUNNNNNNING");
         }
         shuffleboardUtility.putHopperSpeed(m_HopperSubsystem.getSpeed());
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.

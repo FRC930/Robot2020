@@ -10,43 +10,50 @@
 package frc.robot.commands.hoppercommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.utilities.ShuffleboardUtility;
 
 //-------- COMMAND CLASS --------\\
 
-public class SetHopperCommand extends CommandBase {
+public class ReverseHopperCommand extends CommandBase {
 
     //-------- DECLARATIONS --------\\
 
     private HopperSubsystem m_HopperSubsystem;
-    private double speed;
-    private boolean isInverted;
-
-    //private 
+    private ShuffleboardUtility shuffleboardUtility;
+    private JoystickButton home;
+    
     //-------- CONSTRUCTOR --------\\
 
-    public SetHopperCommand(HopperSubsystem HopperSubsystem, double speed, boolean isInverted) {
-        m_HopperSubsystem = HopperSubsystem;
-        this.speed = speed;
-        this.isInverted = isInverted;
-        addRequirements(m_HopperSubsystem);
-    }
+    public ReverseHopperCommand(HopperSubsystem hopperSubsystem, JoystickButton home) {
+        m_HopperSubsystem = hopperSubsystem;
+        shuffleboardUtility = ShuffleboardUtility.getInstance();
+        this.home = home;
+    }   
 
-    //-------- METHODS --------\\    
+    //-------- METHODS --------\\
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        if(isInverted){
-            m_HopperSubsystem.setSpeed(-speed);
-        }
-        else{
-            m_HopperSubsystem.setSpeed(speed);
-        }
+    }
+
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {   
+        m_HopperSubsystem.setSpeed(-0.35);
+        shuffleboardUtility.setHopperSpeed(m_HopperSubsystem.getSpeed());
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
     }
-} //end of class DefaultHopperCommand
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return !home.get();
+    }
+} // end of class ReverseHopperCommand
