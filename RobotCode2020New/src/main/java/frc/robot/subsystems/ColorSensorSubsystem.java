@@ -57,7 +57,7 @@ public class ColorSensorSubsystem extends SubsystemBase {
      */
     public Color getSensorColor() {
         logger.entering(ColorSensorSubsystem.class.getName(), "getSensorColor()");
-        logger.log(Constants.LOG_LEVEL_FINE, "Returning the color:" + sensor.getColor().toString());
+        //logger.log(Constants.LOG_LEVEL_FINE, "Returning the color:" + sensor.getColor().toString());
         logger.exiting(ColorSensorSubsystem.class.getName(), "getSensorColor()");
         return sensor.getColor();
     }

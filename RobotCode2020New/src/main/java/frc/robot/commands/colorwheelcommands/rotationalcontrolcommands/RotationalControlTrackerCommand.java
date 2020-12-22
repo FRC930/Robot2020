@@ -14,6 +14,7 @@ import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.ColorSensorSubsystem;
 
@@ -49,6 +50,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
   
   // Creates an instance of the logger class
   private static final Logger logger = Logger.getLogger(RotationalControlTrackerCommand.class.getName());
+  
 
   public RotationalControlTrackerCommand(ColorSensorSubsystem colorSensorSubsystem) {
     this.colorSensorSubsystem = colorSensorSubsystem;
@@ -137,6 +139,7 @@ public class RotationalControlTrackerCommand extends CommandBase {
     ColorMatchResult match = colorMatch.matchClosestColor(c);
     String colorOutput;
     // Checks the values and matches it to one of the colors below
+    logger.log(Constants.LOG_LEVEL_FINE, match.color.toString());
     if (match.color == kBlueTarget) {
       colorOutput = "Blue";
     }
@@ -156,7 +159,9 @@ public class RotationalControlTrackerCommand extends CommandBase {
     else {
       colorOutput = "Unknown";
     }
+    logger.log(Constants.LOG_LEVEL_FINE, colorOutput);
     logger.exiting(RotationalControlTrackerCommand.class.getName(), "getNearestColor");
+    SmartDashboard.putString("COLOR", colorOutput);
     // Returns the name of the color being seen by the sensor
     return colorOutput;
   }

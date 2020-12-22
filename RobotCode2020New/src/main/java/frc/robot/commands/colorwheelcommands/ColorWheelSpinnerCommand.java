@@ -36,16 +36,16 @@ public class ColorWheelSpinnerCommand extends CommandBase {
     public void initialize() {
         logger.entering(ColorWheelSpinnerCommand.class.getName(), "initialize");
         // Sets the motor speed to the constant SPEED
-        m_subsystem.setMotorSpeed(SPEED);
+        //m_subsystem.setMotorSpeed(SPEED);
         logger.exiting(ColorWheelSpinnerCommand.class.getName(), "initialize");
     }
 
     @Override
     public void execute() {
-        logger.entering(ColorWheelSpinnerCommand.class.getName(), "execute");
+       // logger.entering(ColorWheelSpinnerCommand.class.getName(), "execute");
         // Gets the SparkMax values from the RotationalControlSubsystem subsystem        
-        logger.log(Constants.LOG_LEVEL_FINE, "(spinning)");
-        logger.exiting(ColorWheelSpinnerCommand.class.getName(), "execute");
+        //logger.log(Constants.LOG_LEVEL_FINE, "(spinning)");
+        //logger.exiting(ColorWheelSpinnerCommand.class.getName(), "execute");
     }
 
     // Called once the command ends or is interrupted.
@@ -54,7 +54,7 @@ public class ColorWheelSpinnerCommand extends CommandBase {
         // Logging stuff
         logger.entering(ColorWheelSpinnerCommand.class.getName(), "end");
         // Sets the motor speed to 0
-        m_subsystem.setMotorSpeed(0.0);
+        //m_subsystem.setMotorSpeed(0.0);
         logger.exiting(ColorWheelSpinnerCommand.class.getName(), "end");
     }
 
